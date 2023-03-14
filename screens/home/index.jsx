@@ -18,6 +18,11 @@ const Home = props => {
                 Location="/signin"
                 ButtonStyle= "btn-primary"
             />
+            <button
+                type='button'
+                className='btn-primary'
+                value = "Sign Up"
+            ></button>
     </div>)
 }
 
