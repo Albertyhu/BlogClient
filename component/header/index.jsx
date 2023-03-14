@@ -16,7 +16,7 @@ const Header = props => {
         GoSignIn
     } = NavigationHooks(); 
 
-    const { ConfirmChild } = HeaderFunctions();  
+    const { ConfirmChild, CloseMobileMenu, OpenMobileMenu } = HeaderFunctions();  
 
     const HeaderBackgroundColor = "bg-black";
     const TextColor = "text-white"; 
@@ -31,28 +31,6 @@ const Header = props => {
 
     var MobileMenuDiv = document.getElementById('MobileMenuDiv')
 
-    const ToggleMobileMenu = () => {
-        MobileMenuDiv = document.getElementById('MobileMenuDiv'); 
-        if (MobileMenuDiv.classList.contains("translate-x-[270px]")) {
-            MobileMenuDiv.classList.remove("translate-x-[270px]");
-            MobileMenuDiv.classList.add("translate-x-[0px]");
-        }
-        else {
-            MobileMenuDiv.classList.remove("translate-x-[0px]");
-            MobileMenuDiv.classList.add("translate-x-[270px]"); 
-        }
-    }
-    const CloseMobileMenu = () => {
-        MobileMenuDiv = document.getElementById('MobileMenuDiv'); 
-        MobileMenuDiv.classList.remove("translate-x-[0px]");
-        MobileMenuDiv.classList.add("translate-x-[270px]"); 
-    }
-    const OpenMobileMenu = () => {
-        MobileMenuDiv = document.getElementById('MobileMenuDiv'); 
-        MobileMenuDiv.classList.remove("translate-x-[270px]");
-        MobileMenuDiv.classList.add("translate-x-[0px]");
-    } 
-
     const CheckIfClickedOutside = evt => {
         MobileMenuDiv = document.getElementById('MobileMenuDiv');
         const childAnchors = MobileMenuDiv.querySelectorAll('div');
@@ -61,7 +39,7 @@ const Header = props => {
             MobileMenuDiv?.classList.contains("translate-x-[0px]") &&
             evt.target != MobileMenuDiv &&
             !ConfirmChild(evt.target, childAnchors)) {
-            CloseMobileMenu(); 
+            CloseMobileMenu(MobileMenuDiv); 
         }
     }
 
@@ -70,7 +48,7 @@ const Header = props => {
     useEffect(() => {
         if (MobileIconRef.current) {
             MobileIconButton = document.getElementById('MobileIconButton')
-            MobileIconButton?.addEventListener('mousedown', OpenMobileMenu)
+            MobileIconButton?.addEventListener('mousedown', ()=>OpenMobileMenu(MobileMenuDiv))
             window.addEventListener("mousedown", CheckIfClickedOutside)
         }
     }, [MobileIconRef.current])
@@ -113,7 +91,7 @@ const Header = props => {
                     />
                 </div>
             </div>
-            <MobileMenu CloseMobileMenu={CloseMobileMenu} />
+            <MobileMenu  />
         </>
     )
 }

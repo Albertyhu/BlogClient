@@ -1,15 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\images",
     "\\component",
     "\\component\\footer",
+    "\\component\\header",
+    "\\hooks",
     "\\public",
     "\\screens",
     "\\screens\\authentication",
     "\\screens\\home",
     "\\src"
   ],
+  "SelectedNode": "\\hooks\\headerFunctions.jsx",
   "PreviewInSolutionExplorer": false
 }
