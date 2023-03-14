@@ -15,7 +15,8 @@ const Home = props => {
             <Button
                 ButtonType = "button"
                 Value = "Sign In"
-                Location= "/signin"
+                Location="/signin"
+                ButtonStyle= "btn-primary"
             />
     </div>)
 }
