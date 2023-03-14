@@ -1,6 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\images",
+    "\\component",
+    "\\component\\footer",
+    "\\public",
+    "\\screens",
+    "\\screens\\authentication",
+    "\\screens\\home",
     "\\src"
   ],
   "PreviewInSolutionExplorer": false
