@@ -22,7 +22,22 @@ const MobileMenu = props => {
             <div id="LinkWrapper"
                 className="w-8/12 mx-auto mt-[20px] [&>*]:mb-10 [&>*]:cursor-pointer"
             >
-                <div onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
+                <div onClick={useCallback(() => {
+                    GoHome(navigate);
+                    CloseMobileMenu();
+                }, [navigate])}>Home</div>
+                <div
+                    onClick={useCallback(() => {
+                        GoSignIn(navigate);
+                        CloseMobileMenu();
+                    }, [navigate])}
+                >Sign In</div>
+                <div
+                    onClick={useCallback(() => {
+                        GoSignUp(navigate);
+                        CloseMobileMenu();
+                    }, [navigate])}
+                >Sign Up</div>
                 {typeof Links != "undefined" && Links.map(link => <div>{link}</div>)}
                 <div onClick={CloseMobileMenu}>Close</div>
             </div>

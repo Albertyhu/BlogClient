@@ -5,7 +5,7 @@ import MobileIcon from '../../assets/icons/hamburger_menu_white.png'
 import PlaceHolder from '../../assets/images/PlaceholderLogo.png';
 import MobileMenu from './mobileMenu.jsx';
 import { useNavigate } from 'react-router-dom'; 
-
+import { HeaderFunctions } from '../../hooks/headerFunctions.jsx'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 
 const Header = props => {
@@ -15,6 +15,8 @@ const Header = props => {
         GoSignUp,
         GoSignIn
     } = NavigationHooks(); 
+
+    const { ConfirmChild } = HeaderFunctions();  
 
     const HeaderBackgroundColor = "bg-black";
     const TextColor = "text-white"; 
@@ -41,14 +43,24 @@ const Header = props => {
         }
     }
     const CloseMobileMenu = () => {
+        MobileMenuDiv = document.getElementById('MobileMenuDiv'); 
         MobileMenuDiv.classList.remove("translate-x-[0px]");
         MobileMenuDiv.classList.add("translate-x-[270px]"); 
     }
+    const OpenMobileMenu = () => {
+        MobileMenuDiv = document.getElementById('MobileMenuDiv'); 
+        MobileMenuDiv.classList.remove("translate-x-[270px]");
+        MobileMenuDiv.classList.add("translate-x-[0px]");
+    } 
 
     const CheckIfClickedOutside = evt => {
         MobileMenuDiv = document.getElementById('MobileMenuDiv');
+        const childAnchors = MobileMenuDiv.querySelectorAll('div');
         MobileIconButton = document.getElementById('MobileIconButton');
-        if (evt.target.toString() != MobileIconButton.toString() && MobileMenuDiv.classList.contains("translate-x-[0px]") && evt.target.toString() !== MobileMenuDiv.toString()) {
+        if (evt.target != MobileIconButton &&
+            MobileMenuDiv?.classList.contains("translate-x-[0px]") &&
+            evt.target != MobileMenuDiv &&
+            !ConfirmChild(evt.target, childAnchors)) {
             CloseMobileMenu(); 
         }
     }
@@ -58,7 +70,7 @@ const Header = props => {
     useEffect(() => {
         if (MobileIconRef.current) {
             MobileIconButton = document.getElementById('MobileIconButton')
-            MobileIconButton?.addEventListener('mousedown', ToggleMobileMenu)
+            MobileIconButton?.addEventListener('mousedown', OpenMobileMenu)
             window.addEventListener("mousedown", CheckIfClickedOutside)
         }
     }, [MobileIconRef.current])
@@ -90,7 +102,7 @@ const Header = props => {
                     <img
                         src={PlaceHolder}
                         className={LogoStyle}
-                        onClick={useCallback(() => GoHome(navigate), [navigate])}
+                        onClick={useCallback(() => { GoHome(navigate); }, [navigate])}
                     />
                     <img
                         id="MobileIconButton"
