@@ -1,10 +1,7 @@
-import Button from './button.jsx'; 
+import { useCallback } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
 
 export const FormButtons = props => {
-    const {
-        location1,
-        location2 } = props; 
 
     const UniversalStyle = `rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px] text-base
     active:translate-y-[5px] select-none  cursor-pointer sm:w-[150px] text-center w-fit my-5`
@@ -17,23 +14,21 @@ export const FormButtons = props => {
 
     const navigate = useNavigate(); 
 
-
     return (
         <div id="ButtonWrapper"
             className = "grid sm:flex"
         >
-            <Button
-                ButtonType="submit"
-                ButtonStyle={SubmitStyle}
-                Value="Submit"
-                Location={location1 ? location1 : null }
-            />
-            <Button
-                ButtonType="button"
-                ButtonStyle={CancelStyle}
-                Value="Cancel"
-                onClick={() => navigate(-1)}
-            />
+            <button
+                type="submit"
+                className={SubmitStyle}
+                value="Submit"
+            >Submit</button>
+            <button
+                type="button"
+                className={CancelStyle}
+                value="Cancel"
+                onClick={useCallback(()=>navigate(-1))}
+            >Cancel</button>
         </div>
         )
 }

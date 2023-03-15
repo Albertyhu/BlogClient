@@ -15,7 +15,7 @@ const Button = props => {
     hover:bg-gray-300 bg-[#dbdbdb]`
 
     var navigate = useNavigate(); 
-    const NavigateTo = useCallback(() => navigate(`${Location}`, {state: Data ? Data : null}), [navigate])
+    const NavigateTo = useCallback(() => navigate(`${Location != "-1" ? Location : -1}`, {state: Data ? Data : null}), [navigate])
 
     return (
         <button

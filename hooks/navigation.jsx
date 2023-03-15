@@ -1,6 +1,7 @@
-import { useCallback } from 'react'; 
-
 const NavigationHooks = () => {
+    function GoBack(navigate) {
+        navigate(-1);
+    }
     function GoHome(navigate) {
         navigate("/", {})
     }
@@ -14,7 +15,7 @@ const NavigationHooks = () => {
         navigate("/signup", {})
     }
     
-    return { GoHome, GoSignIn, GoSignUp }
+    return { GoHome, GoSignIn, GoSignUp, GoBack }
 }
 
 export { NavigationHooks }; 
