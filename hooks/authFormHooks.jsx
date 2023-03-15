@@ -12,7 +12,7 @@ const RegistrationHooks = props => {
         var isValid = true; 
         var errMessage = "Error: ";
         if (existingUsers.some(person => person.username == NameInput.value.trim())) {
-            errMessage += "The username you wrote is already in user. \n";
+            errMessage += "The username you wrote is already in use. \n";
             isValid = false; 
 
         }
@@ -21,7 +21,7 @@ const RegistrationHooks = props => {
             isValid = false; 
         }
         if (existingUsers.some(person => person.email == EmailInput.value.trim())) {
-            errMessage += "The email you wrote is already in user. \n";
+            errMessage += "The email you wrote is already in use. \n";
             isValid = false; 
         }
         if (PasswordInput.value.trim().length < 4) {

@@ -1,5 +1,7 @@
 import Logo from '../../assets/images/PlaceholderLogo.png'
-
+import { useCallback } from 'react'; 
+import { useNavigate } from 'react-router-dom';
+import { NavigationHooks } from '../../hooks/navigation.jsx';
 const Footer = props => {
 	const { BusinessName = 'BusinessName' } = props; 
 	const footerStyle = `w-full min-h-[100px] absolute bottom-0 left-0 right-0 bg-black`
@@ -7,6 +9,15 @@ const Footer = props => {
 	const logoStyle = `mx-auto my-10 w-[200px] h-auto sm:text-right sm:ml-auto sm:mr-[40px] cursor-pointer select-none`
 	const FooterLinkStyle = `[&>div]:text-3xl [&>div]:my-3 [&>div]:mx-auto [&>div]:cursor-pointer
 				w-11/12 mx-auto text-center sm:text-left`
+
+	const navigate = useNavigate(); 
+
+	const {
+		GoHome,
+		GoSignUp,
+		GoSignIn
+	} = NavigationHooks(); 
+
     return (
 		<div
 			id="footer"
@@ -16,10 +27,14 @@ const Footer = props => {
 				<img 
 					src={Logo}
 					alt="logo"
-					className={logoStyle} />
+					className={logoStyle}
+					onClick={useCallback(()=>GoHome(navigate), [navigate])}
+				/>
 				<div className={FooterLinkStyle}>
 					<div 
-						className ="hover:underline">Home</div>
+						className="hover:underline"
+						onClick={useCallback(() => GoHome(navigate), [navigate])}
+					>Home</div>
 					<div 
 						className ="hover:underline">Contact us</div>
 				</div>

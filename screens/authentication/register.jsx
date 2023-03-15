@@ -30,10 +30,14 @@ const RegisterForm = props => {
     var ConfirmInput = document.querySelector('#confirm_passwordInput')
 
     //    var list = fetchUsernameAndEmails(); 
-    const [list, setList] = useState([])
+    const [list, setList] = useState(null)
+    useEffect(() => {
+        fetchUsernameAndEmails(setList); 
+        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list) }) }
+    }, [])
 
     useEffect(() => {
-        RegistrationForm = document.getElementById('RegistrationForm'); 
+        RegistrationForm = document.getElementById('RegistrationForm');
         NameInput = document.querySelector('#nameInput')
         EmailInput = document.querySelector('#emailInput')
         PasswordInput = document.querySelector('#passwordInput')
@@ -44,12 +48,9 @@ const RegisterForm = props => {
             PasswordInput,
             ConfirmInput
         }
-        fetchUsernameAndEmails(setList); 
-        RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list) })
-    }, [])
-
-    useEffect(() => {
-          RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list) })
+        if (list != null) {
+            RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list) })
+        }
     }, [list])
 
     return (
@@ -59,6 +60,7 @@ const RegisterForm = props => {
                 action=""
                 method="POST"
                 id="RegistrationForm"
+                encType="multipart/form-data"
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10`}>
                 <div
                     id="Shell"
