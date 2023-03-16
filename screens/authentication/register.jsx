@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'; 
+import { useCallback, useEffect, useState, useContext } from 'react'; 
 import { FormButtons } from '../../component/formElements.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { RegistrationHooks } from '../../hooks/authFormHooks.jsx'; 
 import {FetchHooks} from '../../hooks/fetchHooks.jsx'; 
+import { AppContext } from '../../util/contextItem.jsx';
 
 const RegisterForm = props => {
     const FormStyle = `[&>div>label]:text-black [&>div>label]:uppercase [&>div>label]:font-bold [&>div]:grid [&>div>input]:rounded-lg 
@@ -13,12 +14,13 @@ const RegisterForm = props => {
                     [&>div>input]:placeholder:text-base`
     const navigate = useNavigate(); 
     const { GoSignIn } = NavigationHooks(); 
-    const { HandleSignUpSubmit, onChangeHandler } = RegistrationHooks(); 
+    const { HandleSignUpSubmit, onChangeHandler, SubmitRegistration } = RegistrationHooks(); 
     const { fetchUsernameAndEmails } = FetchHooks(); 
+    const { apiURL } = useContext(AppContext);
+    const registerURL = `${apiURL}/auth/register`
 
-
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState(''); 
+    const [name, setName] = useState('bob');
+    const [email, setEmail] = useState('bob@gmail.com'); 
     const [password, setPassword] = useState('password'); 
     const [confirmPass, setConfirmPass] = useState('password'); 
     
@@ -29,11 +31,10 @@ const RegisterForm = props => {
     var PasswordInput = document.querySelector('#passwordInput')
     var ConfirmInput = document.querySelector('#confirm_passwordInput')
 
-    //    var list = fetchUsernameAndEmails(); 
     const [list, setList] = useState(null)
     useEffect(() => {
         fetchUsernameAndEmails(setList); 
-        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list) }) }
+        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL) }) }
     }, [])
 
     useEffect(() => {
@@ -43,13 +44,14 @@ const RegisterForm = props => {
         PasswordInput = document.querySelector('#passwordInput')
         ConfirmInput = document.querySelector('#confirm_passwordInput')
         var FormElements = {
+            RegistrationForm,
             NameInput,
             EmailInput,
             PasswordInput,
             ConfirmInput
         }
         if (list != null) {
-            RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list) })
+            RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL) })
         }
     }, [list])
 
@@ -57,8 +59,6 @@ const RegisterForm = props => {
         <>
             <h1 className = "text-center text-3xl mt-[20px] font-bold">Create a new account</h1>
             <form
-                action=""
-                method="POST"
                 id="RegistrationForm"
                 encType="multipart/form-data"
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10`}>

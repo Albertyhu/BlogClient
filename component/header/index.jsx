@@ -7,6 +7,7 @@ import MobileMenu from './mobileMenu.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
+import "../../src/index.css"
 
 const Header = props => {
     const navigate = useNavigate(); 

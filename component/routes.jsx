@@ -5,6 +5,7 @@ import Home from '../screens/home';
 import Header from './header'
 import Footer from './footer'; 
 import RegistrationForm from '../screens/authentication/register.jsx'; 
+import "../src/index.css"; 
 
 const Apps = () => {
     const containerStyle = `w-full flex flex-col relative grow min-h-[120vh]`

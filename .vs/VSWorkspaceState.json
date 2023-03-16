@@ -2,15 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\footer",
     "\\component\\header",
-    "\\hooks",
     "\\public",
+    "\\public\\stylesheets",
     "\\screens",
     "\\screens\\authentication",
     "\\screens\\home",
-    "\\src"
+    "\\src",
+    "\\util"
   ],
-  "SelectedNode": "\\component\\header\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

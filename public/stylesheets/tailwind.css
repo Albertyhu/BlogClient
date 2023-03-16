@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn-primary {
+        @apply rounded-full p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-none text-center w-fit sm:w-[150px] select-none text-black mx-auto hover:bg-[#a2a2a2] bg-[#dbdbdb] box_shadow;
+    }
+
+    .btn-secondary {
+        @apply rounded-full p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-black border-2 text-center w-fit sm:w-[150px] select-none text-white mx-auto hover:bg-[#535353] bg-[#333333];
+    }
+}
+
+:root {
+/*  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;*/
+}
+
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+/*  min-width: 320px;*/
+  min-height: 100vh;
+}
+
+.box_shadow {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

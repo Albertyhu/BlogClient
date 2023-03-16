@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import uuid from 'react-uuid'; 
 import RouteComponent from '../component/routes.jsx'; 
+import { AppContext } from '../util/contextItem.jsx'; 
+import './index.css';
 
 function App() {
     var [Users,setUsers] = useState([])
@@ -14,13 +16,17 @@ function App() {
             console.log("Error: ", err)
         }
     }
+    const context = {
+        apiURL: import.meta.env.VITE_API_URL.toString(), 
+    } 
 
     useEffect(() => {
         //fetchUsers();
-
     }, [])
-  return (
-    <RouteComponent />
+    return (
+      <AppContext.Provider value = {context}>
+            <RouteComponent />
+      </AppContext.Provider>
   )
 }
 
