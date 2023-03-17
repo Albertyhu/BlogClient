@@ -14,16 +14,44 @@ const RegisterForm = props => {
                     [&>div>input]:placeholder:text-base`
     const navigate = useNavigate(); 
     const { GoSignIn } = NavigationHooks(); 
-    const { HandleSignUpSubmit, onChangeHandler, SubmitRegistration } = RegistrationHooks(); 
+    const { HandleSignUpSubmit,
+        onChangeHandler,
+        RenderErrorArray,
+        RenderError    } = RegistrationHooks(); 
     const { fetchUsernameAndEmails } = FetchHooks(); 
     const { apiURL } = useContext(AppContext);
     const registerURL = `${apiURL}/auth/register`
 
     const [name, setName] = useState('bob');
     const [email, setEmail] = useState('bob@gmail.com'); 
-    const [password, setPassword] = useState('password'); 
-    const [confirmPass, setConfirmPass] = useState('password'); 
-    
+    const [password, setPassword] = useState('pas'); 
+    const [confirmPass, setConfirmPass] = useState('2w4'); 
+
+    const [errorArray, setErrorArray] = useState(null);
+    const [usernameError, setUsernameError] = useState([])
+    const [emailError, setEmailError] = useState([])
+    const [profileError, setProfileError] = useState([])
+    const [passwordError, setPasswordError] = useState([])
+    const [confirmError, setConfirmError] = useState([])
+    const [Display, setDisplay] = useState("")
+
+    const dispatchFunctions = {
+        setUsernameError, 
+        setEmailError,
+        setProfileError,
+        setPasswordError,
+        setConfirmError,
+    }
+
+    const resetErrorFields = () => {
+        setUsernameError([]); 
+        setEmailError([]);
+        setProfileError([]);
+        setPasswordError([]);
+        setConfirmError([]);
+        setDisplay("") 
+        setErrorArray([])
+    }
 
     var RegistrationForm = document.getElementById('RegistrationForm'); 
     var NameInput = document.querySelector('#nameInput')
@@ -34,7 +62,7 @@ const RegisterForm = props => {
     const [list, setList] = useState(null)
     useEffect(() => {
         fetchUsernameAndEmails(setList); 
-        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL) }) }
+        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL, setErrorArray, resetErrorFields) }) }
     }, [])
 
     useEffect(() => {
@@ -51,9 +79,19 @@ const RegisterForm = props => {
             ConfirmInput
         }
         if (list != null) {
-            RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL) })
+            RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL, setErrorArray, resetErrorFields) })
         }
     }, [list])
+
+    useEffect(() => {
+        if (errorArray != null && errorArray.length > 0) {
+            console.log("errorArray: ", errorArray)
+            RenderErrorArray(errorArray, dispatchFunctions)
+            setDisplay("ErrorMessageFadeIn")
+            setTimeout(()=>resetErrorFields(), 4500)
+            setTimeout(() => setDisplay("ErrorMessageFadeOut"), 4000)
+        }
+    }, [errorArray])
 
     return (
         <>
@@ -77,7 +115,10 @@ const RegisterForm = props => {
                             className=""
                             value={name}
                             onChange={(evt)=>onChangeHandler(evt, setName)}
-                            />
+                        />
+                        <div id="usernameError" className="ErrorDiv">
+                            {usernameError != null && usernameError.length > 0 && RenderError(usernameError, Display)}
+                        </div>
                     </div>
                     <div>
                         <label htmlFor = "email">Email</label>
@@ -90,7 +131,10 @@ const RegisterForm = props => {
                             className=""
                             value={email}
                             onChange={(evt) => onChangeHandler(evt, setEmail)}
-                            />
+                        />
+                        <div id="emailError" className="ErrorDiv">
+                            {emailError != null && emailError.length > 0 && RenderError(emailError, Display)}
+                        </div>
                     </div>
                     <div>
                         <label htmlFor = "profile_pic">Profile picture</label>
@@ -100,7 +144,7 @@ const RegisterForm = props => {
                             type = "file"
                             placeholder = "Upload an image htmlFor your your profile picture here" 
                             className = "file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer"
-                            />
+                        />
                     </div>
                     <div>
                         <label htmlFor = "password">password</label>
@@ -113,7 +157,11 @@ const RegisterForm = props => {
                             className=""
                             value={password}
                             onChange={(evt) => onChangeHandler(evt, setPassword)}
-                            />
+                        />
+                        <div id="passwordError" className="ErrorDiv">
+                            {passwordError != null && passwordError.length > 0 && RenderError(passwordError, Display)}
+
+                        </div>
                     </div>
                     <div>
                         <label htmlFor = "confirm_password">Confirm your password</label>
@@ -126,7 +174,11 @@ const RegisterForm = props => {
                             className=""
                             value={confirmPass}
                             onChange={(evt) => onChangeHandler(evt, setConfirmPass)}
-                            />
+                        />
+                        <div id="confirmError" className="ErrorDiv">
+                            {confirmError != null && confirmError.length > 0 && RenderError(confirmError, Display)}
+
+                        </div>
                     </div>
                     <FormButtons />
                     <hr className = "my-[25px] h-[2px] border-[2px]" />
