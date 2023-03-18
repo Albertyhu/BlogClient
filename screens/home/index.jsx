@@ -1,12 +1,17 @@
 //homepage
-import React, { useCallback } from 'react'; 
+import React, { useCallback, useContext } from 'react'; 
 import Button from '../../component/button.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
+import { AppContext } from '../../util/contextItem.jsx'; 
 
 const Home = props => {
     const navigate = useNavigate();
-    const { GoSignIn, GoSignUp } = NavigationHooks(); 
+    const { GoSignIn, GoSignUp } = NavigationHooks();
+    const { token } = useContext(AppContext);
+    if (token) { 
+        console.log("token: ", token)
+    }
     return (
         <div
             className = "w-full text-center text-lg text-black" 

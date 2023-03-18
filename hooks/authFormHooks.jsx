@@ -4,7 +4,6 @@ import uuid from 'react-uuid';
 import "../src/index.css";
 
 const RegistrationHooks = props => {
-
     function HandleSignUpSubmit(evt, elements, existingUsers, apiURL, dispatchFunctions, resetErrorFields) {
         evt.preventDefault();
         const {
@@ -15,6 +14,18 @@ const RegistrationHooks = props => {
             ConfirmInput } = elements; 
         var isValid = true; 
         var errMessage = "Error: ";
+
+        //if (existingUsers.some(val => val.username == NameInput.value)) {
+        //    errMessage = "That username already exist and is being used."
+        //    isValid = false; 
+
+        //}
+
+        //if (existingUsers.some(val => val.email == NameInput.email)) {
+        //    errMessage = "That email is already being used."
+        //    isValid = false; 
+        //}
+
         if (isValid) {
             const data = {
                 username: NameInput.value, 
@@ -38,6 +49,9 @@ const RegistrationHooks = props => {
             confirm_password,
             profilepicture, 
         } = data; 
+
+        const { GoHome } = dispatchFunctions; 
+
         await fetch(apiURL, {
             method: "POST",
             headers: {
@@ -48,6 +62,9 @@ const RegistrationHooks = props => {
                 console.log("status: ", response)
                 if (response.ok) {
                     console.log("Registration is successful.")
+                    const data = response.json()
+                    localStorage.setItem('token', data.token)
+                    GoHome(); 
                 }
                 else {
                     const result = await response.json()

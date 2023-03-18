@@ -13,7 +13,7 @@ const RegisterForm = props => {
                      rounded-md [&>div>input]:placeholder:text-[#545454] text-2xl
                     [&>div>input]:placeholder:text-base`
     const navigate = useNavigate();
-    const { GoSignIn } = NavigationHooks();
+    const { GoSignIn, GoHome } = NavigationHooks();
     const { HandleSignUpSubmit,
         onChangeHandler,
         RenderError,
@@ -23,10 +23,10 @@ const RegisterForm = props => {
     const { apiURL } = useContext(AppContext);
     const registerURL = `${apiURL}/auth/register`
 
-    const [name, setName] = useState('bob');
-    const [email, setEmail] = useState('bob@gmail.com');
-    const [password, setPassword] = useState('pas');
-    const [confirmPass, setConfirmPass] = useState('2w4');
+    const [name, setName] = useState('Maggie');
+    const [email, setEmail] = useState('MSmith@gmail.com');
+    const [password, setPassword] = useState('password');
+    const [confirmPass, setConfirmPass] = useState('password');
 
     //Error arrays store the error messages sent from the server
     const [errorArray, setErrorArray] = useState(null);
@@ -44,6 +44,7 @@ const RegisterForm = props => {
         setPasswordError,
         setConfirmError,
         setDisplay,
+        GoHome: ()=>GoHome(navigate),
     }
 
     const resetErrorFields = () => {

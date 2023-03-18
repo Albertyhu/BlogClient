@@ -5,7 +5,9 @@ import { AppContext } from '../util/contextItem.jsx';
 import './index.css';
 
 function App() {
-    var [Users,setUsers] = useState([])
+    var [Users, setUsers] = useState([])
+
+    var token = localStorage.getItem('token'); 
 
     const fetchUsers = async () => { 
         try {
@@ -17,7 +19,8 @@ function App() {
         }
     }
     const context = {
-        apiURL: import.meta.env.VITE_API_URL.toString(), 
+        apiURL: import.meta.env.VITE_API_URL.toString(),
+        token, 
     } 
 
     useEffect(() => {
