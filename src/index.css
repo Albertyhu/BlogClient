@@ -15,9 +15,12 @@
         @apply min-h-[25px] w-full grow relative;
     }
     /*Styling for the error message*/
+    .ErrorMessageTW {
+        @apply text-[#e0200d] text-[12px] text-center static top-[-20px] left-0 right-0 transition-[transform_opacity] ease-out;
+    }
 
     .initialFormError {
-        @apply opacity-0;
+        @apply opacity-0 translate-y-[-20px];
     }
 
     .FadeInFormError {
@@ -88,6 +91,12 @@ body {
 
 .ErrorMessageFadeOut {
     opacity: 0.0;
-    transform: translateY(-20px);
+    transform: translateY(20px);
     transition: opacity 1s ease-in, transform 1s ease-in;
+}
+
+@media screen and (min-width: 640px) {
+    .ErrorMessage {
+        font-size: 15px;
+    }
 }

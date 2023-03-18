@@ -1,12 +1,12 @@
-import { useState, useRef } from 'react'; 
+import { useState } from 'react'; 
 import { checkEmail } from './checkEmail.jsx'; 
 import uuid from 'react-uuid'; 
+import "../src/index.css";
 
 const RegistrationHooks = props => {
 
-    function HandleSignUpSubmit(evt, elements, existingUsers, apiURL, dispatchError, resetErrorFields) {
+    function HandleSignUpSubmit(evt, elements, existingUsers, apiURL, dispatchFunctions, resetErrorFields) {
         evt.preventDefault();
-        console.log('fired')
         const {
             RegistrationForm,
             NameInput,
@@ -25,13 +25,14 @@ const RegistrationHooks = props => {
             //console.log("apiURL: ", apiURL)
             //RegistrationForm.submit();
             resetErrorFields();
-            SubmitRegistration(data, apiURL, dispatchError);
+            SubmitRegistration(data, apiURL, dispatchFunctions);
+
         }
         else
             console.log(errMessage)
     }
 
-    async function SubmitRegistration(data, apiURL, dispatchError) {
+    async function SubmitRegistration(data, apiURL, dispatchFunctions) {
         const {
             username, 
             email,
@@ -53,7 +54,8 @@ const RegistrationHooks = props => {
                 else {
                     const result = await response.json()
                     console.log("Registration failed with status code: ", result.error)
-                    dispatchError(result.error)
+                   // dispatchError(result.error)
+                    RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
             .catch(error => {
@@ -70,43 +72,71 @@ const RegistrationHooks = props => {
             setProfileError,
             setPasswordError,
             setConfirmError,
+            setDisplay
         } = dispatchFunctions; 
+
+        const resetErrorFields = () => {
+            setUsernameError([]);
+            setEmailError([]);
+            setProfileError([]);
+            setPasswordError([]);
+            setConfirmError([]);
+            setDisplay("")
+        }
+
+        resetErrorFields(); 
 
         errorArray.forEach(error => {
             switch (error.param) {
                 case 'username':
-                    setUsernameError(prev => [...prev, error.msg]);
+                    setUsernameError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break; 
                 case 'email':
-                    setEmailError(prev => [...prev, error.msg]);
+                    setEmailError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break; 
                 case 'password':
-                    setPasswordError(prev => [...prev, error.msg]);
+                    setPasswordError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 case 'confirm_password':
-                    setConfirmError(prev => [...prev, error.msg]);
+                    setConfirmError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break; 
                 default:
                     break; 
             }
         })
+       
     }
 
-    function RenderError(Error, Display) {
-        //Dont use any hooks here.  
-        return Error.map(err =>
-            <div
-                key={uuid()}
-                id="ErrorMessage"
-                className={`ErrorMessage ${Display}`}>{err}</div>
+    function RenderError(Error) {
+       //Dont use any hooks here.  
+        return Error.map((err, index) => {
+            const ID = `${err.param}-${index}`;
+            return <div
+                    key={uuid()}
+                    id={ID}
+                className={`ErrorMessage`}>{err.msg}</div>
+            }
         )
     }
 
-    function onChangeHandler(evt, dispatch) {
+    function AnimateErrorMessage(DivElem) {
+        setTimeout(() => {
+            DivElem?.classList.remove("ErrorMessageFadeOut");
+            DivElem?.classList.add("ErrorMessageFadeIn");
+        }, [1])
+
+        setTimeout(() => {
+            DivElem?.classList.remove("ErrorMessageFadeIn")
+            DivElem?.classList.add("ErrorMessageFadeOut");
+        }, [10000])
+    }
+
+    function onChangeHandler(evt, dispatch, resetErrorFields) {
+        resetErrorFields()
         dispatch(evt.target.value)
     }
 
-    return { HandleSignUpSubmit, onChangeHandler, SubmitRegistration, RenderErrorArray, RenderError } 
+    return { HandleSignUpSubmit, onChangeHandler, SubmitRegistration, RenderErrorArray, RenderError, AnimateErrorMessage } 
 }
 
 export { RegistrationHooks }; 

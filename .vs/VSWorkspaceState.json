@@ -2,8 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\header",
-    "\\public",
+    "\\hooks",
     "\\public\\stylesheets",
     "\\screens",
     "\\screens\\authentication",
@@ -11,5 +10,6 @@
     "\\src",
     "\\util"
   ],
+  "SelectedNode": "\\screens\\authentication\\guestStyle.jsx",
   "PreviewInSolutionExplorer": false
 }

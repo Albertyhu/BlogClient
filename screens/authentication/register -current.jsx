@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useContext} from 'react'; 
+import { useCallback, useEffect, useState, useContext, useRef } from 'react'; 
 import { FormButtons } from '../../component/formElements.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx';
@@ -16,8 +16,8 @@ const RegisterForm = props => {
     const { GoSignIn } = NavigationHooks();
     const { HandleSignUpSubmit,
         onChangeHandler,
-        RenderError,
-        AnimateErrorMessage
+        RenderErrorArray,
+        RenderError
     } = RegistrationHooks();
     const { fetchUsernameAndEmails } = FetchHooks();
     const { apiURL } = useContext(AppContext);
@@ -90,36 +90,29 @@ const RegisterForm = props => {
     let passwordElem = document.querySelector('#passwordError');
     let confirmElem = document.querySelector('#confirmError');
 
-    useEffect(() => {
-        usernameElem = document.getElementById('usernameError');
-        for (var child of usernameElem.children) {
-            AnimateErrorMessage(child)
-        }
-    }, [usernameError])
+    const confirmRef = useRef(); 
 
-    useEffect(() => {
-        emailElem = document.getElementById('emailError');
-        for (var child of emailElem.children) {
-            AnimateErrorMessage(child)
-        }
-    }, [emailError])
+    //useEffect(() => {
+    //     usernameElem = document.getElementById('usernameError');
 
-    useEffect(() => {
-        passwordElem = document.getElementById('passwordError');
-        for (var child of passwordElem.children) {
-            AnimateErrorMessage(child)
-        }
-    }, [passwordError])
+    //    if (usernameError != null && usernameError.length > 0) {
+    //        RenderError(usernameElem)
+    //    }
+    //}, [usernameError])
 
-    useEffect(() => {
-        confirmElem = document.getElementById('confirmError');
-        for (var child of confirmElem.children) {
-            AnimateErrorMessage(child)
-        }
-    }, [confirmError])
+    //useEffect(() => {
+    //     emailElem = document.getElementById('emailError');
+    //    if (emailError != null && emailError.length > 0) {
+    //        RenderError(emailElem)
+    //    }
+    //}, [emailError])
 
-    useEffect(() => { },[name])
-
+    //useEffect(() => {
+    //    passwordElem = document.getElementById('passwordError');
+    //    if (passwordError != null && passwordError.length > 0) {
+    //        RenderError(passwordElem)
+    //    }
+    //}, [passwordError])
     return (
         <>
             <h1 className = "text-center text-3xl mt-[20px] font-bold">Create a new account</h1>
@@ -141,10 +134,10 @@ const RegisterForm = props => {
                             required
                             className=""
                             value={name}
-                            onChange={(evt) => onChangeHandler(evt, setName, resetErrorFields)}
+                            onChange={(evt)=>onChangeHandler(evt, setName)}
                         />
                         <div id="usernameError" className="ErrorDiv">
-                            {usernameError != null && usernameError.length > 0 && RenderError(usernameError)}
+                            {usernameError != null && usernameError.length > 0 && RenderError(usernameError, Display)}
                         </div>
                     </div>
                     <div>
@@ -157,10 +150,10 @@ const RegisterForm = props => {
                             required
                             className=""
                             value={email}
-                            onChange={(evt) => onChangeHandler(evt, setEmail, resetErrorFields)}
+                            onChange={(evt) => onChangeHandler(evt, setEmail)}
                         />
                         <div id="emailError" className="ErrorDiv">
-                            {emailError != null && emailError.length > 0 && RenderError(emailError)}
+                            {emailError != null && emailError.length > 0 && RenderError(emailError, Display)}
                         </div>
                     </div>
                     <div>
@@ -183,10 +176,10 @@ const RegisterForm = props => {
                             required
                             className=""
                             value={password}
-                            onChange={(evt) => onChangeHandler(evt, setPassword, resetErrorFields)}
+                            onChange={(evt) => onChangeHandler(evt, setPassword)}
                         />
                         <div id="passwordError" className="ErrorDiv">
-                            {passwordError != null && passwordError.length > 0 && RenderError(passwordError)}
+                            {passwordError != null && passwordError.length > 0 && RenderError(passwordError, Display)}
 
                         </div>
                     </div>
@@ -200,12 +193,12 @@ const RegisterForm = props => {
                             required
                             className=""
                             value={confirmPass}
-                            onChange={(evt) => onChangeHandler(evt, setConfirmPass, resetErrorFields)}
+                            onChange={(evt) => onChangeHandler(evt, setConfirmPass)}
                         />
                         <div
                             id="confirmError"
                             className="ErrorDiv">
-                            {confirmError != null && confirmError.length > 0 && RenderError(confirmError)}
+                            {confirmError != null && confirmError.length > 0 && RenderError(confirmError, Display)}
 
                         </div>
                     </div>
