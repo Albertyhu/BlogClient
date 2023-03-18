@@ -1,12 +1,13 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx';
-
+import { AppContext } from '../../util/contextItem.jsx'; 
 
 const MobileMenu = props => {
     const { Links } = props;
     const { ConfirmChild, CloseMobileMenu, OpenMobileMenu } = HeaderFunctions();
+    const { user, token } = useContext(AppContext)
     const navigate = useNavigate();
     const {
         GoHome,
@@ -30,18 +31,27 @@ const MobileMenu = props => {
                     GoHome(navigate);
                     CloseMobileMenu(MobileMenuDiv);
                 }, [navigate])}>Home</div>
-                <div
-                    onClick={useCallback(() => {
-                        GoSignIn(navigate);
-                        CloseMobileMenu(MobileMenuDiv);
-                    }, [navigate])}
-                >Sign In</div>
-                <div
-                    onClick={useCallback(() => {
-                        GoSignUp(navigate);
-                        CloseMobileMenu(MobileMenuDiv);
-                    }, [navigate])}
-                >Sign Up</div>
+                {token ? 
+                    <div>
+                        Account
+                    </div>
+                    :
+                    <div>
+                        <div
+                            onClick={useCallback(() => {
+                            GoSignIn(navigate);
+                            CloseMobileMenu(MobileMenuDiv);
+                            }, [navigate])}
+                        >Sign In</div>
+                        <div
+                            onClick={useCallback(() => {
+                            GoSignUp(navigate);
+                            CloseMobileMenu(MobileMenuDiv);
+                            }, [navigate])}
+                        >Sign Up</div>
+                        </div>
+                    }
+
                 {typeof Links != "undefined" && Links.map(link => <div>{link}</div>)}
                 <div onClick={()=>CloseMobileMenu(MobileMenuDiv)}>Close</div>
             </div>

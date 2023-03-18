@@ -3,7 +3,6 @@ import { FormButtons } from '../../component/formElements.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { RegistrationHooks } from '../../hooks/authFormHooks.jsx'; 
-import {FetchHooks} from '../../hooks/fetchHooks.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx';
 
 const RegisterForm = props => {
@@ -19,7 +18,6 @@ const RegisterForm = props => {
         RenderError,
         AnimateErrorMessage
     } = RegistrationHooks();
-    const { fetchUsernameAndEmails } = FetchHooks();
     const { apiURL } = useContext(AppContext);
     const registerURL = `${apiURL}/auth/register`
 
@@ -44,7 +42,7 @@ const RegisterForm = props => {
         setPasswordError,
         setConfirmError,
         setDisplay,
-        GoHome: ()=>GoHome(navigate),
+        GoHome: useCallback(()=>GoHome(navigate), [navigate]),
     }
 
     const resetErrorFields = () => {
@@ -63,12 +61,6 @@ const RegisterForm = props => {
     var PasswordInput = document.querySelector('#passwordInput')
     var ConfirmInput = document.querySelector('#confirm_passwordInput')
 
-    const [list, setList] = useState(null)
-    useEffect(() => {
-        fetchUsernameAndEmails(setList);
-        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL, dispatchFunctions, resetErrorFields) }) }
-    }, [])
-
     useEffect(() => {
         RegistrationForm = document.getElementById('RegistrationForm');
         NameInput = document.querySelector('#nameInput')
@@ -82,10 +74,10 @@ const RegisterForm = props => {
             PasswordInput,
             ConfirmInput
         }
-        if (list != null) {
-            RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, list, registerURL, dispatchFunctions, resetErrorFields) })
-        }
-    }, [list])
+        RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) })
+        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) }) }
+
+    }, [])
     let usernameElem = document.querySelector('#usernameError');
     let emailElem = document.querySelector('#emailError');
     let passwordElem = document.querySelector('#passwordError');
@@ -188,7 +180,6 @@ const RegisterForm = props => {
                         />
                         <div id="passwordError" className="ErrorDiv">
                             {passwordError != null && passwordError.length > 0 && RenderError(passwordError)}
-
                         </div>
                     </div>
                     <div>

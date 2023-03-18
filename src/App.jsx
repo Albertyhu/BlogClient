@@ -7,8 +7,9 @@ import './index.css';
 function App() {
     var [Users, setUsers] = useState([])
 
-    var token = localStorage.getItem('token'); 
-
+    const [token, setToken] = useState(localStorage.getItem('token')); 
+    const [user, setUser] = useState(localStorage.getItem('user')); 
+    //console.log("token: ", token)
     const fetchUsers = async () => { 
         try {
             var response = await fetch('http://localhost:80/users')
@@ -21,6 +22,7 @@ function App() {
     const context = {
         apiURL: import.meta.env.VITE_API_URL.toString(),
         token, 
+        user, 
     } 
 
     useEffect(() => {

@@ -4,7 +4,7 @@ import uuid from 'react-uuid';
 import "../src/index.css";
 
 const RegistrationHooks = props => {
-    function HandleSignUpSubmit(evt, elements, existingUsers, apiURL, dispatchFunctions, resetErrorFields) {
+    function HandleSignUpSubmit(evt, elements, apiURL, dispatchFunctions, resetErrorFields) {
         evt.preventDefault();
         const {
             RegistrationForm,
@@ -14,17 +14,6 @@ const RegistrationHooks = props => {
             ConfirmInput } = elements; 
         var isValid = true; 
         var errMessage = "Error: ";
-
-        //if (existingUsers.some(val => val.username == NameInput.value)) {
-        //    errMessage = "That username already exist and is being used."
-        //    isValid = false; 
-
-        //}
-
-        //if (existingUsers.some(val => val.email == NameInput.email)) {
-        //    errMessage = "That email is already being used."
-        //    isValid = false; 
-        //}
 
         if (isValid) {
             const data = {
@@ -59,12 +48,16 @@ const RegistrationHooks = props => {
             body: JSON.stringify(data)
         })
             .then(async response => {
-                console.log("status: ", response)
+               // console.log("status: ", response)
                 if (response.ok) {
                     console.log("Registration is successful.")
-                    const data = response.json()
-                    localStorage.setItem('token', data.token)
-                    GoHome(); 
+                    await response.json()
+                        .then(data => {
+                            localStorage.setItem("user", data.user)
+                            localStorage.setItem('token', data.token)
+                            GoHome(); 
+                        })
+
                 }
                 else {
                     const result = await response.json()
@@ -77,6 +70,44 @@ const RegistrationHooks = props => {
                 console.log("error: ", error)
             })
     } 
+
+    async function HandleLogin(evt, elements, apiURL, dispatchFunctions, resetErrorFields) {
+        evt.preventDefault(); 
+        const {
+            NameInput,
+            PasswordInput,
+            SignInForm
+        } = elements; 
+        resetErrorFields(); 
+
+        const { GoHome } = dispatchFunctions; 
+
+        const data = {
+            username: NameInput.value,
+            password: PasswordInput.value, 
+        }
+
+        await fetch(apiURL, {
+            method: "POST", 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify(data)
+        }).then(async response => {
+            if (response.ok) {
+                console.log("User has successfully signed in")
+                await response.json()
+                    .then(result => {
+                        localStorage.setItem("token", result.token);
+                        localStorage.setItem("user", result.user);
+                        GoHome();
+                    })
+            }
+            else {
+                const result = await response.json()
+                console.log("Sign in process has failed: ", result.error)
+                RenderErrorArray(result.error, dispatchFunctions)
+            }
+        })
+    }
 
     //It takes the raw array and separates it into different arrays 
     //Generate DOM elements 
@@ -151,7 +182,15 @@ const RegistrationHooks = props => {
         dispatch(evt.target.value)
     }
 
-    return { HandleSignUpSubmit, onChangeHandler, SubmitRegistration, RenderErrorArray, RenderError, AnimateErrorMessage } 
+    return {
+        HandleSignUpSubmit,
+        onChangeHandler,
+        SubmitRegistration,
+        RenderErrorArray,
+        RenderError,
+        AnimateErrorMessage,
+        HandleLogin
+    } 
 }
 
 export { RegistrationHooks }; 

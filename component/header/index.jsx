@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../button.jsx';
 import MobileIcon from '../../assets/icons/hamburger_menu_white.png'
@@ -7,7 +7,9 @@ import MobileMenu from './mobileMenu.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
-import "../../src/index.css"
+import "../../src/index.css"; 
+import { AppContext } from '../../util/contextItem.jsx'; 
+
 
 const Header = props => {
     const navigate = useNavigate(); 
@@ -16,7 +18,7 @@ const Header = props => {
         GoSignUp,
         GoSignIn
     } = NavigationHooks(); 
-
+    const { user, token } = useContext(AppContext)
     const { ConfirmChild, CloseMobileMenu, OpenMobileMenu } = HeaderFunctions();  
 
     const HeaderBackgroundColor = "bg-black";
@@ -71,8 +73,13 @@ const Header = props => {
                         id="DesktopMenuLinks"
                         className={DesktopMenuLinks}
                     >
-                        <div onClick={useCallback(()=>GoHome(navigate), [navigate])}>Home</div>
-                        <div onClick={useCallback(()=>GoSignIn(navigate), [navigate])}>Sign In</div>
+                        <div onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
+                        {token ?
+                            <div>User</div>
+                            :
+                            <div onClick={useCallback(() => GoSignIn(navigate), [navigate])}>Sign In</div>
+                        }
+                       
                     </div>
                 </div>
                 <div
