@@ -22,8 +22,6 @@ const RegistrationHooks = props => {
                 password: PasswordInput.value,
                 confirm_password: ConfirmInput.value
             }
-            //console.log("apiURL: ", apiURL)
-            //RegistrationForm.submit();
             resetErrorFields();
             SubmitRegistration(data, apiURL, dispatchFunctions);
 

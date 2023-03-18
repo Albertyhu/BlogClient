@@ -3,13 +3,12 @@
     "",
     "\\component",
     "\\hooks",
-    "\\public\\stylesheets",
     "\\screens",
     "\\screens\\authentication",
     "\\screens\\home",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\screens\\authentication\\guestStyle.jsx",
+  "SelectedNode": "\\tailwind.config.cjs",
   "PreviewInSolutionExplorer": false
 }
