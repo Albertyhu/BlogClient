@@ -20,7 +20,23 @@ const HeaderFunctions = () => {
 		MobileMenuDiv.classList.add("translate-x-[0px]");
 	} 
 
-	return { ConfirmChild, CloseMobileMenu, OpenMobileMenu }
+	const toggleAccountMenu = () => {
+		var AccountMenu = document.querySelector("#AccountMenu");
+		if (AccountMenu.classList.contains("!hidden")) {
+			AccountMenu.classList.remove('!hidden');
+			AccountMenu.classList.add('block');
+		}
+		else {
+			closeAccountMenu(); 
+		}
+	}
+
+	const closeAccountMenu = () => {
+		AccountMenu.classList.remove('block');
+		AccountMenu.classList.add('!hidden');
+	}
+
+	return { ConfirmChild, CloseMobileMenu, OpenMobileMenu, toggleAccountMenu, closeAccountMenu }
 }
 
 export { HeaderFunctions };

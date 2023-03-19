@@ -9,7 +9,8 @@ import { HeaderFunctions } from '../../hooks/headerFunctions.jsx';
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import "../../src/index.css"; 
 import { AppContext } from '../../util/contextItem.jsx'; 
-
+import { AuthenticationHooks } from '../../hooks/authenticationHooks.jsx'; 
+import AccountMenuComponent from './AccountMenu.jsx'; 
 
 const Header = props => {
     const navigate = useNavigate(); 
@@ -19,7 +20,8 @@ const Header = props => {
         GoSignIn
     } = NavigationHooks(); 
     const { user, token } = useContext(AppContext)
-    const { ConfirmChild, CloseMobileMenu, OpenMobileMenu } = HeaderFunctions();  
+    const { ConfirmChild, CloseMobileMenu, OpenMobileMenu, toggleAccountMenu } = HeaderFunctions();  
+    const { LogOut } = AuthenticationHooks(); 
 
     const HeaderBackgroundColor = "bg-black";
     const TextColor = "text-white"; 
@@ -29,7 +31,9 @@ const Header = props => {
     const MobileStyle = `flex md:hidden w-full h-[50px] [&>*]:inline-block justify-between`;
     const DesktopMenuLinks = `left-auto right-[10px] top-0 bottom-0 absolute h-auto translate-y-[20%] [&>div]:inline-block
             [&>div]:mx-[10px] [&>div]:cursor-pointer active:[&>div]:translate-x-[5px] active:[&>div]:translate-y-[5px]`;
-
+    var AccountMenuStyle = `grid absolute top-[40px] [&>div]:my-5 
+            [&>div]:whitespace-nowrap bg-[#f2e796] [&>div]:text-black
+            [&>div]:mx-[10px] translate-x-[-215px]`;
     const MobileIconRef = useRef(); 
 
     var MobileMenuDiv = document.getElementById('MobileMenuDiv')
@@ -55,6 +59,8 @@ const Header = props => {
             window.addEventListener("mousedown", CheckIfClickedOutside)
         }
     }, [MobileIconRef.current])
+    
+    const AccountMenuRef = useRef();
 
     return (
         <>
@@ -75,7 +81,13 @@ const Header = props => {
                     >
                         <div onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
                         {token ?
-                            <div>User</div>
+                            <>
+                                <div
+                                    id="AccountLink"
+                                    onClick={useCallback(() => toggleAccountMenu(),[])}
+                                >User</div>
+                                <AccountMenuComponent AccountMenuRef={AccountMenuRef } />
+                            </>
                             :
                             <div onClick={useCallback(() => GoSignIn(navigate), [navigate])}>Sign In</div>
                         }

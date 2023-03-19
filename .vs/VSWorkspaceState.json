@@ -2,6 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\component",
+    "\\component\\header",
     "\\hooks",
     "\\screens",
     "\\screens\\authentication",
@@ -9,6 +10,6 @@
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\tailwind.config.cjs",
+  "SelectedNode": "\\component\\header\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

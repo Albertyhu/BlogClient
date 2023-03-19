@@ -9,9 +9,7 @@ const Home = props => {
     const navigate = useNavigate();
     const { GoSignIn, GoSignUp } = NavigationHooks();
     const { token } = useContext(AppContext);
-    if (token) { 
-        console.log("token: ", token)
-    }
+
     return (
         <div
             className = "w-full text-center text-lg text-black" 

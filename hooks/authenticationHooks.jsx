@@ -12,7 +12,7 @@ const AuthenticationHooks = () => {
 
     }
 
-    return { LogOut }; 
+    return { LogOut, SignIn }; 
 }
 
 export {AuthenticationHooks }
