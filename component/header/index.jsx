@@ -19,9 +19,7 @@ const Header = props => {
         GoSignUp,
         GoSignIn
     } = NavigationHooks(); 
-    const { user, token } = useContext(AppContext)
-   // const { token } = props; 
-    const [displayAccount ,setDisplayAccount] = useState(token ? true: false)
+    const { user, displayAccountLink } = useContext(AppContext)
     const { ConfirmChild, CloseMobileMenu, OpenMobileMenu, toggleAccountMenu } = HeaderFunctions();  
     const { LogOut } = AuthenticationHooks(); 
     const HeaderBackgroundColor = "bg-black";
@@ -61,16 +59,7 @@ const Header = props => {
         }
     }, [MobileIconRef.current])
 
-    useEffect(() => {
-        console.log("token in header: ", token)
-        if (token != null && typeof token != 'undefined') {
-            setDisplayAccount(true)
-        }
-        else {
-            setDisplayAccount(false)
-        }
-    }, [token])
-    
+ 
     const AccountMenuRef = useRef();
 
     return (
@@ -91,22 +80,21 @@ const Header = props => {
                         className={DesktopMenuLinks}
                     >
                         <div className= "inline-block" onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
-                        {displayAccount ?
+                        {displayAccountLink ?
                             <>
                                 <div
                                     id="AccountLink"
                                     className= "inline-block"
-                                    onClick={useCallback(() =>toggleAccountMenu(),[])}
+                                    onClick={() =>toggleAccountMenu()}
                                 >User</div>
                                 <AccountMenuComponent
                                     AccountMenuRef={AccountMenuRef}
-                                    setDisplayAccount={setDisplayAccount }
                                 />
                             </>
                             :
                             <div
                                 className="inline-block"
-                                onClick={useCallback(() => GoSignIn(navigate), [navigate])}>Sign In</div>
+                                onClick={()=>GoSignIn(navigate)}>Sign In</div>
                         }
                        
                     </div>
@@ -117,7 +105,7 @@ const Header = props => {
                     <img
                         src={PlaceHolder}
                         className={LogoStyle}
-                        onClick={useCallback(() => { GoHome(navigate); }, [navigate])}
+                        onClick={useCallback(() => { GoHome(navigate) }, [navigate])}
                     />
                     <img
                         id="MobileIconButton"

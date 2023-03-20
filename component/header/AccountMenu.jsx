@@ -6,8 +6,10 @@ import { AppContext } from '../../util/contextItem.jsx';
 import "../../src/index.css";
 
 const AccountMenu = props => {
-    const { ClearToken, setToken, setUser } = useContext(AppContext)
-    const { AccountMenuRef, setDisplayAccount } = props; 
+    const { toggleDisplayAccountLink } = useContext(AppContext)
+    const {
+        AccountMenuRef,
+    } = props; 
     const { LogOut } = AuthenticationHooks(); 
     const { closeAccountMenu } = HeaderFunctions(); 
     const navigate = useNavigate(); 
@@ -68,8 +70,7 @@ const AccountMenu = props => {
             <div
                 className="hover:underline"
                 onClick={() => {
-                 //   setDisplayAccount(false)
-                   // ClearToken();
+                    toggleDisplayAccountLink(false)
                     LogOut(navigate);
                 }}
             >Log Out</div>

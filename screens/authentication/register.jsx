@@ -18,7 +18,10 @@ const RegisterForm = props => {
         RenderError,
         AnimateErrorMessage
     } = RegistrationHooks();
-    const { apiURL } = useContext(AppContext);
+    const {
+        apiURL,
+        toggleDisplayAccountLink,
+    } = useContext(AppContext);
     const registerURL = `${apiURL}/auth/register`
 
     const [name, setName] = useState('Maggie');
@@ -42,7 +45,8 @@ const RegisterForm = props => {
         setPasswordError,
         setConfirmError,
         setDisplay,
-        GoHome: useCallback(()=>GoHome(navigate), [navigate]),
+        GoHome: useCallback(() => GoHome(navigate), [navigate]),
+        toggleDisplayAccountLink 
     }
 
     const resetErrorFields = () => {

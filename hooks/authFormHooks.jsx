@@ -39,7 +39,11 @@ const RegistrationHooks = props => {
             profilepicture, 
         } = data; 
 
-        const { GoHome, setToken, setUser } = dispatchFunctions; 
+        const { GoHome,
+            setToken,
+            setUser,
+            toggleDisplayAccountLink,
+        } = dispatchFunctions; 
 
         await fetch(apiURL, {
             method: "POST",
@@ -55,6 +59,7 @@ const RegistrationHooks = props => {
                         .then(data => {
                             localStorage.setItem("user", data.user)
                             localStorage.setItem('token', data.token)
+                            toggleDisplayAccountLink(true), 
                             GoHome(); 
                         })
 
@@ -82,7 +87,9 @@ const RegistrationHooks = props => {
 
         const { GoHome,
             setNewToken,
-            setNewUser, } = dispatchFunctions; 
+            setNewUser,
+            toggleDisplayAccountLink, 
+        } = dispatchFunctions; 
 
         const data = {
             username: NameInput.value,
@@ -100,6 +107,7 @@ const RegistrationHooks = props => {
                     .then(result => {
                         localStorage.setItem("token", result.token);
                         localStorage.setItem("user", JSON.stringify(result.user));
+                        toggleDisplayAccountLink(true) 
                         GoHome();
                     })
             }

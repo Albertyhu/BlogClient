@@ -7,9 +7,10 @@
     "\\screens",
     "\\screens\\authentication",
     "\\screens\\home",
+    "\\screens\\user",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\authFormHooks.jsx",
+  "SelectedNode": "\\src\\App.jsx",
   "PreviewInSolutionExplorer": false
 }
