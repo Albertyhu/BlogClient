@@ -1,0 +1,10 @@
+Pages to be built 
+User profile/User's page 
+Edit User profile
+ 
+Main Page for all posts 
+thread page 
+Page for posting and editing a thread 
+
+Category page 
+List of users

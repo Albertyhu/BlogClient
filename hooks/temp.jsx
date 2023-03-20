@@ -1,234 +1,51 @@
-        //if (existingUsers.some(person => person.username == NameInput.value.trim())) {
-        //    errMessage += "The username you wrote is already in use. \n";
-        //    isValid = false;
+import React, { useEffect, useRef, useCallback, useContext } from 'react';
+import PlaceHolder from '../../assets/images/PlaceholderLogo.png';
+import AccountMenuComponent from './AccountMenu.jsx';
 
-        //}
-        //if (!checkEmail(EmailInput.value.trim())) {
-        //    errMessage += "Your email must be in the format of john@email.com. \n";
-        //    isValid = false;
-        //}
-        //if (existingUsers.some(person => person.email == EmailInput.value.trim())) {
-        //    errMessage += "The email you wrote is already in use. \n";
-        //    isValid = false;
-        //}
-        //if (PasswordInput.value.trim().length < 4) {
-        //    errMessage += "Your password must be at least 4 characters long. \n";
-        //    isValid = false;
-        //}
-        //if (PasswordInput.value.trim() != ConfirmInput.value.trim()) {
-        //    errMessage += "Your confirmation password must match your password. \n";
-        //    isValid = false;
-        //}
+const Header = props => {
+
+    //  const { user, token } = useContext(AppContext)
+    const { token } = props;
 
 
+    return (
+        <>
+            <div
+                id="HeaderWrapper"
+                className={HeaderStyle}>
+                <div
+                    id="DesktopHeader"
+                    className={DesktopStyle}>
+                    <img
+                        src={PlaceHolder}
+                        className={LogoStyle}
+                        onClick={useCallback(() => GoHome(navigate), [navigate])}
+                    />
+                    <div
+                        id="DesktopMenuLinks"
+                        className={DesktopMenuLinks}
+                    >
+                        <div className="inline-block" onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
+                        {token ?
+                            <>
+                                <div
+                                    id="AccountLink"
+                                    className="inline-block"
+                                    onClick={useCallback(() => toggleAccountMenu(), [])}
+                                >User</div>
+                                <AccountMenuComponent AccountMenuRef={AccountMenuRef} />
+                            </>
+                            :
+                            <div
+                                className="inline-block"
+                                onClick={useCallback(() => GoSignIn(navigate), [navigate])}>Sign In</div>
+                        }
 
-
-<style>
-.closed-menu {
-    transform: translateX(300px);
-    transition: transform 500ms linear; 
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
 
-.opened-menu {
-    transform: translateX(0px);
-    transition: transform 500ms linear;
-}
-</style>
-<script>
-	var MobileMenu = document.getElementById('MobileMenu')
-
-	function openMenu(){
-	MobileMenu = document.getElementById('MobileMenu')
-	MobileMenu.classList.remove('closed-menu');
-	MobileMenu.classList.add('opened-menu');
-	}
-
-	function closeMobileMenu(){
-	MobileMenu = document.getElementById('MobileMenu')
-	MobileMenu.classList.remove('opened-menu');
-	MobileMenu.classList.add('closed-menu');
-	}
-	const CheckIfClickedOutsideMobileMenu = event =>{
-	const targetEvent = event.target
-	MobileMenu = document.getElementById('MobileMenu')
-	if(MobileMenu != targetEvent){
-	MobileMenu.classList.remove('opened-menu');
-	MobileMenu.classList.add('closed-menu');
-	}
-	}
-
-</script>
-<% var BackgroundColor ="black" %>
-<div
-	id='MobileHeader' 
-	class = "w-full bg-[<%= BackgroundColor %>] fixed top-0 left-0 right-0
-		flex sm:hidden z-30 h-[50px] justify-between"
-		>
-		<a href = "/" class = "">
-		<img 
-			src = <%= typeof logoURL != 'undefined' ? logoURL : "../assets/images/SpeakeasyLogo-JustText.png"  %>
-				class = "h-full w-auto cursor-pointer"
-				alt = "logo"/>
-			</a>
-	<% if(typeof burgerMenu != "undefined") {%>
-	<div class="my-auto cursor-pointer" onclick="openMenu()">
-		<img
-			id="MobileMenuIcon"
-			src = <%= typeof burgerMenu  != "undefined" ? burgerMenu : "/../assets/icon/hamburger_menu_white.png"  %>
-				class = " z-20 my-auto ml-auto mr-5 w-[35px] h-[35px]"
-				alt = "logo"/>
-			</div>
-	<% } %> 
-</div>
-<div
-	id='DesktopHeader' 
-	class = "w-full bg-[<%= BackgroundColor %>] fixed top-0 left-0 right-0 h-[100px]
-		hidden sm:flex z-30 justify-between  font-['DecoTech'] text-2xl uppercase"
-		>
-		<% if(typeof logoURL != "undefined") {%>
-		<a href = "/">
-			<img 
-				src = <%= typeof logoURL != 'undefined' ? logoURL : "../assets/images/SpeakeasyLogo-JustText"  %>
-					class = "h-full w-auto cursor-pointer userselect-none"
-					alt = "logo"/>
-				</a>
-		<% } %>
-		<div 
-			id= "HeaderMenu"
-			class = "flex text-white ml-auto mr-5 [&>*]:mx-[10px] my-auto cursor-pointer">
-			<div
-				class = "hover:underline hover:font-bold my-auto"
-				onclick="location.href='/users'">Members</div>
-			<div 
-				class = "hover:underline hover:font-bold my-auto"
-				onclick="location.href='/contact'">Contact</div>
-			<% if(user) { %>
-				<div >
-					<% if(user.profile_pic.contentType != 'undefine' && typeof user.profile_pic.data != 'undefined') { %>
-						<div
-						id="AccountLink"
-						class = "hover:underline hover:font-bold flex w-[50px] h-[50px]
-							m-auto relative">
-						<img
-							id="ProfilePic"
-							src ="data:<%= user.profile_pic.contentType %>;base64,<%= user.profile_pic.data.toString('base64') %>"
-							alt= "<%=user.username%>_profile_picture"
-							class = "rounded-full m-auto w-full h-full userselect-none object-cover"/>
-						<div class =" rounded-full w-[15px] h-[15px] absolute bottom-0 
-							 left-auto right-0 border-white border-[1px] bg-black">
-							<img
-							 src ="<%=DownArrow %>"
-							class="w-[15px] h-[15px] m-auto"
-							alt ="arrow"/>
-						</div>
-					</div>
-					<% } else { %>
-					<div
-						id="AccountLink"
-						class = "hover:underline hover:font-bold flex">
-						Account
-						<div
-							class ="border-white
-							rounded-full border-[1px] p-1 mx-1 my-auto">
-							<img
-								src ="<%=DownArrow %>"
-								class="w-[15px] h-[15px]"
-								alt ="arrow"/>
-					    </div>
-					</div>
-					<% } %>
-					<div 
-						id="AccountMenu"
-						class="hidden grid absolute [&>div]:my-5 [&>div]:whitespace-nowrap
-						bg-[#f2e796] [&>div]:text-black [&>div]:mx-[10px] translate-x-[-60px]">
-							<div 
-								class ="hover:underline">
-								<a href ="/user/<%= user.id%>">Your profile</a>
-							</div>
-							<div class ="hover:underline">
-								<a href ="/user/<%= user.id%>/update">Edit profile</a>
-							</div>
-							<div class ="hover:underline">
-								<a href ="/user/<%= user.id%>/changepassword"
-									<%= user.id%>/update">Change password
-								</a>
-							</div>
-							<div class ="hover:underline">
-								<a href ="/logout">Log Out</a>
-							</div>
-					</div>
-				</div>
-			<% } else { %>
-				<div
-					class = "hover:underline hover:font-bold my-auto"
-					onclick="location.href='/login'">Log In</div>
-			<% } %>
-		</div>
-
-<script>
-		var AccountLink = document.querySelector('#AccountLink');
-		var AccountMenu = document.querySelector('#AccountMenu');
-		var Container = document.querySelector("#container");
-		var ProfilePic =document.querySelector("#ProfilePic"); 
-		const MobileHeader = document.getElementById('MobileHeader');
-		
-		AccountLink?.addEventListener("click", ToggleAccountMenu);
-
-		function ToggleAccountMenu(){
-		if(AccountMenu?.classList.contains('hidden')){
-		AccountMenu?.classList.remove('hidden');
-		AccountMenu?.classList.add('grid');
-		}
-		else{
-		CloseAccountMenu();
-		}
-		}
-
-		function CloseAccountMenu(){
-		AccountMenu.classList.remove('grid');
-		AccountMenu.classList.add('hidden');
-		}
-
-	
-		//This is used to complement the feature where the user clicks outside of the Account Menu to close it
-		//It is used to check if evt.target is one of the child anchor tag of Account Menu
-		function ConfirmChild(target, NodeList){
-			var confirmed = false; 
-			NodeList.forEach(node =>{
-				if(node == target){
-					confirmed = true; 
-					}
-				})
-			return confirmed; 
-		}
-	
-		function CheckIfClickedOutsideAccountMenu(evt){
-		//If the user is logged in
-		<% if(typeof user != 'undefined') { %>
-			//The following extracts all the child anchor tags of AccountMenu div
-			const childAnchors = AccountMenu.querySelectorAll('a');
-			//If the user's profile picture exist, execute the following
-			//The image is chosen instead of its parent because for some reason, the image is only registered by click
-			<% if(user.profile_pic.contentType != 'undefine') { %>
-				if (!AccountMenu?.classList.contains('hidden') && !ConfirmChild(evt.target, childAnchors) && evt.target != AccountMenu && evt.target != ProfilePic){
-					CloseAccountMenu();
-					}
-			<% } else { %> 
-				if (!AccountMenu?.classList.contains('hidden') && evt.target != AccountMenu && evt.target != AccountLink && !ConfirmChild(evt.target, childAnchors)){
-					CloseAccountMenu();
-					}
-			<%}%>
-		<% } %>
-		}
-	
-		Container?.addEventListener("mousedown", (evt)=>{
-			if(window.innerWidth >= 640){
-				CheckIfClickedOutsideAccountMenu(evt)
-			}
-			else{
-				CheckIfClickedOutsideMobileMenu(evt)
-			}
-		})
-
-	</script> 
-</div>
+export default Header;  

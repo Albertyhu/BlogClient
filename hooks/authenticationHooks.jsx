@@ -8,11 +8,7 @@ const AuthenticationHooks = () => {
         GoHome(navigate); 
     }
 
-    const SignIn = (navigate) => {
-
-    }
-
-    return { LogOut, SignIn }; 
+    return { LogOut}; 
 }
 
 export {AuthenticationHooks }

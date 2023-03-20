@@ -4,7 +4,6 @@ module.exports = {
     "./index.html",
     "./src/**/*.{html,js,ts,jsx,tsx}",
     "./screens/**/*.{html,js,ts,jsx,tsx}",
-    "./screens/home/index.jsx"
     ],
   theme: {
     extend: {

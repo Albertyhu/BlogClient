@@ -95,8 +95,21 @@ body {
     transition: opacity 1s ease-in, transform 1s ease-in;
 }
 
-@media screen and (min-width: 640px) {
-    .ErrorMessage {
+.AccountMenuStyle {
+    position: absolute;
+    top: 40px;
+    background-color: #f2e796;
+/*    transform: translateX(-215px);*/
+    margin: 5rem 10px;
+}
+    .AccountMenuStyle > div {
+        white-space: nowrap;
+        color: #000000; 
+ 
+    }
+
+    @media screen and (min-width: 640px) {
+        .ErrorMessage {
         font-size: 15px;
     }
 }

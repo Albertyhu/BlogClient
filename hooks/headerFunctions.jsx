@@ -21,10 +21,10 @@ const HeaderFunctions = () => {
 	} 
 
 	const toggleAccountMenu = () => {
-		var AccountMenu = document.querySelector("#AccountMenu");
-		if (AccountMenu.classList.contains("!hidden")) {
-			AccountMenu.classList.remove('!hidden');
-			AccountMenu.classList.add('block');
+		var AccountMenuElem = document.querySelector("#AccountMenu");
+		if (AccountMenuElem.classList.contains("hidden")) {
+			AccountMenuElem.classList.remove('hidden');
+			AccountMenuElem.classList.add('grid');
 		}
 		else {
 			closeAccountMenu(); 
@@ -32,11 +32,18 @@ const HeaderFunctions = () => {
 	}
 
 	const closeAccountMenu = () => {
-		AccountMenu.classList.remove('block');
-		AccountMenu.classList.add('!hidden');
+		var AccountMenuElem = document.querySelector("#AccountMenu");
+		AccountMenuElem.classList.remove('grid');
+		AccountMenuElem.classList.add('hidden');
 	}
 
-	return { ConfirmChild, CloseMobileMenu, OpenMobileMenu, toggleAccountMenu, closeAccountMenu }
+	return {
+		ConfirmChild,
+		CloseMobileMenu,
+		OpenMobileMenu,
+		toggleAccountMenu,
+		closeAccountMenu
+	}
 }
 
 export { HeaderFunctions };

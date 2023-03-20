@@ -10,7 +10,7 @@ const SignIn = () => {
     const navigate = useNavigate(); 
     const { GoHome, GoSignUp } = NavigationHooks(); 
     const { HandleLogin, RenderError } = RegistrationHooks();
-    const { apiURL } = useContext(AppContext); 
+    const { apiURL, setNewToken, setNewUser } = useContext(AppContext); 
 
     const ButtonStyle = `rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px]
     active:translate-y-[5px] cursor-pointer border-white border-2 
@@ -30,7 +30,9 @@ const SignIn = () => {
     const dispatchFunctions = {
         setUsernameError,
         setPasswordError,
-        GoHome: useCallback(()=>GoHome(navigate),[navigate])
+        GoHome: useCallback(() => GoHome(navigate), [navigate]), 
+        setNewToken, 
+        setNewUser, 
     }
 
     const resetErrorFields = () => {

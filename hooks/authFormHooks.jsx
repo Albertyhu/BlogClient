@@ -39,7 +39,7 @@ const RegistrationHooks = props => {
             profilepicture, 
         } = data; 
 
-        const { GoHome } = dispatchFunctions; 
+        const { GoHome, setToken, setUser } = dispatchFunctions; 
 
         await fetch(apiURL, {
             method: "POST",
@@ -80,7 +80,9 @@ const RegistrationHooks = props => {
         } = elements; 
         resetErrorFields(); 
 
-        const { GoHome } = dispatchFunctions; 
+        const { GoHome,
+            setNewToken,
+            setNewUser, } = dispatchFunctions; 
 
         const data = {
             username: NameInput.value,
@@ -97,12 +99,13 @@ const RegistrationHooks = props => {
                 await response.json()
                     .then(result => {
                         localStorage.setItem("token", result.token);
-                        localStorage.setItem("user", result.user);
+                        localStorage.setItem("user", JSON.stringify(result.user));
                         GoHome();
                     })
             }
             else {
                 const result = await response.json()
+                console.log("result: ", result)
                 console.log("Sign in process has failed: ", result.error)
                 RenderErrorArray(result.error, dispatchFunctions)
             }

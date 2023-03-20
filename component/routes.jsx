@@ -1,13 +1,17 @@
 import React from 'react'; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from '../screens/authentication/signin.jsx'; 
+import { useContext, useCallback } from 'react'; 
 import Home from '../screens/home';
 import Header from './header'
 import Footer from './footer'; 
 import RegistrationForm from '../screens/authentication/register.jsx'; 
 import "../src/index.css"; 
+import { AppContext } from '../util/contextItem.jsx'; 
 
-const Apps = () => {
+const Apps = props => {
+    //const { token } = useContext(AppContext); 
+
     const containerStyle = `w-full flex flex-col relative grow min-h-[120vh]`
     return (
         <div

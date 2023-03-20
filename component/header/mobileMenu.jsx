@@ -19,8 +19,6 @@ const MobileMenu = props => {
     const MobileMenuStyle = `block md:hidden bg-white w-[270px] text-black h-full overflow-y-scroll  
         fixed left-auto right-0 top-0 translate-x-[270px] transition-[transform] z-10`
 
-    const CheckIfClickedOutside = (evt) => { }
-
     return (
         <div
             id="MobileMenuDiv"

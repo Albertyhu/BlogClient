@@ -1,38 +1,33 @@
 import { useState, useEffect } from 'react'
-import uuid from 'react-uuid'; 
-import RouteComponent from '../component/routes.jsx'; 
-import { AppContext } from '../util/contextItem.jsx'; 
+import RouteComponent from '../component/routes.jsx';
+import { AppContext } from '../util/contextItem.jsx';
 import './index.css';
 
 function App() {
-    var [Users, setUsers] = useState([])
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
-    const [token, setToken] = useState(localStorage.getItem('token')); 
-    const [user, setUser] = useState(localStorage.getItem('user')); 
-    //console.log("token: ", token)
-    const fetchUsers = async () => { 
-        try {
-            var response = await fetch('http://localhost:80/users')
-            var data = await response.json(); 
-            setUsers(data)
-        } catch (err) {
-            console.log("Error: ", err)
-        }
-    }
     const context = {
         apiURL: import.meta.env.VITE_API_URL.toString(),
-        token, 
+        token,
         user, 
-    } 
+        setNewToken: (val)=>setToken(val),
+        setNewUser: (val)=>setUser(val),
+        ClearToken: () => {
+            setToken(null)
+            setUser(null)
+        }
+    }
 
     useEffect(() => {
-        //fetchUsers();
-    }, [])
+        console.log("Token in app.js: ", token)
+    }, [token])
+
     return (
-      <AppContext.Provider value = {context}>
-            <RouteComponent />
-      </AppContext.Provider>
-  )
+        <AppContext.Provider value={context}>
+            <RouteComponent token={token} />
+        </AppContext.Provider>
+    )
 }
 
 export default App
