@@ -22,7 +22,7 @@ const Header = props => {
 
     const {
         user,
-        displayAccountLink
+        displayMemberComponents
     } = useContext(AppContext)
 
     const { ConfirmChild,
@@ -94,7 +94,7 @@ const Header = props => {
                         className={DesktopMenuLinks}
                     >
                         <div className= "inline-block select-none" onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
-                        {user && displayAccountLink ?
+                        {user && displayMemberComponents ?
                             <>
                                 <div
                                     id="AccountLink"

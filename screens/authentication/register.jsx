@@ -16,7 +16,8 @@ const RegisterForm = props => {
     const { HandleSignUpSubmit,
         onChangeHandler,
         RenderError,
-        AnimateErrorMessage
+        AnimateErrorMessage,
+        HandleFileChange,
     } = RegistrationHooks();
     const {
         apiURL,
@@ -33,10 +34,11 @@ const RegisterForm = props => {
     //Error arrays store the error messages sent from the server
     const [errorArray, setErrorArray] = useState(null);
     const [usernameError, setUsernameError] = useState([])
-    const [emailError, setEmailError] = useState([])
-    const [profileError, setProfileError] = useState([])
-    const [passwordError, setPasswordError] = useState([])
-    const [confirmError, setConfirmError] = useState([])
+    const [emailError, setEmailError] = useState([]);
+    const [profileError, setProfileError] = useState([]);
+    const [passwordError, setPasswordError] = useState([]);
+    const [confirmError, setConfirmError] = useState([]); 
+    const [profileImage, setImage] = useState({ preview: '', data: '' }); 
     const [Display, setDisplay] = useState("")
 
     const dispatchFunctions = {
@@ -81,11 +83,9 @@ const RegisterForm = props => {
             EmailInput,
             PasswordInput,
             ConfirmInput,
-            ProfileInput
+          // ProfileInput,
+            profileImage
         }
-       // RegistrationForm.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) })
-       // return () => { RegistrationForm.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) }) }
-
     }, [])
 
     let usernameElem = document.querySelector('#usernameError');
@@ -141,9 +141,9 @@ const RegisterForm = props => {
                         EmailInput,
                         PasswordInput,
                         ConfirmInput,
-                        ProfileInput
+                        //ProfileInput,
                     }
-                    HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields)
+                    HandleSignUpSubmit(evt, FormElements, profileImage, registerURL, dispatchFunctions, resetErrorFields)
                 }}
                 id="RegistrationForm"
                 encType="multipart/form-data"
@@ -187,11 +187,12 @@ const RegisterForm = props => {
                     <div>
                         <label htmlFor = "profile_pic">Profile picture</label>
                         <input 
-                            name = "profile_pic" 
-                            id = "profile_picInput"
-                            type = "file"
-                            placeholder = "Upload an image htmlFor your your profile picture here" 
-                            className = "file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer"
+                            name="profile_pic"
+                            id="profile_picInput"
+                            type="file"
+                            placeholder="Upload an image htmlFor your your profile picture here"
+                            className="file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer"
+                            onChange={(evt) => { HandleFileChange(evt, setImage) }}
                         />
                     </div>
                     <div>

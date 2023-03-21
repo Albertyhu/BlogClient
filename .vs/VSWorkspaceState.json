@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\icons",
     "\\component",
     "\\component\\header",
-    "\\hooks",
+    "\\public",
     "\\screens",
-    "\\screens\\authentication",
     "\\screens\\home",
-    "\\screens\\user",
     "\\src",
-    "\\util"
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\App.jsx",
+  "SelectedNode": "\\component\\header\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

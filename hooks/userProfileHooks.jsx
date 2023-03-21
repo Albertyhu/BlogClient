@@ -16,7 +16,8 @@ const UserProfileHooks = () => {
                     const error = (data && data.message || response.status)
                     console.log("Internal service error: ", error)
                 }
-
+                localStorage.removeItem("user")
+                localStorage.removeItem("token")
                 ClearToken();
                 GoHome(navigate)
             })

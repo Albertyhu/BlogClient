@@ -6,7 +6,7 @@ import { AppContext } from '../../util/contextItem.jsx';
 
 const MobileMenu = props => {
     const { Links } = props;
-    const { ConfirmChild, CloseMobileMenu, OpenMobileMenu } = HeaderFunctions();
+    const {CloseMobileMenu} = HeaderFunctions();
     const { user, token } = useContext(AppContext)
     const navigate = useNavigate();
     const {
@@ -38,16 +38,16 @@ const MobileMenu = props => {
                     :
                     <div>
                         <div
-                            onClick={useCallback(() => {
+                            onClick={() => {
                             GoSignIn(navigate);
                             CloseMobileMenu(MobileMenuDiv);
-                            }, [navigate])}
+                            }}
                         >Sign In</div>
                         <div
-                            onClick={useCallback(() => {
+                            onClick={() => {
                             GoSignUp(navigate);
                             CloseMobileMenu(MobileMenuDiv);
-                            }, [navigate])}
+                            }}
                         >Sign Up</div>
                         </div>
                     }

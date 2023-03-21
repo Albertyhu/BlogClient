@@ -9,7 +9,7 @@ import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx'
 const Home = props => {
     const navigate = useNavigate();
     const { GoSignIn, GoSignUp } = NavigationHooks();
-    const { user, token, apiURL, ClearToken } = useContext(AppContext);
+    const { user, token, apiURL, ClearToken, displayMemberComponents } = useContext(AppContext);
     const { DeleteUser } = UserProfileHooks(); 
     console.log("user: ", user)
 
@@ -36,7 +36,7 @@ const Home = props => {
                 value="Sign Up"
                 onClick={useCallback(() => GoSignUp(navigate), [navigate])}
                 >Sign Up</button>
-            {user &&  
+            {user && displayMemberComponents &&  
                 <button
                         type='button'
                         className='btn-delete'

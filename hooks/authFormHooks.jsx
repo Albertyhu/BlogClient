@@ -5,7 +5,7 @@ import "../src/index.css";
 import { NavigationHooks } from './navigation.jsx'
 
 const RegistrationHooks = props => {
-    function HandleSignUpSubmit(evt, elements, apiURL, dispatchFunctions, resetErrorFields) {
+    function HandleSignUpSubmit(evt, elements, uploadedFile, apiURL, dispatchFunctions, resetErrorFields) {
         evt.preventDefault();
         const {
             RegistrationForm,
@@ -13,17 +13,17 @@ const RegistrationHooks = props => {
             EmailInput,
             PasswordInput,
             ConfirmInput,
-            ProfileInput
+            //ProfileInput,
         } = elements; 
         var isValid = true; 
         var errMessage = "Error: ";
-
         if (isValid) {
             const data = {
                 username: NameInput.value, 
                 email: EmailInput.value,
                 password: PasswordInput.value,
-                profile_pic: ProfileInput.value, 
+                //profile_pic: ProfileInput.value, 
+                profile_pic: uploadedFile, 
                 confirm_password: ConfirmInput.value
             }
             resetErrorFields();
@@ -43,7 +43,16 @@ const RegistrationHooks = props => {
             confirm_password,
             profile_pic,
         } = data; 
-
+        console.log("profile_pic: ", profile_pic)
+        const formData = new FormData; 
+        formData.append("username", username); 
+        formData.append("email", email);
+        formData.append("password", password); 
+        formData.append("confirm_password", confirm_password);
+        formData.append("profile_pic", profile_pic.data);
+        for (var key of formData.entries()) {
+            console.log(key[0] + ', ' + key[1])
+        }
         const {
             GoHome,
             toggleDisplayAccountLink,
@@ -52,9 +61,11 @@ const RegistrationHooks = props => {
 
         await fetch(apiURL, {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            //headers: {
+            //    'Content-Type': 'application/json'
+            //},
+            headers: { "Content-Type": "multipart/form-data" },
+            body: formData
         })
             .then(async response => {
                // console.log("status: ", response)
@@ -76,7 +87,6 @@ const RegistrationHooks = props => {
                 else {
                     const result = await response.json()
                     console.log("Registration failed with status code: ", result.error)
-                   // dispatchError(result.error)
                     RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
@@ -206,6 +216,14 @@ const RegistrationHooks = props => {
         dispatch(evt.target.value)
     }
 
+    function HandleFileChange(evt, setImage) {
+        const img = {
+            preview: URL.createObjectURL(evt.target.files[0]),
+            data: evt.target.files[0]
+        }
+        setImage(img); 
+    }
+
     return {
         HandleSignUpSubmit,
         onChangeHandler,
@@ -213,7 +231,8 @@ const RegistrationHooks = props => {
         RenderErrorArray,
         RenderError,
         AnimateErrorMessage,
-        HandleLogin
+        HandleLogin,
+        HandleFileChange
     } 
 }
 
