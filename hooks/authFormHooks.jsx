@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { checkEmail } from './checkEmail.jsx'; 
 import uuid from 'react-uuid'; 
 import "../src/index.css";
+import { NavigationHooks } from './navigation.jsx'
 
 const RegistrationHooks = props => {
     function HandleSignUpSubmit(evt, elements, apiURL, dispatchFunctions, resetErrorFields) {
@@ -11,7 +12,9 @@ const RegistrationHooks = props => {
             NameInput,
             EmailInput,
             PasswordInput,
-            ConfirmInput } = elements; 
+            ConfirmInput,
+            ProfileInput
+        } = elements; 
         var isValid = true; 
         var errMessage = "Error: ";
 
@@ -20,6 +23,7 @@ const RegistrationHooks = props => {
                 username: NameInput.value, 
                 email: EmailInput.value,
                 password: PasswordInput.value,
+                profile_pic: ProfileInput.value, 
                 confirm_password: ConfirmInput.value
             }
             resetErrorFields();
@@ -31,18 +35,19 @@ const RegistrationHooks = props => {
     }
 
     async function SubmitRegistration(data, apiURL, dispatchFunctions) {
+        console.log("Registrating user")
         const {
             username, 
             email,
             password, 
             confirm_password,
-            profilepicture, 
+            profile_pic,
         } = data; 
 
-        const { GoHome,
-            setToken,
-            setUser,
+        const {
+            GoHome,
             toggleDisplayAccountLink,
+            setNewUser,
         } = dispatchFunctions; 
 
         await fetch(apiURL, {
@@ -57,12 +62,16 @@ const RegistrationHooks = props => {
                     console.log("Registration is successful.")
                     await response.json()
                         .then(data => {
-                            localStorage.setItem("user", data.user)
+                            localStorage.setItem("user", JSON.stringify(data.user))
                             localStorage.setItem('token', data.token)
-                            toggleDisplayAccountLink(true), 
-                            GoHome(); 
-                        })
 
+                            //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
+                            //data about the logged in user
+                            setNewUser(data.user)
+                            toggleDisplayAccountLink(true), 
+                            GoHome();
+
+                        })
                 }
                 else {
                     const result = await response.json()
@@ -107,6 +116,10 @@ const RegistrationHooks = props => {
                     .then(result => {
                         localStorage.setItem("token", result.token);
                         localStorage.setItem("user", JSON.stringify(result.user));
+
+                        //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
+                        //data about the logged in user
+                        setNewUser(result.user)
                         toggleDisplayAccountLink(true) 
                         GoHome();
                     })
@@ -204,4 +217,17 @@ const RegistrationHooks = props => {
     } 
 }
 
-export { RegistrationHooks }; 
+const AuthenticationHooks = () => {
+
+    const { GoHome } = NavigationHooks();
+    const LogOut = async (navigate) => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        GoHome(navigate);
+    }
+
+    return { LogOut }; 
+
+}
+
+export { RegistrationHooks, AuthenticationHooks }; 

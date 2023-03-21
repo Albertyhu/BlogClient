@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useContext} from 'react'; 
+import { useCallback, useEffect, useState, useContext, useRef} from 'react'; 
 import { FormButtons } from '../../component/formElements.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx';
@@ -21,6 +21,7 @@ const RegisterForm = props => {
     const {
         apiURL,
         toggleDisplayAccountLink,
+        setNewUser, 
     } = useContext(AppContext);
     const registerURL = `${apiURL}/auth/register`
 
@@ -46,7 +47,8 @@ const RegisterForm = props => {
         setConfirmError,
         setDisplay,
         GoHome: useCallback(() => GoHome(navigate), [navigate]),
-        toggleDisplayAccountLink 
+        toggleDisplayAccountLink,
+        setNewUser,
     }
 
     const resetErrorFields = () => {
@@ -64,6 +66,7 @@ const RegisterForm = props => {
     var EmailInput = document.querySelector('#emailInput')
     var PasswordInput = document.querySelector('#passwordInput')
     var ConfirmInput = document.querySelector('#confirm_passwordInput')
+    var ProfileInput = document.querySelector("#profile_picInput")
 
     useEffect(() => {
         RegistrationForm = document.getElementById('RegistrationForm');
@@ -71,21 +74,25 @@ const RegisterForm = props => {
         EmailInput = document.querySelector('#emailInput')
         PasswordInput = document.querySelector('#passwordInput')
         ConfirmInput = document.querySelector('#confirm_passwordInput')
+        ProfileInput = document.querySelector("#profile_picInput")
         var FormElements = {
             RegistrationForm,
             NameInput,
             EmailInput,
             PasswordInput,
-            ConfirmInput
+            ConfirmInput,
+            ProfileInput
         }
-        RegistrationForm?.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) })
-        return () => { RegistrationForm?.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) }) }
+       // RegistrationForm.addEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) })
+       // return () => { RegistrationForm.removeEventListener('submit', (evt) => { HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields) }) }
 
     }, [])
+
     let usernameElem = document.querySelector('#usernameError');
     let emailElem = document.querySelector('#emailError');
     let passwordElem = document.querySelector('#passwordError');
     let confirmElem = document.querySelector('#confirmError');
+
 
     useEffect(() => {
         usernameElem = document.getElementById('usernameError');
@@ -121,6 +128,23 @@ const RegisterForm = props => {
         <>
             <h1 className = "text-center text-3xl mt-[20px] font-bold">Create a new account</h1>
             <form
+                onSubmit={(evt) => {
+                    RegistrationForm = document.getElementById('RegistrationForm');
+                    NameInput = document.querySelector('#nameInput')
+                    EmailInput = document.querySelector('#emailInput')
+                    PasswordInput = document.querySelector('#passwordInput')
+                    ConfirmInput = document.querySelector('#confirm_passwordInput')
+                    ProfileInput = document.querySelector("#profile_picInput")
+                    var FormElements = {
+                        RegistrationForm,
+                        NameInput,
+                        EmailInput,
+                        PasswordInput,
+                        ConfirmInput,
+                        ProfileInput
+                    }
+                    HandleSignUpSubmit(evt, FormElements, registerURL, dispatchFunctions, resetErrorFields)
+                }}
                 id="RegistrationForm"
                 encType="multipart/form-data"
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10`}>

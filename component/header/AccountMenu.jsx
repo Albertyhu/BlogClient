@@ -1,14 +1,15 @@
 import { useEffect,useContext } from 'react'; 
-import { AuthenticationHooks } from '../../hooks/authenticationHooks.jsx';
+import { AuthenticationHooks } from '../../hooks/authFormHooks.jsx';
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
 import "../../src/index.css";
 
 const AccountMenu = props => {
-    const { toggleDisplayAccountLink } = useContext(AppContext)
+    const { toggleDisplayAccountLink} = useContext(AppContext)
     const {
         AccountMenuRef,
+        setAccountMenuOpened
     } = props; 
     const { LogOut } = AuthenticationHooks(); 
     const { closeAccountMenu } = HeaderFunctions(); 
@@ -18,10 +19,9 @@ const AccountMenu = props => {
     //For some reason, when the Account Menu is clicked on, the tailwind property top-[40px] and
     //...translate-x-[-60px] no longer applies. I have make them !important in order for the 
     //...Accout Menu to stay in position. It's a bandaid solution. 
-    var AccountMenuStyle = `absolute !top-[40px] [&>div]:!my-5 
-            [&>div]:whitespace-nowrap bg-[#f2e796] [&>div]:text-black
-            [&>div]:mx-[10px] !translate-x-[-60px] active:!top-[35px]`;
-
+    var AccountMenuStyle = `absolute left-auto right-[0px] top-[60px] [&>div]:!my-5 
+            [&>div]:whitespace-nowrap bg-[#f2e796] [&>div]:text-black [&>div]:cursor-pointer
+            [&>div]:mx-[10px] [&>div]:select-none`;
     function ConfirmChild(target, NodeList) {
         var confirmed = false;
         NodeList.forEach(node => {
@@ -44,8 +44,7 @@ const AccountMenu = props => {
             && evt.target != AccountMenuElem
             && !AccountMenuElem.contains(evt.target)
         ) {
-            console.log("fired")
-            closeAccountMenu(); 
+            closeAccountMenu(setAccountMenuOpened); 
         }
     }
 
@@ -70,6 +69,7 @@ const AccountMenu = props => {
             <div
                 className="hover:underline"
                 onClick={() => {
+                    closeAccountMenu(setAccountMenuOpened)
                     toggleDisplayAccountLink(false)
                     LogOut(navigate);
                 }}

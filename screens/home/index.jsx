@@ -4,11 +4,19 @@ import Button from '../../component/button.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
+import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx'
 
 const Home = props => {
     const navigate = useNavigate();
     const { GoSignIn, GoSignUp } = NavigationHooks();
-    const { token } = useContext(AppContext);
+    const { user, token, apiURL, ClearToken } = useContext(AppContext);
+    const { DeleteUser } = UserProfileHooks(); 
+    console.log("user: ", user)
+
+    const dispatchFunctions = {
+        ClearToken,
+        navigate
+    }
 
     return (
         <div
@@ -28,6 +36,14 @@ const Home = props => {
                 value="Sign Up"
                 onClick={useCallback(() => GoSignUp(navigate), [navigate])}
                 >Sign Up</button>
+            {user &&  
+                <button
+                        type='button'
+                        className='btn-delete'
+                        value="Sign Up"
+                        onClick={() => { DeleteUser(apiURL, user.id, dispatchFunctions)} }
+                >Delete Account</button>
+            }
             </div>
     </div>)
 }

@@ -20,21 +20,23 @@ const HeaderFunctions = () => {
 		MobileMenuDiv.classList.add("translate-x-[0px]");
 	} 
 
-	const toggleAccountMenu = () => {
+	const toggleAccountMenu = (setAccountMenuOpened) => {
 		var AccountMenuElem = document.querySelector("#AccountMenu");
 		if (AccountMenuElem.classList.contains("hidden")) {
 			AccountMenuElem.classList.remove('hidden');
 			AccountMenuElem.classList.add('grid');
+			setAccountMenuOpened(true)
 		}
 		else {
-			closeAccountMenu(); 
+			closeAccountMenu(setAccountMenuOpened); 
 		}
 	}
 
-	const closeAccountMenu = () => {
+	const closeAccountMenu = (setAccountMenuOpened) => {
 		var AccountMenuElem = document.querySelector("#AccountMenu");
 		AccountMenuElem.classList.remove('grid');
 		AccountMenuElem.classList.add('hidden');
+		setAccountMenuOpened(false)
 	}
 
 	return {

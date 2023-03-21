@@ -10,6 +10,10 @@
     .btn-secondary {
         @apply rounded-full p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-black border-2 text-center w-fit sm:w-[150px] select-none text-white mx-auto hover:bg-[#535353] bg-[#333333];
     }
+
+    .btn-delete {
+        @apply rounded-full p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-black border-2 text-center w-fit sm:w-[150px] select-none text-white mx-auto hover:bg-[#FF3333] bg-[#E31010];
+    }
     /*An empty field for the error message to be revealed*/
     .ErrorDiv {
         @apply min-h-[25px] w-full grow relative;
