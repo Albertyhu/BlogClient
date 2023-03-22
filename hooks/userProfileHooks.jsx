@@ -4,7 +4,7 @@ const UserProfileHooks = () => {
     const { GoHome } = NavigationHooks();
     const DeleteUser = async (apiURL, userID, dispatchFunctions) => {
         const DeleteURL = `${apiURL}/users/${userID}/delete`; 
-        const { ClearToken, navigate } = dispatchFunctions; 
+        const { ClearUserData, navigate } = dispatchFunctions; 
         console.log("DeleteURL: ", DeleteURL)
         const options = {
             method: "DELETE",
@@ -16,9 +16,8 @@ const UserProfileHooks = () => {
                     const error = (data && data.message || response.status)
                     console.log("Internal service error: ", error)
                 }
-                localStorage.removeItem("user")
-                localStorage.removeItem("token")
-                ClearToken();
+                localStorage.clear();
+                ClearUserData();
                 GoHome(navigate)
             })
             .catch(err => {

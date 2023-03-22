@@ -4,17 +4,23 @@ import Button from '../../component/button.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
-import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx'
+import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx'; 
+import RenderProfilePic from '../../component/user/profilePicture.jsx';
 
 const Home = props => {
     const navigate = useNavigate();
     const { GoSignIn, GoSignUp } = NavigationHooks();
-    const { user, token, apiURL, ClearToken, displayMemberComponents } = useContext(AppContext);
-    const { DeleteUser } = UserProfileHooks(); 
-    console.log("user: ", user)
+    const { user,
+            apiURL,
+            ClearUserData,
+            displayMemberComponents,
+            ProfilePicture
+    } = useContext(AppContext);
 
+    const { DeleteUser } = UserProfileHooks(); 
+ 
     const dispatchFunctions = {
-        ClearToken,
+        ClearUserData,
         navigate
     }
 
@@ -23,6 +29,7 @@ const Home = props => {
             className = "w-full text-center text-lg text-black" 
         >
             <h1 className="text-center mx-auto mt-[20px] text-2xl">Home</h1>
+            {ProfilePicture && <RenderProfilePic profile_pic={ProfilePicture} />}
             <div className= "[&>*]:inline-block grid [&>*]:my-10 ">
             <button
                     type="button"

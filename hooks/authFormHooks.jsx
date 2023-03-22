@@ -13,17 +13,17 @@ const RegistrationHooks = props => {
             EmailInput,
             PasswordInput,
             ConfirmInput,
-            //ProfileInput,
+            ProfileInput, 
         } = elements; 
         var isValid = true; 
         var errMessage = "Error: ";
+        console.log("ProfileInput.current: ", ProfileInput.current)
         if (isValid) {
             const data = {
                 username: NameInput.value, 
                 email: EmailInput.value,
                 password: PasswordInput.value,
-                //profile_pic: ProfileInput.value, 
-                profile_pic: uploadedFile, 
+                profile_pic: ProfileInput.current.files[0], 
                 confirm_password: ConfirmInput.value
             }
             resetErrorFields();
@@ -31,11 +31,12 @@ const RegistrationHooks = props => {
 
         }
         else
-            console.log(errMessage)
+            console.log("RegistrationHooks Error: ", errMessage)
     }
 
     async function SubmitRegistration(data, apiURL, dispatchFunctions) {
         console.log("Registrating user")
+        console.log("apiURL: ", apiURL)
         const {
             username, 
             email,
@@ -49,7 +50,7 @@ const RegistrationHooks = props => {
         formData.append("email", email);
         formData.append("password", password); 
         formData.append("confirm_password", confirm_password);
-        formData.append("profile_pic", profile_pic.data);
+        formData.append("profile_pic", profile_pic);
         for (var key of formData.entries()) {
             console.log(key[0] + ', ' + key[1])
         }
@@ -57,6 +58,7 @@ const RegistrationHooks = props => {
             GoHome,
             toggleDisplayAccountLink,
             setNewUser,
+            setNewProfileImage,
         } = dispatchFunctions; 
 
         await fetch(apiURL, {
@@ -64,18 +66,20 @@ const RegistrationHooks = props => {
             //headers: {
             //    'Content-Type': 'application/json'
             //},
-            headers: { "Content-Type": "multipart/form-data" },
+            //headers: { "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW" },
             body: formData
         })
             .then(async response => {
-               // console.log("status: ", response)
                 if (response.ok) {
                     console.log("Registration is successful.")
                     await response.json()
                         .then(data => {
                             localStorage.setItem("user", JSON.stringify(data.user))
                             localStorage.setItem('token', data.token)
-
+                            if (data.profile_pic) {
+                                localStorage.setItem("ProfilePicture", JSON.stringify(data.profile_pic))
+                                setNewProfileImage(data.profile_pic)
+                            }
                             //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
                             //data about the logged in user
                             setNewUser(data.user)
@@ -91,7 +95,7 @@ const RegistrationHooks = props => {
                 }
             })
             .catch(error => {
-                console.log("error: ", error)
+                console.log("SubmitRegistration error: ", error)
             })
     } 
 
@@ -108,6 +112,7 @@ const RegistrationHooks = props => {
             setNewToken,
             setNewUser,
             toggleDisplayAccountLink, 
+            setNewProfileImage
         } = dispatchFunctions; 
 
         const data = {
@@ -126,12 +131,18 @@ const RegistrationHooks = props => {
                     .then(result => {
                         localStorage.setItem("token", result.token);
                         localStorage.setItem("user", JSON.stringify(result.user));
-
+                        if (result.profile_pic) {
+                            localStorage.setItem("ProfilePicture", JSON.stringify(result.profile_pic))
+                            setNewProfileImage(result.profile_pic)
+                        }
                         //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
                         //data about the logged in user
                         setNewUser(result.user)
                         toggleDisplayAccountLink(true) 
                         GoHome();
+                    })
+                    .catch(e => {
+                        console.log("Error in receiving user info and token: ", e)
                     })
             }
             else {
@@ -152,16 +163,28 @@ const RegistrationHooks = props => {
             setProfileError,
             setPasswordError,
             setConfirmError,
-            setDisplay
+            setDisplay, 
+            setGeneralError
         } = dispatchFunctions; 
 
         const resetErrorFields = () => {
-            setUsernameError([]);
-            setEmailError([]);
-            setProfileError([]);
-            setPasswordError([]);
-            setConfirmError([]);
-            setDisplay("")
+            if (setUsernameError)
+                setUsernameError([]);
+            if (setEmailError) {
+                setEmailError([]);
+            }
+            if (setProfileError) {
+                setProfileError([]);
+            }
+            if(setPasswordError)
+                setPasswordError([]);
+            if (setConfirmError) {
+                setConfirmError([]);
+            }
+            if(setGeneralError != undefined)
+                setGeneralError([])
+            if(setDisplay != undefined)
+                setDisplay("")
         }
 
         resetErrorFields(); 
@@ -180,6 +203,9 @@ const RegistrationHooks = props => {
                 case 'confirm_password':
                     setConfirmError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break; 
+                case 'server':
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
                 default:
                     break; 
             }
@@ -217,11 +243,16 @@ const RegistrationHooks = props => {
     }
 
     function HandleFileChange(evt, setImage) {
-        const img = {
-            preview: URL.createObjectURL(evt.target.files[0]),
-            data: evt.target.files[0]
+        //const img = {
+        //    preview: URL.createObjectURL(evt.target.files[0]),
+        //    data: evt.target.files[0]
+        //}
+        const file = evt.target.files[0]; 
+        const reader = new FileReader(); 
+        reader.readAsDataURL(file); 
+        reader.onload = () => {
+            setImage(reader.result);
         }
-        setImage(img); 
     }
 
     return {
@@ -240,8 +271,7 @@ const AuthenticationHooks = () => {
 
     const { GoHome } = NavigationHooks();
     const LogOut = async (navigate) => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
+        localStorage.clear();
         GoHome(navigate);
     }
 

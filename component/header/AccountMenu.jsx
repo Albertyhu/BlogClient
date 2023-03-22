@@ -21,7 +21,7 @@ const AccountMenu = props => {
     //...Accout Menu to stay in position. It's a bandaid solution. 
     var AccountMenuStyle = `absolute left-auto right-[0px] top-[60px] [&>div]:!my-5 
             [&>div]:whitespace-nowrap bg-[#f2e796] [&>div]:text-black [&>div]:cursor-pointer
-            [&>div]:mx-[10px] [&>div]:select-none`;
+            [&>div]:mx-[10px] [&>div]:select-none z-[50]`;
     function ConfirmChild(target, NodeList) {
         var confirmed = false;
         NodeList.forEach(node => {

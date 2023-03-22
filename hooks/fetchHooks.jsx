@@ -8,8 +8,29 @@ const FetchHooks = () => {
             } catch (err) {
                 console.log("Error: ", err)
             }
-        }
-    return { fetchUsernameAndEmails }
+    }
+
+    const FetchProfilePic = async (apiURL, userID, dispatch) => {
+        await fetch(apiURL,
+            {
+                method: "GET"
+            }
+        )
+            .then(async response => {
+                if (response.ok) {
+                    await response.json()
+                        .then(result => {
+                            localStorage.setItem("ProfilePicture", JSON.stringify(result.profile_pic))
+                        })
+                }
+                else {
+                    const result = await response.json();
+                    console.log("FetchProfilePic result: ", result.message)
+                }
+            })
+    }
+
+    return { fetchUsernameAndEmails, FetchProfilePic }
 }
 
 export {FetchHooks}; 

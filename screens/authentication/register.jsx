@@ -23,11 +23,12 @@ const RegisterForm = props => {
         apiURL,
         toggleDisplayAccountLink,
         setNewUser, 
+        setNewProfileImage,
     } = useContext(AppContext);
     const registerURL = `${apiURL}/auth/register`
 
-    const [name, setName] = useState('Maggie');
-    const [email, setEmail] = useState('MSmith@gmail.com');
+    const [name, setName] = useState('TomHacker');
+    const [email, setEmail] = useState('TH@gmail.com');
     const [password, setPassword] = useState('password');
     const [confirmPass, setConfirmPass] = useState('password');
 
@@ -40,6 +41,7 @@ const RegisterForm = props => {
     const [confirmError, setConfirmError] = useState([]); 
     const [profileImage, setImage] = useState({ preview: '', data: '' }); 
     const [Display, setDisplay] = useState("")
+    const [generalError, setGeneralError] = useState([])
 
     const dispatchFunctions = {
         setUsernameError,
@@ -47,10 +49,12 @@ const RegisterForm = props => {
         setProfileError,
         setPasswordError,
         setConfirmError,
+        setGeneralError,
         setDisplay,
         GoHome: useCallback(() => GoHome(navigate), [navigate]),
         toggleDisplayAccountLink,
         setNewUser,
+        setNewProfileImage
     }
 
     const resetErrorFields = () => {
@@ -60,7 +64,8 @@ const RegisterForm = props => {
         setPasswordError([]);
         setConfirmError([]);
         setDisplay("")
-        setErrorArray([])
+        setErrorArray([]); 
+        setGeneralError([]);
     }
 
     var RegistrationForm = document.getElementById('RegistrationForm');
@@ -68,7 +73,7 @@ const RegisterForm = props => {
     var EmailInput = document.querySelector('#emailInput')
     var PasswordInput = document.querySelector('#passwordInput')
     var ConfirmInput = document.querySelector('#confirm_passwordInput')
-    var ProfileInput = document.querySelector("#profile_picInput")
+    var ProfileInput = useRef(); 
 
     useEffect(() => {
         RegistrationForm = document.getElementById('RegistrationForm');
@@ -76,14 +81,13 @@ const RegisterForm = props => {
         EmailInput = document.querySelector('#emailInput')
         PasswordInput = document.querySelector('#passwordInput')
         ConfirmInput = document.querySelector('#confirm_passwordInput')
-        ProfileInput = document.querySelector("#profile_picInput")
         var FormElements = {
             RegistrationForm,
             NameInput,
             EmailInput,
             PasswordInput,
             ConfirmInput,
-          // ProfileInput,
+            ProfileInput,
             profileImage
         }
     }, [])
@@ -122,11 +126,27 @@ const RegisterForm = props => {
         }
     }, [confirmError])
 
-    useEffect(() => { },[name])
+    const GeneralErrorRef = useRef(); 
+
+    useEffect(() => {
+        if (generalError.length > 0) {
+            for (var child of GeneralErrorRef.current.children) {
+                AnimateErrorMessage(child)
+            }
+        }
+    }, [generalError])
+
 
     return (
         <>
-            <h1 className = "text-center text-3xl mt-[20px] font-bold">Create a new account</h1>
+            <h1 className="text-center text-3xl mt-[20px] font-bold">Create a new account</h1>
+            <div
+                id="generalError"
+                className="ErrorDiv"
+                ref={GeneralErrorRef}
+            >
+                {generalError != null && generalError.length > 0 && RenderError(generalError)}
+            </div>
             <form
                 onSubmit={(evt) => {
                     RegistrationForm = document.getElementById('RegistrationForm');
@@ -134,14 +154,13 @@ const RegisterForm = props => {
                     EmailInput = document.querySelector('#emailInput')
                     PasswordInput = document.querySelector('#passwordInput')
                     ConfirmInput = document.querySelector('#confirm_passwordInput')
-                    ProfileInput = document.querySelector("#profile_picInput")
                     var FormElements = {
                         RegistrationForm,
                         NameInput,
                         EmailInput,
                         PasswordInput,
                         ConfirmInput,
-                        //ProfileInput,
+                        ProfileInput,
                     }
                     HandleSignUpSubmit(evt, FormElements, profileImage, registerURL, dispatchFunctions, resetErrorFields)
                 }}
@@ -189,6 +208,7 @@ const RegisterForm = props => {
                         <input 
                             name="profile_pic"
                             id="profile_picInput"
+                            ref={ProfileInput}
                             type="file"
                             placeholder="Upload an image htmlFor your your profile picture here"
                             className="file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer"

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useContext, useState } from 'react';
+import React, { useCallback, useEffect, useContext, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import Button from '../../component/button.jsx'
@@ -9,12 +9,16 @@ import { AppContext } from '../../util/contextItem.jsx';
 const SignIn = () => {
     const navigate = useNavigate(); 
     const { GoHome, GoSignUp } = NavigationHooks(); 
-    const { HandleLogin, RenderError } = RegistrationHooks();
+    const { HandleLogin,
+        RenderError,
+        AnimateErrorMessage    } = RegistrationHooks();
     const {
         apiURL,
         setNewToken,
         setNewUser,
-        toggleDisplayAccountLink } = useContext(AppContext); 
+        toggleDisplayAccountLink,
+        setNewProfileImage
+    } = useContext(AppContext); 
 
     const ButtonStyle = `rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px]
     active:translate-y-[5px] cursor-pointer border-white border-2 
@@ -30,6 +34,7 @@ const SignIn = () => {
 
     const [usernameError, setUsernameError] = useState([]);
     const [passwordError, setPasswordError] = useState([]);
+    const [generalError, setGeneralError] = useState([])
 
     const dispatchFunctions = {
         setUsernameError,
@@ -37,12 +42,15 @@ const SignIn = () => {
         GoHome: useCallback(() => GoHome(navigate), [navigate]), 
         setNewToken, 
         setNewUser, 
-        toggleDisplayAccountLink 
+        toggleDisplayAccountLink,
+        setGeneralError,
+        setNewProfileImage
     }
 
     const resetErrorFields = () => {
         setUsernameError([]);
-        setPasswordError([]);             
+        setPasswordError([]);
+        setGeneralError([]);             
     }
 
     const LoginURL = `${apiURL}/auth/login`
@@ -59,10 +67,43 @@ const SignIn = () => {
         SignInForm?.addEventListener("submit", (evt) => { HandleLogin(evt, Elements, LoginURL, dispatchFunctions, resetErrorFields) })
         return () => { SignInForm?.removeEventListener("submit", (evt) => { HandleLogin(evt, Elements, LoginURL, dispatchFunctions, resetErrorFields) }) }
     }, [])
+    const UsernameErrorRef = useRef(); 
+    const PasswordErrorRef = useRef(); 
+    const GeneralErrorRef = useRef(); 
+    useEffect(() => {
+        if (usernameError.length > 0) {
+            for (var child of UsernameErrorRef.current.children) {
+                AnimateErrorMessage(child)
+            }
+        }
+    }, [usernameError])
+
+    useEffect(() => {
+        if (passwordError.length > 0) {
+            for (var child of PasswordErrorRef.current.children) {
+                AnimateErrorMessage(child)
+            }
+        }
+    }, [passwordError])
+
+    useEffect(() => {
+        if (generalError.length > 0) {
+            for (var child of GeneralErrorRef.current.children) {
+                AnimateErrorMessage(child)
+            }
+        }
+    }, [generalError])
 
     return (
         <div className="w-11/12 md: 9/12 mx-auto lg:w-6/12 mt-[20px]">
             <h1 className="text-center text-3xl mt-[20px] font-bold">Sign In</h1>
+            <div
+                id="generalError"
+                className="ErrorDiv"
+                ref={GeneralErrorRef}
+            >
+                {generalError != null && generalError.length > 0 && RenderError(generalError)}
+            </div>
             <form 
                 id = "SignInForm"
                 className="[&>div>label]:text-black [&>div>label]:uppercase [&>div>label]:font-bold [&>div]:grid [&>div>input]:rounded-lg 
@@ -80,7 +121,11 @@ const SignIn = () => {
                         placeholder = "Type your username here" 
                         required
                         />
-                    <div id="usernameError" className="ErrorDiv">
+                    <div
+                        id="usernameError"
+                        className="ErrorDiv"
+                        ref={UsernameErrorRef}
+                    >
                         {usernameError != null && usernameError.length > 0 && RenderError(usernameError)}
                     </div>
                 </div>
@@ -93,7 +138,11 @@ const SignIn = () => {
                         placeholder = "Type your password here" 
                         required
                         />
-                    <div id="passwordError" className="ErrorDiv">
+                    <div
+                        id="passwordError"
+                        className="ErrorDiv"
+                        ref={PasswordErrorRef}
+                    >
                         {passwordError != null && passwordError.length > 0 && RenderError(passwordError)}
                     </div>
                 </div>
