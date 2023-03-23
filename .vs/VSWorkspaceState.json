@@ -2,15 +2,16 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\user",
+    "\\component\\header",
     "\\hooks",
     "\\public",
+    "\\public\\stylesheets",
     "\\screens",
-    "\\screens\\authentication",
-    "\\screens\\home",
+    "\\screens\\user",
     "\\src",
-    "\\src\\assets"
+    "\\src\\assets",
+    "\\util"
   ],
-  "SelectedNode": "\\hooks\\userProfileHooks.jsx",
+  "SelectedNode": "\\hooks\\fetchHooks.jsx",
   "PreviewInSolutionExplorer": false
 }

@@ -38,7 +38,6 @@ const EditUserHooks = (navigate) => {
     const UploadNewProfilePic = async (apiURL, ImageInputElem, setPictureError) => {
         const formData = new FormData; 
         formData.append("profile_pic", ImageInputElem.files[0])
-        console.log("apiURL: ", apiURL)
         try {
             await fetch(apiURL,
                 {

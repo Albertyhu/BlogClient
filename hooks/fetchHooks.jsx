@@ -41,18 +41,35 @@ const FetchHooks = () => {
             }
     }
 
+
+    function toBase64(arr) {
+        return btoa(
+            arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+    }
+
     const FetchProfilePic = async (apiURL, userID, dispatch) => {
         await fetch(apiURL,
             {
                 method: "GET",
+                mode: "cors",
             }
         )
             .then(async response => {
                 if (response.ok) {
                     await response.json()
                         .then(result => {
-                            localStorage.setItem("ProfilePicture", JSON.stringify(result.profile_pic))
-                            dispatch(result.profile_pic)
+                            const stringEncoded = toBase64(result.profile_pic.data);
+                            console.log("ContentType: ", result.profile_pic.contentType)
+                            localStorage.setItem("ProfilePicture", JSON.stringify({
+                                contentType: result.profile_pic.contentType,
+                                data: stringEncoded,
+                            }))
+                            //dispatch(result.profile_pic)
+                            dispatch({
+                                contentType: result.profile_pic.contentType, 
+                                data: stringEncoded, 
+                            })
                         })
                 }
                 else {

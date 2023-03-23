@@ -4,7 +4,7 @@ import { AppContext } from '../../util/contextItem.jsx';
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'
 const RenderProfilePic = lazy(()=>import('../../component/user/profilePicture.jsx')); 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
-
+import SampleImage from '../../../../NodeJS projects/BlogAPISite/public/uploads/1679550548196-undefined.png';
 const ProfilePage = props => {
     const location = useLocation(); 
     const { id } = location.state; 
@@ -35,6 +35,8 @@ const ProfilePage = props => {
             {profileDetails && profileDetails.profile_pic &&
                 <RenderProfilePic profile_pic={profileDetails.profile_pic} />
             }
+
+            <img src="http://localhost:80/uploads/1679550548196-undefined.png" alt = "image" className ="w-[320px] h-[280px]"/>
             <button
                 className="btn-secondary whitespace-nowrap mt-[20px]"
                 onClick={() => { GoEditProfilePicture(username, id)} }
