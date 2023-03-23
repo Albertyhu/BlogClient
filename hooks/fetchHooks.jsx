@@ -43,6 +43,7 @@ const FetchHooks = () => {
 
 
     function toBase64(arr) {
+        console.log("toBase64 arr: ", arr)
         return btoa(
             arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
         );
@@ -59,7 +60,7 @@ const FetchHooks = () => {
                 if (response.ok) {
                     await response.json()
                         .then(result => {
-                            const stringEncoded = toBase64(result.profile_pic.data);
+                            const stringEncoded = toBase64(result.profile_pic.data.data);
                             console.log("ContentType: ", result.profile_pic.contentType)
                             localStorage.setItem("ProfilePicture", JSON.stringify({
                                 contentType: result.profile_pic.contentType,
