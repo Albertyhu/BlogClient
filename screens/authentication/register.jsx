@@ -12,7 +12,7 @@ const RegisterForm = props => {
                      rounded-md [&>div>input]:placeholder:text-[#545454] text-2xl
                     [&>div>input]:placeholder:text-base`
     const navigate = useNavigate();
-    const { GoSignIn, GoHome } = NavigationHooks();
+    const { GoSignIn, GoHome } = NavigationHooks(navigate);
     const { HandleSignUpSubmit,
         onChangeHandler,
         RenderError,
@@ -256,7 +256,7 @@ const RegisterForm = props => {
                     <button 
                         type="button"
                         className="block rounded-full p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-white border-2 text-center w-[150px] select-none text-black mx-auto hover:bg-[#d48518] bg-[#e48f1a] text-center"
-                        onClick={useCallback(()=>GoSignIn(navigate), [navigate])}
+                        onClick={useCallback(()=>GoSignIn(), [navigate])}
                     >Log In</button>
                 </div>
             </form>

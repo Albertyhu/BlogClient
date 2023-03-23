@@ -1,5 +1,6 @@
 import { useCallback } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
+import '../src/index.css'; 
 
 export const FormButtons = props => {
 
@@ -16,7 +17,7 @@ export const FormButtons = props => {
 
     return (
         <div id="ButtonWrapper"
-            className = "grid sm:flex"
+            className = "flex"
         >
             <button
                 type="submit"

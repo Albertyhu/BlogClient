@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\icons",
     "\\component",
-    "\\component\\header",
+    "\\component\\user",
+    "\\hooks",
     "\\public",
     "\\screens",
+    "\\screens\\authentication",
     "\\screens\\home",
     "\\src",
     "\\src\\assets"
   ],
-  "SelectedNode": "\\screens\\user",
+  "SelectedNode": "\\hooks\\userProfileHooks.jsx",
   "PreviewInSolutionExplorer": false
 }

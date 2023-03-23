@@ -13,7 +13,7 @@ const MobileMenu = props => {
         GoHome,
         GoSignUp,
         GoSignIn
-    } = NavigationHooks(); 
+    } = NavigationHooks(navigate); 
     var MobileMenuDiv = document.getElementById('MobileMenuDiv')
 
     const MobileMenuStyle = `block md:hidden bg-white w-[270px] text-black h-full overflow-y-scroll  
@@ -39,13 +39,13 @@ const MobileMenu = props => {
                     <div>
                         <div
                             onClick={() => {
-                            GoSignIn(navigate);
+                            GoSignIn();
                             CloseMobileMenu(MobileMenuDiv);
                             }}
                         >Sign In</div>
                         <div
                             onClick={() => {
-                            GoSignUp(navigate);
+                            GoSignUp();
                             CloseMobileMenu(MobileMenuDiv);
                             }}
                         >Sign Up</div>

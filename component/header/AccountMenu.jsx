@@ -3,17 +3,19 @@ import { AuthenticationHooks } from '../../hooks/authFormHooks.jsx';
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
+import { NavigationHooks  } from '../../hooks/navigation.jsx';
 import "../../src/index.css";
 
 const AccountMenu = props => {
-    const { toggleDisplayAccountLink} = useContext(AppContext)
+    const { toggleDisplayAccountLink, user} = useContext(AppContext)
     const {
         AccountMenuRef,
         setAccountMenuOpened
     } = props; 
-    const { LogOut } = AuthenticationHooks(); 
+    const navigate = useNavigate();
+    const { VisitUser } = NavigationHooks(navigate); 
+    const { LogOut } = AuthenticationHooks(navigate); 
     const { closeAccountMenu } = HeaderFunctions(); 
-    const navigate = useNavigate(); 
     var AccountMenuElem = document.querySelector("#AccountMenu"); 
     var AccountLink = document.querySelector("#AccountLink"); 
     //For some reason, when the Account Menu is clicked on, the tailwind property top-[40px] and
@@ -63,7 +65,7 @@ const AccountMenu = props => {
             ref={AccountMenuRef}
         >
             <div
-                className="hover:underline" onClick={() => { console.log("This works") }}>Your profile</div>
+                className="hover:underline" onClick={() => { VisitUser(user.username, user.id) }}>Your profile</div>
             <div className="hover:underline" onClick={() => { console.log("This works") }}>Edit profile</div>
             <div className="hover:underline" onClick={() => { console.log("This works") }}>Change password</div>
             <div
@@ -71,7 +73,7 @@ const AccountMenu = props => {
                 onClick={() => {
                     closeAccountMenu(setAccountMenuOpened)
                     toggleDisplayAccountLink(false)
-                    LogOut(navigate);
+                    LogOut();
                 }}
             >Log Out</div>
         </div>

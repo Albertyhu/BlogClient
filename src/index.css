@@ -14,6 +14,18 @@
     .btn-delete {
         @apply rounded-full p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-black border-2 text-center w-fit sm:w-[150px] select-none text-white mx-auto hover:bg-[#FF3333] bg-[#E31010];
     }
+
+    .btn-standard {
+        @apply rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px] text-base active:translate-y-[5px] select-none cursor-pointer sm:w-[150px] text-center w-fit my-5;
+    }
+
+    .btn-submit {
+        @apply !active:bg-[#C6C6C6] border-[#dbdbdb] border-2 text-black mx-auto hover:bg-gray-300 !bg-[#dbdbdb];
+    }
+
+    .btn-cancel {
+        @apply !active:bg-[#4B4B4B] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333];
+    }
     /*An empty field for the error message to be revealed*/
     .ErrorDiv {
         @apply min-h-[25px] w-full grow relative;
@@ -33,6 +45,14 @@
 
     .FadeOutFormError {
         @apply opacity-0 translate-y-[20px];
+    }
+
+    .HeaderStyle {
+        @apply text-center text-2xl font-bold;
+    }
+
+    .FormStyle {
+        @apply [&>div>label]:text-black [&>div>label]:uppercase [&>div>label]:font-bold [&>div>input]:rounded-lg [&>div]:w-full [&>div]:my-[10px] [&>div>input]:pl-0 [&>div>input]:bg-[rgba(0,0,0,0)] [&>div>input]:text-black [&>div>input]:border-white [&>div>input]:border-[1px] rounded-md [&>div>input]:placeholder:text-[#545454] text-2xl [&>div>input]:placeholder:text-base;
     }
 }
 

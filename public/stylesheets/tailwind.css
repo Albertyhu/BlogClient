@@ -10,6 +10,19 @@
     .btn-secondary {
         @apply rounded-full p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-black border-2 text-center w-fit sm:w-[150px] select-none text-white mx-auto hover:bg-[#535353] bg-[#333333];
     }
+
+
+    .btn-standard {
+        @apply rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px] text-base active:translate-y-[5px] select-none cursor-pointer sm:w-[150px] text-center w-fit my-5;
+    }
+
+    .btn-submit {
+        @apply !active:bg-[#C6C6C6] border-[#dbdbdb] border-2 text-black mx-auto hover:bg-gray-300 !bg-[#dbdbdb];
+    }
+
+    .btn-cancel {
+        @apply !active:bg-[#4B4B4B] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333];
+    }
 }
 
 :root {

@@ -8,7 +8,7 @@ import { AppContext } from '../../util/contextItem.jsx';
 
 const SignIn = () => {
     const navigate = useNavigate(); 
-    const { GoHome, GoSignUp } = NavigationHooks(); 
+    const { GoHome, GoSignUp } = NavigationHooks(navigate); 
     const { HandleLogin,
         RenderError,
         AnimateErrorMessage    } = RegistrationHooks();
@@ -155,7 +155,7 @@ const SignIn = () => {
                 <button 
                     type="button"
                     className={ButtonStyle}
-                    onClick={useCallback(() => GoSignUp(navigate), [navigate])}
+                    onClick={useCallback(() => GoSignUp(), [navigate])}
                 >Create Account</button>
             </form>
         </div>

@@ -17,7 +17,6 @@ const RegistrationHooks = props => {
         } = elements; 
         var isValid = true; 
         var errMessage = "Error: ";
-        console.log("ProfileInput.current: ", ProfileInput.current)
         if (isValid) {
             const data = {
                 username: NameInput.value, 
@@ -44,7 +43,6 @@ const RegistrationHooks = props => {
             confirm_password,
             profile_pic,
         } = data; 
-        console.log("profile_pic: ", profile_pic)
         const formData = new FormData; 
         formData.append("username", username); 
         formData.append("email", email);
@@ -243,10 +241,6 @@ const RegistrationHooks = props => {
     }
 
     function HandleFileChange(evt, setImage) {
-        //const img = {
-        //    preview: URL.createObjectURL(evt.target.files[0]),
-        //    data: evt.target.files[0]
-        //}
         const file = evt.target.files[0]; 
         const reader = new FileReader(); 
         reader.readAsDataURL(file); 
@@ -267,12 +261,11 @@ const RegistrationHooks = props => {
     } 
 }
 
-const AuthenticationHooks = () => {
-
-    const { GoHome } = NavigationHooks();
-    const LogOut = async (navigate) => {
+const AuthenticationHooks = (navigate) => {
+    const { GoHome } = NavigationHooks(navigate);
+    const LogOut = async () => {
         localStorage.clear();
-        GoHome(navigate);
+        GoHome();
     }
 
     return { LogOut }; 

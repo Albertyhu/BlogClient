@@ -18,7 +18,7 @@ const Header = props => {
         GoHome,
         GoSignUp,
         GoSignIn
-    } = NavigationHooks(); 
+    } = NavigationHooks(navigate); 
 
     const {
         user,
@@ -105,7 +105,7 @@ const Header = props => {
                             :
                             <div
                                 className="inline-block"
-                                onClick={() => GoSignIn(navigate)}>Sign In <SignInIcon /></div>
+                                onClick={() => GoSignIn()}>Sign In <SignInIcon /></div>
                         }
                        
                     </div>

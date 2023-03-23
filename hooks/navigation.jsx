@@ -1,21 +1,43 @@
-const NavigationHooks = () => {
-    function GoBack(navigate) {
+const NavigationHooks = (navigate) => {
+    function GoBack() {
         navigate(-1);
     }
-    function GoHome(navigate) {
+    function GoHome() {
         navigate("/", {})
     }
 
 
-    function GoSignIn(navigate) {
+    function GoSignIn() {
         navigate("/signin", {})
     } 
 
-    function GoSignUp(navigate) {
+    function GoSignUp() {
         navigate("/signup", {})
     }
-    
-    return { GoHome, GoSignIn, GoSignUp, GoBack }
+
+    function VisitUser(username, userID) {
+        navigate(`/profile/${username}`, {
+            state: {
+                id: userID
+            }
+        })
+    }    
+    function GoEditProfilePicture(username, userID) {
+        navigate(`/profile/${username}/editProfilePicture`, {
+            state: {
+                id: userID
+                }
+        })
+    }
+
+    return {
+        GoHome,
+        GoSignIn,
+        GoSignUp,
+        GoBack,
+        VisitUser,
+        GoEditProfilePicture
+    }
 }
 
 export { NavigationHooks }; 
