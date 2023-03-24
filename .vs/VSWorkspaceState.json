@@ -2,7 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\header",
+    "\\component\\user",
+    "\\hooks",
     "\\screens",
     "\\screens\\authentication",
     "\\screens\\home",
@@ -11,6 +12,6 @@
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\screens\\user\\editProfile.jsx",
+  "SelectedNode": "\\hooks\\errorHooks.jsx",
   "PreviewInSolutionExplorer": false
 }

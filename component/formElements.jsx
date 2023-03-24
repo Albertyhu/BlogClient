@@ -51,7 +51,7 @@ export const EditImageInput = props => {
         name,
         placeholder = "Upload an image here",
         ImageInputRef,
-        ImageErrorRef
+        ImageErrorRef,
     } = props; 
 
     useEffect(() => {
@@ -113,7 +113,7 @@ export const BasicTextInput = props => {
 
     useEffect(() => {
         if (dataError.length > 0) {
-            for (var child of inputRef.current.children) {
+            for (var child of errorRef.current.children) {
                 AnimateErrorMessage(child)
             }
         }
@@ -129,7 +129,7 @@ export const BasicTextInput = props => {
                 name={name}
                 id={`${name}Input`}
                 ref={inputRef}
-                type={type}
+                type="text"
                 placeholder={placeholder}
                 className={BasicInputStyle}
                 onChange={handleUserInput}
@@ -166,7 +166,7 @@ export const BasicTextAreaInput = props => {
 
     useEffect(() => {
         if (dataError.length > 0) {
-            for (var child of inputRef.current.children) {
+            for (var child of errorRef.current.children) {
                 AnimateErrorMessage(child)
             }
         }

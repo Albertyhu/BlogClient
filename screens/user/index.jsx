@@ -34,8 +34,8 @@ const ProfilePage = props => {
             {profileDetails && profileDetails.profile_pic &&
                 <RenderProfilePic profile_pic={profileDetails.profile_pic} />
             }
-            {profileDetails && profileDetails.biography &&
-                <div className="text-2xl text-black">&#09;{profileDetails.biography}</div>
+            {profileDetails && profileDetails.biography.trim() != "" &&
+                <div className="text-2xl text-black" id = "biography">&#09;{profileDetails.biography}</div>
             }
             <button
                 className="btn-secondary whitespace-nowrap mt-[20px]"

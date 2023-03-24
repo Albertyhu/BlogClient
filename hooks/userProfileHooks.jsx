@@ -100,44 +100,40 @@ const EditUserHooks = (navigate) => {
         }
     }
 
-    const ChangePassword = async (apiURL, userID, Elements, dispatchFunctions) => {
-    
-        const FetchURL = `${apiURL}/users/${userID}/editpassword`;
+    const ChangePassword = async (apiURL, UserDetails, Elements, dispatchFunctions) => {
+        const {
+            id,
+            username
+        } = UserDetails; 
+        const FetchURL = `${apiURL}/users/${id}/editpassword`;
         console.log("FetchURL: ", FetchURL)
         const {
             currentPassword,
             newPassword,
             confirmPassword,
         } = Elements;
-
-        //const requestBody = {
-        //    current_password: currentPassword,
-        //    new_password: newPassword,
-        //    confirm_password: confirmPassword,
-        //}
-        console.log("current password: ", currentPassword)
-        const formData = new FormData();
+        const formData = new FormData;
         formData.append("current_password", currentPassword);
         formData.append("new_password", newPassword);
         formData.append("confirm_password", confirmPassword);
+        for (var key of formData.entries()) {
+            console.log(key[0] + ', ' + key[1])
+        }
         try {
-            await fetch(FetchURL, {
-                method: "POST",
-                //headers: {
-                //    "Content-Type": "application/json",
-                //},
-             //   body: JSON.stringify(requestBody),
+            const response = await fetch(FetchURL, {
+                method: "PUT",
                 body: formData,
-            }).then(async response => {
-                const result = await response.json()
-                if (response.ok) {
-                    VisitUser(username, userID);
-                }
-                else {
-                    console.log("error: ", result.error)
-                    RenderErrorArray(result.error, dispatchFunctions)
-                }
             })
+            const result = await response.json()
+            if (response.ok) {
+                VisitUser(username, id);
+            }
+            else {
+                console.log("response: ", response)
+                console.log("result", result)
+                console.log("error: ", result.error)
+                RenderErrorArray(result.error, dispatchFunctions)
+            }
         } catch (e) {
             console.log("error: ", e)
         }

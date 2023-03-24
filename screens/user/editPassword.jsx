@@ -1,5 +1,5 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import { EditUserHooks } from '../../hooks/userProfileHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
@@ -8,12 +8,12 @@ import {
     BasicTextInput,
 } from '../../component/formElements.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
-import { FetchHooks } from '../../hooks/fetchHooks.jsx';
 
 const EditPasswordForm = props => {
     const navigate = useNavigate();
     const location = useLocation();
     const { id } = location.state;
+    const { username } = useParams(); 
     const { GoHome } = NavigationHooks(navigate);
     const { apiURL } = useContext(AppContext);
     const UserToken = localStorage.getItem("token");
@@ -56,6 +56,7 @@ const EditPasswordForm = props => {
     }, [generalError])
 
     useEffect(() => {
+        console.log("username: ", username)
         if (!id || !UserToken) {
             return () => GoHome();
         }
@@ -77,17 +78,16 @@ const EditPasswordForm = props => {
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
                 onSubmit={(evt) => {
                     evt.preventDefault();
-                    //const Elements = {
-                    //    currentPassword,
-                    //    newPassword,
-                    //    confirmPassword,
-                    //}
+                    const UserDetails = {
+                        username,
+                        id, 
+                    }
                     const Elements = {
                         currentPassword: currentPasswordInputRef.current.value,
                         newPassword: newPasswordInputRef.current.value,
                         confirmPassword: confirmPasswordInputRef.current.value,
                     }
-                    ChangePassword(apiURL, id, Elements, dispatchFunctions)
+                    ChangePassword(apiURL, UserDetails, Elements, dispatchFunctions)
                 }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">
