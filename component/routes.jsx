@@ -11,6 +11,7 @@ import { AppContext } from '../util/contextItem.jsx';
 import EditProfilePage from '../screens/user/editProfile.jsx'; 
 import EditProfilePicture from '../screens/user/editProfilePic.jsx'; 
 import ProfilePage from '../screens/user'; 
+import EditPasswordForm from '../screens/user/editPassword.jsx'; 
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
@@ -33,6 +34,8 @@ const Apps = props => {
                         <Route path="/profile/:username" element={<ProfilePage />} />
                         <Route path="/profile/:username/editProfile" element={<EditProfilePage />} />
                         <Route path="/profile/:username/editProfilePicture" element={<EditProfilePicture />} />
+                        <Route path="/profile/:username/editpassword" element={<EditPasswordForm />} />
+
                     </Routes>
                 </div>
                 <Footer />

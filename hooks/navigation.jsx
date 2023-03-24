@@ -37,6 +37,13 @@ const NavigationHooks = (navigate) => {
                 }
         })
     }
+    function GoEditPassword(username, userID) {
+        navigate(`/profile/${username}/editpassword`, {
+            state: {
+                id: userID
+            }
+        })
+    }
 
     return {
         GoHome,
@@ -45,7 +52,8 @@ const NavigationHooks = (navigate) => {
         GoBack,
         VisitUser,
         GoEditProfile,
-        GoEditProfilePicture
+        GoEditProfilePicture,
+        GoEditPassword
     }
 }
 

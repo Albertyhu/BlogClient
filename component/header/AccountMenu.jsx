@@ -13,7 +13,7 @@ const AccountMenu = props => {
         setAccountMenuOpened
     } = props; 
     const navigate = useNavigate();
-    const { VisitUser, GoEditProfile } = NavigationHooks(navigate); 
+    const { VisitUser, GoEditProfile, GoEditPassword } = NavigationHooks(navigate); 
     const { LogOut } = AuthenticationHooks(navigate); 
     const { closeAccountMenu } = HeaderFunctions(); 
     var AccountMenuElem = document.querySelector("#AccountMenu"); 
@@ -66,8 +66,8 @@ const AccountMenu = props => {
         >
             <div
                 className="hover:underline" onClick={() => { VisitUser(user.username, user.id) }}>Your profile</div>
-            <div className="hover:underline" onClick={() => { GoEditProfile(user.username, user.id) }}>Edit profile</div>
-            <div className="hover:underline" onClick={() => { console.log("This works") }}>Change password</div>
+            <div className="hover:underline" onClick={() => { GoEditProfile(user.username, user.id)}}>Edit profile</div>
+            <div className="hover:underline" onClick={() => {GoEditPassword(user.username, user.id)}}>Change password</div>
             <div
                 className="hover:underline"
                 onClick={() => {

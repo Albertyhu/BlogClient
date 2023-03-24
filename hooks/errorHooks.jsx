@@ -3,14 +3,6 @@ import uuid from 'react-uuid'
 const ErrorMessageHooks = () => {
     //It takes the raw array and separates it into different arrays 
     //Generate DOM elements 
-    //function RenderErrorArray(errorArray, dispatchFunction) {
-    //    //reset error array to original value 
-    //    dispatchFunction([])
-    //    errorArray.forEach(error => {
-    //        dispatchFunction(prev => [...prev, { param: error.param, msg: error.msg }]);
-    //    })
-    //}
-
     function RenderErrorArray(errorArray, dispatchFunctions) {
         const {
             setUsernameError,
@@ -21,6 +13,8 @@ const ErrorMessageHooks = () => {
             setBiographyError,
             setDisplay,
             setGeneralError,
+            setCurrentPasswordError,
+            setNewPasswordError,
         } = dispatchFunctions;
 
         const resetErrorFields = () => {
@@ -40,9 +34,13 @@ const ErrorMessageHooks = () => {
             if (setBiographyError) {
                 setBiographyError([]);
             }
-            if (setGeneralError != undefined)
+            if (setCurrentPasswordError)
+                setCurrentPasswordError([])
+            if (setNewPasswordError)
+                setNewPasswordError([])
+            if (setGeneralError)
                 setGeneralError([])
-            if (setDisplay != undefined)
+            if (setDisplay)
                 setDisplay("")
         }
 
@@ -64,6 +62,12 @@ const ErrorMessageHooks = () => {
                     break;
                 case 'biography':
                     setBiographyError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'current_password':
+                    setCurrentPasswordError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'new_password':
+                    setNewPasswordError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 case 'server':
                     setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);

@@ -34,9 +34,7 @@ const EditUserHooks = (navigate) => {
 
     const UpdateUserProfile = async (apiURL, userID, Elements, dispatchFunctions) => {
         const {
-            previousImage,
             imageData,
-            imageInput, 
             username,
             email,
             biography,
@@ -60,7 +58,6 @@ const EditUserHooks = (navigate) => {
 
                     if (response.ok) {
                         console.log(result.message);
-                        console.log("user: ", result.user)
                         setNewUser(result.user)
                         VisitUser(username, userID);
                     }
@@ -102,7 +99,51 @@ const EditUserHooks = (navigate) => {
             RenderErrorArray([{ para: "file upload error", msg: `Upload error: ${error}` }], dispatchFunctions);
         }
     }
-    return { UploadNewProfilePic, UpdateUserProfile }
+
+    const ChangePassword = async (apiURL, userID, Elements, dispatchFunctions) => {
+    
+        const FetchURL = `${apiURL}/users/${userID}/editpassword`;
+        console.log("FetchURL: ", FetchURL)
+        const {
+            currentPassword,
+            newPassword,
+            confirmPassword,
+        } = Elements;
+
+        //const requestBody = {
+        //    current_password: currentPassword,
+        //    new_password: newPassword,
+        //    confirm_password: confirmPassword,
+        //}
+        console.log("current password: ", currentPassword)
+        const formData = new FormData();
+        formData.append("current_password", currentPassword);
+        formData.append("new_password", newPassword);
+        formData.append("confirm_password", confirmPassword);
+        try {
+            await fetch(FetchURL, {
+                method: "POST",
+                //headers: {
+                //    "Content-Type": "application/json",
+                //},
+             //   body: JSON.stringify(requestBody),
+                body: formData,
+            }).then(async response => {
+                const result = await response.json()
+                if (response.ok) {
+                    VisitUser(username, userID);
+                }
+                else {
+                    console.log("error: ", result.error)
+                    RenderErrorArray(result.error, dispatchFunctions)
+                }
+            })
+        } catch (e) {
+            console.log("error: ", e)
+        }
+    }
+
+    return { UploadNewProfilePic, UpdateUserProfile, ChangePassword }
 }
 
 export {UserProfileHooks, EditUserHooks}

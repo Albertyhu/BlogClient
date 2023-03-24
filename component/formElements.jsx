@@ -99,7 +99,8 @@ export const BasicTextInput = props => {
         name,
         placeholder = "Write something",
         inputRef,
-        errorRef
+        errorRef,
+        type="text"
     } = props;
 
     function capitalizeFirstLetter(string) {
@@ -128,7 +129,7 @@ export const BasicTextInput = props => {
                 name={name}
                 id={`${name}Input`}
                 ref={inputRef}
-                type="text"
+                type={type}
                 placeholder={placeholder}
                 className={BasicInputStyle}
                 onChange={handleUserInput}
