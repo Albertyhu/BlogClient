@@ -26,6 +26,10 @@
     .btn-cancel {
         @apply !active:bg-[#4B4B4B] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333];
     }
+
+    .basic_formInput {
+        @apply text-lg border-black border-[1px] rounded bg-[#f2e798];
+    }
     /*An empty field for the error message to be revealed*/
     .ErrorDiv {
         @apply min-h-[25px] w-full grow relative;

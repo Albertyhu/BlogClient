@@ -15,6 +15,14 @@ const NavigationHooks = (navigate) => {
         navigate("/signup", {})
     }
 
+    function GoEditProfile(username, userID) {
+        navigate(`/profile/${username}/editProfile`, {
+            state: {
+                id: userID
+            }
+        })
+    }
+
     function VisitUser(username, userID) {
         navigate(`/profile/${username}`, {
             state: {
@@ -36,6 +44,7 @@ const NavigationHooks = (navigate) => {
         GoSignUp,
         GoBack,
         VisitUser,
+        GoEditProfile,
         GoEditProfilePicture
     }
 }

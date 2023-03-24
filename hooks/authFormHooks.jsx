@@ -61,10 +61,6 @@ const RegistrationHooks = props => {
 
         await fetch(apiURL, {
             method: "POST",
-            //headers: {
-            //    'Content-Type': 'application/json'
-            //},
-            //headers: { "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW" },
             body: formData
         })
             .then(async response => {

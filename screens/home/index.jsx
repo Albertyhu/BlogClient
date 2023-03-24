@@ -33,14 +33,14 @@ const Home = props => {
     useEffect(() => {
         user ? console.log("userID: ", user.id) : null;
         if (user) {
-            FetchProfilePic(FetchImageURL, user.id, setProfileImage)
+            FetchProfilePic(FetchImageURL, setProfileImage, true)
             
         }
     }, [user])
 
-    useEffect(() => {
-            console.log("profileImage: ", profileImage)
-    }, [profileImage])
+    //useEffect(() => {
+    //        console.log("profileImage: ", profileImage)
+    //}, [profileImage])
 
     return (
         <div

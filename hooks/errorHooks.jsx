@@ -3,12 +3,76 @@ import uuid from 'react-uuid'
 const ErrorMessageHooks = () => {
     //It takes the raw array and separates it into different arrays 
     //Generate DOM elements 
-    function RenderErrorArray(errorArray, dispatchFunction) {
-        //reset error array to original value 
-        dispatchFunction([])
+    //function RenderErrorArray(errorArray, dispatchFunction) {
+    //    //reset error array to original value 
+    //    dispatchFunction([])
+    //    errorArray.forEach(error => {
+    //        dispatchFunction(prev => [...prev, { param: error.param, msg: error.msg }]);
+    //    })
+    //}
+
+    function RenderErrorArray(errorArray, dispatchFunctions) {
+        const {
+            setUsernameError,
+            setEmailError,
+            setProfileError,
+            setPasswordError,
+            setConfirmError,
+            setBiographyError,
+            setDisplay,
+            setGeneralError,
+        } = dispatchFunctions;
+
+        const resetErrorFields = () => {
+            if (setUsernameError)
+                setUsernameError([]);
+            if (setEmailError) {
+                setEmailError([]);
+            }
+            if (setProfileError) {
+                setProfileError([]);
+            }
+            if (setPasswordError)
+                setPasswordError([]);
+            if (setConfirmError) {
+                setConfirmError([]);
+            }
+            if (setBiographyError) {
+                setBiographyError([]);
+            }
+            if (setGeneralError != undefined)
+                setGeneralError([])
+            if (setDisplay != undefined)
+                setDisplay("")
+        }
+
+        resetErrorFields();
+
         errorArray.forEach(error => {
-            dispatchFunction(prev => [...prev, { param: error.param, msg: error.msg }]);
+            switch (error.param.toLowerCase()) {
+                case 'username':
+                    setUsernameError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'email':
+                    setEmailError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'password':
+                    setPasswordError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'confirm_password':
+                    setConfirmError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'biography':
+                    setBiographyError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'server':
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                default:
+                    break;
+            }
         })
+
     }
 
     //This is for pages with a form. It displays error messages under the input elements. 

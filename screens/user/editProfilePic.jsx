@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from 'react'; 
+import { useState, useRef, useContext, useEffect, lazy } from 'react'; 
 import { useNavigate } from "react-router-dom"; 
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx"; 
 import { EditUserHooks } from '../../hooks/userProfileHooks.jsx'; 
@@ -6,6 +6,8 @@ import { RegistrationHooks } from '../../hooks/authFormHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx"; 
 import { FormButtons } from '../../component/formElements.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
+import { FetchHooks } from '../../hooks/fetchHooks.jsx';
+const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx')); 
 
 const EditProfilePic = props => {
     const navigate = useNavigate(); 
@@ -14,14 +16,21 @@ const EditProfilePic = props => {
     const UserToken = localStorage.getItem("token"); 
     const [User] = useState(JSON.parse(localStorage.getItem("user"))); 
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
+    const { FetchProfilePic } = FetchHooks()
     const { UploadNewProfilePic } = EditUserHooks(navigate) 
     const [image, setImage] = useState(null); 
     const { HandleFileChange } = RegistrationHooks();
+    const [fetchURL] = useState(`${apiURL}/users/${User.id}/profilepicture`)
     const [uploadURL, setUploadURL] = useState(`${apiURL}/users/${User.id}/uploadnewpicture`)
     const [pictureError, setPictureError] = useState([]) 
     const ImageInputRef = useRef(); 
     const ImageErrorRef = useRef() 
     const FormRef = useRef(); 
+
+    const dispatchFunctions = {
+        setPictureError
+    }
+
     useEffect(() => {
         if (!UserToken) {
             GoHome()
@@ -38,7 +47,8 @@ const EditProfilePic = props => {
 
     useEffect(() => {
         if (User) {
-            setUploadURL(`${apiURL}/users/${User.id}/uploadnewpicture`)
+            setUploadURL(`${apiURL}/users/${User.id}/uploadnewpicture`); 
+            FetchProfilePic(fetchURL, setImage, false); 
         }
     }, [User])
 
@@ -53,17 +63,21 @@ const EditProfilePic = props => {
                 onSubmit={(evt) => {
                     evt.preventDefault(); 
                     const ImageInputElem = ImageInputRef.current; 
-                    UploadNewProfilePic(uploadURL, ImageInputElem, setPictureError)
+                    UploadNewProfilePic(uploadURL, ImageInputElem, dispatchFunctions)
                 }}
             >
-                <div className= "FormStyle w-11/12 mx-auto grid">
+                <div className="FormStyle w-11/12 mx-auto grid">
+                    {image && <RenderProfilePic
+                                profile_pic={image}
+                                altText="Preview Image" />
+                    }
                     <label htmlFor="profile_pic">Profile picture</label>
                     <input
                         name="profile_pic"
                         id="profile_picInput"
                         ref={ImageInputRef}
                         type="file"
-                        placeholder="Upload an image htmlFor your your profile picture here"
+                        placeholder="Upload your profile picture here"
                         className="text-lg file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
                         onChange={(evt) => { HandleFileChange(evt, setImage) }}
                     />

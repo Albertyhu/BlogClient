@@ -1,12 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\component",
-    "\\component\\header",
     "\\hooks",
-    "\\public",
-    "\\public\\stylesheets",
     "\\screens",
+    "\\screens\\home",
     "\\screens\\user",
     "\\src",
     "\\src\\assets",

@@ -8,6 +8,7 @@ import Footer from './footer';
 import RegistrationForm from '../screens/authentication/register.jsx'; 
 import "../src/index.css"; 
 import { AppContext } from '../util/contextItem.jsx'; 
+import EditProfilePage from '../screens/user/editProfile.jsx'; 
 import EditProfilePicture from '../screens/user/editProfilePic.jsx'; 
 import ProfilePage from '../screens/user'; 
 
@@ -30,6 +31,7 @@ const Apps = props => {
                         <Route path="/signin" element={<SignIn />} />
                         <Route path="/signup" element={<RegistrationForm />} />
                         <Route path="/profile/:username" element={<ProfilePage />} />
+                        <Route path="/profile/:username/editProfile" element={<EditProfilePage />} />
                         <Route path="/profile/:username/editProfilePicture" element={<EditProfilePicture />} />
                     </Routes>
                 </div>
