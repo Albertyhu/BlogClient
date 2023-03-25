@@ -82,6 +82,8 @@ const EditProfilePic = props => {
             return ()=>GoHome();
         }
         fetchUserDetails(apiURL, id, setUser, setGeneralError)
+        const decoded = JSON.parse(atob(UserToken.split('.')[1]));
+        console.log("token id : ", decoded.id)
     }, [id, UserToken])
 
     return (
@@ -101,14 +103,17 @@ const EditProfilePic = props => {
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
                 onSubmit={(evt) => {
                     evt.preventDefault();
-
+                    const UserDetails = {
+                        id,
+                        token: UserToken,
+                    }
                     const Elements = {
                         imageData: imageInputRef.current.files[0],
                         username,
                         email,
                         biography,
                     }
-                    UpdateUserProfile(apiURL, id, Elements, dispatchFunctions)
+                    UpdateUserProfile(apiURL, UserDetails, Elements, dispatchFunctions)
                 }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">

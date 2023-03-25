@@ -56,7 +56,6 @@ const EditPasswordForm = props => {
     }, [generalError])
 
     useEffect(() => {
-        console.log("username: ", username)
         if (!id || !UserToken) {
             return () => GoHome();
         }
@@ -81,6 +80,7 @@ const EditPasswordForm = props => {
                     const UserDetails = {
                         username,
                         id, 
+                        token: UserToken,
                     }
                     const Elements = {
                         currentPassword: currentPasswordInputRef.current.value,

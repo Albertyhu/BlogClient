@@ -63,7 +63,10 @@ const EditProfilePic = props => {
                 onSubmit={(evt) => {
                     evt.preventDefault(); 
                     const ImageInputElem = ImageInputRef.current; 
-                    UploadNewProfilePic(uploadURL, ImageInputElem, dispatchFunctions)
+                    const userDetail = {
+                        token: UserToken
+                    }
+                    UploadNewProfilePic(uploadURL, ImageInputElem, dispatchFunctions, userDetail)
                 }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">

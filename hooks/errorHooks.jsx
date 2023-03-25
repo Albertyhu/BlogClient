@@ -4,6 +4,7 @@ const ErrorMessageHooks = () => {
     //It takes the raw array and separates it into different arrays 
     //Generate DOM elements 
     function RenderErrorArray(errorArray, dispatchFunctions) {
+        console.log("errorArray: ", errorArray)
         const {
             setUsernameError,
             setEmailError,
@@ -70,6 +71,9 @@ const ErrorMessageHooks = () => {
                     setNewPasswordError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 case 'server':
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'authorization':
                     setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 default:

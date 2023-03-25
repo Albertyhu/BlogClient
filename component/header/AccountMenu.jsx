@@ -13,7 +13,7 @@ const AccountMenu = props => {
         setAccountMenuOpened
     } = props; 
     const navigate = useNavigate();
-    const { VisitUser, GoEditProfile, GoEditPassword } = NavigationHooks(navigate); 
+    const { VisitUser, GoEditProfile, GoEditPassword, GoHome } = NavigationHooks(navigate); 
     const { LogOut } = AuthenticationHooks(navigate); 
     const { closeAccountMenu } = HeaderFunctions(); 
     var AccountMenuElem = document.querySelector("#AccountMenu"); 
@@ -65,15 +65,25 @@ const AccountMenu = props => {
             ref={AccountMenuRef}
         >
             <div
-                className="hover:underline" onClick={() => { VisitUser(user.username, user.id) }}>Your profile</div>
-            <div className="hover:underline" onClick={() => { GoEditProfile(user.username, user.id)}}>Edit profile</div>
-            <div className="hover:underline" onClick={() => {GoEditPassword(user.username, user.id)}}>Change password</div>
+                className="hover:underline" onClick={() => {
+                    VisitUser(user.username, user.id);
+                    closeAccountMenu(setAccountMenuOpened)
+                }}>Your profile</div>
+            <div className="hover:underline" onClick={() => {
+                    GoEditProfile(user.username, user.id);
+                    closeAccountMenu(setAccountMenuOpened)
+            }}>Edit profile</div>
+            <div className="hover:underline" onClick={() => {
+                    GoEditPassword(user.username, user.id);
+                    closeAccountMenu(setAccountMenuOpened)
+            }}>Change password</div>
             <div
                 className="hover:underline"
                 onClick={() => {
                     closeAccountMenu(setAccountMenuOpened)
                     toggleDisplayAccountLink(false)
                     LogOut();
+                    GoHome();
                 }}
             >Log Out</div>
         </div>

@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\component",
-    "\\component\\user",
     "\\hooks",
+    "\\public",
     "\\screens",
     "\\screens\\authentication",
     "\\screens\\home",
@@ -12,6 +11,6 @@
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\errorHooks.jsx",
+  "SelectedNode": "\\hooks\\userProfileHooks.jsx",
   "PreviewInSolutionExplorer": false
 }
