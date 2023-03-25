@@ -1,8 +1,9 @@
-import { useEffect, lazy, useCallback } from 'react';
+import { useEffect, lazy, useCallback, useState } from 'react';
 import { ErrorMessageHooks } from "../hooks/errorHooks.jsx";
 import { RegistrationHooks } from '../hooks/authFormHooks.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import '../src/index.css'; 
+import DeleteIcon from '../assets/icons/cancel.png'; 
 
 const RenderProfilePic = lazy(() => import('./user/profilePicture.jsx'));
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
@@ -198,6 +199,74 @@ export const BasicTextAreaInput = props => {
         </>
     )
 } 
+
+export const TagInput = props => {
+    const {
+        inputError, 
+        errorRef,
+        addedTags, 
+        setAddedTags 
+    } = props; 
+    const [input, setInput] = useState('');
+    const handleChange = evt => {
+        setInput(evt.target.value)
+    }
+    const addTag = () => {
+
+        setInput("")
+    }
+
+    const deleteTag = item => {
+        var arr = addedTags.filter(val => val != item); 
+        setAddedTags(arr); 
+    }
+
+    return (
+        <>
+            <div className = "flex whitespace-nowrap">
+                <input
+                    value={input}
+                    onChange={handleChange}
+                />
+                <button
+                    className="btn-primary"
+                    onClick={addTag}
+                    >Add</button>
+            </div>
+            <div
+                id="AddedTags"
+            >
+                {addedTags && addedTags.map(item =>
+                    <Tag
+                        name={item}
+                        deleteTag={deleteTag}
+                    />)}
+            </div>
+            <div
+                id="dataError"
+                className="ErrorDiv"
+                ref={errorRef}>
+                {inputError != null && inputError.length > 0 && RenderError(inputError)}
+            </div>
+        </>
+        )
+}
+
+const Tag = props => {
+    const { name, deleteTag } = props; 
+    return (
+        <div
+            className="Tag"
+        >
+            <div>{name}</div>
+            <img
+                className="MiniDeleteButton"
+                src={DeleteIcon}
+                onClick={() => deleteTag(name)}
+            />
+        </div>
+        )
+}
 
 /*
  template
