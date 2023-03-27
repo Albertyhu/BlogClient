@@ -4,6 +4,7 @@ import { RegistrationHooks } from '../hooks/authFormHooks.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import '../src/index.css'; 
 import DeleteIcon from '../assets/icons/cancel.png'; 
+import uuid from 'react-uuid'
 
 const RenderProfilePic = lazy(() => import('./user/profilePicture.jsx'));
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
@@ -205,39 +206,45 @@ export const TagInput = props => {
         inputError, 
         errorRef,
         addedTags, 
-        setAddedTags 
+        setAddedTags,
     } = props; 
     const [input, setInput] = useState('');
     const handleChange = evt => {
         setInput(evt.target.value)
     }
-    const addTag = () => {
 
+    const addTag = () => {
+        setAddedTags(prev => [...prev, input])
         setInput("")
     }
 
     const deleteTag = item => {
+        console.log("delete")
         var arr = addedTags.filter(val => val != item); 
-        setAddedTags(arr); 
+        setAddedTags([...arr]); 
     }
+
 
     return (
         <>
-            <div className = "flex whitespace-nowrap">
+            <div className = "[&>*]:block">
                 <input
                     value={input}
                     onChange={handleChange}
+                    className = "!border-black border-[1px] w-full" 
                 />
                 <button
-                    className="btn-primary"
+                    className="btn-primary mt-[10px] sm:mt-[0px] text-sm"
                     onClick={addTag}
                     >Add</button>
             </div>
             <div
                 id="AddedTags"
+                className=""
             >
                 {addedTags && addedTags.map(item =>
                     <Tag
+                        key={uuid()}
                         name={item}
                         deleteTag={deleteTag}
                     />)}
@@ -257,12 +264,12 @@ const Tag = props => {
     return (
         <div
             className="Tag"
+            onClick={()=>deleteTag(name)}
         >
             <div>{name}</div>
             <img
                 className="MiniDeleteButton"
                 src={DeleteIcon}
-                onClick={() => deleteTag(name)}
             />
         </div>
         )

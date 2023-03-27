@@ -12,6 +12,7 @@ import EditProfilePage from '../screens/user/editProfile.jsx';
 import EditProfilePicture from '../screens/user/editProfilePic.jsx'; 
 import ProfilePage from '../screens/user'; 
 import EditPasswordForm from '../screens/user/editPassword.jsx'; 
+import CategoryForm from '../screens/category/categoryForm.jsx'; 
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
@@ -35,7 +36,7 @@ const Apps = props => {
                         <Route path="/profile/:username/editProfile" element={<EditProfilePage />} />
                         <Route path="/profile/:username/editProfilePicture" element={<EditProfilePicture />} />
                         <Route path="/profile/:username/editpassword" element={<EditPasswordForm />} />
-
+                        <Route path="/category/create" element={<CategoryForm />} />
                     </Routes>
                 </div>
                 <Footer />

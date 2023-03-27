@@ -1,16 +1,17 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\icons",
     "\\component",
-    "\\component\\header",
     "\\screens",
-    "\\screens\\post",
-    "\\screens\\postForm",
-    "\\screens\\user",
+    "\\screens\\authentication",
+    "\\screens\\category",
+    "\\screens\\threadForm",
     "\\src",
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\screens\\user\\editProfile.jsx",
+  "SelectedNode": "\\component\\formElements.jsx",
   "PreviewInSolutionExplorer": false
 }

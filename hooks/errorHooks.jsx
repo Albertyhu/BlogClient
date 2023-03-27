@@ -77,6 +77,7 @@ const ErrorMessageHooks = () => {
                     setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 default:
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
             }
         })

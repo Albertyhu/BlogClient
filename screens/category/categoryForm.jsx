@@ -6,12 +6,14 @@ import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     FormButtons,
     BasicTextInput,
-    BasicTextAreaInput
+    BasicTextAreaInput,
+    TagInput,
+    EditImageInput,
 } from '../../component/formElements.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
 
 //Next task: retrieve id and username from token 
-const PostForm = props => {
+const CategoryForm = props => {
     const navigate = useNavigate();
     const { username } = useParams();
     const { GoHome } = NavigationHooks(navigate);
@@ -23,6 +25,7 @@ const PostForm = props => {
     const [image, setImage] = useState(null);
     const [tag, setTag] = useState([]);
     const [description, setDescription] = useState("")
+    const [decoded, setDecoded] = useState(null); 
 
     const [nameError, setNameError] = useState([])
     const [imageError, setImageError] = useState([])
@@ -41,7 +44,6 @@ const PostForm = props => {
 
     const imageInputRef = useRef();
     const nameInputRef = useRef();
-    const tagInputRef = useRef();
     const descriptionInputRef = useRef();
 
     const generalErrorRef = useRef();
@@ -64,8 +66,7 @@ const PostForm = props => {
         if (!UserToken) {
             return () => GoHome();
         }
-        const decoded = JSON.parse(atob(UserToken.split('.')[1]));
-        console.log("token id : ", decoded.id)
+        setDecoded(JSON.parse(atob(UserToken.split('.')[1])));
     }, [UserToken])
 
     return (
@@ -86,7 +87,7 @@ const PostForm = props => {
                     evt.preventDefault();
                     const UserDetails = {
                         username,
-                        id,
+                        id: decoded.id,
                         token: UserToken,
                     }
                     const Elements = {
@@ -114,17 +115,22 @@ const PostForm = props => {
                         inputRef={descriptionInputRef}
                         errorRef={descriptionErrorRef}
                     />
+                    <TagInput
+                        addedTags={tag}
+                        setAddedTags={setTag}
+                        inputError={tagError}
+                        errorRef={tagErrorRef}
+                    />
                     <EditImageInput
                         image={image}
                         setImage={setImage}
-                        pictureError={pictureError}
+                        pictureError={imageError}
                         label="Update your profile picture"
                         name="profile_pic"
                         placeholder="Browse your device to change your profile picture"
                         ImageInputRef={imageInputRef}
                         ImageErrorRef={imageErrorRef}
                     />
-                    <FormButtons />
                 </div>
                 <FormButtons />
             </form>
@@ -132,4 +138,4 @@ const PostForm = props => {
     )
 }
 
-export default EditPasswordForm; 
+export default CategoryForm; 
