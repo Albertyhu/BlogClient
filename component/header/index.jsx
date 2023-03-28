@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useCallback, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Button from '../button.jsx';
 import MobileIcon from '../../assets/icons/hamburger_menu_white.png'
 import PlaceHolder from '../../assets/images/PlaceholderLogo.png';
 import MobileMenu from './mobileMenu.jsx';

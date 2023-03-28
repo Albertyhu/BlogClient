@@ -4,7 +4,7 @@
 
 @layer components {
     .btn-primary {
-        @apply rounded-[15px] p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-none text-center w-fit sm:w-[150px] select-none text-black mx-auto hover:bg-[#a2a2a2] bg-[#dbdbdb] box_shadow;
+        @apply rounded-[15px] p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-none text-center w-fit sm:w-[150px] select-none text-black mx-auto hover:bg-[#a2a2a2] bg-[#dbdbdb] box_shadow whitespace-nowrap [&>*]:inline-flex;
     }
 
     .btn-secondary {
@@ -25,6 +25,10 @@
 
     .btn-cancel {
         @apply !active:bg-[#4B4B4B] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333];
+    }
+
+    .btn-add {
+        @apply rounded-[15px] p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-none text-center w-fit select-none text-white mx-auto hover:bg-[#a2a2a2] bg-[#888888] box_shadow whitespace-nowrap [&>*]:inline-flex [&>img]:ml-5;
     }
 
     .basic_formInput {
@@ -57,6 +61,14 @@
 
     .FormStyle {
         @apply [&>div>label]:text-black [&>div>label]:uppercase [&>div>label]:font-bold [&>div>input]:rounded-lg [&>div]:w-full [&>div]:my-[10px] [&>div>input]:pl-0 [&>div>input]:bg-[rgba(0,0,0,0)] [&>div>input]:text-black [&>div>input]:border-white [&>div>input]:border-[1px] rounded-md [&>div>input]:placeholder:text-[#545454] text-2xl [&>div>input]:placeholder:text-base;
+    }
+
+    .CategoryPanel {
+        @apply;
+    }
+
+    .buttonIcons {
+        @apply w-[30px] h-[30px] m-auto;
     }
 }
 

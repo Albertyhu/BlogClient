@@ -8,6 +8,7 @@ function App() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [ProfilePicture, setProfilePic] = useState(JSON.parse(localStorage.getItem('ProfilePicture')));
     const [displayMemberComponents, setDisplayMemberComponents] = useState(token ? true : false)
+    const [categoryList, setCategoryList] = useState(null); 
 
     const context = {
         apiURL: import.meta.env.VITE_API_URL.toString(),
@@ -24,6 +25,8 @@ function App() {
             setUser(null)
             setProfilePic(null); 
         },
+        categoryList, 
+        setCategoryList, 
     }
 
     useEffect(() => {

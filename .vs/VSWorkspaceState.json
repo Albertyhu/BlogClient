@@ -1,17 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\icons",
-    "\\component",
+    "\\hooks",
     "\\screens",
-    "\\screens\\authentication",
     "\\screens\\category",
+    "\\screens\\home",
+    "\\screens\\tag",
     "\\screens\\threadForm",
     "\\src",
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\component\\formElements.jsx",
+  "SelectedNode": "\\screens\\tag\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

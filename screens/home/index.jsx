@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState, lazy} from 'react'; 
-import Button from '../../component/button.jsx';
+import { Button } from '../../component/button.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx'; 

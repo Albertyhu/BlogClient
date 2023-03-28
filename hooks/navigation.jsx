@@ -29,7 +29,28 @@ const NavigationHooks = (navigate) => {
                 id: userID
             }
         })
-    }    
+    }  
+
+    function GoCategory() {
+        navigate("/category")
+    }
+
+    function GoCreateCategory() {
+        navigate("/category/create")
+    }
+
+    function GoTagPage(message) {
+        navigate("/tags", {
+            state: {
+                message: message ? message : "", 
+            }
+        })
+    }
+
+    function GoCreateTag() {
+        navigate("/tags/create")
+    }
+
     function GoEditProfilePicture(username, userID) {
         navigate(`/profile/${username}/editProfilePicture`, {
             state: {
@@ -45,6 +66,7 @@ const NavigationHooks = (navigate) => {
         })
     }
 
+
     return {
         GoHome,
         GoSignIn,
@@ -53,7 +75,11 @@ const NavigationHooks = (navigate) => {
         VisitUser,
         GoEditProfile,
         GoEditProfilePicture,
-        GoEditPassword
+        GoEditPassword,
+        GoCategory, 
+        GoCreateCategory,
+        GoTagPage,
+        GoCreateTag
     }
 }
 

@@ -13,7 +13,13 @@ const AccountMenu = props => {
         setAccountMenuOpened
     } = props; 
     const navigate = useNavigate();
-    const { VisitUser, GoEditProfile, GoEditPassword, GoHome } = NavigationHooks(navigate); 
+    const { VisitUser,
+        GoEditProfile,
+        GoEditPassword,
+        GoHome,
+        GoCategory,
+        GoCreateCategory,
+    } = NavigationHooks(navigate); 
     const { LogOut } = AuthenticationHooks(navigate); 
     const { closeAccountMenu } = HeaderFunctions(); 
     var AccountMenuElem = document.querySelector("#AccountMenu"); 
@@ -73,6 +79,14 @@ const AccountMenu = props => {
                     GoEditProfile(user.username, user.id);
                     closeAccountMenu(setAccountMenuOpened)
             }}>Edit profile</div>
+            <div className="hover:underline" onClick={() => {
+                GoCategory();
+                closeAccountMenu(setAccountMenuOpened)
+            }}>Categories</div>
+            <div className="hover:underline" onClick={() => {
+                GoCreateCategory(); 
+                closeAccountMenu(setAccountMenuOpened)
+            }}>Create a new category</div>
             <div className="hover:underline" onClick={() => {
                     GoEditPassword(user.username, user.id);
                     closeAccountMenu(setAccountMenuOpened)

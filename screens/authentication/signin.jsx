@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useContext, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
-import Button from '../../component/button.jsx'
+import { Button } from '../../component/button.jsx'
 import { FormButtons } from '../../component/formElements.jsx';
 import { RegistrationHooks } from '../../hooks/authFormHooks.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx'; 

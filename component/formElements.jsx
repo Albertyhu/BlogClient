@@ -4,7 +4,8 @@ import { RegistrationHooks } from '../hooks/authFormHooks.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import '../src/index.css'; 
 import DeleteIcon from '../assets/icons/cancel.png'; 
-import uuid from 'react-uuid'
+import uuid from 'react-uuid';
+import { searchTag } from '../hooks/tagHooks.jsx'; 
 
 const RenderProfilePic = lazy(() => import('./user/profilePicture.jsx'));
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
@@ -207,14 +208,24 @@ export const TagInput = props => {
         errorRef,
         addedTags, 
         setAddedTags,
+        existingTags, 
     } = props; 
     const [input, setInput] = useState('');
+    const [searchResults, setSearchResults] = useState([])
     const handleChange = evt => {
-        setInput(evt.target.value)
+        var input = evt.target.value; 
+        setInput(input)
+        if (input != "") {
+            setSearchResults(searchTag(input, existingTags))
+        }
+        else {
+            setSearchResults([]);
+        }
     }
 
     const addTag = () => {
-        setAddedTags(prev => [...prev, input])
+
+        setAddedTags(prev => [...prev, {name: input}])
         setInput("")
     }
 
@@ -224,20 +235,23 @@ export const TagInput = props => {
         setAddedTags([...arr]); 
     }
 
-
     return (
         <>
-            <div className = "[&>*]:block">
+            <div className= "[&>*]:block sm:grid sm:grid-cols-[auto_auto]">
                 <input
                     value={input}
                     onChange={handleChange}
                     className = "!border-black border-[1px] w-full" 
                 />
                 <button
+                    type="button"
                     className="btn-primary mt-[10px] sm:mt-[0px] text-sm"
                     onClick={addTag}
                     >Add</button>
             </div>
+            <ExistingTagResults
+                queryResults={searchResults}
+            />
             <div
                 id="AddedTags"
                 className=""
@@ -245,7 +259,7 @@ export const TagInput = props => {
                 {addedTags && addedTags.map(item =>
                     <Tag
                         key={uuid()}
-                        name={item}
+                        name={item.name}
                         deleteTag={deleteTag}
                     />)}
             </div>
@@ -273,6 +287,21 @@ const Tag = props => {
             />
         </div>
         )
+}
+
+//queryResults is an array 
+const ExistingTagResults = props => {
+    const { queryResults } = props; 
+    if (queryResults.length > 0) {
+        return (
+            <div>
+                <ul>
+                    {queryResults.map(result => <li>{result}</li>)}
+                </ul>
+            </div>
+        )
+    }
+    return null; 
 }
 
 /*

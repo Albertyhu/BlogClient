@@ -1,7 +1,7 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
-import { } from '../../hooks/postHooks.jsx';
+import { TagHooks } from '../../hooks/tagHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     FormButtons,
@@ -15,12 +15,12 @@ import { AppContext } from '../../util/contextItem.jsx';
 //Next task: retrieve id and username from token 
 const CategoryForm = props => {
     const navigate = useNavigate();
-    const { username } = useParams();
+    const { GetTagList } = TagHooks(navigate); 
     const { GoHome } = NavigationHooks(navigate);
-    const { apiURL } = useContext(AppContext);
+    const { apiURL, token  } = useContext(AppContext);
     const UserToken = localStorage.getItem("token");
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-
+    const [existingTags, setExistingTags] = useState(null); 
     const [name, setName] = useState("")
     const [image, setImage] = useState(null);
     const [tag, setTag] = useState([]);
@@ -63,15 +63,16 @@ const CategoryForm = props => {
     }, [generalError])
 
     useEffect(() => {
-        if (!UserToken) {
+        if (!token) {
             return () => GoHome();
         }
-        setDecoded(JSON.parse(atob(UserToken.split('.')[1])));
-    }, [UserToken])
+        setDecoded(JSON.parse(atob(token.split('.')[1])));
+        GetTagList(apiURL, setExistingTags)
+    }, [token])
 
     return (
         <div>
-            <h1 className="HeaderStyle mt-[20px]">Update your password</h1>
+            <h1 className="HeaderStyle mt-[20px]">Create a new category</h1>
             <div
                 id="generalError"
                 className="ErrorDiv"
@@ -86,7 +87,6 @@ const CategoryForm = props => {
                 onSubmit={(evt) => {
                     evt.preventDefault();
                     const UserDetails = {
-                        username,
                         id: decoded.id,
                         token: UserToken,
                     }
@@ -116,6 +116,7 @@ const CategoryForm = props => {
                         errorRef={descriptionErrorRef}
                     />
                     <TagInput
+                        existingTags={existingTags}
                         addedTags={tag}
                         setAddedTags={setTag}
                         inputError={tagError}

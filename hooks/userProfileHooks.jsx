@@ -19,7 +19,7 @@ const UserProfileHooks = () => {
                 }
                 localStorage.clear();
                 ClearUserData();
-                GoHome(navigate)
+                GoHome(navigate); 
             })
             .catch(err => {
                 console.error(err)
