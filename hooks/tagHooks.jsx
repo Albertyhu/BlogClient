@@ -29,33 +29,36 @@ const TagHooks = navigate => {
     const SaveTags = async (apiURL, token, tags, dispatchFunctions) => {
         const FetchURL = `${apiURL}/tags/create`; 
         console.log("tags: ", tags)
-        console.log("stringified tags: ", JSON.stringify(tags))
 
         const formData = new FormData; 
-        formData.append("tags", JSON.stringify(tags));
+        var StringifiedTags = JSON.stringify(tags);
+        formData.append("tags", StringifiedTags);
+        for (var key of formData.entries()) {
+            console.log(key[0] + ', ' + key[1])
+        }
         var options = {
             method: "POST", 
             body: formData, 
             headers: {
                 "Authorization": `Bearer ${token}`, 
-                "Content-Type": "multipart/form-data",
             }
         }
         await fetch(FetchURL, options)
             .then( async response => {
                 if (response.ok) {
-                    console.log("Tags are successfully saved")
+                    console.log("Tags are successfully saved"); 
+                    GoHome(); 
                 }
                 else {
                     const result = await response.json(); 
-                    console.log(result.error); 
+                    console.log(result.error);
                     RenderErrorArray(result.error, dispatchFunctions); 
                 }
             })
     }
 
     const DeleteTags = async (apiURL, tagNames, token, deleteArray, dispatchFunctions) => {
-        const FetchURL = `apiURL/delete_tags`; 
+        const FetchURL = `${apiURL}/delete_tags`; 
         const formData = new FormData; 
         formData.append("taglist", tagNames); 
         await fetch(FetchURL, {

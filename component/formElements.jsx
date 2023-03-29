@@ -209,6 +209,7 @@ export const TagInput = props => {
         addedTags, 
         setAddedTags,
         existingTags, 
+        setInputError, 
     } = props; 
     const [input, setInput] = useState('');
     const [searchResults, setSearchResults] = useState([])
@@ -217,23 +218,52 @@ export const TagInput = props => {
         setInput(input)
         if (input != "") {
             setSearchResults(searchTag(input, existingTags))
+            setInputError([])
         }
         else {
             setSearchResults([]);
         }
     }
-
     const addTag = () => {
+        console.log("addedTags: ", addedTags);
+        console.log("input: ", input)
+        if (!addedTags.some(val => val.name.trim() == input.trim())) {
+            if (input.trim() != "") {
+                setAddedTags(prev => [...prev, { name: input }])
+                setInput("")
+                setSearchResults([])
+            }
+            else {
+                setInputError([{ msg: "The tag cannot be an empty value." }])
+            }
+        }
+        else {
+            setInputError([{ msg: "That tag has already been added."}])
+        }
+    }
 
-        setAddedTags(prev => [...prev, {name: input}])
-        setInput("")
+    const addTagThroughLink = (name) => {
+        if (!addedTags.some(val => val.name.trim() == name.trim())) {
+            setAddedTags(prev => [...prev, { name: name }])
+            setInput("")
+            setSearchResults([])
+        } else {
+            setInputError([{ msg: "That tag has already been added." }])
+        }
     }
 
     const deleteTag = item => {
-        console.log("delete")
-        var arr = addedTags.filter(val => val != item); 
-        setAddedTags([...arr]); 
+        var arr = addedTags.filter(val => val.name != item); 
+        setAddedTags(arr)
     }
+
+    useEffect(() => {
+        if (inputError.length > 0) {
+            for (var child of errorRef.current.children) {
+                AnimateErrorMessage(child)
+            }
+        }
+    }, [inputError])
 
     return (
         <>
@@ -251,6 +281,7 @@ export const TagInput = props => {
             </div>
             <ExistingTagResults
                 queryResults={searchResults}
+                addTag={addTagThroughLink}
             />
             <div
                 id="AddedTags"
@@ -282,7 +313,7 @@ const Tag = props => {
         >
             <div>{name}</div>
             <img
-                className="MiniDeleteButton"
+                className="MiniDeleteButton ml-5"
                 src={DeleteIcon}
             />
         </div>
@@ -291,12 +322,20 @@ const Tag = props => {
 
 //queryResults is an array 
 const ExistingTagResults = props => {
-    const { queryResults } = props; 
+    const { queryResults, 
+        addTag
+    } = props; 
     if (queryResults.length > 0) {
         return (
-            <div>
+            <div className="bg-white pl-5">
+                <h2 className ="underline font-bold">Existing Tags</h2>
                 <ul>
-                    {queryResults.map(result => <li>{result}</li>)}
+                    {queryResults.map(result =>
+                        <li
+                            key={uuid()}
+                            className="my-5 cursor-pointer hover:bg-[#dbdbdb]"
+                            onClick={() => addTag(result.name) }
+                        >{result.name}</li>)}
                 </ul>
             </div>
         )

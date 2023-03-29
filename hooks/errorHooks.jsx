@@ -16,6 +16,9 @@ const ErrorMessageHooks = () => {
             setGeneralError,
             setCurrentPasswordError,
             setNewPasswordError,
+            setNameError,
+            setDescriptionError,
+            setImageError
         } = dispatchFunctions;
 
         const resetErrorFields = () => {
@@ -41,6 +44,12 @@ const ErrorMessageHooks = () => {
                 setNewPasswordError([])
             if (setGeneralError)
                 setGeneralError([])
+            if (setNameError)
+                setNameError([])
+            if (setDescriptionError)
+                setDescriptionError([])
+            if (setImageError)
+                setImageError([])
             if (setDisplay)
                 setDisplay("")
         }
@@ -51,6 +60,9 @@ const ErrorMessageHooks = () => {
             switch (error.param.toLowerCase()) {
                 case 'username':
                     setUsernameError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'name':
+                    setNameError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 case 'email':
                     setEmailError(prev => [...prev, { param: error.param, msg: error.msg }]);
@@ -63,6 +75,12 @@ const ErrorMessageHooks = () => {
                     break;
                 case 'biography':
                     setBiographyError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'description':
+                    setDescriptionError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'image':
+                    setImageError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 case 'current_password':
                     setCurrentPasswordError(prev => [...prev, { param: error.param, msg: error.msg }]);

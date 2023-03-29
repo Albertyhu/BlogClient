@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\hooks",
+    "\\assets",
+    "\\assets\\icons",
+    "\\component",
     "\\screens",
-    "\\screens\\category",
-    "\\screens\\home",
-    "\\screens\\tag",
+    "\\screens\\authentication",
     "\\screens\\threadForm",
     "\\src",
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\screens\\tag\\index.jsx",
+  "SelectedNode": "\\hooks\\errorHooks.jsx",
   "PreviewInSolutionExplorer": false
 }

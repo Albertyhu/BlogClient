@@ -51,7 +51,6 @@ const FetchHooks = () => {
                     await response.json()
                         .then(result => {
                             if (result) {
-                                console.log("FetchProfilePic result: ", result)
                                 const stringEncoded = toBase64(result.profile_pic.data.data);
                                 if (updateLocal) {
                                     localStorage.setItem("ProfilePicture", JSON.stringify({

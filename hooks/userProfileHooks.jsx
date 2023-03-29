@@ -119,7 +119,6 @@ const EditUserHooks = (navigate) => {
             token
         } = UserDetails; 
         const FetchURL = `${apiURL}/users/${id}/editpassword`;
-        console.log("FetchURL: ", FetchURL)
         const {
             currentPassword,
             newPassword,

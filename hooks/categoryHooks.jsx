@@ -3,7 +3,7 @@ import { NavigationHooks } from './navigation.jsx'
 const { RenderErrorArray  } = ErrorMessageHooks()
 
 const CategoryHooks = (navigate) => {
-    const { GoCategory } = NavigationHooks(navigate); 
+    const { GoCategory } = NavigationHooks(navigate);
     const FetchCategories = async (apiURL, dispatchFunctions) => {
 
         const { setCategoryList } = dispatchFunctions;
@@ -33,13 +33,18 @@ const CategoryHooks = (navigate) => {
 }
 
 const CategoryFormHooks = (navigate) => {
-    const CreateCategory = async (apiURL, token, dispatchFunctions) => {
+    const { GoCategory } = NavigationHooks(navigate);
+    const CreateCategory = async (apiURL, token, Elements, dispatchFunctions) => {
         const FetchURL = `${apiURL}/category/create`;
-
+        const {
+            name, 
+            description,
+            imageData
+        } = Elements; 
         const formData = new FormData; 
-        /**
-         * Need to add data to formData here. 
-         * */
+        formData.append("name", name)
+        formData.append("description", description)
+        formData.append("image", imageData)
         await fetch(FetchURL, {
             method: "POST",
             body: formData, 
@@ -47,11 +52,12 @@ const CategoryFormHooks = (navigate) => {
                 "Authorization": `Bearer ${token}`
             }
         })
-            .then(response => {
+            .then(async response => {
                 if (response.ok)
                     GoCategory();
                 else {
-                    const result = response.json(); 
+                    const result = await response.json(); 
+                    console.log("Error in trying to create a new category: ", result.error)
                     RenderErrorArray(result.error, dispatchFunctions); 
                 }
             })
