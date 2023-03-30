@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\component",
-    "\\component\\header",
-    "\\hooks",
+    "\\assets",
+    "\\public",
     "\\screens",
     "\\screens\\category",
     "\\screens\\home",
@@ -12,6 +11,6 @@
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\wait.jsx",
+  "SelectedNode": "\\public",
   "PreviewInSolutionExplorer": false
 }

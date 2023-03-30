@@ -70,6 +70,14 @@
     .buttonIcons {
         @apply w-[30px] h-[30px] m-auto;
     }
+
+    .ContentWrapper {
+        @apply w-11/12 mx-auto;
+    }
+    /** Post Panel*/
+    .PostPanel {
+        @apply rounded-lg w-full max-h-[500px] mx-auto mb-[20px] bg-[#f2e798] cursor-pointer;
+    }
 }
 
 :root {

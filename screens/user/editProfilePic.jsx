@@ -54,7 +54,7 @@ const EditProfilePic = props => {
 
     return (
     <div>
-            <h1 className= "HeaderStyle mt-[20px]">Upload a new profile picture</h1>
+            <h1 className= "H1Style mt-[20px]">Upload a new profile picture</h1>
             <form
                 id="RegistrationForm"
                 ref={FormRef}

@@ -63,7 +63,7 @@ const EditPasswordForm = props => {
 
     return (
         <div>
-            <h1 className="HeaderStyle mt-[20px]">Update your password</h1>
+            <h1 className="H1Style mt-[20px]">Update your password</h1>
             <div
                 id="generalError"
                 className="ErrorDiv"

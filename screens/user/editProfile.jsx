@@ -88,7 +88,7 @@ const EditProfilePic = props => {
 
     return (
         <div>
-            <h1 className="HeaderStyle mt-[20px]">Edit your profile</h1>
+            <h1 className="H1Style mt-[20px]">Edit your profile</h1>
             <div
                 id="generalError"
                 className="ErrorDiv"

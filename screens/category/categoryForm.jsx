@@ -64,6 +64,12 @@ const CategoryForm = props => {
         }
     }, [token])
 
+    useEffect(() => {
+        if (location.state != null) {
+
+        }
+    }, [location.state])
+
     return (
         <div>
             <h1 className="H1Style mt-[20px]">Create a new category</h1>

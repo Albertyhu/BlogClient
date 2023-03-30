@@ -33,10 +33,6 @@ const CategoryPage = props => {
         setGeneralError,
     }
 
-    useEffect(() => {
-      //  FetchCategoryById(apiURL, id, dispatchFunctions);
-    }, [])
-
     const generalErrorRef = useRef();
 
     useEffect(() => {
@@ -47,9 +43,10 @@ const CategoryPage = props => {
         }
     }, [generalError])
 
+
     useEffect(() => {
-        console.log(coverImage)
-    }, [coverImage])
+        window.scrollTo(0, 0);
+    })
 
     return (
         <div

@@ -50,7 +50,9 @@ const CategoryHooks = (navigate) => {
                     RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
-            .catch(e => { })
+            .catch(e => {
+                RenderErrorArray(result.error, dispatchFunctions)
+            })
     }
 
     return { FetchCategories, FetchCategoryById }
