@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState, lazy, useRef } from 'react';
+import React, { useCallback, useContext, useEffect, useState, lazy, useRef, startTransition, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
@@ -6,7 +6,9 @@ import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
 import PlusIcon from '../../assets/icons/white_plus_icon.png';
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx';
 import uuid from 'react-uuid';
-const CoverPhoto = lazy(()=> import("../../component/coverPhoto.jsx"));
+import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
+const CoverPhoto = lazy(() => import("../../component/coverPhoto.jsx"));
+
 
 const CategoryPage = props => {
     const navigate = useNavigate();
@@ -53,12 +55,19 @@ const CategoryPage = props => {
         <div
             className="w-full text-center text-lg text-black"
         >
-            {coverImage != null &&
-                <CoverPhoto
-                image={coverImage}
-                altText={categoryName}
-                title={categoryName}
-            />}
+            {coverImage != null ?
+                <Suspense fallback={<SubstituteCoverPhoto title={categoryName} />}>
+                    <CoverPhoto
+                    image={coverImage}
+                    altText={categoryName}
+                    title={categoryName}
+                    />
+                </Suspense>
+                :
+                <h1
+                    className = "text-center text-black font-bold text-2xl md:text-4xl mt-[20px] md:mt-[40px]"
+                >{categoryName}</h1>
+                }
             <div
                 id="generalError"
                 className="ErrorDiv"

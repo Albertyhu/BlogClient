@@ -2,15 +2,16 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\user",
+    "\\component\\header",
+    "\\hooks",
     "\\screens",
-    "\\screens\\tag",
-    "\\screens\\threadForm",
-    "\\screens\\user",
+    "\\screens\\category",
+    "\\screens\\home",
+    "\\screens\\post",
     "\\src",
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\hooks\\wait.jsx",
   "PreviewInSolutionExplorer": false
 }

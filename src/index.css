@@ -16,7 +16,7 @@
     }
 
     .btn-standard {
-        @apply rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px] text-base active:translate-y-[5px] select-none cursor-pointer sm:w-[150px] text-center w-fit my-5;
+        @apply rounded-lg px-[10px] py-1 sm:px-[12px] active:translate-x-[5px] text-base active:translate-y-[5px] select-none cursor-pointer text-center my-5 bg-[#dbdbdb] w-auto whitespace-nowrap;
     }
 
     .btn-submit {
