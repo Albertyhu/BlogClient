@@ -1,10 +1,6 @@
-const FetchHooks = () => {
+import { toBase64 } from '../util/processImage.jsx';
 
-    function toBase64(arr) {
-        return btoa(
-            arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
-        );
-    }
+const FetchHooks = () => {
 
     const fetchUserDetails = async (apiURL, userID, dispatch, dispatchError) => {
         try {
@@ -70,6 +66,10 @@ const FetchHooks = () => {
                     console.log("Error in fetching image: ", result.error)
                 }
             })
+    }
+
+    const FetchPostByCategory = (apiURL, CategoryID, ) => {
+
     }
 
     return { fetchUserDetails, fetchUsernameAndEmails, FetchProfilePic }

@@ -15,13 +15,11 @@ const ProfilePage = props => {
     const [error, setError] = useState("")
     const navigate = useNavigate(); 
     const { GoEditProfilePicture } = NavigationHooks(navigate); 
+
     useEffect(() => {
         fetchUserDetails(apiURL, id, setProfileDetails, setError)
     }, [id])
 
-    //useEffect(() => {
-    //    console.log("profileDetails: ", profileDetails)
-    //}, [profileDetails])
     return (
         <div className = 'text-center mt-[20px]'>
             <h1 className="font-bold text-2xl">{username}'s profile</h1>

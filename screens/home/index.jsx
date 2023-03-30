@@ -38,10 +38,6 @@ const Home = props => {
         }
     }, [user])
 
-    //useEffect(() => {
-    //        console.log("profileImage: ", profileImage)
-    //}, [profileImage])
-
     return (
         <div
             className = "w-full text-center text-lg text-black" 

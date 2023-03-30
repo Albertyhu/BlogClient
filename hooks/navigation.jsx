@@ -39,6 +39,23 @@ const NavigationHooks = (navigate) => {
         navigate("/category/create")
     }
 
+
+    function VisitOneCategory(category, ID) {
+        navigate(`/category/${category}`, {
+            state: {
+                id: ID, 
+            }
+        })
+    }
+
+    function EditCategory(ID, name) {
+        navigate(`/category/${name}/edit`, {
+            state: {
+                id:ID, 
+            }
+        })
+    }
+
     function GoTagPage(message) {
         navigate("/tags", {
             state: {
@@ -66,7 +83,6 @@ const NavigationHooks = (navigate) => {
         })
     }
 
-
     return {
         GoHome,
         GoSignIn,
@@ -76,8 +92,10 @@ const NavigationHooks = (navigate) => {
         GoEditProfile,
         GoEditProfilePicture,
         GoEditPassword,
-        GoCategory, 
+        GoCategory,
         GoCreateCategory,
+        VisitOneCategory,
+        EditCategory,
         GoTagPage,
         GoCreateTag
     }

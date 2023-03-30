@@ -1,6 +1,8 @@
 import { ErrorMessageHooks } from "./errorHooks.jsx"; 
 import { NavigationHooks } from './navigation.jsx'
-const { RenderErrorArray  } = ErrorMessageHooks()
+import { toBase64 } from '../util/processImage.jsx';
+
+const { RenderErrorArray } = ErrorMessageHooks()
 
 const CategoryHooks = (navigate) => {
     const { GoCategory } = NavigationHooks(navigate);
@@ -16,20 +18,42 @@ const CategoryHooks = (navigate) => {
         })
             .then(async response => {
                 const result = await response.json();
-                
                 if (response.ok) {
-                    setCategoryList(result.categories);
+                    const list = result.categories; 
+                    list.forEach(item => {
+                        item.image.data = toBase64(item.image.data.data)
+                    })
+
+                    setCategoryList(list);
                 }
                 else {
                     console.log("Error: ", result.error)
-                    RenderErrorArray(result.error,)
+                    RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
             .catch(e => {
-                RenderErrorArray(e)
+                console.log("Error 30: ", e)
             })
     }
-    return { FetchCategories }
+
+
+    const FetchCategoryById = async (apiURL, categoryID, dispatchFunctions) => {
+        const FetchURL = `${apiURL}/category/${categoryID}`
+        await fetch(FetchURL, {
+            method: 'GET'
+        })
+            .then( async response => {
+                const result = await response.JSON(); 
+                if (response.ok)
+                    dispatch(result);
+                else {
+                    RenderErrorArray(result.error, dispatchFunctions)
+                }
+            })
+            .catch(e => { })
+    }
+
+    return { FetchCategories, FetchCategoryById }
 }
 
 const CategoryFormHooks = (navigate) => {

@@ -158,13 +158,28 @@ export const BasicTextAreaInput = props => {
         inputRef,
         errorRef,
         ROWS = 5,
+        characterLimit, 
     } = props;
+
+    const [characters, setCharacter] = useState(characterLimit ? characterLimit : null)
+
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     const handleUserInput = evt => {
-        setData(evt.target.value)
+        var userInput = evt.target.value;
+        if (characters != null) {
+            if (userInput.length <= characterLimit) {
+                setData(userInput)
+                setCharacter(userInput.length)
+            }
+        }
+        else {
+            setData(userInput)
+            setCharacter(userInput.length)
+        }
+
     }
 
     useEffect(() => {
@@ -180,7 +195,7 @@ export const BasicTextAreaInput = props => {
             <label
                 htmlFor={label}
                 className={BasicLabelStyle}
-            >{capitalizeFirstLetter(label)}</label>
+            >{capitalizeFirstLetter(label)} {characterLimit && <span className = "text-gray-400">(Max {characterLimit} characters)</span>}</label>
             <textarea
                 name={name}
                 id={`${name}Input`}
@@ -192,6 +207,8 @@ export const BasicTextAreaInput = props => {
                 onChange={handleUserInput}
                 value={data}
             ></textarea>
+            {characterLimit != null &&
+                <div className = "text-[#b8b8b8] text-lg">{characters}/{characterLimit}</div>}
             <div
                 id="dataError"
                 className="ErrorDiv"

@@ -1,5 +1,5 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import { useNavigate} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import { CategoryFormHooks } from '../../hooks/categoryHooks.jsx'; 
@@ -14,6 +14,10 @@ import { AppContext } from '../../util/contextItem.jsx';
 //Next task: retrieve id and username from token 
 const CategoryForm = props => {
     const navigate = useNavigate();
+    const location = useLocation(); 
+
+    const [ID, setID] = useState(location.state ? location.state.id : null)
+
     const { GoHome } = NavigationHooks(navigate);
     const { apiURL, token } = useContext(AppContext);
     const { CreateCategory } = CategoryFormHooks(navigate); 
@@ -62,7 +66,7 @@ const CategoryForm = props => {
 
     return (
         <div>
-            <h1 className="HeaderStyle mt-[20px]">Create a new category</h1>
+            <h1 className="H1Style mt-[20px]">Create a new category</h1>
             <div
                 id="generalError"
                 className="ErrorDiv"
@@ -105,6 +109,7 @@ const CategoryForm = props => {
                         placeholder="Write the description of the category here"
                         inputRef={descriptionInputRef}
                         errorRef={descriptionErrorRef}
+                        characterLimit={125}
                     />
                     <EditImageInput
                         image={image}

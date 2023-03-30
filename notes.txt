@@ -1,3 +1,12 @@
+3/29/23
+I added the components folder path to 'content' of tailwind.config.js and the tailwind styling 
+for the header and footer worked.
+
+
+
+
+
+
 Pages to be built 
 User profile/User's page 
 Edit User profile

@@ -17,7 +17,11 @@ const RenderProfilePic = props => {
                 id="ImageWrapper"
                 className={ImageWrapperStyle}
             >
-                <img src={isBase64Image(profile_pic) ? profile_pic : dataURL} alt={altText} className={`${ImageStyle}`} />
+                <img
+                    src={isBase64Image(profile_pic) ? profile_pic : dataURL}
+                    alt={altText}
+                    className={`${ImageStyle}`}
+                />
             </div>
         )
     } catch (e) {

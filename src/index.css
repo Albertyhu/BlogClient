@@ -55,7 +55,7 @@
         @apply opacity-0 translate-y-[20px];
     }
 
-    .HeaderStyle {
+    .H1Style {
         @apply text-center text-2xl font-bold;
     }
 
@@ -176,8 +176,56 @@ body {
     cursor: pointer;
 }
 
+.backgroundTransition {
+    -webkit-transition: background-size 5s linear;
+    transition: transform 5s linear;
+}
+
+.NormalPosition {
+/*    background-size: 100%;
+    transition: background-size 5s linear;*/
+}
+
+.ZoomIn {
+/*    background-size: 200% 200%;
+    transition: background-size 5s linear;*/
+}
+
+.NormalPosition::after {
+    transform: scale(100%);
+}
+
+.ZoomIn::after {
+    transform: scale(200%);
+}
+
+
+/*.HeaderStyle {
+    width: 100%; 
+    position: fixed;
+    top: 0px; 
+    left: 0px;
+    right: 0px;
+    background-color: #000000; 
+    font-size: 20px; 
+    z-index: 10;
+    color: #ffffff; 
+    display: none; 
+}*/
+.DesktopStyle {
+    display: none;
+    width: 100%; 
+    min-height: 50px; 
+}
     @media screen and (min-width: 640px) {
+
         .ErrorMessage {
-        font-size: 15px;
+            font-size: 15px;
+        }
+}
+
+@media screen and (min-width: 768px) {
+    .DesktopStyle {
+        display: block;
     }
 }

@@ -14,6 +14,8 @@ import ProfilePage from '../screens/user';
 import EditPasswordForm from '../screens/user/editPassword.jsx'; 
 import CategoryForm from '../screens/category/categoryForm.jsx'; 
 import CategoryPage from '../screens/category'; 
+import CategoryDive from '../screens/category/CategoryDive.jsx';
+import EditCategory from '../screens/category/categoryForm.jsx';
 import TagsPage from '../screens/tag'; 
 import CreateTag from '../screens/tag/tagForm.jsx'; 
 
@@ -41,6 +43,8 @@ const Apps = props => {
                         <Route path="/profile/:username/editpassword" element={<EditPasswordForm />} />
                         <Route path="/category" element={<CategoryPage/> } />
                         <Route path="/category/create" element={<CategoryForm />} />
+                        <Route path="/category/:category" element={<CategoryDive />} />
+                        <Route path="/category/:category/edit" element={<EditCategory />} />
                         <Route path="/tags" element={<TagsPage />} />
                         <Route path="/tags/create" element={<CreateTag />} />
 

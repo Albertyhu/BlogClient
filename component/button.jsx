@@ -9,7 +9,7 @@ import "../src/index.css";
 //Location: Destination after clicking the button 
 //Value: The text displayed on the button
 //Data: Data to be passed to the next page using location.state; 
-export const Button = props => {
+const Button = props => {
     const { ButtonStyle, ButtonType, Location, Value, Data } = props; 
     var DefaultButtonStyle = `rounded-full p-[10px] active:translate-x-[5px] 
     active:translate-y-[5px] cursor-pointer border-black border-2 
@@ -27,15 +27,16 @@ export const Button = props => {
         >{Value}</button>)
 }
 
-export const AddButton = props => {
+const AddButton = props => {
     const { title,
         dispatchFunction,
-        altText = "Add Button"
+        altText = "Add Button",
+        customStyle
     } = props;
 
     return (
         <button
-            className="btn-add"
+            className={customStyle ? customStyle : "btn-add"}
             onClick={dispatchFunction}
         >{title}
             <img
@@ -45,4 +46,9 @@ export const AddButton = props => {
             />
         </button>
         )
+}
+
+export {
+    AddButton,
+    Button
 }

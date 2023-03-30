@@ -35,11 +35,6 @@ function App() {
         }
     }, [token])
 
-
-    //useEffect(() => {
-    //        console.log("ProfilePicture: ", ProfilePicture)
-    //}, [ProfilePicture])
-
     return (
         <AppContext.Provider value={context}>
             <RouteComponent token={token} />
