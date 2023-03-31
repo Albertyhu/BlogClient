@@ -5,8 +5,6 @@ for the header and footer worked.
 
 
 
-
-
 Pages to be built 
 User profile/User's page 
 Edit User profile
@@ -17,3 +15,6 @@ Page for posting and editing a thread
 
 Category page 
 List of users
+
+Testing task: 
+test out the like feature

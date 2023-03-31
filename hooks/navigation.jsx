@@ -40,10 +40,21 @@ const NavigationHooks = (navigate) => {
     }
 
 
-    function VisitOneCategory(category, ID) {
-        navigate(`/category/${category}`, {
+    function VisitOneCategory(categoryName, ID) {
+        navigate(`/category/${categoryName}`, {
             state: {
                 id: ID, 
+            }
+        })
+    }
+    //This navigates the user to a single category page and it passes relevant data
+    function VisitOneCategoryAndPopulate(categoryName, ID, image, description) {
+        navigate(`/category/${categoryName}`, {
+            state: {
+                id: ID,
+                name: categoryName, 
+                image, 
+                description,
             }
         })
     }
@@ -95,6 +106,7 @@ const NavigationHooks = (navigate) => {
         GoCategory,
         GoCreateCategory,
         VisitOneCategory,
+        VisitOneCategoryAndPopulate,
         EditCategory,
         GoTagPage,
         GoCreateTag

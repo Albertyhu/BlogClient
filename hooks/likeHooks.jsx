@@ -12,9 +12,9 @@ const checkIfLiked = (likeList, userID) => {
 
 const updateLikesInServer = async (apiURL, newLikeList, postID, token) => {
     const FetchURL = `${apiURL}/post/${postID}/update_likes`;
-    const formData = FormData; 
+    const formData = new FormData; 
     const stringifiedLikes = JSON.stringify(newLikeList)
-    formData.append("like_list", stringifiedLikes)
+    formData.append("updatedLikes", stringifiedLikes)
     await fetch(FetchURL, {
         method: "PUT",
         body: formData, 

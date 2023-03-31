@@ -321,9 +321,13 @@ export const TagInput = props => {
         )
 }
 
-const Tag = props => {
-    const { name, deleteTag } = props; 
-    return (
+export const Tag = props => {
+    const {
+        name,
+        deleteTag
+    } = props;
+    return deleteTag ? 
+     (
         <div
             className="Tag"
             onClick={()=>deleteTag(name)}
@@ -333,6 +337,14 @@ const Tag = props => {
                 className="MiniDeleteButton ml-5"
                 src={DeleteIcon}
             />
+        </div>
+    )
+    :
+    (
+        <div
+            className="Tag"
+        >
+            <div>{name}</div>
         </div>
         )
 }

@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react'; 
 import { FcLikePlaceholder, FcLike } from 'react-icons/Fc';
 import { AppContext } from '../util/contextItem.jsx';
-import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
-import { checkifLiked, updateLikesInServer } from '../../hooks/likeHooks.jsx'; 
+import { DecodeToken } from '../hooks/decodeToken.jsx'; 
+import { checkIfLiked, updateLikesInServer } from '../hooks/likeHooks.jsx'; 
+import { IconContext } from 'react-icons';
 
 const RenderLikes = props => {
     const {
         likes,
-     //   toggleLike, 
         postID
     } = props; 
 
@@ -16,7 +16,7 @@ const RenderLikes = props => {
         apiURL, 
     } = useContext(AppContext); 
     const [isLiked, setLike] = useState(false); 
-    const [number, setNumber] = useState(likes.length)
+    const [number, setNumber] = useState(likes ? likes.length : 0)
     const [decoded, setDecoded] = useState(null)
 
     const toggleLike = () => {
@@ -38,8 +38,9 @@ const RenderLikes = props => {
         }
     }, [token])
 
-    useEfect(() => {
-        setLike(checkifLiked(likes, decoded.id)); 
+    useEffect(() => {
+        if(decoded)
+            setLike(checkIfLiked(likes, decoded.id)); 
     }, [decoded])
 
     return (
@@ -50,9 +51,9 @@ const RenderLikes = props => {
                     disabled={ token ? false : true }
                 >
                 {isLiked ? 
-                    <FcLike />
+                        <FcLike/>
                     :
-                    <FcLikePlaceholder />
+                        <FcLikePlaceholder style={{ color: "blue" }} />
                     }
                 </div>
                 <span className = "text-lg mx-10">{number}</span>

@@ -48,7 +48,6 @@ const CategoryPage = props => {
             name: item.name, 
             description: item.description,
             image: item.image,
-            post: item.post
         }
     }), [navigate])
 
@@ -105,10 +104,14 @@ const CategoryPage = props => {
             }
             {categoryList &&
                 <div
+                    key={uuid()}
                     id="CategoryGrid"
                     className="grid mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-x-[10px] w-full">
                     {categoryList.map(item => 
-                        <Suspense fallback={<SubstitutePanel key={uuid()} title={item.name} />}>
+                        <Suspense
+                            key={uuid()}
+                            fallback={<SubstitutePanel title={item.name} />}
+                        >
                             <Panel
                                 key={uuid()}
                                 {...item}

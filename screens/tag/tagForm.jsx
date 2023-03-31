@@ -5,10 +5,7 @@ import { TagHooks } from '../../hooks/tagHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     FormButtons,
-    BasicTextInput,
-    BasicTextAreaInput,
     TagInput,
-    EditImageInput,
 } from '../../component/formElements.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
 
@@ -20,7 +17,6 @@ const CategoryForm = props => {
     const { apiURL, token } = useContext(AppContext);
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
     const [existingTags, setExistingTags] = useState(null);
-    const [name, setName] = useState("")
 
     //This useState variable will store that tags that the user wants to save. 
     const [tags, setTags] = useState([]);
