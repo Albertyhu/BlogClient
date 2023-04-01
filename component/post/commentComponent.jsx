@@ -8,7 +8,7 @@ const RenderCommentSymbol = props => {
     } = props; 
     return (
         <IconContext.Provider value={{ size: "25px" }}>
-            <span className = "inline-flex my-10"><FaRegCommentDots />{number}</span>
+            <span className = "inline-flex my-10"><FaRegCommentDots /><span className = "ml-5">{number}</span></span>
         </IconContext.Provider>
         )
 }

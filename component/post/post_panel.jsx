@@ -1,7 +1,10 @@
 import RenderThumbnail from './renderThumbnail.jsx'; 
-import { RenderLikes } from '../likeComponent.jsx'; 
+import { PostLikeFeatures } from '../likeComponent.jsx';
+//import { RenderLikeButton, DisplayLikes } from '../likeComponent.jsx'; 
 import { RenderCommentSymbol } from './commentComponent.jsx'; 
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
+import { PostNavigationHooks } from '../../hooks/navigation.jsx'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const RenderPostPanel = props => {
     const { title,
@@ -16,9 +19,23 @@ const RenderPostPanel = props => {
         comments, 
         _id
     } = props; 
+    const { RenderLikeButton, DisplayLikes } = PostLikeFeatures();
+    const navigate = useNavigate(); 
+    const { BringDataToPost } = PostNavigationHooks(navigate); 
 
+    const data = {
+        title,
+        content,
+        datePublished,
+        thumbnail,
+        abstract,
+        id: _id
+    }
     return (
-        <div className="PostPanel box-shadow">
+        <div
+            className="PostPanel box_shadow"
+            onClick={() =>BringDataToPost(data)}
+        >
             <div
                 id="ContentWrapper"
                 className="ContentWrapper">
@@ -30,7 +47,7 @@ const RenderPostPanel = props => {
                 {abstract &&
                     <p>Abstract: <span className="italic">{abstract}</span></p>}
                 <div className="flex">
-                    <RenderLikes
+                    <DisplayLikes
                         likes={likes}
                         postID={_id}
                     />

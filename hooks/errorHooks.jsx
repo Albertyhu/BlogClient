@@ -4,7 +4,6 @@ const ErrorMessageHooks = () => {
     //It takes the raw array and separates it into different arrays 
     //Generate DOM elements 
     function RenderErrorArray(errorArray, dispatchFunctions) {
-        console.log("errorArray: ", errorArray)
         const {
             setUsernameError,
             setEmailError,
@@ -132,4 +131,40 @@ const ErrorMessageHooks = () => {
     } 
 }
 
-export {ErrorMessageHooks }
+const PostErrorHooks = () => {
+    function RenderErrorArray(errorArray, dispatchFunctions) {
+        console.log("errorArray: ", errorArray)
+        const {
+            setGeneralError,
+        } = dispatchFunctions;
+
+        const resetErrorFields = () => {
+            if (setGeneralError)
+                setGeneralError([])
+
+        }
+
+        resetErrorFields();
+
+        errorArray.forEach(error => {
+            switch (error.param.toLowerCase()) {
+                case 'post':
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'server':
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'authorization':
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                default:
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+            }
+        })
+
+    }
+    return { RenderErrorArray }
+}
+
+export { ErrorMessageHooks, PostErrorHooks }

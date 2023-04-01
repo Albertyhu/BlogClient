@@ -82,7 +82,7 @@ const CategoryPage = props => {
             <div className="">
                 {token && 
                 <button
-                    className="btn-add"
+                    className="btn-add mb-10"
                     onClick={() => EditCategory(id, categoryName)}
                 >Edit category
                     <img
@@ -93,8 +93,8 @@ const CategoryPage = props => {
                     </button>
                 }
                 {postList && postList.length > 0 &&
-                    postList.map(post => 
-                        <div className="w-11/12 md:w-6/12 mx-auto flex-grow z-10">
+                    <div className="w-11/12 md:w-6/12 mx-auto flex-grow z-10">
+                        {postList.map(post =>
                             <Suspense
                                 key={uuid()}
                                 value={<span key={uuid()}>Loading...</span>}
@@ -104,8 +104,8 @@ const CategoryPage = props => {
                                     {...post}
                                 />
                             </Suspense>
-                        </div>
-                        )
+                        )}
+                    </div>
                 }
             </div>
 

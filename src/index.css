@@ -35,9 +35,10 @@
         @apply text-lg border-black border-[1px] rounded bg-[#f2e798];
     }
     /*An empty field for the error message to be revealed*/
-    .ErrorDiv {
+    .ErrorDiv, .MessageDiv {
         @apply min-h-[25px] w-full grow relative;
     }
+
     /*Styling for the error message*/
     .ErrorMessageTW {
         @apply text-[#e0200d] text-[12px] text-center static top-[-20px] left-0 right-0 transition-[transform_opacity] ease-out;
@@ -131,13 +132,30 @@ body {
     transition: opacity 1s ease-in, transform 500ms ease-in !important;
 }
 
-.ErrorMessageFadeIn {
+.Message {
+    background-color: #cfcfcf; 
+    border-radius: 15px; 
+    color: #2e2e2e;
+    font-size: 12px;
+    font-family: inherit;
+    text-align: center;
+    opacity: 0.0;
+    position: static;
+    top: -20px;
+    left: 0;
+    right: 0;
+    transform: translateY(-20px);
+    transition: opacity 1s ease-in, transform 500ms ease-in !important;
+}
+
+.ErrorMessageFadeIn, .MessageFadeIn {
     opacity: 1.0;
     transform: translateY(0px);
     transition: opacity 1s ease-in, transform 1s ease-in;
 }
 
-.ErrorMessageFadeOut {
+
+.ErrorMessageFadeOut, .MessageFadeOut {
     opacity: 0.0;
     transform: translateY(20px);
     transition: opacity 1s ease-in, transform 1s ease-in;
@@ -207,19 +225,6 @@ body {
     transform: scale(200%);
 }
 
-
-/*.HeaderStyle {
-    width: 100%; 
-    position: fixed;
-    top: 0px; 
-    left: 0px;
-    right: 0px;
-    background-color: #000000; 
-    font-size: 20px; 
-    z-index: 10;
-    color: #ffffff; 
-    display: none; 
-}*/
 .DesktopStyle {
     display: none;
     width: 100%; 
@@ -227,7 +232,7 @@ body {
 }
     @media screen and (min-width: 640px) {
 
-        .ErrorMessage {
+        .ErrorMessage, .Message {
             font-size: 15px;
         }
 }

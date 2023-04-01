@@ -66,7 +66,6 @@ const CategoryForm = props => {
 
     useEffect(() => {
         if (location.state != null) {
-
         }
     }, [location.state])
 

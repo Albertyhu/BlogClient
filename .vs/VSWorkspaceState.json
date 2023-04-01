@@ -2,15 +2,16 @@
   "ExpandedNodes": [
     "",
     "\\assets",
-    "\\public",
+    "\\assets\\icons",
     "\\screens",
     "\\screens\\category",
     "\\screens\\home",
     "\\screens\\post",
+    "\\screens\\threadForm",
     "\\src",
     "\\src\\assets",
     "\\util"
   ],
-  "SelectedNode": "\\public",
+  "SelectedNode": "\\hooks\\wait.jsx",
   "PreviewInSolutionExplorer": false
 }

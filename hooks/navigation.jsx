@@ -109,8 +109,33 @@ const NavigationHooks = (navigate) => {
         VisitOneCategoryAndPopulate,
         EditCategory,
         GoTagPage,
-        GoCreateTag
+        GoCreateTag,
+        
     }
 }
 
-export { NavigationHooks }; 
+const PostNavigationHooks = (navigate) => {
+    function BringDataToPost(data) {
+        const {
+            title,
+            content,
+            datePublished,
+            thumbnail,
+            abstract,
+            id, 
+        } = data; 
+        navigate(`/post/${data.title}`, {
+            state: {
+                title,
+                content,
+                datePublished,
+                thumbnail,
+                abstract,
+                id, 
+            }
+        })
+    }
+    return { BringDataToPost }
+}
+
+export { NavigationHooks, PostNavigationHooks }; 

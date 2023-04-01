@@ -18,6 +18,7 @@ import CategoryDive from '../screens/category/CategoryDive.jsx';
 import EditCategory from '../screens/category/categoryForm.jsx';
 import TagsPage from '../screens/tag'; 
 import CreateTag from '../screens/tag/tagForm.jsx'; 
+import PostDive from '../screens/post';
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
@@ -47,6 +48,7 @@ const Apps = props => {
                         <Route path="/category/:category/edit" element={<EditCategory />} />
                         <Route path="/tags" element={<TagsPage />} />
                         <Route path="/tags/create" element={<CreateTag />} />
+                        <Route path="/post/:post_name" element={<PostDive />} />
 
                     </Routes>
                 </div>
