@@ -31,7 +31,7 @@ const Header = props => {
 
     const HeaderBackgroundColor = "bg-black";
     const TextColor = "text-white"; 
-    const HeaderStyle = `w-full fixed top-0 left-0 right-0 text-2xl z-10 ${HeaderBackgroundColor} ${TextColor}`;
+    const HeaderStyle = `w-full fixed top-0 left-0 right-0 text-2xl z-20 ${HeaderBackgroundColor} ${TextColor}`;
     const LogoStyle = `h-auto cursor-pointer select-none inline-block`
     const DesktopStyle = `hidden md:block w-full min-h-[50px]`;
     const MobileStyle = `flex md:hidden w-full h-[50px] [&>*]:inline-block justify-between`;

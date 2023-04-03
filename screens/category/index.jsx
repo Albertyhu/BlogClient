@@ -30,6 +30,7 @@ const CategoryPage = props => {
     const [generalError, setGeneralError] = useState([]); 
 
     const dispatchFunctions = {
+        categoryList, 
         setCategoryList,
         setGeneralError, 
     }
@@ -51,9 +52,9 @@ const CategoryPage = props => {
         }
     }), [navigate])
 
-    useEffect(() => {
-        FetchCategories(apiURL, dispatchFunctions); 
-    },[])
+    //useEffect(() => {
+    //    FetchCategories(apiURL, dispatchFunctions); 
+    //},[])
 
     useEffect(() => {
         if (categoryList != null && categoryList.length > 0) {

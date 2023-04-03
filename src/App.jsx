@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import RouteComponent from '../component/routes.jsx';
 import { AppContext } from '../util/contextItem.jsx';
 import './index.css';
+import { CategoryHooks } from '../hooks/categoryHooks.jsx';
 
 function App() {
+    const { FetchCategories } = CategoryHooks()
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [ProfilePicture, setProfilePic] = useState(JSON.parse(localStorage.getItem('ProfilePicture')));
@@ -34,6 +36,11 @@ function App() {
             setDisplayMemberComponents(true)
         }
     }, [token])
+
+    useEffect(() => {
+        if(categoryList == null)
+           FetchCategories(context.apiURL, {setCategoryList})
+    }, [categoryList])
 
     return (
         <AppContext.Provider value={context}>

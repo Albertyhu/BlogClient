@@ -28,7 +28,6 @@ const CategoryHooks = (navigate) => {
                 }
                 else {
                     console.log("Error: ", result.error)
-                    RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
             .catch(e => {
@@ -55,7 +54,32 @@ const CategoryHooks = (navigate) => {
             })
     }
 
-    return { FetchCategories, FetchCategoryById }
+    const DeleteCategory = (apiURL, ID, token, categoryList, setCategoryList) => {
+        const FetchURL = `${apiURL}/category/${ID}/delete`; 
+        fetch(FetchURL, {
+            method: "DELETE", 
+            headers: {
+                "Authorization" : token, 
+            }
+        }).then(async response => {
+            const result = await response.json(); 
+            if (response.ok) {
+                console.log(result.message);
+                var newArr = categoryList.filter(val => val._id.toString() != result.deletedCategory.toString())
+                setCategoryList(newArr)
+                GoCategory(); 
+            }
+            else {
+                console.log("There was an error in the attempt to delete the category.", result.error); 
+            }
+        })
+    }
+
+    return {
+        FetchCategories,
+        FetchCategoryById,
+        DeleteCategory
+    }
 }
 
 const CategoryFormHooks = (navigate) => {
@@ -67,6 +91,7 @@ const CategoryFormHooks = (navigate) => {
             description,
             imageData
         } = Elements; 
+        const { setCategoryList } = dispatchFunctions; 
         const formData = new FormData; 
         formData.append("name", name)
         formData.append("description", description)
@@ -79,10 +104,13 @@ const CategoryFormHooks = (navigate) => {
             }
         })
             .then(async response => {
-                if (response.ok)
+                const result = await response.json(); 
+
+                if (response.ok) {
+                    setCategoryList(prev => [...prev, result.newCategory])
                     GoCategory();
+                }
                 else {
-                    const result = await response.json(); 
                     console.log("Error in trying to create a new category: ", result.error)
                     RenderErrorArray(result.error, dispatchFunctions); 
                 }

@@ -23,10 +23,12 @@ const CategoryPage = props => {
     const [coverImage, setImage] = useState(location.state ? location.state.image ? location.state.image : null : null)
     const [description, setDescription] = useState(location.state ? location.state.description ? location.state.description : "" : "");
     const [postList, setPostList] = useState([])
-    const { FetchCategoryById } = CategoryHooks(navigate);
+    const { FetchCategoryById, DeleteCategory } = CategoryHooks(navigate);
     const {
         apiURL,
-        token
+        token,
+        categoryList, 
+        setCategoryList, 
     } = useContext(AppContext);
     const {
         RenderError,
@@ -81,17 +83,24 @@ const CategoryPage = props => {
             </div>
             <div className="">
                 {token && 
-                <button
-                    className="btn-add mb-10"
-                    onClick={() => EditCategory(id, categoryName)}
-                >Edit category
-                    <img
-                        src={PlusIcon}
-                        alt="Add Icon"
-                        className="buttonIcons"
-                    />
+                    <div className ="grid">
+                        <button
+                            className="btn-add mb-10"
+                            onClick={() => EditCategory(id, categoryName)}
+                        >Edit category
+                            <img
+                                src={PlusIcon}
+                                alt="Add Icon"
+                                className="buttonIcons"
+                            />
                     </button>
+                    <button
+                        className="btn-primary"
+                            onClick={() => DeleteCategory(apiURL, id, token, categoryList, setCategoryList)}
+                    >Delete Category</button>
+                    </div>
                 }
+
                 {postList && postList.length > 0 &&
                     <div className="w-11/12 md:w-6/12 mx-auto flex-grow z-10">
                         {postList.map(post =>

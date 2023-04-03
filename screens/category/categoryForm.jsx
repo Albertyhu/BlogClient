@@ -19,7 +19,11 @@ const CategoryForm = props => {
     const [ID, setID] = useState(location.state ? location.state.id : null)
 
     const { GoHome } = NavigationHooks(navigate);
-    const { apiURL, token } = useContext(AppContext);
+    const {
+        apiURL,
+        token, 
+        setCategoryList
+    } = useContext(AppContext);
     const { CreateCategory } = CategoryFormHooks(navigate); 
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
     const [name, setName] = useState("")
@@ -33,6 +37,7 @@ const CategoryForm = props => {
     const [generalError, setGeneralError] = useState([])
 
     const dispatchFunctions = {
+        setCategoryList,
         setNameError,
         setImageError,
         setDescriptionError,

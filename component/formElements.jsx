@@ -372,6 +372,43 @@ const ExistingTagResults = props => {
     return null; 
 }
 
+export const SelectCategory = props => {
+    const {
+        data,
+        label,
+        name,
+        setData, 
+        errorRef,
+        dataError
+    } = props;
+
+    const onChangeHandler = evt => {
+        setData(evt.target.value)
+    }
+
+    return (
+        <>
+            <label>Select category</label>
+            <select
+                name="category"
+                onChange={onChangeHandler}
+            >
+                {data.map(opt => 
+                    <option
+                        key={uuid()}
+                        value={opt._id}>{opt.name}</option>
+                    )}
+            </select>
+            <div
+                id="dataError"
+                className="ErrorDiv"
+                ref={errorRef}>
+                {dataError != null && dataError.length > 0 && RenderError(dataError)}
+            </div>
+        </>
+        )
+}
+
 /*
  template
 <BasicFormInput
