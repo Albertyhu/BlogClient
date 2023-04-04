@@ -4,12 +4,13 @@ import "../src/index.css";
 const AddButton = props => {
     const { title,
         dispatchFunction,
-        altText = "Add Button"
+        altText = "Add Button",
+        buttonStyle = "btn-add"
     } = props;
 
     return (
         <button
-            className="btn-add"
+            className={`${buttonStyle}`}
             onClick={dispatchFunction}
         >{title}
             <img

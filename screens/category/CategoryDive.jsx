@@ -9,8 +9,8 @@ import uuid from 'react-uuid';
 import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
 import { FetchHooks as PostFetchHooks } from '../../hooks/postHooks.jsx'; 
 const CoverPhoto = lazy(() => import("../../component/coverPhoto.jsx"));
-//import Panel from '../../component/post/post_panel.jsx'; 
-const Panel = lazy(() =>import ('../../component/post/post_panel.jsx'))
+const Panel = lazy(() => import('../../component/post/post_panel.jsx'))
+import { PostButtons } from '../../component/post/buttons.jsx'; 
 
 /** This component displays individual categories and its data*/
 const CategoryPage = props => {
@@ -23,7 +23,8 @@ const CategoryPage = props => {
     const [coverImage, setImage] = useState(location.state ? location.state.image ? location.state.image : null : null)
     const [description, setDescription] = useState(location.state ? location.state.description ? location.state.description : "" : "");
     const [postList, setPostList] = useState([])
-    const { FetchCategoryById, DeleteCategory } = CategoryHooks(navigate);
+    const { DeleteCategory } = CategoryHooks(navigate);
+    const { CreateNewPost } = PostButtons(navigate); 
     const {
         apiURL,
         token,
@@ -64,9 +65,10 @@ const CategoryPage = props => {
             {coverImage != null ?
                 <Suspense fallback={<SubstituteCoverPhoto title={categoryName} />}>
                     <CoverPhoto
-                    image={coverImage}
-                    altText={categoryName}
-                    title={categoryName}
+                        image={coverImage}
+                        altText={categoryName}
+                        title={categoryName}
+                        isPreview={false}
                     />
                 </Suspense>
                 :
@@ -81,24 +83,22 @@ const CategoryPage = props => {
             >
                 {generalError != null && generalError.length > 0 && RenderError(generalError)}
             </div>
-            <div className="">
+            <div>
                 {token && 
                     <div className ="grid">
                         <button
                             className="btn-add mb-10"
-                            onClick={() => EditCategory(id, categoryName)}
+                            onClick={() => EditCategory(id, categoryName, description, coverImage)}
                         >Edit category
-                            <img
-                                src={PlusIcon}
-                                alt="Add Icon"
-                                className="buttonIcons"
-                            />
-                    </button>
-                    <button
-                        className="btn-primary"
-                            onClick={() => DeleteCategory(apiURL, id, token, categoryList, setCategoryList)}
-                    >Delete Category</button>
-                    </div>
+                        </button>
+                        <button
+                            className="btn-primary mb-10"
+                                onClick={() => DeleteCategory(apiURL, id, token, categoryList, setCategoryList)}
+                        >Delete Category</button>
+                        <CreateNewPost
+                            buttonStyle= "btn-secondary mb-10"
+                        />
+                     </div>
                 }
 
                 {postList && postList.length > 0 &&

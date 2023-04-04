@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\user",
-    "\\hooks",
+    "\\component\\header",
     "\\screens",
-    "\\screens\\post",
+    "\\screens\\category",
+    "\\screens\\home",
     "\\screens\\tag",
     "\\screens\\threadForm",
     "\\screens\\user",
     "\\src"
   ],
-  "SelectedNode": "\\src\\App.jsx",
+  "SelectedNode": "\\screens\\category\\CategoryDive.jsx",
   "PreviewInSolutionExplorer": false
 }

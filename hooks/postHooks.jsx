@@ -1,8 +1,9 @@
 import { ErrorMessageHooks } from './errorHooks.jsx'; 
+import { PostNavigationHooks } from './navigation.jsx'; 
 
 const { RenderErrorArray } = ErrorMessageHooks()
 
-const FetchHooks = (navigate) => {
+const FetchHooks = () => {
     const FetchPostsByCateogry = async (apiURL, categoryID, dispatch) => {
         const FetchURL = `${apiURL}/post/get_posts_by_category/${categoryID}`;
         const formData = new FormData; 
@@ -65,6 +66,17 @@ const FetchHooks = (navigate) => {
     }
 
     return { FetchPostsByCateogry, FetchPostById } 
+}
+
+const CreateAndUpdatePosts = (navigate) => {
+    const {
+        BringDataToPost, 
+    } = PostNavigationHooks(navigate)
+    const CreatePost = (apiURL, Elements, dispatchFunction) => {
+        FetchURL = `${apiURL}/posts/create`
+    }
+
+    return {CreatePost}
 }
 
 export { FetchHooks }

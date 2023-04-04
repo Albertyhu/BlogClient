@@ -1,4 +1,4 @@
-import { useEffect, lazy, useCallback, useState } from 'react';
+import { useEffect, lazy, useCallback, useState, Suspense, useRef} from 'react';
 import { ErrorMessageHooks } from "../hooks/errorHooks.jsx";
 import { RegistrationHooks } from '../hooks/authFormHooks.jsx';
 import { useNavigate } from 'react-router-dom'; 
@@ -6,8 +6,13 @@ import '../src/index.css';
 import DeleteIcon from '../assets/icons/cancel.png'; 
 import uuid from 'react-uuid';
 import { searchTag } from '../hooks/tagHooks.jsx'; 
-
+import { wait } from '../hooks/wait.jsx'
 const RenderProfilePic = lazy(() => import('./user/profilePicture.jsx'));
+const RenderCoverPhoto = lazy(() => import("./coverPhoto.jsx"));
+import PropTypes from 'prop-types';
+const AddButton = lazy(() => import('./addButton.jsx'));
+import { NavigationHooks } from '../hooks/navigation.jsx';
+
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
 const { HandleFileChange } = RegistrationHooks();
 const BasicInputStyle = `px-1 text-lg border-black border-[1px] rounded bg-transparent`;
@@ -47,15 +52,17 @@ export const FormButtons = props => {
 
 
 export const EditImageInput = props => {
-    const { image,
+    const {
+        image,
         setImage,
         pictureError,
         label,
         name,
         placeholder = "Upload an image here",
         ImageInputRef,
-        ImageErrorRef,
     } = props; 
+
+    const ImageErrorRef = useRef();
 
     useEffect(() => {
         if (pictureError.length > 0) {
@@ -64,11 +71,18 @@ export const EditImageInput = props => {
             }
         }
     }, [pictureError])
+
     return (
         <>
-            {image && <RenderProfilePic
-                profile_pic={image}
-                altText="Preview Image" />
+            {image &&
+
+                <Suspense fallback={<h2 className = "text-center text-2xl mx-auto my-10 text-black">Loading current image...</h2>}>
+                    <RenderCoverPhoto
+                        image={image}
+                        altText="Preview Image"
+                        isPreview={true}
+                    />
+                </Suspense>
             }
             <label
                 htmlFor={label}
@@ -102,13 +116,14 @@ export const BasicTextInput = props => {
         name,
         placeholder = "Write something",
         inputRef,
-        errorRef,
         type="text"
     } = props;
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    const errorRef = useRef(); 
 
     const handleUserInput = evt => { 
         setData(evt.target.value)
@@ -156,12 +171,13 @@ export const BasicTextAreaInput = props => {
         name,
         placeholder = "Write something",
         inputRef,
-        errorRef,
         ROWS = 5,
         characterLimit, 
     } = props;
 
     const [characters, setCharacter] = useState(characterLimit ? characterLimit : null)
+
+    const errorRef = useRef(); 
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -222,7 +238,6 @@ export const BasicTextAreaInput = props => {
 export const TagInput = props => {
     const {
         inputError, 
-        errorRef,
         addedTags, 
         setAddedTags,
         existingTags, 
@@ -273,6 +288,8 @@ export const TagInput = props => {
         var arr = addedTags.filter(val => val.name != item); 
         setAddedTags(arr)
     }
+
+    const errorRef = useRef(); 
 
     useEffect(() => {
         if (inputError.length > 0) {
@@ -372,41 +389,69 @@ const ExistingTagResults = props => {
     return null; 
 }
 
-export const SelectCategory = props => {
-    const {
-        data,
-        label,
-        name,
-        setData, 
-        errorRef,
-        dataError
-    } = props;
+export const PostFormElements = (navigate) => {
+    const { GoCreateCategory } = NavigationHooks(navigate); 
 
-    const onChangeHandler = evt => {
-        setData(evt.target.value)
+    const SelectCategory = props => {
+        const {
+            categoryList,
+            currentOption,
+            label = "Select category",
+            setData,
+            dataError,
+        } = props;
+
+        const onChangeHandler = evt => {
+            setData(evt.target.value)
+        }
+
+        const errorRef = useRef(); 
+
+        useEffect(() => {
+            if (dataError.length > 0) {
+                for (var child of errorRef.current.children) {
+                    AnimateErrorMessage(child)
+                }
+            }
+        }, [dataError])
+
+        return (
+            <>
+                <label>{label}</label>
+                <select
+                    name="category"
+                    onChange={onChangeHandler}
+                >
+                    {categoryList && categoryList.map(opt =>
+                        <option
+                            key={uuid()}
+                            value={opt._id}
+                            selected={currentOption ? currentOption.toString() == opt._id.toString() ? true : false : false}
+                        >{opt.name}</option>
+                    )}
+                </select>
+                <Suspense fallback={<p>Loading...</p>}>
+                    <div><AddButton
+                        title="Create a new category"
+                        dispatchFunction={GoCreateCategory}
+                        altText="Add a new category"
+                    /></div>
+                </Suspense>
+                <div
+                    id="dataError"
+                    className="ErrorDiv"
+                    ref={errorRef}>
+                    {dataError != null && dataError.length > 0 && RenderError(dataError)}
+                </div>
+            </>
+        )
     }
 
-    return (
-        <>
-            <label>Select category</label>
-            <select
-                name="category"
-                onChange={onChangeHandler}
-            >
-                {data.map(opt => 
-                    <option
-                        key={uuid()}
-                        value={opt._id}>{opt.name}</option>
-                    )}
-            </select>
-            <div
-                id="dataError"
-                className="ErrorDiv"
-                ref={errorRef}>
-                {dataError != null && dataError.length > 0 && RenderError(dataError)}
-            </div>
-        </>
-        )
+    SelectCategory.propTypes = {
+        label: PropTypes.string,
+        name: PropTypes.string,
+    }
+    return { SelectCategory }
 }
 
 /*

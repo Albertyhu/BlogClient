@@ -1,41 +1,61 @@
-import { useContext, useEffect, useRef} from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
+import { NavigationHooks } from "../../hooks/navigation.jsx";
+import { CategoryFormHooks } from '../../hooks/categoryHooks.jsx'; 
 import {
     FormButtons,
     BasicTextInput,
     BasicTextAreaInput,
     EditImageInput,
 } from '../../component/formElements.jsx';
-import {
-    CategoryContext,
-} from '../../util/contextItem.jsx';
+import { AppContext } from '../../util/contextItem.jsx';
 
 //Next task: retrieve id and username from token 
 const CategoryForm = props => {
-    const {
-        execute,
-        imageFormLabel
-    } = props; 
+    const navigate = useNavigate();
+    const location = useLocation(); 
 
+    const [ID, setID] = useState(location.state ? location.state.id : null)
+
+    const { GoHome } = NavigationHooks(navigate);
+    const {
+        apiURL,
+        token, 
+        setCategoryList
+    } = useContext(AppContext);
+    const { CreateCategory } = CategoryFormHooks(navigate); 
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
+    const [name, setName] = useState("")
+    const [image, setImage] = useState(null);
+    const [description, setDescription] = useState("")
 
-    const {
-        name,
-        image,
-        description,
-        setName,
-        setImage,
-        setDescription,
-        generalError,
-        nameError,
-        imageError,
-        descriptionError,
-        imageInputRef,
-        nameInputRef,
-        descriptionInputRef,
-    } = useContext(CategoryContext) 
+    const [nameError, setNameError] = useState([])
+    const [imageError, setImageError] = useState([])
+    const [descriptionError, setDescriptionError] = useState([]);
 
-    const generalErrorRef = useRef(); 
+    const [generalError, setGeneralError] = useState([])
+
+    const dispatchFunctions = {
+        setCategoryList,
+        setNameError,
+        setImageError,
+        setDescriptionError,
+        setGeneralError, 
+    }
+
+    const imageInputRef = useRef();
+    const nameInputRef = useRef();
+    const descriptionInputRef = useRef();
+
+    const generalErrorRef = useRef();
+    const nameErrorRef = useRef();
+    const imageErrorRef = useRef();
+    const descriptionErrorRef = useRef();
+
+    const FormRef = useRef();
+
+    
 
     useEffect(() => {
         if (generalError.length > 0) {
@@ -45,9 +65,20 @@ const CategoryForm = props => {
         }
     }, [generalError])
 
+    useEffect(() => {
+        if (!token) {
+            return () => GoHome();
+        }
+    }, [token])
+
+    useEffect(() => {
+        if (location.state != null) {
+        }
+    }, [location.state])
 
     return (
         <div>
+            <h1 className="H1Style mt-[20px]">Create a new category</h1>
             <div
                 id="generalError"
                 className="ErrorDiv"
@@ -57,11 +88,17 @@ const CategoryForm = props => {
             </div>
             <form
                 id="RegistrationForm"
+                ref={FormRef}
                 encType="multipart/form-data"
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
                 onSubmit={(evt) => {
                     evt.preventDefault();
-                    execute()
+                    const Elements = {
+                        name: nameInputRef.current.value, 
+                        description: descriptionInputRef.current.value, 
+                        imageData: imageInputRef.current.files[0],
+                    }
+                    CreateCategory(apiURL, token, Elements, dispatchFunctions)
                 }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">
@@ -73,6 +110,7 @@ const CategoryForm = props => {
                         name="name"
                         placeholder="Write the name of the category here."
                         inputRef={nameInputRef}
+                        errorRef={nameErrorRef}
                     />
                     <BasicTextAreaInput
                         data={description}
@@ -82,16 +120,18 @@ const CategoryForm = props => {
                         name="description"
                         placeholder="Write the description of the category here"
                         inputRef={descriptionInputRef}
+                        errorRef={descriptionErrorRef}
                         characterLimit={125}
                     />
                     <EditImageInput
                         image={image}
                         setImage={setImage}
                         pictureError={imageError}
-                        label={imageFormLabel ? imageFormLabel : "Upload photo"}
+                        label="Update your profile picture"
                         name="profile_pic"
                         placeholder="Browse your device to change your profile picture"
                         ImageInputRef={imageInputRef}
+                        ImageErrorRef={imageErrorRef}
                     />
                 </div>
                 <FormButtons />

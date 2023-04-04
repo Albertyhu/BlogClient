@@ -1,10 +1,12 @@
 import { ImageHooks } from '../hooks/imageHooks.jsx';
 
 const RenderCover = props => {
+    //isPreview determines whether or not the photo will be darkened. If it is a preview, it is not darkened. 
     const {
         altText = "Cover photo",
         image,
-        title
+        title,
+        isPreview = false, 
     } = props; 
     const { isBase64Image } = ImageHooks(); 
     const imageStyle = `h-full w-full md:w-full md:h-auto bg-bottom bg-cover top-[50%] translate-y-[-50%] absolute`
@@ -18,7 +20,7 @@ const RenderCover = props => {
         return (
             <div
                 id="CoverPhoto"
-                className={`${containerStyle} ${beforeStyle}`}
+                className={`${containerStyle} ${!isPreview ? beforeStyle: ""}`}
             >
                 {title &&
                     <div

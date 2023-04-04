@@ -59,10 +59,14 @@ const NavigationHooks = (navigate) => {
         })
     }
 
-    function EditCategory(ID, name) {
+    function EditCategory(ID, name, description, image) {
         navigate(`/category/${name}/edit`, {
             state: {
-                id:ID, 
+                id: ID, 
+                name: name, 
+                description: description, 
+                image: image,
+                mode: "edit"
             }
         })
     }
@@ -135,7 +139,15 @@ const PostNavigationHooks = (navigate) => {
             }
         })
     }
-    return { BringDataToPost }
+
+    function GoCreatePost() {
+        navigate("/post/new")
+    }
+
+    return {
+        BringDataToPost,
+        GoCreatePost,
+    }
 }
 
 export { NavigationHooks, PostNavigationHooks }; 

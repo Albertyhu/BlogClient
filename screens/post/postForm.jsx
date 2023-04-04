@@ -6,27 +6,66 @@ import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     FormButtons,
     BasicTextInput,
-    BasicTextAreaInput
+    BasicTextAreaInput,
+    PostFormElements, 
+    TagInput,
+    EditImageInput
 } from '../../component/formElements.jsx';
-import { AppContext } from '../../util/contextItem.jsx';
+import { TagHooks } from '../../hooks/tagHooks.jsx'; 
+import {
+    AppContext,
+    PostContext
+} from '../../util/contextItem.jsx';
 
 //Next task: retrieve id and username from token 
 const PostForm = props => {
     const navigate = useNavigate();
     const { username } = useParams();
     const { GoHome } = NavigationHooks(navigate);
-    const { apiURL } = useContext(AppContext);
+
+    const {
+        categoryList,
+        apiURL
+    } = useContext(AppContext); 
+
+    const { GetTagList } = TagHooks(navigate);
+
+    //existingTags stores all the tags that are created on the site. 
+    //They appear on the tag search bar. 
+    const [existingTags, setExistingTags] = useState([]) 
+
+
+    const {
+        title,
+        content,
+        published,
+        thumbnail,
+        images,
+        abstract,
+        category,
+        tag,
+
+        setTitle,
+        setContent,
+        setPublished,
+        setThumbnail,
+        setImages,
+        setAbstract,
+        setCategory,
+        setTag,
+
+        imagesInputRef,
+        titleInputRef,
+        contentInputRef,
+        thumbnailInputRef,
+        abstractInputRef,
+        categoryInputRef,
+        publishedInputRef, 
+    } = useContext(PostContext); 
+
     const UserToken = localStorage.getItem("token");
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-
-    const [title, setTitle] = useState("")
-    const [content, setContent] = useState("");
-    const [published, setPublished] = useState(false);
-    const [thumbnail, setThumbnail] = useState(null);
-    const [images, setImages] = useState([]);
-    const [abstract, setAbstract] = useState('');
-    const [category, setCategory] = useState('');
-    const [tag, setTag] = useState([]);
+    const { SelectCategory } = PostFormElements(navigate);
 
     const [titleError, setTitleError] = useState([])
     const [contentError, setContentError] = useState([])
@@ -34,7 +73,7 @@ const PostForm = props => {
     const [imagesError, setImagesError] = useState([])
     const [abstractError, setAbstractError] = useState([])
     const [categoryError, setCategoryError] = useState([]);
-
+    const [tagError, setTagError] = useState([])
     const [generalError, setGeneralError] = useState([])
 
     const dispatchFunctions = {
@@ -47,23 +86,7 @@ const PostForm = props => {
         setGeneralError
     }
 
-    const imagesInputRef = useRef();
-    const titleInputRef = useRef();
-    const contentInputRef = useRef();
-    const thumbnailInputRef = useRef();
-    const abstractInputRef = useRef();
-    const categoryInputRef = useRef();
-    const publishedInputRef = useRef();
-
-    const generalErrorRef = useRef();
-    const titleErrorRef = useRef();
-    const contentErrorRef = useRef();
-    const thumbnailErrorRef = useRef();
-    const imagesErrorRef = useRef();
-    const abstractErrorRef = useRef();
-    const categoryErrorRef = useRef();
-
-    const FormRef = useRef();
+    const generalErrorRef = useRef(); 
 
     useEffect(() => {
         if (generalError.length > 0) {
@@ -74,16 +97,11 @@ const PostForm = props => {
     }, [generalError])
 
     useEffect(() => {
-        if (!UserToken) {
-            return () => GoHome();
-        }
-        const decoded = JSON.parse(atob(UserToken.split('.')[1]));
-        console.log("token id : ", decoded.id)
-    }, [UserToken])
+        GetTagList(apiURL, setExistingTags)
+    }, [])
 
     return (
         <div>
-            <h1 className="HeaderStyle mt-[20px]">Update your password</h1>
             <div
                 id="generalError"
                 className="ErrorDiv"
@@ -93,7 +111,6 @@ const PostForm = props => {
             </div>
             <form
                 id="RegistrationForm"
-                ref={FormRef}
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
                 onSubmit={(evt) => {
                     evt.preventDefault();
@@ -107,6 +124,13 @@ const PostForm = props => {
                 }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">
+                    <SelectCategory
+                        categoryList={categoryList}
+                        currentOption={category ? category : null}
+                        categorySelectRef={categoryInputRef}
+                        setData={setCategory}
+                        dataError={categoryError}
+                    />
                     <BasicTextInput
                         data={title}
                         setData={setTitle}
@@ -115,7 +139,6 @@ const PostForm = props => {
                         name="title"
                         placeholder="Write your title here."
                         inputRef={titleInputRef}
-                        errorRef={titleErrorRef}
                     />
                     <BasicTextAreaInput
                         data={content}
@@ -125,7 +148,6 @@ const PostForm = props => {
                         name="content"
                         placeholder="Share your thoughts here"
                         inputRef={contentInputRef}
-                        errorRef={contentErrorRef}
                     />
                     <BasicTextAreaInput
                         data={abstract}
@@ -135,7 +157,6 @@ const PostForm = props => {
                         name="abstract"
                         placeholder="[Optional] Write a short summary here."
                         inputRef={abstractInputRef}
-                        errorRef={abstractErrorRef}
                         characterLimt={100}
                         ROWS={2}
                     />
@@ -147,17 +168,22 @@ const PostForm = props => {
                         name="thumbnail"
                         placeholder="Browse your device to upload a thumbnail picture for the post."
                         ImageInputRef={thumbnailInputRef}
-                        ImageErrorRef={thumbnailErrorRef}
                     />
                     <EditImageInput
                         image={images}
-                        setImage={setimages}
+                        setImage={setImages}
                         pictureError={imagesError}
                         label="Set the images for your post."
                         name="images"
-                        placeholder="Browse your device to upload a images picture for the post."
+                        placeholder="Browse your device to upload images for the post."
                         ImageInputRef={imagesInputRef}
-                        ImageErrorRef={imagesErrorRef}
+                    />
+                    <TagInput
+                        existingTags={existingTags}
+                        addedTags={tag}
+                        setAddedTags={setTag}
+                        inputError={tagError}
+                        setTagError={setTagError}
                     />
                 </div>
                 <FormButtons />
@@ -166,4 +192,4 @@ const PostForm = props => {
     )
 }
 
-export default EditPasswordForm; 
+export default PostForm; 
