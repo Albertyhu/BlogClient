@@ -5,8 +5,9 @@ import { TagHooks } from '../../hooks/tagHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     FormButtons,
-    TagInput,
+
 } from '../../component/formElements.jsx';
+import TagInput from '../../component/formElements/tagInput.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
 
 //Next task: retrieve id and username from token 

@@ -1,16 +1,21 @@
-import { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useContext, useEffect, lazy, Suspense } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import { } from '../../hooks/postHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     FormButtons,
+    PostFormElements, 
+} from '../../component/formElements.jsx';
+import {
     BasicTextInput,
     BasicTextAreaInput,
-    PostFormElements, 
-    TagInput,
-    EditImageInput
-} from '../../component/formElements.jsx';
+} from '../../component/formElements/textInputs.jsx';
+import {
+    EditImageInput,
+    AttachMultipleImages,
+} from '../../component/formElements/imageInputs.jsx';
+const TagInput = lazy(() => import("../../component/formElements/tagInput.jsx")); 
 import { TagHooks } from '../../hooks/tagHooks.jsx'; 
 import {
     AppContext,
@@ -33,7 +38,7 @@ const PostForm = props => {
     //existingTags stores all the tags that are created on the site. 
     //They appear on the tag search bar. 
     const [existingTags, setExistingTags] = useState([]) 
-
+    const labelStyle = `text-xl`
 
     const {
         title,
@@ -61,30 +66,24 @@ const PostForm = props => {
         abstractInputRef,
         categoryInputRef,
         publishedInputRef, 
+
+        titleError,
+        contentError,
+        thumbnailError,
+        imagesError,
+        abstractError,
+        categoryError,
+        tagError,
+        generalError,
+
+        setTagError,
     } = useContext(PostContext); 
 
     const UserToken = localStorage.getItem("token");
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
     const { SelectCategory } = PostFormElements(navigate);
 
-    const [titleError, setTitleError] = useState([])
-    const [contentError, setContentError] = useState([])
-    const [thumbnailError, setThumbnailError] = useState([])
-    const [imagesError, setImagesError] = useState([])
-    const [abstractError, setAbstractError] = useState([])
-    const [categoryError, setCategoryError] = useState([]);
-    const [tagError, setTagError] = useState([])
-    const [generalError, setGeneralError] = useState([])
 
-    const dispatchFunctions = {
-        setTitleError,
-        setContentError,
-        setThumbnailError,
-        setImagesError,
-        setAbstractError,
-        setCategoryError,
-        setGeneralError
-    }
 
     const generalErrorRef = useRef(); 
 
@@ -164,27 +163,29 @@ const PostForm = props => {
                         image={thumbnail}
                         setImage={setThumbnail}
                         pictureError={thumbnailError}
-                        label="Set the thumbnail for your post."
+                        label="Attach a thumbnail to your post"
                         name="thumbnail"
                         placeholder="Browse your device to upload a thumbnail picture for the post."
                         ImageInputRef={thumbnailInputRef}
                     />
-                    <EditImageInput
+                    <AttachMultipleImages
                         image={images}
                         setImage={setImages}
                         pictureError={imagesError}
-                        label="Set the images for your post."
+                        label="Attach images to your post."
                         name="images"
                         placeholder="Browse your device to upload images for the post."
                         ImageInputRef={imagesInputRef}
                     />
-                    <TagInput
-                        existingTags={existingTags}
-                        addedTags={tag}
-                        setAddedTags={setTag}
-                        inputError={tagError}
-                        setTagError={setTagError}
-                    />
+                    <Suspense fallback={<p className = "fallbackInput">Add Tags</p>}>
+                        <TagInput
+                            existingTags={existingTags}
+                            addedTags={tag}
+                            setAddedTags={setTag}
+                            inputError={tagError}
+                            setInputError={setTagError}
+                            />
+                    </Suspense>
                 </div>
                 <FormButtons />
             </form>

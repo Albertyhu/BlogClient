@@ -5,9 +5,11 @@ import {} from '../../hooks/postHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     FormButtons,
+} from '../../component/formElements.jsx';
+import {
     BasicTextInput,
     BasicTextAreaInput
-} from '../../component/formElements.jsx';
+} from '../../component/formElements/textInputs.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
 
 //Next task: retrieve id and username from token 

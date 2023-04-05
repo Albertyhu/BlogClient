@@ -4,8 +4,10 @@ import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import { EditUserHooks } from '../../hooks/userProfileHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
-    FormButtons,
     BasicTextInput,
+} from '../../component/formElements/textInputs.jsx';
+import {
+    FormButtons,
 } from '../../component/formElements.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
 

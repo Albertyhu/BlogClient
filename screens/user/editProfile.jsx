@@ -4,11 +4,15 @@ import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import { EditUserHooks } from '../../hooks/userProfileHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
-    FormButtons,
-    EditImageInput,
     BasicTextInput,
     BasicTextAreaInput
+} from '../../component/formElements/textInputs.jsx';
+import {
+    FormButtons,
 } from '../../component/formElements.jsx';
+import {
+    EditImageInput,
+} from '../../component/formElements/imageInputs.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx';
 import { FetchHooks } from '../../hooks/fetchHooks.jsx';
 

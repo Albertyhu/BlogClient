@@ -3,14 +3,14 @@
     "",
     "\\component",
     "\\component\\header",
+    "\\component\\post",
+    "\\component\\user",
+    "\\hooks",
     "\\screens",
-    "\\screens\\category",
-    "\\screens\\home",
-    "\\screens\\tag",
-    "\\screens\\threadForm",
-    "\\screens\\user",
-    "\\src"
+    "\\screens\\post",
+    "\\src",
+    "\\util"
   ],
-  "SelectedNode": "\\screens\\category\\CategoryDive.jsx",
+  "SelectedNode": "\\component\\addButton.jsx",
   "PreviewInSolutionExplorer": false
 }

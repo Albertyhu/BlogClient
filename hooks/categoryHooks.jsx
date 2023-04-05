@@ -141,20 +141,22 @@ const CategoryFormHooks = (navigate) => {
         })
             .then(async response => {
                 const result = await response.json();
-                console.log("new category: : ", result.updatedCategory)
+                console.log("updated category: : ", result.updatedCategory)
                 if (response.ok) {
                     if (result.updatedCategory.image) {
                         result.updatedCategory.image.data = toBase64(result.updatedCategory.image.data.data)
                     }
 
                     //find the index of the outdated category 
-                    var index = categoryList.indexOf(val => val._id.toString() == categoryID.toString())
+                    var index = categoryList.findIndex(val => val._id.toString() == categoryID.toString())
+                    console.log("index: ", index)
 
                     //copy the current list of categories
                     var updatedList = categoryList; 
 
                     //update the current list of categories in the client side
                     updatedList.splice(index, 1, result.updatedCategory)
+                    console.log("updatedList: ", updatedList)
                     setCategoryList(updatedList)
                     GoCategory();
                 }

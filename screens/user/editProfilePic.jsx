@@ -2,11 +2,11 @@ import { useState, useRef, useContext, useEffect, lazy } from 'react';
 import { useNavigate } from "react-router-dom"; 
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx"; 
 import { EditUserHooks } from '../../hooks/userProfileHooks.jsx'; 
-import { RegistrationHooks } from '../../hooks/authFormHooks.jsx'; 
 import { NavigationHooks } from "../../hooks/navigation.jsx"; 
 import { FormButtons } from '../../component/formElements.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { FetchHooks } from '../../hooks/fetchHooks.jsx';
+import { HandleFileChange } from '../../hooks/imageHooks.jsx';
 const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx')); 
 
 const EditProfilePic = props => {
@@ -19,7 +19,6 @@ const EditProfilePic = props => {
     const { FetchProfilePic } = FetchHooks()
     const { UploadNewProfilePic } = EditUserHooks(navigate) 
     const [image, setImage] = useState(null); 
-    const { HandleFileChange } = RegistrationHooks();
     const [fetchURL] = useState(`${apiURL}/users/${User.id}/profilepicture`)
     const [uploadURL, setUploadURL] = useState(`${apiURL}/users/${User.id}/uploadnewpicture`)
     const [pictureError, setPictureError] = useState([]) 

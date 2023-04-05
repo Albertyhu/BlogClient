@@ -72,12 +72,18 @@ const CreateAndUpdatePosts = (navigate) => {
     const {
         BringDataToPost, 
     } = PostNavigationHooks(navigate)
+
+
     const CreatePost = (apiURL, Elements, dispatchFunction) => {
-        FetchURL = `${apiURL}/posts/create`
+        FetchURL = `${apiURL}/posts/create`; 
+
+        const formData = new FormData; 
+        const { } = Elements; 
+        formData.append("")
     }
 
     return {CreatePost}
 }
 
-export { FetchHooks }
+export { FetchHooks, CreateAndUpdatePosts }
 

@@ -1,4 +1,4 @@
-import { ImageHooks } from '../hooks/imageHooks.jsx';
+import { ImageHooks } from '../../hooks/imageHooks.jsx';
 
 const RenderCover = props => {
     //isPreview determines whether or not the photo will be darkened. If it is a preview, it is not darkened. 

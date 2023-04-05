@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from 'react'; 
 import { PostContext } from '../../util/contextItem.jsx';
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
-import RenderImage from '../../component/renderImage.jsx';
+import RenderImage from '../../component/imageRendering/mainImage.jsx';
 import { PostLikeFeatures } from '../../component/likeComponent.jsx';
+
+//Renders the main image for the post 
 const MainPanel = props => {
     const { RenderLikeButton } = PostLikeFeatures()
     const {

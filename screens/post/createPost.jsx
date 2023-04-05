@@ -1,7 +1,7 @@
 import { useState, useRef, useContext, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
-import { } from '../../hooks/postHooks.jsx';
+import { CreateAndUpdatePosts } from '../../hooks/postHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     AppContext,
@@ -18,6 +18,7 @@ const CreatePostForm = props => {
         apiURL,
         token,
     } = useContext(AppContext);
+    const { CreatePost } = CreateAndUpdatePosts(navigate)
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("");
@@ -38,6 +39,27 @@ const CreatePostForm = props => {
     const abstractInputRef = useRef();
     const categoryInputRef = useRef();
     const publishedInputRef = useRef();
+
+    const [titleError, setTitleError] = useState([])
+    const [contentError, setContentError] = useState([])
+    const [thumbnailError, setThumbnailError] = useState([])
+    const [imagesError, setImagesError] = useState([])
+    const [abstractError, setAbstractError] = useState([])
+    const [categoryError, setCategoryError] = useState([]);
+    const [tagError, setTagError] = useState([])
+    const [generalError, setGeneralError] = useState([])
+
+    const dispatchFunctions = {
+        setTitleError,
+        setContentError,
+        setThumbnailError,
+        setImagesError,
+        setAbstractError,
+        setCategoryError,
+        setGeneralError, 
+        setTagError,
+    }
+
     
     const context = {
         author, 
@@ -66,6 +88,17 @@ const CreatePostForm = props => {
         abstractInputRef,
         categoryInputRef,
         publishedInputRef,
+
+        titleError,
+        contentError,
+        thumbnailError,
+        imagesError,
+        abstractError,
+        categoryError,
+        tagError,
+        generalError,
+
+        setTagError,
     } 
 
     useEffect(() => {
@@ -85,7 +118,21 @@ const CreatePostForm = props => {
         <PostContext.Provider value={context}>
             <h1 className="HeaderStyle mt-[40px] text-center font-bold text-2xl">Create a new post</h1>
             <RenderForm
-                execute= ""
+                execute={() => {
+                    const Elements = {
+                        title, 
+                        content,
+                        author,
+                        published,
+                        thumbnail: thumbnailInputRef.current.value, 
+                        images: imagseInputRef.current.value, 
+                        abstract, 
+                        category, 
+                        tag, 
+                    };
+                    CreatePost(apiURL, Elements, dispatchFunctions)
+                    }
+                }
             /> 
         </PostContext.Provider>
     )

@@ -236,15 +236,6 @@ const RegistrationHooks = props => {
         dispatch(evt.target.value)
     }
 
-    function HandleFileChange(evt, setImage) {
-        const file = evt.target.files[0]; 
-        const reader = new FileReader(); 
-        reader.readAsDataURL(file); 
-        reader.onload = () => {
-            setImage(reader.result);
-        }
-    }
-
     return {
         HandleSignUpSubmit,
         onChangeHandler,
@@ -253,7 +244,6 @@ const RegistrationHooks = props => {
         RenderError,
         AnimateErrorMessage,
         HandleLogin,
-        HandleFileChange
     } 
 }
 

@@ -2,10 +2,14 @@ import { useContext, useEffect, useRef} from 'react';
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import {
     FormButtons,
+} from '../../component/formElements.jsx';
+import {
     BasicTextInput,
     BasicTextAreaInput,
+} from '../../component/formElements/textInputs.jsx';
+import {
     EditImageInput,
-} from '../../component/formElements.jsx';
+} from '../../component/formElements/imageInputs.jsx';
 import {
     CategoryContext,
 } from '../../util/contextItem.jsx';

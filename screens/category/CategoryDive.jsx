@@ -8,7 +8,7 @@ import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx';
 import uuid from 'react-uuid';
 import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
 import { FetchHooks as PostFetchHooks } from '../../hooks/postHooks.jsx'; 
-const CoverPhoto = lazy(() => import("../../component/coverPhoto.jsx"));
+const CoverPhoto = lazy(() => import("../../component/imageRendering/coverPhoto.jsx"));
 const Panel = lazy(() => import('../../component/post/post_panel.jsx'))
 import { PostButtons } from '../../component/post/buttons.jsx'; 
 

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'; 
+
 const ImageHooks = () => {
 
     function isBase64Image(str) {
@@ -8,4 +10,39 @@ const ImageHooks = () => {
     return {isBase64Image}
 }
 
-export {ImageHooks}
+function HandleFileChange(evt, setImage) {
+    const file = evt.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+        setImage(reader.result);
+    }
+}
+
+HandleFileChange.propTypes = {
+    setImages: PropTypes.func, 
+}
+
+function AttachImagesToArray(evt, setImage, setFile) {
+    const file = evt.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+        try {
+            setImage(prev => [...prev, reader.result]);
+            setFile("")
+        } catch (e) {
+            console.log(" AttachImagesToArray error: ", e)
+        }
+    }
+}
+
+AttachImagesToArray.propTypes = {
+    setImages: PropTypes.func,
+}
+
+export {
+    ImageHooks,
+    HandleFileChange,
+    AttachImagesToArray,
+}

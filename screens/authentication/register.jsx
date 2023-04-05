@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { RegistrationHooks } from '../../hooks/authFormHooks.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx';
+import { HandleFileChange } from '../../hooks/imageHooks.jsx'; 
 
 const RegisterForm = props => {
     const FormStyle = `[&>div>label]:text-black [&>div>label]:uppercase [&>div>label]:font-bold [&>div]:grid [&>div>input]:rounded-lg 
@@ -17,7 +18,6 @@ const RegisterForm = props => {
         onChangeHandler,
         RenderError,
         AnimateErrorMessage,
-        HandleFileChange,
     } = RegistrationHooks();
     const {
         apiURL,
