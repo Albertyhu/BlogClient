@@ -1,3 +1,20 @@
+4/5/23
+Regarding the post
+Users should be allowed to save a draft. 
+There will be two separate buttons that submits the form:
+One for saving the draft.
+One for publishing it. 
+
+Another method is to create two separte forms. 
+
+Question is should there be two separate versions of post. 
+
+
+4/5/23
+Tiny MCE requires the useof Tiny Cloud method to work.
+https://www.tiny.cloud/docs/tinymce/6/react-cloud/
+The account used to retrieve the API key is hualbert.y@gmail.com
+
 3/29/23
 I added the components folder path to 'content' of tailwind.config.js and the tailwind styling 
 for the header and footer worked.

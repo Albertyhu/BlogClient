@@ -103,16 +103,19 @@ const CategoryPage = props => {
 
                 {postList && postList.length > 0 &&
                     <div className="w-11/12 md:w-6/12 mx-auto flex-grow z-10">
-                        {postList.map(post =>
-                            <Suspense
-                                key={uuid()}
-                                value={<span key={uuid()}>Loading...</span>}
-                            >
-                                <Panel
+                        {postList.map(post => {
+                            if (post.published) {
+                                <Suspense
                                     key={uuid()}
-                                    {...post}
-                                />
-                            </Suspense>
+                                    value={<span key={uuid()}>Loading...</span>}
+                                >
+                                    <Panel
+                                        key={uuid()}
+                                        {...post}
+                                    />
+                                </Suspense>
+                            }
+                        }
                         )}
                     </div>
                 }

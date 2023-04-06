@@ -7,9 +7,11 @@ import {
     FormButtons,
     PostFormElements, 
 } from '../../component/formElements.jsx';
+import { PostFormButtons } from '../../component/post/buttons.jsx'; 
 import {
     BasicTextInput,
     BasicTextAreaInput,
+    TinyMCEInput,
 } from '../../component/formElements/textInputs.jsx';
 import {
     EditImageInput,
@@ -24,6 +26,9 @@ import {
 
 //Next task: retrieve id and username from token 
 const PostForm = props => {
+    const {
+        execute, 
+    } = props; 
     const navigate = useNavigate();
     const { username } = useParams();
     const { GoHome } = NavigationHooks(navigate);
@@ -38,7 +43,6 @@ const PostForm = props => {
     //existingTags stores all the tags that are created on the site. 
     //They appear on the tag search bar. 
     const [existingTags, setExistingTags] = useState([]) 
-    const labelStyle = `text-xl`
 
     const {
         title,
@@ -77,6 +81,9 @@ const PostForm = props => {
         generalError,
 
         setTagError,
+
+        abstract_char_limit,
+
     } = useContext(PostContext); 
 
     const UserToken = localStorage.getItem("token");
@@ -99,6 +106,8 @@ const PostForm = props => {
         GetTagList(apiURL, setExistingTags)
     }, [])
 
+
+
     return (
         <div>
             <div
@@ -113,23 +122,10 @@ const PostForm = props => {
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
                 onSubmit={(evt) => {
                     evt.preventDefault();
-                    const UserDetails = {
-                        username,
-                        id,
-                        token: UserToken,
-                    }
-                    const Elements = {
-                    }
+                    execute();   
                 }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">
-                    <SelectCategory
-                        categoryList={categoryList}
-                        currentOption={category ? category : null}
-                        categorySelectRef={categoryInputRef}
-                        setData={setCategory}
-                        dataError={categoryError}
-                    />
                     <BasicTextInput
                         data={title}
                         setData={setTitle}
@@ -139,25 +135,34 @@ const PostForm = props => {
                         placeholder="Write your title here."
                         inputRef={titleInputRef}
                     />
-                    <BasicTextAreaInput
+                    <SelectCategory
+                        categoryList={categoryList}
+                        currentOption={category ? category : null}
+                        categorySelectRef={categoryInputRef}
+                        setData={setCategory}
+                        dataError={categoryError}
+                    />
+                    <TinyMCEInput
                         data={content}
                         setData={setContent}
                         dataError={contentError}
                         label="Main body"
                         name="content"
                         placeholder="Share your thoughts here"
-                        inputRef={contentInputRef}
+                        editorRef={contentInputRef}
+                        HEIGHT={500}
                     />
-                    <BasicTextAreaInput
+                    <TinyMCEInput
                         data={abstract}
                         setData={setAbstract}
                         dataError={abstractError}
                         label="Abstract"
                         name="abstract"
                         placeholder="[Optional] Write a short summary here."
-                        inputRef={abstractInputRef}
-                        characterLimt={100}
+                        editorRef={abstractInputRef}
+                        characterLimit={abstract_char_limit}
                         ROWS={2}
+                        HEIGHT={200}
                     />
                     <EditImageInput
                         image={thumbnail}
@@ -187,7 +192,8 @@ const PostForm = props => {
                             />
                     </Suspense>
                 </div>
-                <FormButtons />
+                <PostFormButtons
+                />
             </form>
         </div>
     )

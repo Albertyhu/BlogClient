@@ -66,11 +66,8 @@ export const PostFormElements = (navigate) => {
             setData,
             dataError,
             labelStyle = "text-xl", 
+            categorySelectRef, 
         } = props;
-
-        const onChangeHandler = evt => {
-            setData(evt.target.value)
-        }
 
         const errorRef = useRef(); 
 
@@ -87,8 +84,8 @@ export const PostFormElements = (navigate) => {
                 <label className={labelStyle}>{label}</label>
                 <select
                     name="category"
-                    onChange={onChangeHandler}
-                    className = "w-full text-sm md:text-lg rounded-md"
+                    className="w-full text-sm md:text-lg rounded-md"
+                    ref={categorySelectRef}
                 >
                     {categoryList && categoryList.map(opt =>
                         <option

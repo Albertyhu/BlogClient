@@ -1,6 +1,5 @@
 import { ErrorMessageHooks } from './errorHooks.jsx'; 
 import { PostNavigationHooks } from './navigation.jsx'; 
-
 const { RenderErrorArray } = ErrorMessageHooks()
 
 const FetchHooks = () => {
@@ -73,17 +72,68 @@ const CreateAndUpdatePosts = (navigate) => {
         BringDataToPost, 
     } = PostNavigationHooks(navigate)
 
+    //SubmitPost can be used for POST or PUT actions 
+    const SubmitPost = (apiURL, Elements, dispatchFunction, METHOD, postID, token) => {
+        var FetchURL = '';
+        switch (METHOD) {
+            case "POST":
+                FetchURL = `${apiURL}/posts/create`;
+                break;
+            case 'PUT':
+                FetchURL = `${apiURL} /posts/${postID}/edit`
+        }
 
-    const CreatePost = (apiURL, Elements, dispatchFunction) => {
-        FetchURL = `${apiURL}/posts/create`; 
-
+        const {
+            title,
+            content,
+            author,
+            published,
+            thumbnail,
+            images,
+            abstract,
+            category,
+            tag,
+            abstract_char_limit
+        } = Elements; 
         const formData = new FormData; 
-        const { } = Elements; 
-        formData.append("")
+        formData.append("title", title);
+        formData.append("content", content);
+        formData.append("published", published);
+        formData.append("author", author); 
+        formData.append("thumbnail", thumbnail);
+        formData.append("images", images); 
+        formData.append("abstract", abstract);
+        formData.append("category", category); 
+        formData.append("tag", tag); 
+        formData.append("abstract_char_limit", abstract_char_limit)
+        console.log(Elements)
+    //    fetch(FetchURL, {
+    //        method: METHOD, 
+    //        'Authorization': `Bearer ${token}`
+    //    }).then(response => {
+    //        const result = response.json;
+    //        if (response.ok) {
+    //            if (result.post.published) {
+    //                //Go to the post
+    //            }
+    //            else {
+    //                //stay on the post form
+    //                //or go to the editing screen 
+    //            }
+    //        }
+    //        else {
+    //            console.log("Error in submitting post: ", result.error); 
+    //            console.log("Method: ", METHOD); 
+    //            RenderErrorArray(result.error, dispatchFunction)
+    //        }
+    //    })
     }
 
-    return {CreatePost}
+    return {
+        SubmitPost,
+    }
 }
+
 
 export { FetchHooks, CreateAndUpdatePosts }
 

@@ -2,15 +2,16 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\header",
-    "\\component\\post",
-    "\\component\\user",
-    "\\hooks",
+    "\\component\\formElements",
     "\\screens",
+    "\\screens\\authentication",
+    "\\screens\\category",
     "\\screens\\post",
-    "\\src",
-    "\\util"
+    "\\screens\\tag",
+    "\\screens\\threadForm",
+    "\\screens\\user",
+    "\\src"
   ],
-  "SelectedNode": "\\component\\addButton.jsx",
+  "SelectedNode": "\\.env",
   "PreviewInSolutionExplorer": false
 }

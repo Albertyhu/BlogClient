@@ -9,8 +9,12 @@ import {
 } from '../../util/contextItem.jsx';
 import RenderForm from "./postForm.jsx"; 
 
+
 //Next task: retrieve id and username from token 
 const CreatePostForm = props => {
+    const {
+        abstract_char_limit = 150,
+    } = props; 
     const navigate = useNavigate();
     const { username } = useParams();
     const { GoHome } = NavigationHooks(navigate);
@@ -18,7 +22,7 @@ const CreatePostForm = props => {
         apiURL,
         token,
     } = useContext(AppContext);
-    const { CreatePost } = CreateAndUpdatePosts(navigate)
+    const { SubmitPost } = CreateAndUpdatePosts(navigate)
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("");
@@ -34,9 +38,9 @@ const CreatePostForm = props => {
 
     const imagesInputRef = useRef();
     const titleInputRef = useRef();
-    const contentInputRef = useRef();
+    const contentInputRef = useRef(null);
     const thumbnailInputRef = useRef();
-    const abstractInputRef = useRef();
+    const abstractInputRef = useRef(null);
     const categoryInputRef = useRef();
     const publishedInputRef = useRef();
 
@@ -49,6 +53,7 @@ const CreatePostForm = props => {
     const [tagError, setTagError] = useState([])
     const [generalError, setGeneralError] = useState([])
 
+
     const dispatchFunctions = {
         setTitleError,
         setContentError,
@@ -56,11 +61,10 @@ const CreatePostForm = props => {
         setImagesError,
         setAbstractError,
         setCategoryError,
-        setGeneralError, 
+        setGeneralError,
         setTagError,
     }
 
-    
     const context = {
         author, 
         title,
@@ -99,7 +103,43 @@ const CreatePostForm = props => {
         generalError,
 
         setTagError,
+
+        abstract_char_limit, 
+        navigate, 
+        primaryLabel: "Publish",
+        secondaryLabel: "Save as draft",
+        publishFunc: () => handleSubmit(true),
+        draftFunc: () => handleSubmit(false),
     } 
+
+    const handleSubmit = (published) => {
+        const Elements = {
+            title,
+            content: getContent(),
+            author,
+            published: published,
+            thumbnail: thumbnailInputRef.current.value,
+            images: imagesInputRef.current.value,
+            abstract: getAbstract(),
+            category: categoryInputRef.current.value,
+            tag,
+            abstract_char_limit: abstract_char_limit,
+        };
+        SubmitPost(apiURL, Elements, dispatchFunctions, "POST", null, token)
+    }
+
+
+    const getContent = () => {
+        if (contentInputRef.current) {
+            return contentInputRef.current.getContent(); 
+        }
+    }
+
+    const getAbstract = () => {
+        if(abstractInputRef.current){
+            return abstractInputRef.current.getContent(); 
+        }
+    }
 
     useEffect(() => {
         if (!token) {
@@ -121,16 +161,17 @@ const CreatePostForm = props => {
                 execute={() => {
                     const Elements = {
                         title, 
-                        content,
+                        content: getContent(),
                         author,
                         published,
                         thumbnail: thumbnailInputRef.current.value, 
-                        images: imagseInputRef.current.value, 
-                        abstract, 
-                        category, 
+                        images: imagesInputRef.current.value, 
+                        abstract: getAbstract(), 
+                        category: categoryInputRef.current.value, 
                         tag, 
+                        abstract_char_limit: abstract_char_limit, 
                     };
-                    CreatePost(apiURL, Elements, dispatchFunctions)
+                    SubmitPost(apiURL, Elements, dispatchFunctions, "POST", null, token)
                     }
                 }
             /> 
