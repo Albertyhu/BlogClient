@@ -73,16 +73,16 @@ const CreateAndUpdatePosts = (navigate) => {
     } = PostNavigationHooks(navigate)
 
     //SubmitPost can be used for POST or PUT actions 
-    const SubmitPost = (apiURL, Elements, dispatchFunction, METHOD, postID, token) => {
+    const SubmitPost = async (apiURL, Elements, dispatchFunction, METHOD, postID, token) => {
         var FetchURL = '';
         switch (METHOD) {
             case "POST":
-                FetchURL = `${apiURL}/posts/create`;
+                FetchURL = `${apiURL}/post/create`;
                 break;
             case 'PUT':
-                FetchURL = `${apiURL} /posts/${postID}/edit`
+                FetchURL = `${apiURL} /post/${postID}/edit`
         }
-
+        const { setMessage } = dispatchFunction; 
         const {
             title,
             content,
@@ -104,33 +104,83 @@ const CreateAndUpdatePosts = (navigate) => {
         formData.append("images", images); 
         formData.append("abstract", abstract);
         formData.append("category", category); 
-        formData.append("tag", tag); 
+        formData.append("tag", JSON.stringify(tag)); 
         formData.append("abstract_char_limit", abstract_char_limit)
         console.log(Elements)
-    //    fetch(FetchURL, {
-    //        method: METHOD, 
-    //        'Authorization': `Bearer ${token}`
-    //    }).then(response => {
-    //        const result = response.json;
-    //        if (response.ok) {
-    //            if (result.post.published) {
-    //                //Go to the post
-    //            }
-    //            else {
-    //                //stay on the post form
-    //                //or go to the editing screen 
-    //            }
-    //        }
-    //        else {
-    //            console.log("Error in submitting post: ", result.error); 
-    //            console.log("Method: ", METHOD); 
-    //            RenderErrorArray(result.error, dispatchFunction)
-    //        }
-    //    })
+        await fetch(FetchURL, {
+            method: METHOD, 
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(async response => {
+            const result = await response.json;
+            if (response.ok) {
+                if (published) {
+                    //Go to the post
+                    console.log(result.message)
+                    console.log("results: ", result.post)
+                    const data = {
+                        title: result.post.title,
+                        content: result.post.content,
+                        author: result.post.author,
+                        published: result.post.published,
+                        thumbnail: result.post.thumbnail,
+                        images: result.post.images,
+                        abstract: result.post.abstract,
+                        category: result.post.category,
+                        tag: result.post.tag,
+                        id: result.post._id, 
+                    }
+                    console.log("data: ", data)
+                    BringDataToPost(data); 
+                }
+                else {
+                    //stay on the post form
+                    //or go to the editing screen
+                    setMessage("Your draft has been saved."); 
+                }
+            }
+            else {
+                console.log("Error in submitting post: ", result.error); 
+                RenderErrorArray(result.error, dispatchFunction)
+            }
+        })
+    }
+
+    const DeletePost = async (apiURL, postID, token, userID, authorID, setMessage, navigate) => {
+        //Only authors can delete their own posts 
+        if (userID.toString() === authorID.toString()) {
+            const FetchURL = `${apiURL}/post/${postID}/delete`
+            await fetch(apiURL, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                }
+            }).then(async response => {
+                if (response.ok) {
+                    console.log("Post is successfully deleted")
+                    //Because the function can be used for the post main page or an index of posts, app has the option to either 
+                    //stay on the same page or navigate away from the page once the post is deleted. 
+                    if (navigate != null) {
+                        navigate(); 
+                    }
+                }
+                else {
+                    const result = await response.json(); 
+                    setMessage(result.error.msg)
+                }
+            })
+        }
+        else {
+            var error = [{param: "general", msg: "You are not the author of this post."}]
+            setMessage("You are not the author of this post.") 
+        }
     }
 
     return {
         SubmitPost,
+        DeletePost, 
     }
 }
 

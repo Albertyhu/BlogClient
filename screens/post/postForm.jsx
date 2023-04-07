@@ -23,12 +23,11 @@ import {
     AppContext,
     PostContext
 } from '../../util/contextItem.jsx';
+import MessageComponent from '../../component/message.jsx'; 
 
 //Next task: retrieve id and username from token 
 const PostForm = props => {
-    const {
-        execute, 
-    } = props; 
+
     const navigate = useNavigate();
     const { username } = useParams();
     const { GoHome } = NavigationHooks(navigate);
@@ -83,7 +82,8 @@ const PostForm = props => {
         setTagError,
 
         abstract_char_limit,
-
+        message,
+        setMessage,
     } = useContext(PostContext); 
 
     const UserToken = localStorage.getItem("token");
@@ -110,6 +110,10 @@ const PostForm = props => {
 
     return (
         <div>
+            <MessageComponent
+                message={message}
+                dispatch={setMessage}
+            />
             <div
                 id="generalError"
                 className="ErrorDiv"

@@ -70,7 +70,7 @@ export const PostFormElements = (navigate) => {
         } = props;
 
         const errorRef = useRef(); 
-
+        console.log("currentOption: ", currentOption)
         useEffect(() => {
             if (dataError.length > 0) {
                 for (var child of errorRef.current.children) {
@@ -86,14 +86,15 @@ export const PostFormElements = (navigate) => {
                     name="category"
                     className="w-full text-sm md:text-lg rounded-md"
                     ref={categorySelectRef}
+                    defaultValue={categoryList ? currentOption : ""}
                 >
                     {categoryList && categoryList.map(opt =>
                         <option
-                            key={uuid()}
+                            key={opt._id}
                             value={opt._id}
-                            className = "text-sm"
-                            defaultValue={currentOption ? currentOption.toString() == opt._id.toString() ? true : false : false}
+                            className="text-sm"
                         >{opt.name}</option>
+                    
                     )}
                 </select>
                 <p className = "text-sm md:text-lg mt-[10px]">Don't see a desired category?</p>
@@ -120,16 +121,3 @@ export const PostFormElements = (navigate) => {
     }
     return { SelectCategory }
 }
-
-/*
- template
-<BasicFormInput
-    setData={}
-    dataError={}
-    label=""
-    name=""
-    placeholder=""
-    inputRef={}
-    errorRef={}
-/>
- */

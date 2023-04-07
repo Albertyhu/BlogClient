@@ -10,7 +10,7 @@ import { PostContext } from "../../util/contextItem.jsx";
 
 const PostButtons = (navigate) => {
 
-    const { GoCreatePost } = PostNavigationHooks(navigate)
+    const { GoCreatePost, GoCreatePostFromCategory } = PostNavigationHooks(navigate)
     const CreateNewPost = props => {
         const { buttonStyle } = props;
         return (
@@ -22,7 +22,22 @@ const PostButtons = (navigate) => {
             />
         )
     }
-    return {CreateNewPost}
+
+    const CreateNewPostWithCategory = props => {
+        const {
+            buttonStyle,
+            categoryID
+        } = props;
+        return (
+            <AddButton
+                title="Create a new post"
+                altText="Create a new post"
+                dispatchFunction={() => GoCreatePostFromCategory(categoryID)}
+                buttonStyle={buttonStyle}
+            />
+        )
+    }
+    return { CreateNewPost, CreateNewPostWithCategory }
 }
 
 const PostFormButtons = props => {

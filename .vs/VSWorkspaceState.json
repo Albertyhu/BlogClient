@@ -1,17 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\component",
-    "\\component\\formElements",
+    "\\hooks",
     "\\screens",
-    "\\screens\\authentication",
     "\\screens\\category",
     "\\screens\\post",
     "\\screens\\tag",
     "\\screens\\threadForm",
     "\\screens\\user",
-    "\\src"
+    "\\src",
+    "\\util"
   ],
-  "SelectedNode": "\\.env",
+  "SelectedNode": "\\hooks\\tinyMCEhooks.jsx",
   "PreviewInSolutionExplorer": false
 }

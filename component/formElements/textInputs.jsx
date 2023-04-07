@@ -166,24 +166,21 @@ BasicTextAreaInput.propTypes = {
 
 
 export const TinyMCEInput = props => {
-    const { data,
+    const {
+        data,
         setData,
         dataError,
         label,
         name,
-        placeholder = "Write something",
-        inputRef,
-        ROWS = 5,
         HEIGHT = 250, 
         characterLimit = null,
         labelStyle = "text-xl",
-        initialValue,
         editorRef, 
     } = props;
 
     const [characters, setCharacterCount] = useState(characterLimit ? characterLimit : null)
     const [characterCountStyle, setCharacterCountStyle] = useState(characters <= characterLimit ? "text-[#b8b8b8]" : "text-[#FF4343]")
-    const [renderNumber, setNumber] = useState(characters);  
+    const [renderNumber, setNumber] = useState(characters ? characters : null);  
     const errorRef = useRef();
     const characterCountRef = useRef(); 
 
@@ -228,6 +225,7 @@ export const TinyMCEInput = props => {
     const initState = {
         height: HEIGHT,
         menubar: false,
+        initialValue: data ? data : null, 
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
@@ -261,6 +259,12 @@ export const TinyMCEInput = props => {
             setCharacterCountStyle("text-[#b8b8b8]")
         }
     }, [characters])
+
+    //sets the initial value of the text editor
+    useEffect(() => {
+        if(editorRef.current && data != "")
+         editorRef.current.setContent(data)
+    }, [editorRef.current])
 
     return (
         <>

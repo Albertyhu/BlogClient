@@ -21,6 +21,7 @@ import TagsPage from '../screens/tag';
 import CreateTag from '../screens/tag/tagForm.jsx'; 
 import PostDive from '../screens/post';
 import CreatePost from '../screens/post/createPost.jsx';
+import EditPost from '../screens/post/editPost.jsx';
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
@@ -52,6 +53,7 @@ const Apps = props => {
                         <Route path="/tags/create" element={<CreateTag />} />
                         <Route path="/post/:post_name" element={<PostDive />} />
                         <Route path="/post/new" element={<CreatePost />} />
+                        <Route path="/post/:post_name/edit" element={<EditPost />} />
                     </Routes>
                 </div>
                 <Footer />

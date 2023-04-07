@@ -7,7 +7,7 @@ import PlusIcon from '../../assets/icons/white_plus_icon.png';
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx';
 import uuid from 'react-uuid';
 import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
-import { FetchHooks as PostFetchHooks } from '../../hooks/postHooks.jsx'; 
+import { FetchHooks as PostFetchHooks } from '../../hooks/fetchHooks.jsx'; 
 const CoverPhoto = lazy(() => import("../../component/imageRendering/coverPhoto.jsx"));
 const Panel = lazy(() => import('../../component/post/post_panel.jsx'))
 import { PostButtons } from '../../component/post/buttons.jsx'; 
@@ -16,15 +16,17 @@ import { PostButtons } from '../../component/post/buttons.jsx';
 const CategoryPage = props => {
     const navigate = useNavigate();
     const location = useLocation(); 
+
+    //id is the ObectId of the category.
     const { id } = location.state; 
     const { EditCategory } = NavigationHooks(navigate);
-    const { FetchPostsByCateogry } = PostFetchHooks(navigate); 
+    const { FetchPostsByCategory } = PostFetchHooks(navigate); 
     const [categoryName, setCategoryName] = useState(location.state ? location.state.name ? location.state.name : "category" : "category")
     const [coverImage, setImage] = useState(location.state ? location.state.image ? location.state.image : null : null)
     const [description, setDescription] = useState(location.state ? location.state.description ? location.state.description : "" : "");
     const [postList, setPostList] = useState([])
     const { DeleteCategory } = CategoryHooks(navigate);
-    const { CreateNewPost } = PostButtons(navigate); 
+    const { CreateNewPostWithCategory } = PostButtons(navigate); 
     const {
         apiURL,
         token,
@@ -54,9 +56,14 @@ const CategoryPage = props => {
 
     useEffect(() => {
         if (id) {
-            FetchPostsByCateogry(apiURL, id, setPostList)
+            FetchPostsByCategory(apiURL, id, setPostList)
         }
+        console.log("category id: ", id)
     }, [id])
+
+    useEffect(() => {
+        console.log(postList)
+    }, [postList])
 
     return (
         <div
@@ -95,8 +102,9 @@ const CategoryPage = props => {
                             className="btn-primary mb-10"
                                 onClick={() => DeleteCategory(apiURL, id, token, categoryList, setCategoryList)}
                         >Delete Category</button>
-                        <CreateNewPost
-                            buttonStyle= "btn-secondary mb-10"
+                        <CreateNewPostWithCategory
+                            buttonStyle="btn-secondary mb-10"
+                            categoryID={id}
                         />
                      </div>
                 }
@@ -105,15 +113,17 @@ const CategoryPage = props => {
                     <div className="w-11/12 md:w-6/12 mx-auto flex-grow z-10">
                         {postList.map(post => {
                             if (post.published) {
-                                <Suspense
-                                    key={uuid()}
-                                    value={<span key={uuid()}>Loading...</span>}
-                                >
+                                return (
+                                    <Suspense
+                                        key={uuid()}
+                                        value={<span key={uuid()}>Loading...</span>}
+                                    >
                                     <Panel
                                         key={uuid()}
                                         {...post}
                                     />
-                                </Suspense>
+                                    </Suspense>
+                                    )
                             }
                         }
                         )}

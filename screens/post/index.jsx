@@ -1,13 +1,17 @@
 import { useState, useEffect, useContext } from 'react'; 
-import { useLocation } from 'react-router-dom'; 
+import { useLocation, useNavigate } from 'react-router-dom'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { PostLikeFeatures } from "../../component/likeComponent.jsx" 
 import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
-import { FetchHooks } from '../../hooks/postHooks.jsx'; 
+import {
+    FetchHooks,
+    CreateAndUpdatePosts,
+} from '../../hooks/postHooks.jsx'; 
 import { ErrorMessageHooks, PostErrorHooks } from '../../hooks/errorHooks.jsx'; 
 import MessageComponent from '../../component/message.jsx'; 
 import { PostContext } from '../../util/contextItem.jsx';
 import MainPanel from './mainPanel.jsx'; 
+import { PostNavigationHooks } from '../../hooks/navigation.jsx'; 
 
 const RenderPost = props => {
     const location = useLocation(); 
@@ -17,8 +21,10 @@ const RenderPost = props => {
         apiURL, 
     } = useContext(AppContext); 
     const { RenderLikeButton } = PostLikeFeatures(); 
+    const navigate = useNavigate(); 
+    const { GoEditPost, GoBack } = PostNavigationHooks(navigate);
     const { FetchPostById } = FetchHooks(); 
-
+    const { DeletePost } = CreateAndUpdatePosts(); 
     const PostContainerStyle = ``;
     const PostWrapper = ``;
 
@@ -27,14 +33,14 @@ const RenderPost = props => {
     const [datePublished, setDatePublished] = useState(location.state ? location.state.datePublished : null);
     const [thumbnail, setThumbnail] = useState(location.state ? location.state.thumbnail : null);
     const [abstract, setAbstract] = useState(location.state ? location.state.abstract : null);
-    const [author, setAuthor] = useState(null);
+    const [author, setAuthor] = useState(location.state ? location.state.author : "");
 
-    const [images, setImages] = useState(null);
-    const [category, setCategory] = useState(null);
-    const [tag, setTag] = useState(null);
-    const [comments, setComments] = useState( null);
+    const [images, setImages] = useState(location.state ? location.state.images : []);
+    const [category, setCategory] = useState(location.state ? location.state.category : "");
+    const [tag, setTag] = useState(location.state ? location.state.tag : []);
+    const [comments, setComments] = useState(null);
     const [likes, setLikes] = useState(null);
-    const [published, setPublished] = useState(false); 
+    const [published, setPublished] = useState(location.state ? location.state.published : true); 
 
     const [decoded, setDecoded] = useState(null)
 
@@ -71,7 +77,6 @@ const RenderPost = props => {
         decoded, 
         postID: id, 
     }
-
     useEffect(() => {
         if (token) {
             setDecoded(DecodeToken(token));
@@ -95,6 +100,21 @@ const RenderPost = props => {
                         className={`${PostWrapper}`}
                     >
                         <MainPanel />
+                        {decoded && author._id == decoded.id && 
+                            <div className="my-10">
+                                <button
+                                    className= "btn-standard text-white bg-[#6d6d6d] mx-auto text-center"
+                                    type="button"
+                                    onClick={()=>GoEditPost(title, id, context)}
+                                >Edit Post</button>
+                                <button
+                                    className="btn-secondary my-10"
+                                    type="button"
+                                    onClick={() => DeletePost(apiURL, id, token, decoded.id, author._id, setMessage, GoBack)}
+                                >Delete Post</button>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </PostContext.Provider>

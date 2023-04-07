@@ -41,8 +41,6 @@ const RenderPanel = props => {
 
     }, [panelRef.currrent])
 
-
-
     return (
         <div
             id="panel"

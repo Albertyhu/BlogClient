@@ -1,6 +1,5 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CreateAndUpdatePosts } from '../../hooks/postHooks.jsx';
 import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
@@ -8,31 +7,33 @@ import {
     PostContext
 } from '../../util/contextItem.jsx';
 import RenderForm from "./postForm.jsx"; 
+import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 
-
-//Next task: retrieve id and username from token 
 const CreatePostForm = props => {
     const {
         abstract_char_limit = 150,
     } = props; 
     const navigate = useNavigate();
-    const { username } = useParams();
     const { GoHome } = NavigationHooks(navigate);
     const {
         apiURL,
         token,
     } = useContext(AppContext);
+    const location = useLocation(); 
+    
     const { SubmitPost } = CreateAndUpdatePosts(navigate)
 
-    const [title, setTitle] = useState("")
-    const [content, setContent] = useState("");
+    const [title, setTitle] = useState("I love dogs!")
+    const [content, setContent] = useState("<p>Dogs are loyal!</p>");
     const [author, setAuthor] = useState(''); 
     const [published, setPublished] = useState(false);
     const [thumbnail, setThumbnail] = useState(null);
     const [images, setImages] = useState([]);
     const [abstract, setAbstract] = useState('');
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState(location.state ? location.state.category ? location.state.category : '' : '');
     const [tag, setTag] = useState([]);
+
+    const [message, setMessage] = useState(''); 
 
     const [decoded, setDecoded] = useState(null);
 
@@ -53,7 +54,6 @@ const CreatePostForm = props => {
     const [tagError, setTagError] = useState([])
     const [generalError, setGeneralError] = useState([])
 
-
     const dispatchFunctions = {
         setTitleError,
         setContentError,
@@ -63,6 +63,7 @@ const CreatePostForm = props => {
         setCategoryError,
         setGeneralError,
         setTagError,
+        setMessage,
     }
 
     const context = {
@@ -110,17 +111,19 @@ const CreatePostForm = props => {
         secondaryLabel: "Save as draft",
         publishFunc: () => handleSubmit(true),
         draftFunc: () => handleSubmit(false),
+        message, 
+        setMessage, 
     } 
 
     const handleSubmit = (published) => {
         const Elements = {
             title,
-            content: getContent(),
+            content: GetContent(contentInputRef),
             author,
             published: published,
             thumbnail: thumbnailInputRef.current.value,
             images: imagesInputRef.current.value,
-            abstract: getAbstract(),
+            abstract: GetContent(abstractInputRef),
             category: categoryInputRef.current.value,
             tag,
             abstract_char_limit: abstract_char_limit,
@@ -128,18 +131,17 @@ const CreatePostForm = props => {
         SubmitPost(apiURL, Elements, dispatchFunctions, "POST", null, token)
     }
 
+    //const getContent = () => {
+    //    if (contentInputRef.current) {
+    //        return contentInputRef.current.getContent(); 
+    //    }
+    //}
 
-    const getContent = () => {
-        if (contentInputRef.current) {
-            return contentInputRef.current.getContent(); 
-        }
-    }
-
-    const getAbstract = () => {
-        if(abstractInputRef.current){
-            return abstractInputRef.current.getContent(); 
-        }
-    }
+    //const getAbstract = () => {
+    //    if(abstractInputRef.current){
+    //        return abstractInputRef.current.getContent(); 
+    //    }
+    //}
 
     useEffect(() => {
         if (!token) {
@@ -157,24 +159,7 @@ const CreatePostForm = props => {
     return (
         <PostContext.Provider value={context}>
             <h1 className="HeaderStyle mt-[40px] text-center font-bold text-2xl">Create a new post</h1>
-            <RenderForm
-                execute={() => {
-                    const Elements = {
-                        title, 
-                        content: getContent(),
-                        author,
-                        published,
-                        thumbnail: thumbnailInputRef.current.value, 
-                        images: imagesInputRef.current.value, 
-                        abstract: getAbstract(), 
-                        category: categoryInputRef.current.value, 
-                        tag, 
-                        abstract_char_limit: abstract_char_limit, 
-                    };
-                    SubmitPost(apiURL, Elements, dispatchFunctions, "POST", null, token)
-                    }
-                }
-            /> 
+            <RenderForm /> 
         </PostContext.Provider>
     )
 }

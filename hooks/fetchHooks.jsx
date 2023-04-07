@@ -1,7 +1,6 @@
 import { toBase64 } from '../util/processImage.jsx';
 
 const FetchHooks = () => {
-
     const fetchUserDetails = async (apiURL, userID, dispatch, dispatchError) => {
         try {
             const FetchURL = `${apiURL}/users/${userID}`
@@ -68,11 +67,29 @@ const FetchHooks = () => {
             })
     }
 
-    const FetchPostByCategory = (apiURL, CategoryID, ) => {
-
+    const FetchPostsByCategory = async (apiURL, CategoryID, setPosts) => {
+        var FetchURL = `${apiURL}/post/get_posts_by_category/${CategoryID}`; 
+        await fetch(FetchURL, {
+            method: 'GET',
+        })
+        .then(async response => {
+            const result = await response.json()
+            if (response.ok) {
+                console.log("Posts are successfully retrieved: ", result.post)
+                setPosts(result.post);
+            }
+            else {
+                console.log("There was an error with FetchPostsByCateogy: ", result.error)
+            }
+        })
     }
 
-    return { fetchUserDetails, fetchUsernameAndEmails, FetchProfilePic }
+    return {
+        fetchUserDetails,
+        fetchUsernameAndEmails,
+        FetchProfilePic,
+        FetchPostsByCategory,
+    }
 }
 
 export {FetchHooks}; 

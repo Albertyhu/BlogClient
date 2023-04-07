@@ -119,22 +119,38 @@ const NavigationHooks = (navigate) => {
 }
 
 const PostNavigationHooks = (navigate) => {
+    function GoToPost(postID) {
+        navigate(`/post/${postID}`, {
+            state: {
+                id: postID, 
+            }
+        })
+    }
     function BringDataToPost(data) {
         const {
             title,
             content,
-            datePublished,
+            author,
+            published,
             thumbnail,
+            images,
             abstract,
+            category,
+            tag,
             id, 
         } = data; 
         navigate(`/post/${data.title}`, {
             state: {
                 title,
                 content,
-                datePublished,
+                author,
+                published,
                 thumbnail,
+                images,
                 abstract,
+                category,
+                tag,
+                id, 
                 id, 
             }
         })
@@ -144,9 +160,49 @@ const PostNavigationHooks = (navigate) => {
         navigate("/post/new")
     }
 
+    function GoCreatePostFromCategory(categoryID) {
+        navigate("/post/new", {
+            state: {
+                category: categoryID, 
+            }
+        })
+
+    }
+
+    function GoEditPost(name, postID, elements) {
+        const {
+            author,
+            title,
+            content,
+            published,
+            thumbnail,
+            images,
+            abstract,
+            category,
+            tag, 
+        } = elements; 
+        navigate(`/post/${name}/edit`, {
+            state: {
+                id: postID, 
+                author,
+                title,
+                content,
+                published,
+                thumbnail,
+                images,
+                abstract,
+                category,
+                tag, 
+            }
+        })
+    }
+
     return {
+        GoToPost,
         BringDataToPost,
         GoCreatePost,
+        GoEditPost, 
+        GoCreatePostFromCategory,
     }
 }
 

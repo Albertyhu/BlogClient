@@ -18,3 +18,9 @@ export const CheckLength = content => {
     }
 
 }
+
+export const GetContent = inputRef => {
+    if (inputRef.current) {
+        return inputRef.current.getContent(); 
+    }
+}
