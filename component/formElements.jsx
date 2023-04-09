@@ -70,7 +70,6 @@ export const PostFormElements = (navigate) => {
         } = props;
 
         const errorRef = useRef(); 
-        console.log("currentOption: ", currentOption)
         useEffect(() => {
             if (dataError.length > 0) {
                 for (var child of errorRef.current.children) {

@@ -151,7 +151,6 @@ const PostNavigationHooks = (navigate) => {
                 category,
                 tag,
                 id, 
-                id, 
             }
         })
     }

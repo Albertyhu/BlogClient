@@ -31,7 +31,6 @@ const CategoryForm = props => {
     }
 
     const generalErrorRef = useRef();
-    const tagErrorRef = useRef();
 
     const FormRef = useRef();
 
@@ -52,7 +51,7 @@ const CategoryForm = props => {
 
     return (
         <div>
-            <h1 className="HeaderStyle mt-[20px]">Create new tags</h1>
+            <h1 className="H1Style mt-[20px]">Create new tags</h1>
             <div
                 id="generalError"
                 className="ErrorDiv"
@@ -76,7 +75,6 @@ const CategoryForm = props => {
                         setAddedTags={setTags}
                         inputError={tagError}
                         setInputError={setTagError}
-                        errorRef={tagErrorRef}
                     />
 
                 </div>

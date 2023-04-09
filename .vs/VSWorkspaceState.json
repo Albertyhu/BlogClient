@@ -1,16 +1,17 @@
 {
   "ExpandedNodes": [
     "",
+    "\\component",
+    "\\component\\post",
     "\\hooks",
     "\\screens",
     "\\screens\\category",
-    "\\screens\\post",
     "\\screens\\tag",
     "\\screens\\threadForm",
     "\\screens\\user",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\tinyMCEhooks.jsx",
+  "SelectedNode": "\\vite.config.js",
   "PreviewInSolutionExplorer": false
 }

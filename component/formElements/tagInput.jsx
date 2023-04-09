@@ -26,11 +26,19 @@ import DeleteIcon from '../../assets/icons/cancel.png';
         else {
             setSearchResults([]);
         }
-    }
+     }
     const addTag = () => {
-        if (!addedTags.some(val => val.name.trim() == input.trim())) {
+        if (!addedTags.some(val => val.name.trim().toLowerCase() == input.trim().toLowerCase())) {
             if (input.trim() != "") {
-                setAddedTags(prev => [...prev, { name: input }])
+                //determine if the user's inputted tag already exist in the data base
+                //The purpose of this part is jsut to make it easier to sort existing tags and new tags in the server
+                var existing = existingTags.find(item => item.name.trim().toLowerCase() == input.trim().toLowerCase())
+                if (existing != null) {
+                    setAddedTags(prev => [...prev, existing])
+                }
+                else {
+                    setAddedTags(prev => [...prev, { name: input }])
+                }
                 setInput("")
                 setSearchResults([])
             }
@@ -44,9 +52,16 @@ import DeleteIcon from '../../assets/icons/cancel.png';
         }
     }
 
+     //possible error: this needs to check if the tag to be added is already in the addedTags array 
     const addTagThroughLink = (name) => {
-        if (!addedTags.some(val => val.name.trim() == name.trim())) {
-            setAddedTags(prev => [...prev, { name: name }])
+        if (!addedTags.some(val => val.name.trim().toLowerCase() == name.trim().toLowerCase())) {
+            var existing = existingTags.find(item => item.name.trim().toLowerCase() == name.trim().toLowerCase())
+            if (existing) {
+                setAddedTags(prev => [...prev, existing])
+            }
+            else {
+                setAddedTags(prev => [...prev, { name: name }])
+            }
             setInput("")
             setSearchResults([])
         } else {

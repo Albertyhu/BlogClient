@@ -14,20 +14,20 @@ const TagHooks = navigate => {
         await fetch(FetchURL, {
             method: "Get",
             headers: {
-                "Content-Type" : "application/json"
+                "Content-Type": "application/json"
             }
         }).then(async response => {
-            const result = await response.json(); 
+            const result = await response.json();
             if (response.ok) {
                 setExistingTags(result.payload)
             }
         }).catch(e => {
-            RenderErrorArray(result.error)
+            console.log("GetTagList error: ", e)
         })
     }
 
     const SaveTags = async (apiURL, token, tags, dispatchFunctions) => {
-        const FetchURL = `${apiURL}/tags/create`; 
+        const FetchURL = `${apiURL}/tags/create2`; 
         console.log("tags: ", tags)
 
         const formData = new FormData; 
@@ -46,8 +46,9 @@ const TagHooks = navigate => {
         await fetch(FetchURL, options)
             .then( async response => {
                 if (response.ok) {
-                    console.log("Tags are successfully saved"); 
-                    GoHome(); 
+                    const result = await response.json(); 
+                    console.log("Tags are successfully saved: ", result.tags); 
+                    //GoHome(); 
                 }
                 else {
                     const result = await response.json(); 
