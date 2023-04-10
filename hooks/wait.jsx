@@ -3,3 +3,5 @@ export function wait(time) {
         setTimeout(resolve,  time)
     })
 }
+
+//cosnt About = lazy(()=>wait(1000).then(()=>import("./...")))

@@ -22,9 +22,9 @@ const RenderPost = props => {
     } = useContext(AppContext); 
     const { RenderLikeButton } = PostLikeFeatures(); 
     const navigate = useNavigate(); 
-    const { GoEditPost, GoBack } = PostNavigationHooks(navigate);
+    const { GoEditPost } = PostNavigationHooks(navigate);
     const { FetchPostById } = FetchHooks(); 
-    const { DeletePost } = CreateAndUpdatePosts(); 
+    const { DeletePost } = CreateAndUpdatePosts(navigate); 
     const PostContainerStyle = ``;
     const PostWrapper = ``;
 
@@ -58,7 +58,7 @@ const RenderPost = props => {
         setTag, 
         setComments,
         setLikes, 
-        setPublished, 
+        setPublished,
     }
 
     const context = {
@@ -94,7 +94,10 @@ const RenderPost = props => {
                     id="PostContainer"
                     className={`${PostContainerStyle}`}
                 >
-                    <MessageComponent message={message} />
+                    <MessageComponent
+                        message={message}
+                        dispatch={setMessage}
+                    />
                     <div
                         id="PostWrapper"
                         className={`${PostWrapper}`}
@@ -110,7 +113,7 @@ const RenderPost = props => {
                                 <button
                                     className="btn-secondary my-10"
                                     type="button"
-                                    onClick={() => DeletePost(apiURL, id, token, decoded.id, author._id, setMessage, GoBack)}
+                                    onClick={() => DeletePost(apiURL, id, token, decoded.id, author._id, setMessage, true)}
                                 >Delete Post</button>
                             </div>
                         }

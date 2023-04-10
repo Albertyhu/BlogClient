@@ -53,14 +53,10 @@ const CategoryPage = props => {
     }), [navigate])
 
     //useEffect(() => {
-    //    FetchCategories(apiURL, dispatchFunctions); 
-    //},[])
-
-    useEffect(() => {
-        if (categoryList != null && categoryList.length > 0) {
-            console.log("list: ", categoryList)
-        }
-    }, [categoryList])
+    //    if (categoryList != null && categoryList.length > 0) {
+    //        console.log("list: ", categoryList)
+    //    }
+    //}, [categoryList])
 
     const generalErrorRef = useRef(); 
 

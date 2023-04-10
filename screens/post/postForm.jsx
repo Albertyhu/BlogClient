@@ -86,11 +86,8 @@ const PostForm = props => {
         setMessage,
     } = useContext(PostContext); 
 
-    const UserToken = localStorage.getItem("token");
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
     const { SelectCategory } = PostFormElements(navigate);
-
-
 
     const generalErrorRef = useRef(); 
 

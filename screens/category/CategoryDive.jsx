@@ -58,12 +58,7 @@ const CategoryPage = props => {
         if (id) {
             FetchPostsByCategory(apiURL, id, setPostList)
         }
-        console.log("category id: ", id)
     }, [id])
-
-    useEffect(() => {
-        console.log(postList)
-    }, [postList])
 
     return (
         <div

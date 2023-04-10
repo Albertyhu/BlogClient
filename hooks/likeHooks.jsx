@@ -1,13 +1,16 @@
 /** These are hooks that build the like features of the social media site*/
 
 const checkIfLiked = (likeList, userID) => {
-    var isLiked = false 
-    likeList.forEach(like => {
-        if (like.toString() == userID.toString()) {
-            isLiked = true;
-        }
-    })
-    return isLiked; 
+    if (likeList) {
+        var isLiked = false
+        likeList.forEach(like => {
+            if (like.toString() == userID.toString()) {
+                isLiked = true;
+            }
+        })
+        return isLiked;
+    }
+    return false; 
 } 
 
 const updateLikesInServer = async (apiURL, newLikeList, postID, token) => {

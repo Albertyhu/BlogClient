@@ -291,6 +291,7 @@ export const TinyMCEInput = props => {
                     >{renderNumber}</span></div>}
         </>
         )
+
 }
 
 TinyMCEInput.propTypes = {

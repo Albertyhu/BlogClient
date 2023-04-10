@@ -134,18 +134,6 @@ const CreatePostForm = props => {
         SubmitPost(apiURL, Elements, dispatchFunctions, "PUT", id, token)
     }
 
-    //const getContent = () => {
-    //    if (contentInputRef.current) {
-    //        return contentInputRef.current.getContent();
-    //    }
-    //}
-
-    //const getAbstract = () => {
-    //    if (abstractInputRef.current) {
-    //        return abstractInputRef.current.getContent();
-    //    }
-    //}
-
     useEffect(() => {
         if (!token) {
             console.log("Token is not present.")

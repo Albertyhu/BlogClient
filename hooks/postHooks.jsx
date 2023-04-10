@@ -1,5 +1,8 @@
 import { ErrorMessageHooks } from './errorHooks.jsx'; 
-import { PostNavigationHooks } from './navigation.jsx'; 
+import {
+    PostNavigationHooks,
+    NavigationHooks, 
+} from './navigation.jsx'; 
 const { RenderErrorArray } = ErrorMessageHooks()
 
 const FetchHooks = () => {
@@ -71,7 +74,9 @@ const CreateAndUpdatePosts = (navigate) => {
     const {
         BringDataToPost, 
     } = PostNavigationHooks(navigate)
-
+    const {
+        GoBack, 
+    } = NavigationHooks(navigate);
     //SubmitPost can be used for POST or PUT actions 
     const SubmitPost = async (apiURL, Elements, dispatchFunction, METHOD, postID, token) => {
         var FetchURL = '';
@@ -80,7 +85,11 @@ const CreateAndUpdatePosts = (navigate) => {
                 FetchURL = `${apiURL}/post/create`;
                 break;
             case 'PUT':
-                FetchURL = `${apiURL} /post/${postID}/edit`
+                FetchURL = `${apiURL}/post/${postID}/edit`;
+                break; 
+            default:
+                FetchURL = `${apiURL}/post/create`;
+                break;
         }
         const { setMessage } = dispatchFunction; 
         const {
@@ -114,12 +123,11 @@ const CreateAndUpdatePosts = (navigate) => {
                 'Authorization': `Bearer ${token}`
             }
         }).then(async response => {
-            const result = await response.json;
             if (response.ok) {
                 if (published) {
-                    //Go to the post
+                    const result = await response.json()
                     console.log(result.message)
-                    console.log("results: ", result.post)
+                    console.log("result: ", result.post)
                     const data = {
                         title: result.post.title,
                         content: result.post.content,
@@ -138,21 +146,23 @@ const CreateAndUpdatePosts = (navigate) => {
                 else {
                     //stay on the post form
                     //or go to the editing screen
+                    window.scrollTo(0, 0); 
                     setMessage("Your draft has been saved."); 
                 }
             }
             else {
+                const result = await response.json();
                 console.log("Error in submitting post: ", result.error); 
                 RenderErrorArray(result.error, dispatchFunction)
             }
         })
     }
 
-    const DeletePost = async (apiURL, postID, token, userID, authorID, setMessage, navigate) => {
+    const DeletePost = async (apiURL, postID, token, userID, authorID, setMessage, navigateBack) => {
         //Only authors can delete their own posts 
         if (userID.toString() === authorID.toString()) {
             const FetchURL = `${apiURL}/post/${postID}/delete`
-            await fetch(apiURL, {
+            await fetch(FetchURL, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -160,11 +170,14 @@ const CreateAndUpdatePosts = (navigate) => {
             }).then(async response => {
                 if (response.ok) {
                     console.log("Post is successfully deleted")
-                    //Because the function can be used for the post main page or an index of posts, app has the option to either 
-                    //stay on the same page or navigate away from the page once the post is deleted. 
-                    if (navigate != null) {
-                        navigate(); 
-                    }
+                    setMessage([{ param: "general", msg: "Post is successfully deleted."}])
+                    //Because the function can be used for the post main page or an index of posts, app has the option to either
+                    //stay on the same page or navigate away from the page once the post is deleted.
+                    //if (navigateFunction != null) {
+                    //    navigateFunction();
+                    //}
+                    if(navigateBack)
+                        GoBack(); 
                 }
                 else {
                     const result = await response.json(); 
@@ -173,7 +186,6 @@ const CreateAndUpdatePosts = (navigate) => {
             })
         }
         else {
-            var error = [{param: "general", msg: "You are not the author of this post."}]
             setMessage("You are not the author of this post.") 
         }
     }

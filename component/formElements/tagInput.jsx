@@ -92,7 +92,7 @@ import DeleteIcon from '../../assets/icons/cancel.png';
                 <input
                     value={input}
                     onChange={handleChange}
-                    className="!border-black border-[1px] w-full"
+                    className="!border-black border-[1px] w-full !px-5"
                 />
                 <button
                     type="button"
