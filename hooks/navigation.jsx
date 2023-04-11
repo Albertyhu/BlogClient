@@ -41,7 +41,7 @@ const NavigationHooks = (navigate) => {
 
 
     function VisitOneCategory(categoryName, ID) {
-        navigate(`/category/${categoryName}`, {
+        navigate(`/category/${categoryName}/${ID}`, {
             state: {
                 id: ID, 
             }
@@ -119,8 +119,8 @@ const NavigationHooks = (navigate) => {
 }
 
 const PostNavigationHooks = (navigate) => {
-    function GoToPost(postID) {
-        navigate(`/post/${postID}`, {
+    function GoToPost(postTitle, postID) {
+        navigate(`/post/${postTitle}/${postID}`, {
             state: {
                 id: postID, 
             }
@@ -139,7 +139,7 @@ const PostNavigationHooks = (navigate) => {
             tag,
             id, 
         } = data; 
-        navigate(`/post/${data.title}`, {
+        navigate(`/post/${data.title}/${id}`, {
             state: {
                 title,
                 content,

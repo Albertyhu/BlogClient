@@ -87,7 +87,6 @@ const EditProfilePic = props => {
         }
         fetchUserDetails(apiURL, id, setUser, setGeneralError)
         const decoded = JSON.parse(atob(UserToken.split('.')[1]));
-        console.log("token id : ", decoded.id)
     }, [id, UserToken])
 
     return (

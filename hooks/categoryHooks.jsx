@@ -7,7 +7,6 @@ const { RenderErrorArray } = ErrorMessageHooks()
 const CategoryHooks = (navigate) => {
     const { GoCategory } = NavigationHooks(navigate);
     const FetchCategories = async (apiURL, dispatchFunctions) => {
-
         const { setCategoryList } = dispatchFunctions;
         const FetchURL = `${apiURL}/category`;
         await fetch(FetchURL, {
@@ -54,6 +53,24 @@ const CategoryHooks = (navigate) => {
             })
     }
 
+    const FetchCategoryByName = async (apiURL, categoryName, dispatchFunctions) => {
+        const FetchURL = `${apiURL}/category/${categoryName}`
+        await fetch(FetchURL, {
+            method: 'GET'
+        })
+            .then(async response => {
+                const result = await response.JSON();
+                if (response.ok)
+                    dispatch(result);
+                else {
+                    RenderErrorArray(result.error, dispatchFunctions)
+                }
+            })
+            .catch(e => {
+                RenderErrorArray(result.error, dispatchFunctions)
+            })
+    }
+
     const DeleteCategory = (apiURL, ID, token, categoryList, setCategoryList) => {
         const FetchURL = `${apiURL}/category/${ID}/delete`; 
         fetch(FetchURL, {
@@ -75,10 +92,28 @@ const CategoryHooks = (navigate) => {
         })
     }
 
+    //const PopulateCategoryPage = (categoryList, name, dispatchFunctions) => {
+    //    const target = categoryList.find(val => val.name == name)
+    //    const {
+    //        setImage,
+    //        setDescription,
+    //        setCategoryId,
+    //    } = dispatchFunctions;
+    //    setImage(target.image);
+    //    setDescription(target.description);
+    //    setCategoryId(target._id)
+    //}
+
+    const PopulateCategoryPage = (categoryList, name) => {
+        const target = categoryList.find(val => val.name == name)
+    }
+
     return {
         FetchCategories,
         FetchCategoryById,
-        DeleteCategory
+        DeleteCategory,
+        FetchCategoryByName,
+        PopulateCategoryPage
     }
 }
 

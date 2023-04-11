@@ -2,16 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\post",
-    "\\hooks",
+    "\\component\\formElements",
     "\\screens",
-    "\\screens\\category",
+    "\\screens\\post",
     "\\screens\\tag",
     "\\screens\\threadForm",
     "\\screens\\user",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\wait.jsx",
   "PreviewInSolutionExplorer": false
 }

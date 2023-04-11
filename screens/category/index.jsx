@@ -16,7 +16,9 @@ import { SubstitutePanel } from '../../component/fallback.jsx';
 const CategoryPage = props => {
     const navigate = useNavigate();
     const { GoCreateCategory } = NavigationHooks(navigate);
-    const { FetchCategories } = CategoryHooks(navigate); 
+    const {
+        FetchCategories,
+    } = CategoryHooks(navigate); 
     const { user,
         apiURL,
         categoryList,
@@ -36,14 +38,14 @@ const CategoryPage = props => {
     }
 
     function VisitOneCategory(category, ID) {
-        useCallback(navigate(`/category/${category}`, {
+        useCallback(navigate(`/category/${category}/${ID}`, {
             state: {
                 id: ID,
             }
         }),[navigate])
     }
 
-    const VisitCategory = useCallback((item)=>navigate(`/category/${item.name}`, {
+    const VisitCategory = useCallback((item)=>navigate(`/category/${item.name}/${item._id}`, {
         state: {
             id: item._id,
             name: item.name, 
@@ -51,12 +53,6 @@ const CategoryPage = props => {
             image: item.image,
         }
     }), [navigate])
-
-    //useEffect(() => {
-    //    if (categoryList != null && categoryList.length > 0) {
-    //        console.log("list: ", categoryList)
-    //    }
-    //}, [categoryList])
 
     const generalErrorRef = useRef(); 
 

@@ -1,5 +1,5 @@
 import React, {  useContext, useEffect, useState, lazy, useRef, startTransition, Suspense } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
 import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
@@ -11,6 +11,7 @@ import { FetchHooks as PostFetchHooks } from '../../hooks/fetchHooks.jsx';
 const CoverPhoto = lazy(() => import("../../component/imageRendering/coverPhoto.jsx"));
 const Panel = lazy(() => import('../../component/post/post_panel.jsx'))
 import { PostButtons } from '../../component/post/buttons.jsx'; 
+import ErrorPage from '../error'; 
 
 /** This component displays individual categories and its data*/
 const CategoryPage = props => {
@@ -18,14 +19,28 @@ const CategoryPage = props => {
     const location = useLocation(); 
 
     //id is the ObectId of the category.
-    const { id } = location.state; 
+
     const { EditCategory } = NavigationHooks(navigate);
-    const { FetchPostsByCategory } = PostFetchHooks(navigate); 
-    const [categoryName, setCategoryName] = useState(location.state ? location.state.name ? location.state.name : "category" : "category")
+    const {
+        FetchPostsByCategory,
+        FetchCategoryByName
+    } = PostFetchHooks(navigate); 
+    const {
+        category_name, 
+        category_id, 
+    } = useParams(); 
+    const [categoryId, setCategoryId] = useState(category_id ? category_id : location.state ? location.state.id : null)
+    const [categoryName, setCategoryName] = useState(category_name ? category_name : location.state ? location.state.name : null)
     const [coverImage, setImage] = useState(location.state ? location.state.image ? location.state.image : null : null)
     const [description, setDescription] = useState(location.state ? location.state.description ? location.state.description : "" : "");
     const [postList, setPostList] = useState([])
-    const { DeleteCategory } = CategoryHooks(navigate);
+
+    const [shouldLoad, setLoad] = useState(true); 
+
+    const {
+        DeleteCategory,
+        PopulateCategoryPage, 
+    } = CategoryHooks(navigate);
     const { CreateNewPostWithCategory } = PostButtons(navigate); 
     const {
         apiURL,
@@ -33,6 +48,13 @@ const CategoryPage = props => {
         categoryList, 
         setCategoryList, 
     } = useContext(AppContext);
+
+    const dispatchFunctions = {
+        setImage, 
+        setDescription,
+        setCategoryId,
+    }
+
     const {
         RenderError,
         AnimateErrorMessage
@@ -55,11 +77,41 @@ const CategoryPage = props => {
     })
 
     useEffect(() => {
-        if (id) {
-            FetchPostsByCategory(apiURL, id, setPostList)
+        if (categoryId) {
+            FetchPostsByCategory(apiURL, categoryId, setPostList)
+            setLoad(true);
         }
-    }, [id])
+        else if (location.state) {
+            FetchPostsByCategory(apiURL, location.state.id, setPostList)
+            setLoad(true); 
+        }
 
+    }, [categoryId])
+
+    useEffect(() => {
+        if (category_name && categoryList) {
+            var result = categoryList.find(val => val.name == category_name)
+            if (result) {
+                setImage(result.image);
+                setDescription(result.description);
+                setCategoryId(result._id)
+                setLoad(true)
+            }
+            else {
+                setLoad(false)
+            }
+        }
+
+    }, [category_name, categoryList])
+    if (!shouldLoad) {
+        return (
+            <div className = "my-20"> 
+                <ErrorPage
+                    message="The category is not found"
+                    />
+            </div>
+            )
+    }
     return (
         <div
             className="w-full text-center text-lg text-black"
@@ -90,16 +142,16 @@ const CategoryPage = props => {
                     <div className ="grid">
                         <button
                             className="btn-add mb-10"
-                            onClick={() => EditCategory(id, categoryName, description, coverImage)}
+                            onClick={() => EditCategory(categoryId, categoryName, description, coverImage)}
                         >Edit category
                         </button>
                         <button
                             className="btn-primary mb-10"
-                                onClick={() => DeleteCategory(apiURL, id, token, categoryList, setCategoryList)}
+                            onClick={() => DeleteCategory(apiURL, categoryId, token, categoryList, setCategoryList)}
                         >Delete Category</button>
                         <CreateNewPostWithCategory
                             buttonStyle="btn-secondary mb-10"
-                            categoryID={id}
+                            categoryID={categoryId}
                         />
                      </div>
                 }

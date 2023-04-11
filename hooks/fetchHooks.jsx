@@ -75,7 +75,6 @@ const FetchHooks = () => {
         .then(async response => {
             const result = await response.json()
             if (response.ok) {
-                console.log("Posts are successfully retrieved: ", result.post)
                 setPosts(result.post);
             }
             else {

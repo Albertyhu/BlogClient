@@ -103,8 +103,6 @@ const PostForm = props => {
         GetTagList(apiURL, setExistingTags)
     }, [])
 
-
-
     return (
         <div>
             <MessageComponent

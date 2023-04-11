@@ -85,7 +85,7 @@ export const PostFormElements = (navigate) => {
                     name="category"
                     className="w-full text-sm md:text-lg rounded-md"
                     ref={categorySelectRef}
-                    defaultValue={categoryList ? currentOption : ""}
+                    defaultValue={currentOption ? currentOption : ""}
                 >
                     {categoryList && categoryList.map(opt =>
                         <option

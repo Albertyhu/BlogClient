@@ -5,6 +5,7 @@ import { RenderCommentSymbol } from './commentComponent.jsx';
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
 import { PostNavigationHooks } from '../../hooks/navigation.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
+import { RenderTagField } from '../tagComponent.jsx'; 
 
 const RenderPostPanel = props => {
     const { title,
@@ -53,6 +54,9 @@ const RenderPostPanel = props => {
                     />
                     <RenderCommentSymbol number={comments.length} />
                 </div>
+                {tag != null && tag.length > 0 &&
+                    <RenderTagField tag={tag} />
+                }
             </div>
 
         </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'; 
-import { useLocation, useNavigate } from 'react-router-dom'; 
+import { useLocation, useNavigate, useParams } from 'react-router-dom'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { PostLikeFeatures } from "../../component/likeComponent.jsx" 
 import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
@@ -11,18 +11,24 @@ import { ErrorMessageHooks, PostErrorHooks } from '../../hooks/errorHooks.jsx';
 import MessageComponent from '../../component/message.jsx'; 
 import { PostContext } from '../../util/contextItem.jsx';
 import MainPanel from './mainPanel.jsx'; 
-import { PostNavigationHooks } from '../../hooks/navigation.jsx'; 
+import { PostNavigationHooks, NavigationHooks } from '../../hooks/navigation.jsx'; 
 
 const RenderPost = props => {
     const location = useLocation(); 
-    const { id } = location.state; 
+    const { post_title, post_id } = useParams(); 
+    console.log("post_name: ", post_title)
     const {
         token, 
         apiURL, 
+        categoryList, 
     } = useContext(AppContext); 
     const { RenderLikeButton } = PostLikeFeatures(); 
     const navigate = useNavigate(); 
     const { GoEditPost } = PostNavigationHooks(navigate);
+    const {
+        GoBack,
+        VisitOneCategory,
+    } = NavigationHooks(navigate); 
     const { FetchPostById } = FetchHooks(); 
     const { DeletePost } = CreateAndUpdatePosts(navigate); 
     const PostContainerStyle = ``;
@@ -75,7 +81,7 @@ const RenderPost = props => {
         likes, 
         published, 
         decoded, 
-        postID: id, 
+        postID: post_id, 
     }
     useEffect(() => {
         if (token) {
@@ -84,8 +90,8 @@ const RenderPost = props => {
     }, [token])
 
     useEffect(() => {
-        FetchPostById(apiURL, id, dispatchFunctions)
-    }, [id])
+        FetchPostById(apiURL, post_id, dispatchFunctions)
+    }, [post_id])
 
     if (published) {
         return (
@@ -108,16 +114,15 @@ const RenderPost = props => {
                                 <button
                                     className= "btn-standard text-white bg-[#6d6d6d] mx-auto text-center"
                                     type="button"
-                                    onClick={()=>GoEditPost(title, id, context)}
+                                    onClick={()=>GoEditPost(title, post_id, context)}
                                 >Edit Post</button>
                                 <button
                                     className="btn-secondary my-10"
                                     type="button"
-                                    onClick={() => DeletePost(apiURL, id, token, decoded.id, author._id, setMessage, true)}
+                                    onClick={() => DeletePost(apiURL, post_id, token, decoded.id, author._id, setMessage, GoBack)}
                                 >Delete Post</button>
                             </div>
                         }
-
                     </div>
                 </div>
             </PostContext.Provider>

@@ -39,32 +39,36 @@ const FetchHooks = () => {
             setLikes,
             setPublished,
         } = dispatchFunctions; 
-        await fetch(FetchURL, {
-            method: 'GET',
-        })
-            .then(async response => {
-                const result = await response.json();
-                if (response.ok) {
-                    setTitle(result.payload.title);
-                    setContent(result.payload.content);
-                    setPublished(result.payload.published);
-                    setDatePublished(result.payload.datePublished);
-                    setAuthor(result.payload.author);
-                    setThumbnail(result.payload.thumbnail);
-                    setImages(result.payload.images);
-                    setAbstract(result.payload.abstract);
-                    setCategory(result.payload.category);
-                    setTag(result.payload.tag);
-                    setComments(result.payload.comments);
-                    setLikes(result.payload.likes);
-                }
-                else {
-                    console.log("There was a problem retrieving this post.")
-                }
+        try {
+            await fetch(FetchURL, {
+                method: 'GET',
             })
-            .catch(e => {
-                console.log("There was an error trying to retrieve a post: ", e)
-            })
+                .then(async response => {
+                    const result = await response.json();
+                    if (response.ok) {
+                        setTitle(result.payload.title);
+                        setContent(result.payload.content);
+                        setPublished(result.payload.published);
+                        setDatePublished(result.payload.datePublished);
+                        setAuthor(result.payload.author);
+                        setThumbnail(result.payload.thumbnail);
+                        setImages(result.payload.images);
+                        setAbstract(result.payload.abstract);
+                        setCategory(result.payload.category);
+                        setTag(result.payload.tag);
+                        setComments(result.payload.comments);
+                        setLikes(result.payload.likes);
+                    }
+                    else {
+                        console.log("There was a problem retrieving this post.")
+                    }
+                })
+                .catch(e => {
+                    console.log("There was an error trying to retrieve a post: ", e)
+                })
+        } catch (e) {
+            console.log("FetchPostById error: ", e)
+        }
     }
 
     return { FetchPostsByCateogry, FetchPostById } 
@@ -76,6 +80,8 @@ const CreateAndUpdatePosts = (navigate) => {
     } = PostNavigationHooks(navigate)
     const {
         GoBack, 
+        GoCategory, 
+        VisitOneCategory
     } = NavigationHooks(navigate);
     //SubmitPost can be used for POST or PUT actions 
     const SubmitPost = async (apiURL, Elements, dispatchFunction, METHOD, postID, token) => {
@@ -158,7 +164,7 @@ const CreateAndUpdatePosts = (navigate) => {
         })
     }
 
-    const DeletePost = async (apiURL, postID, token, userID, authorID, setMessage, navigateBack) => {
+    const DeletePost = async (apiURL, postID, token, userID, authorID, setMessage, navigateTo) => {
         //Only authors can delete their own posts 
         if (userID.toString() === authorID.toString()) {
             const FetchURL = `${apiURL}/post/${postID}/delete`
@@ -170,18 +176,16 @@ const CreateAndUpdatePosts = (navigate) => {
             }).then(async response => {
                 if (response.ok) {
                     console.log("Post is successfully deleted")
-                    setMessage([{ param: "general", msg: "Post is successfully deleted."}])
                     //Because the function can be used for the post main page or an index of posts, app has the option to either
                     //stay on the same page or navigate away from the page once the post is deleted.
-                    //if (navigateFunction != null) {
-                    //    navigateFunction();
-                    //}
-                    if(navigateBack)
-                        GoBack(); 
+                    if (navigateTo != null) {
+                        navigateTo();
+                    }
                 }
                 else {
                     const result = await response.json(); 
-                    setMessage(result.error.msg)
+                    console.log("error: ", result.error)
+                    //setMessage(result.error)
                 }
             })
         }

@@ -22,6 +22,7 @@ import CreateTag from '../screens/tag/tagForm.jsx';
 import PostDive from '../screens/post';
 import CreatePost from '../screens/post/createPost.jsx';
 import EditPost from '../screens/post/editPost.jsx';
+import ErrorPage from '../screens/error';
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
@@ -47,13 +48,15 @@ const Apps = props => {
                         <Route path="/profile/:username/editpassword" element={<EditPasswordForm />} />
                         <Route path="/category" element={<CategoryPage/> } />
                         <Route path="/category/create" element={<CreateCategory />} />
-                        <Route path="/category/:category" element={<CategoryDive />} />
+                        <Route path="/category/:category_name" element={<CategoryDive />} />
+                        <Route path="/category/:category_name/:category_id" element={<CategoryDive />} />
                         <Route path="/category/:category/edit" element={<EditCategory />} />
                         <Route path="/tags" element={<TagsPage />} />
                         <Route path="/tags/create" element={<CreateTag />} />
-                        <Route path="/post/:post_name" element={<PostDive />} />
+                        <Route path="/post/:post_title/:post_id" element={<PostDive />} />
                         <Route path="/post/new" element={<CreatePost />} />
                         <Route path="/post/:post_name/edit" element={<EditPost />} />
+                        <Route path="/error" element={<ErrorPage />} />
                     </Routes>
                 </div>
                 <Footer />

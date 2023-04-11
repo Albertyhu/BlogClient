@@ -103,7 +103,7 @@ const PostLikeFeatures = () => {
 
         return (
             <IconContext.Provider value={{ size: '25px' }}>
-                <div className={`[&>*]:inline-block whitespace-nowrap relative mx-10 w-[60px] ${isLiked ? 'font-bold' : ''}`}>
+                <div className={`[&>*]:inline-block whitespace-nowrap relative mr-10 w-[60px] ${isLiked ? 'font-bold' : ''}`}>
                     <div
                         className="absolute top-[50%] translate-y-[-50%] left-0 right-auto"
                     >

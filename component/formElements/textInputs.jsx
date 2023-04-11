@@ -188,19 +188,6 @@ export const TinyMCEInput = props => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    const handleUserInput = evt => {
-        var userInput = evt.target.value;
-        if (characters != null) {
-            if (userInput.length <= characterLimit) {
-                setData(userInput)
-                setCharacterCount(userInput.length)
-            }
-        }
-        else {
-            setData(userInput)
-        }
-    }
-
     useEffect(() => {
         if (dataError.length > 0) {
             for (var child of errorRef.current.children) {
@@ -225,7 +212,7 @@ export const TinyMCEInput = props => {
     const initState = {
         height: HEIGHT,
         menubar: false,
-        initialValue: data ? data : null, 
+        initialValue: data, 
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
@@ -260,12 +247,6 @@ export const TinyMCEInput = props => {
         }
     }, [characters])
 
-    //sets the initial value of the text editor
-    useEffect(() => {
-        if(editorRef.current && data != "")
-         editorRef.current.setContent(data)
-    }, [editorRef.current])
-
     return (
         <>
             <label
@@ -281,6 +262,7 @@ export const TinyMCEInput = props => {
                     apiKey={`${import.meta.env.VITE_TINY_MCE_KEY}`}
                     init={initState}
                     onEditorChange={onEditorChange}
+                    initialValue={data}
                 />
             )}
             {characterLimit != null &&

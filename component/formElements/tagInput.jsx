@@ -3,7 +3,8 @@ import { searchTag } from '../../hooks/tagHooks.jsx';
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import uuid from 'react-uuid'; 
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-import DeleteIcon from '../../assets/icons/cancel.png'; 
+
+import { Tag } from '../tagComponent.jsx'; 
 
  const TagInput = props => {
     const {
@@ -126,33 +127,33 @@ import DeleteIcon from '../../assets/icons/cancel.png';
     )
 }
 
-const Tag = props => {
-    const {
-        name,
-        deleteTag
-    } = props;
-    return deleteTag ?
-        (
-            <div
-                className="Tag"
-                onClick={() => deleteTag(name)}
-            >
-                <div>{name}</div>
-                <img
-                    className="MiniDeleteButton ml-5"
-                    src={DeleteIcon}
-                />
-            </div>
-        )
-        :
-        (
-            <div
-                className="Tag"
-            >
-                <div>{name}</div>
-            </div>
-        )
-}
+//const Tag = props => {
+//    const {
+//        name,
+//        deleteTag
+//    } = props;
+//    return deleteTag ?
+//        (
+//            <div
+//                className="Tag"
+//                onClick={() => deleteTag(name)}
+//            >
+//                <div>{name}</div>
+//                <img
+//                    className="MiniDeleteButton ml-5"
+//                    src={DeleteIcon}
+//                />
+//            </div>
+//        )
+//        :
+//        (
+//            <div
+//                className="Tag"
+//            >
+//                <div>{name}</div>
+//            </div>
+//        )
+//}
 
 
 //queryResults is an array 

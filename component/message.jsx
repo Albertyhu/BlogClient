@@ -32,7 +32,7 @@ const MessageComponent = props => {
     const messageRef = useRef(); 
 
     useEffect(() => {
-        if (message.length > 0) {
+        if (message && message.length > 0) {
             for (var child of messageRef.current.children) {
                 AnimateMessage(child)
             }

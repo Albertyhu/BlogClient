@@ -110,7 +110,7 @@ const CreatePostForm = props => {
         abstract_char_limit,
         navigate,
         primaryLabel: published ? "Save edits" : "Publish",
-        secondaryLabel: published ? "Conver to draft" : "Save draft",
+        secondaryLabel: published ? "Convert to draft" : "Save draft",
         publishFunc: () => handleSubmit(true),
         draftFunc: () => handleSubmit(false),
 
@@ -155,7 +155,7 @@ const CreatePostForm = props => {
 
     return (
         <PostContext.Provider value={context}>
-            <h1 className="HeaderStyle mt-[40px] text-center font-bold text-2xl">Create a new post</h1>
+            <h1 className="HeaderStyle mt-[40px] text-center font-bold text-2xl">Edit post</h1>
             <RenderForm
                 execute={() => {
                     const Elements = {
