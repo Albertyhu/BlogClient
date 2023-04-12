@@ -24,3 +24,10 @@ export const GetContent = inputRef => {
         return inputRef.current.getContent(); 
     }
 }
+
+
+export const countInitialCharacters = (data) => {
+    const regex = /(<([^>]+)>)/gi;
+    const plainText = data.replace(regex, "");
+    return plainText.length;
+}

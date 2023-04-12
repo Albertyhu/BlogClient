@@ -2,15 +2,12 @@ import { useState, useRef, useContext, useEffect, lazy, Suspense } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import { } from '../../hooks/postHooks.jsx';
-import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
-    FormButtons,
     PostFormElements, 
 } from '../../component/formElements.jsx';
 import { PostFormButtons } from '../../component/post/buttons.jsx'; 
 import {
     BasicTextInput,
-    BasicTextAreaInput,
     TinyMCEInput,
 } from '../../component/formElements/textInputs.jsx';
 import {
@@ -27,10 +24,7 @@ import MessageComponent from '../../component/message.jsx';
 
 //Next task: retrieve id and username from token 
 const PostForm = props => {
-
     const navigate = useNavigate();
-    const { username } = useParams();
-    const { GoHome } = NavigationHooks(navigate);
 
     const {
         categoryList,
@@ -118,6 +112,7 @@ const PostForm = props => {
             </div>
             <form
                 id="RegistrationForm"
+                encType="multipart/form-data"
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
                 onSubmit={(evt) => {
                     evt.preventDefault();

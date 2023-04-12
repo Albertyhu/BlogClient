@@ -27,13 +27,15 @@ const CreatePostForm = props => {
     const { id } = location.state; 
     const [title, setTitle] = useState(location.state ? location.state.title : "")
     const [content, setContent] = useState(location.state ? location.state.content : "");
-    const [author, setAuthor] = useState(location.state ? location.state.author : null);
+    const [author, setAuthor] = useState(location.state ? location.state.author._id : null);
     const [published, setPublished] = useState(location.state ? location.state.published : false);
     const [thumbnail, setThumbnail] = useState(location.state ? location.state.thumbnail : null);
     const [images, setImages] = useState(location.state ? location.state.images : []);
     const [abstract, setAbstract] = useState(location.state ? location.state.abstract : "");
     const [category, setCategory] = useState(location.state ? location.state.category : null);
     const [tag, setTag] = useState(location.state ? location.state.tag : []);
+    //This helps to keep track of any tags that the user decides to delete
+    const [priorTagList, setPrior] = useState(location.state ? location.state.tag : []) 
     const [message, setMessage] = useState(''); 
 
     const [decoded, setDecoded] = useState(null);
@@ -130,6 +132,7 @@ const CreatePostForm = props => {
             category: categoryInputRef.current.value,
             tag,
             abstract_char_limit: abstract_char_limit,
+            priorTagList
         };
         SubmitPost(apiURL, Elements, dispatchFunctions, "PUT", id, token)
     }
@@ -144,7 +147,7 @@ const CreatePostForm = props => {
 
     useEffect(() => {
         if (decoded != null) {
-            if (decoded.id != author._id) {
+            if (decoded.id != author) {
                 console.log("decoded.id: ", decoded.id);
                 console.log("author: ", author)
                 console.log("User's id does not match the author id of post")
@@ -156,24 +159,7 @@ const CreatePostForm = props => {
     return (
         <PostContext.Provider value={context}>
             <h1 className="HeaderStyle mt-[40px] text-center font-bold text-2xl">Edit post</h1>
-            <RenderForm
-                execute={() => {
-                    const Elements = {
-                        title,
-                        content: getContent(),
-                        author,
-                        published,
-                        thumbnail: thumbnailInputRef.current.value,
-                        images: imagesInputRef.current.value,
-                        abstract: getAbstract(),
-                        category: categoryInputRef.current.value,
-                        tag,
-                        abstract_char_limit: abstract_char_limit,
-                    };
-                    SubmitPost(apiURL, Elements, dispatchFunctions, "POST", null, token)
-                }
-                }
-            />
+            <RenderForm />
         </PostContext.Provider>
     )
 }

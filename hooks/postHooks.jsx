@@ -1,14 +1,15 @@
-import { ErrorMessageHooks } from './errorHooks.jsx'; 
+import { PostErrorHooks } from './errorHooks.jsx'; 
 import {
     PostNavigationHooks,
     NavigationHooks, 
 } from './navigation.jsx'; 
-const { RenderErrorArray } = ErrorMessageHooks()
+import { countInitialCharacters } from './tinyMCEhooks.jsx'; 
+
+const { RenderErrorArray } = PostErrorHooks()
 
 const FetchHooks = () => {
     const FetchPostsByCateogry = async (apiURL, categoryID, dispatch) => {
         const FetchURL = `${apiURL}/post/get_posts_by_category/${categoryID}`;
-        const formData = new FormData; 
         await fetch(FetchURL, {
             method: "GET",
         })
@@ -83,6 +84,7 @@ const CreateAndUpdatePosts = (navigate) => {
         GoCategory, 
         VisitOneCategory
     } = NavigationHooks(navigate);
+
     //SubmitPost can be used for POST or PUT actions 
     const SubmitPost = async (apiURL, Elements, dispatchFunction, METHOD, postID, token) => {
         var FetchURL = '';
@@ -108,25 +110,44 @@ const CreateAndUpdatePosts = (navigate) => {
             abstract,
             category,
             tag,
-            abstract_char_limit
+            abstract_char_limit,
+            priorTagList,
         } = Elements; 
         const formData = new FormData; 
         formData.append("title", title);
         formData.append("content", content);
         formData.append("published", published);
         formData.append("author", author); 
-        formData.append("thumbnail", thumbnail);
-        formData.append("images", images); 
+        if (thumbnail) {
+            formData.append("thumbnail", thumbnail);
+        }
+        if (images) {
+            formData.append("images", JSON.stringify(images));
+        }
         formData.append("abstract", abstract);
         formData.append("category", category); 
         formData.append("tag", JSON.stringify(tag)); 
-        formData.append("abstract_char_limit", abstract_char_limit)
+
+        if (abstract_char_limit && abstract) {
+            console.log("executed")
+            let count = countInitialCharacters(abstract)
+            if (count > abstract_char_limit) {
+                formData.append("abstract_char_limit", abstract_char_limit)
+                formData.append("abstractExceedLimit", true)
+            }
+        }
+
+        if (Elements.priorTagList) {
+            formData.append("priorTagList", JSON.stringify(priorTagList))
+        }
+        const boundary = formData._boundary;
         console.log(Elements)
         await fetch(FetchURL, {
             method: METHOD, 
             body: formData,
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+             //   "Content-Type": `multipart/form-data; boundary=${formData._boundary}`, 
             }
         }).then(async response => {
             if (response.ok) {

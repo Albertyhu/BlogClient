@@ -1,15 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\component",
-    "\\component\\formElements",
+    "\\hooks",
     "\\screens",
+    "\\screens\\category",
+    "\\screens\\error",
     "\\screens\\post",
     "\\screens\\tag",
-    "\\screens\\threadForm",
     "\\screens\\user",
     "\\src",
     "\\util"
   ],
+  "SelectedNode": "\\screens\\post\\editPost.jsx",
   "PreviewInSolutionExplorer": false
 }

@@ -17,7 +17,9 @@ const ErrorMessageHooks = () => {
             setNewPasswordError,
             setNameError,
             setDescriptionError,
-            setImageError
+            setImageError, 
+
+
         } = dispatchFunctions;
 
         const resetErrorFields = () => {
@@ -51,6 +53,7 @@ const ErrorMessageHooks = () => {
                 setImageError([])
             if (setDisplay)
                 setDisplay("")
+
         }
 
         resetErrorFields();
@@ -136,11 +139,43 @@ const PostErrorHooks = () => {
         console.log("errorArray: ", errorArray)
         const {
             setGeneralError,
+            setTitleError,
+            setContentError,
+            setThumbnailError,
+            setImagesError,
+            setAbstractError,
+            setCategoryError,
+            setTagError,
+            setMessage,
         } = dispatchFunctions;
 
         const resetErrorFields = () => {
             if (setGeneralError)
                 setGeneralError([])
+
+            if (setTitleError)
+                setTitleError([]);
+
+            if (setContentError)
+                setContentError([]);
+
+            if (setThumbnailError)
+                setThumbnailError([]);
+
+            if (setImagesError)
+                setImagesError([]);
+
+            if (setAbstractError)
+                setAbstractError([]);
+
+            if (setCategoryError)
+                setCategoryError([]);
+
+            if (setTagError)
+                setTagError([]);
+
+            if (setMessage)
+                setMessage([]);
 
         }
 
@@ -148,6 +183,30 @@ const PostErrorHooks = () => {
 
         errorArray.forEach(error => {
             switch (error.param.toLowerCase()) {
+                case 'title':
+                    setTitleError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'content':
+                    setContentError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'thumbnail':
+                    setThumbnailError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'images':
+                    setImagesError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'abstract':
+                    setAbstractError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'category':
+                    setCategoryError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'tag':
+                    setTagError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'message':
+                    setMessage(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
                 case 'post':
                     setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;

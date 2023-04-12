@@ -44,9 +44,15 @@ const RenderPostPanel = props => {
                 {author && <h3>created by <span className = "font-bold">{author.username}</span></h3>}
                 <span>{FormatTimeAndDate(datePublished)}</span>
                 {thumbnail && <RenderThumbnail image={thumbnail} altText={title} />}
-                <h3></h3>
                 {abstract &&
-                    <p>Abstract: <span className="italic">{abstract}</span></p>}
+                    <div
+
+                    ><h3 className ="font-bold">Abstract:</h3>
+                        <span
+                            dangerouslySetInnerHTML={{ __html: abstract }}
+                            className="italic"
+                        ></span>
+                    </div>}
                 <div className="flex">
                     <DisplayLikes
                         likes={likes}

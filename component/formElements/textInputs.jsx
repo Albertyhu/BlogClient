@@ -5,6 +5,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import uuid from 'react-uuid';
 import { wait } from '../../hooks/wait.jsx'
 import PropTypes from 'prop-types';
+import { countInitialCharacters } from '../../hooks/tinyMCEhooks.jsx';
 
 
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
@@ -112,7 +113,6 @@ export const BasicTextAreaInput = props => {
         else {
             setData(userInput)
         }
-
     }
 
     useEffect(() => {
@@ -164,7 +164,6 @@ BasicTextAreaInput.propTypes = {
     charaterLimit: PropTypes.number,
 }
 
-
 export const TinyMCEInput = props => {
     const {
         data,
@@ -201,8 +200,16 @@ export const TinyMCEInput = props => {
     useEffect(() => {
         const script = document.createElement('script');
         script.src = `https://cdn.tiny.cloud/1/${import.meta.env.VITE_TINY_MCE_KEY}/tinymce/5/tinymce.min.js`;
-        script.addEventListener('load', () => setIsEditorReady(true));
+        script.addEventListener('load', () => {
+            setIsEditorReady(true); 
+        });
         document.body.appendChild(script);
+
+        if (characterLimit && data) {
+            let count = countInitialCharacters(data)
+            setCharacterCount(count)
+            setNumber(characterLimit-count)
+        }
 
         return () => {
             document.body.removeChild(script);
@@ -271,9 +278,14 @@ export const TinyMCEInput = props => {
                     <span
                         className={characterCountStyle}
                     >{renderNumber}</span></div>}
+            <div
+                id="dataError"
+                className="ErrorDiv"
+                ref={errorRef}>
+                {dataError != null && dataError.length > 0 && RenderError(dataError)}
+            </div>
         </>
         )
-
 }
 
 TinyMCEInput.propTypes = {
@@ -287,17 +299,3 @@ TinyMCEInput.propTypes = {
     ROWS: PropTypes.number, 
     charaterLimit: PropTypes.number, 
 }
-
-
-/*
- template
-<BasicFormInput
-    setData={}
-    dataError={}
-    label=""
-    name=""
-    placeholder=""
-    inputRef={}
-    errorRef={}
-/>
- */

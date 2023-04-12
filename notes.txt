@@ -1,3 +1,27 @@
+4/11/23
+To-do 
+Check to see if drafts are working. 
+Resolve issue with editing post. 
+Make saving images work. 
+Render images onto the main panel. 
+Fix issue with abstract. 
+Abstract character limit in the server may not be measuring the correct number.
+
+On client side, when editing a post, the character counter does reflect the preloaded content in abstract field. 
+
+4/11/23
+Updating tags on the post 
+If user deletes tags, the app compares the prior list of the tags with the updated list of tags. 
+Once the form is submitted, the prior list of tags is compared with the current list of tags and return a list of tags to be removed from post.
+On the client side, the updated tag list is to be copied over the existing tag list in the Post document. 
+You have tags that the user wants to keep and you don't need to do anything else for them.
+You have tags you want to delete.
+You have tags that you want to add. 
+updatedlist= PriorList - Delete + A + K
+Added tags don't have ObjectIds 
+Compare the PriorList with the tags to be kept to find the difference. 
+
+
 4/5/23
 Regarding the post
 Users should be allowed to save a draft. 

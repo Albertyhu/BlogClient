@@ -16,7 +16,6 @@ import { PostNavigationHooks, NavigationHooks } from '../../hooks/navigation.jsx
 const RenderPost = props => {
     const location = useLocation(); 
     const { post_title, post_id } = useParams(); 
-    console.log("post_name: ", post_title)
     const {
         token, 
         apiURL, 
