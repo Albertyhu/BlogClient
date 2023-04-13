@@ -4,11 +4,16 @@ import {
     NavigationHooks, 
 } from './navigation.jsx'; 
 import { countInitialCharacters } from './tinyMCEhooks.jsx'; 
+import { Base64Hooks } from './imageHooks.jsx'; 
 
 const { RenderErrorArray } = PostErrorHooks()
+const { toBase64,
+    convertArrayToBase64,
+    convertObjToBase64
+} = Base64Hooks()
 
 const FetchHooks = () => {
-    const FetchPostsByCateogry = async (apiURL, categoryID, dispatch) => {
+    const FetchPostsByCategory = async (apiURL, categoryID, dispatch) => {
         const FetchURL = `${apiURL}/post/get_posts_by_category/${categoryID}`;
         await fetch(FetchURL, {
             method: "GET",
@@ -47,12 +52,21 @@ const FetchHooks = () => {
                 .then(async response => {
                     const result = await response.json();
                     if (response.ok) {
+                        let thumbnail = null;
+                        console.log("thumbnail: ", thumbnail)
+                        if (result.payload.thumbnail) {
+                            thumbnail = {};
+                            thumbnail.data = toBase64(result.payload.thumbnail.data.data);
+                            thumbnail.contentType =result.payload.thumbnail.contentType;
+                        }
+
+                        result.payload.images = result.payload.images ? convertArrayToBase64(result.payload.images) : null; 
                         setTitle(result.payload.title);
                         setContent(result.payload.content);
                         setPublished(result.payload.published);
                         setDatePublished(result.payload.datePublished);
                         setAuthor(result.payload.author);
-                        setThumbnail(result.payload.thumbnail);
+                        setThumbnail(thumbnail);
                         setImages(result.payload.images);
                         setAbstract(result.payload.abstract);
                         setCategory(result.payload.category);
@@ -72,7 +86,7 @@ const FetchHooks = () => {
         }
     }
 
-    return { FetchPostsByCateogry, FetchPostById } 
+    return { FetchPostsByCategory, FetchPostById } 
 }
 
 const CreateAndUpdatePosts = (navigate) => {
@@ -122,7 +136,9 @@ const CreateAndUpdatePosts = (navigate) => {
             formData.append("thumbnail", thumbnail);
         }
         if (images) {
-            formData.append("images", JSON.stringify(images));
+            for (let i = 0; i < images.length; i++) {
+                formData.append("images", images[i].file);
+            }
         }
         formData.append("abstract", abstract);
         formData.append("category", category); 
@@ -147,7 +163,6 @@ const CreateAndUpdatePosts = (navigate) => {
             body: formData,
             headers: {
                 'Authorization': `Bearer ${token}`,
-             //   "Content-Type": `multipart/form-data; boundary=${formData._boundary}`, 
             }
         }).then(async response => {
             if (response.ok) {
@@ -160,8 +175,8 @@ const CreateAndUpdatePosts = (navigate) => {
                         content: result.post.content,
                         author: result.post.author,
                         published: result.post.published,
-                        thumbnail: result.post.thumbnail,
-                        images: result.post.images,
+                        thumbnail: result.post.thumbnail ? convertObjToBase64(result.post.thumbnail) : null,
+                        images: convertArrayToBase64(result.post.images),
                         abstract: result.post.abstract,
                         category: result.post.category,
                         tag: result.post.tag,

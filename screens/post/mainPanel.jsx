@@ -2,6 +2,7 @@ import { useEffect, useContext} from 'react';
 import { PostContext } from '../../util/contextItem.jsx';
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
 import RenderImage from '../../component/imageRendering/mainImage.jsx';
+import CoverPhoto from '../../component/imageRendering/coverPhoto.jsx';
 import { PostLikeFeatures } from '../../component/likeComponent.jsx';
 import {
     Tag,
@@ -28,7 +29,6 @@ const MainPanel = props => {
         window.scrollTo(0, 0); 
     })
 
-
     return (
         <div
             className = "w-11/12 box_shadow rounded-lg mx-auto"
@@ -39,9 +39,9 @@ const MainPanel = props => {
             >
                 <h1 className="text-3xl font-bold text-center my-5 pt-5 text-black">{title}</h1>
                 <p>Posted by <span className="font-bold">{author.username}</span> | <span>{FormatTimeAndDate(datePublished)}</span></p>
-                {thumbnail &&
+                {thumbnail != null &&
                     <RenderImage
-                    image="thumbnail"
+                    image={thumbnail}
                     altText={`${title} photo`}
                     />
                 }

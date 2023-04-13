@@ -1,4 +1,4 @@
-import { ImageHooks } from '../../hooks/imageHooks.jsx';
+import { Base64Hooks } from '../../hooks/imageHooks.jsx';
 
 const RenderCover = props => {
     //isPreview determines whether or not the photo will be darkened. If it is a preview, it is not darkened. 
@@ -8,7 +8,9 @@ const RenderCover = props => {
         title,
         isPreview = false, 
     } = props; 
-    const { isBase64Image } = ImageHooks(); 
+    const {
+        toBase64,
+        isBase64Image } = Base64Hooks()
     const imageStyle = `h-full w-full md:w-full md:h-auto bg-bottom bg-cover top-[50%] translate-y-[-50%] absolute`
     const containerStyle = `object-fit w-full h-[150px] md:h-[250px] relative select-none bg-no-repeat overflow-hidden`
     const beforeStyle = ` before:opacity-40 before:w-full before:h-full before:bg-black

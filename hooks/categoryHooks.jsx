@@ -1,11 +1,12 @@
 import { ErrorMessageHooks } from "./errorHooks.jsx"; 
 import { NavigationHooks } from './navigation.jsx'
-import { toBase64 } from '../util/processImage.jsx';
+import { Base64Hooks } from '../hooks/imageHooks.jsx';
 
 const { RenderErrorArray } = ErrorMessageHooks()
 
 const CategoryHooks = (navigate) => {
     const { GoCategory } = NavigationHooks(navigate);
+    const { toBase64 } = Base64Hooks()
     const FetchCategories = async (apiURL, dispatchFunctions) => {
         const { setCategoryList } = dispatchFunctions;
         const FetchURL = `${apiURL}/category`;

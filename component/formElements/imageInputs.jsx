@@ -59,6 +59,7 @@ export const AttachMultipleImages = props => {
                     value={file}
                     className="text-lg file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
                     onChange={(evt) => { AttachImagesToArray(evt, setImage, setFile) }}
+                    multiple
                 />
                 <div
                     id="pictureError"
@@ -144,7 +145,7 @@ export const EditImageInput = props => {
                 ref={ImageInputRef}
                 type="file"
                 placeholder={placeholder}
-                className="text-lg file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
+                className="text-lg file:rounded-lg file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
                 onChange={(evt) => { HandleFileChange(evt, setImage) }}
             />
             <div

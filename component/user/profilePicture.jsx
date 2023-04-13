@@ -1,14 +1,13 @@
-import { ImageHooks } from '../../hooks/imageHooks.jsx'; 
+import { Base64Hooks } from '../../hooks/imageHooks.jsx'; 
 
 //This function checks if the image stored the argument profile_pic utilizes base64 format first.
 //If not, the dataURL will convert it to base64 format. 
 //The reason that this is necessary is because images retrieved from the server are not in base64 format
 const RenderProfilePic = props => {
     const { profile_pic, altText = "Profile Picture" } = props;
-    const { isBase64Image } = ImageHooks(); 
     const ImageStyle = `select-none w-[270px] h-[270px] object-cover rounded-full mx-auto`;
     const ImageWrapperStyle = `m-auto overflow-hidden relative z-[1]`; 
-
+    const { toBase64, isBase64Image } = Base64Hooks()
     const dataURL = `data:${profile_pic.contentType};base64,${profile_pic.data}`;
    
     try {

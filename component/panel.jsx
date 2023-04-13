@@ -1,9 +1,8 @@
 import { lazy, useRef, useEffect } from 'react'; 
 import '../src/index.css'; 
-import { ImageHooks } from '../hooks/imageHooks.jsx';
+import { Base64Hooks } from '../hooks/imageHooks.jsx';
 
-const { isBase64Image } = ImageHooks();
-
+const { toBase64, isBase64Image } = Base64Hooks()
 const RenderPanel = props => {
     const {
         name,

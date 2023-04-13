@@ -1,6 +1,8 @@
-import { toBase64 } from '../util/processImage.jsx';
+
+import { Base64Hooks } from './imageHooks.jsx';
 
 const FetchHooks = () => {
+    const { toBase64, isBase64Image } = Base64Hooks()
     const fetchUserDetails = async (apiURL, userID, dispatch, dispatchError) => {
         try {
             const FetchURL = `${apiURL}/users/${userID}`
@@ -75,6 +77,12 @@ const FetchHooks = () => {
         .then(async response => {
             const result = await response.json()
             if (response.ok) {
+                result.post.forEach(item => {
+                    if(item.thumbnail)
+                        item.thumbnail.data = toBase64(item.thumbnail.data.data); 
+                })
+                console.log("result: ", result.post)
+
                 setPosts(result.post);
             }
             else {
