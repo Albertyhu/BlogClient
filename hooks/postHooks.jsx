@@ -4,7 +4,10 @@ import {
     NavigationHooks, 
 } from './navigation.jsx'; 
 import { countInitialCharacters } from './tinyMCEhooks.jsx'; 
-import { Base64Hooks } from './imageHooks.jsx'; 
+import {
+    Base64Hooks,
+    formatExistingImage,
+} from './imageHooks.jsx'; 
 
 const { RenderErrorArray } = PostErrorHooks()
 const { toBase64,
@@ -53,14 +56,14 @@ const FetchHooks = () => {
                     const result = await response.json();
                     if (response.ok) {
                         let thumbnail = null;
-                        console.log("thumbnail: ", thumbnail)
-                        if (result.payload.thumbnail) {
+                        if (result.payload.mainImage) {
                             thumbnail = {};
-                            thumbnail.data = toBase64(result.payload.thumbnail.data.data);
-                            thumbnail.contentType =result.payload.thumbnail.contentType;
+                            thumbnail.data = toBase64(result.payload.mainImage.data.data);
+                            thumbnail.contentType = result.payload.mainImage.contentType;
                         }
-
-                        result.payload.images = result.payload.images ? convertArrayToBase64(result.payload.images) : null; 
+                        if (result.payload.images) {
+                            result.payload.images = convertArrayToBase64(result.payload.images) 
+                        }
                         setTitle(result.payload.title);
                         setContent(result.payload.content);
                         setPublished(result.payload.published);
@@ -113,7 +116,10 @@ const CreateAndUpdatePosts = (navigate) => {
                 FetchURL = `${apiURL}/post/create`;
                 break;
         }
-        const { setMessage } = dispatchFunction; 
+        const {
+            setMessage,
+            setLoading,
+        } = dispatchFunction; 
         const {
             title,
             content,
@@ -133,13 +139,26 @@ const CreateAndUpdatePosts = (navigate) => {
         formData.append("published", published);
         formData.append("author", author); 
         if (thumbnail) {
-            formData.append("thumbnail", thumbnail);
+            formData.append("mainImage", thumbnail);
         }
+
+        //Strategy with updating images:
+        //Store ObjectId's of images that user wants to keep in the "keepImages" arrray
+        //Any new images uploaded with the input tag will be sent as files that will go through the Multer middleware in the server
         if (images) {
+            var keepImages = []
             for (let i = 0; i < images.length; i++) {
+                if (!images[i].file) {
+                    keepImages.push(images[i]._id); 
+                }
                 formData.append("images", images[i].file);
             }
+            if (keepImages.length > 0) {
+                formData.append("keepImages",JSON.stringify(keepImages))
+
+            }
         }
+
         formData.append("abstract", abstract);
         formData.append("category", category); 
         formData.append("tag", JSON.stringify(tag)); 
@@ -156,8 +175,9 @@ const CreateAndUpdatePosts = (navigate) => {
         if (Elements.priorTagList) {
             formData.append("priorTagList", JSON.stringify(priorTagList))
         }
-        const boundary = formData._boundary;
+
         console.log(Elements)
+        setLoading(true)
         await fetch(FetchURL, {
             method: METHOD, 
             body: formData,
@@ -197,6 +217,7 @@ const CreateAndUpdatePosts = (navigate) => {
                 console.log("Error in submitting post: ", result.error); 
                 RenderErrorArray(result.error, dispatchFunction)
             }
+            setLoading(false)
         })
     }
 

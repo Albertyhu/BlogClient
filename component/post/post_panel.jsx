@@ -12,7 +12,7 @@ const RenderPostPanel = props => {
         content, 
         datePublished, 
         author,
-        thumbnail,
+        mainImage,
         abstract, 
         category,
         tag,
@@ -28,7 +28,7 @@ const RenderPostPanel = props => {
         title,
         content,
         datePublished,
-        thumbnail,
+        mainImage,
         abstract,
         id: _id
     }
@@ -43,7 +43,7 @@ const RenderPostPanel = props => {
                 <h2 className="font-bold text-2xl">{title}</h2>
                 {author && <h3>created by <span className = "font-bold">{author.username}</span></h3>}
                 <span>{FormatTimeAndDate(datePublished)}</span>
-                {thumbnail && <RenderThumbnail image={thumbnail} altText={title} />}
+                {mainImage && <RenderThumbnail image={mainImage} altText={title} />}
                 {abstract &&
                     <div
 

@@ -1,4 +1,3 @@
-import React from 'react'; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from '../screens/authentication/signin.jsx'; 
 import { useContext, useCallback } from 'react'; 
@@ -23,16 +22,23 @@ import PostDive from '../screens/post';
 import CreatePost from '../screens/post/createPost.jsx';
 import EditPost from '../screens/post/editPost.jsx';
 import ErrorPage from '../screens/error';
+import { SpinnerAnim } from '../component/loadingComponent.jsx'; 
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
+    const {
+        loading,
+    } = useContext(AppContext); 
 
     const containerStyle = `w-full flex flex-col relative grow min-h-[120vh]`
     return (
         <div
             id="Container"
             className={containerStyle}
-            >
+        >
+            {loading &&
+                <SpinnerAnim />
+            }
             <BrowserRouter>
                 <Header />
                 <div

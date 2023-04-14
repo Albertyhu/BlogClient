@@ -22,6 +22,7 @@ const CreatePostForm = props => {
     const {
         apiURL,
         token,
+        setLoading, 
     } = useContext(AppContext);
     const { SubmitPost } = CreateAndUpdatePosts(navigate)
     const { id } = location.state; 
@@ -31,6 +32,7 @@ const CreatePostForm = props => {
     const [published, setPublished] = useState(location.state ? location.state.published : false);
     const [thumbnail, setThumbnail] = useState(location.state ? location.state.thumbnail : null);
     const [images, setImages] = useState(location.state ? location.state.images : []);
+
     const [abstract, setAbstract] = useState(location.state ? location.state.abstract : "");
     const [category, setCategory] = useState(location.state ? location.state.category : null);
     const [tag, setTag] = useState(location.state ? location.state.tag : []);
@@ -57,7 +59,6 @@ const CreatePostForm = props => {
     const [tagError, setTagError] = useState([])
     const [generalError, setGeneralError] = useState([])
 
-
     const dispatchFunctions = {
         setTitleError,
         setContentError,
@@ -67,7 +68,8 @@ const CreatePostForm = props => {
         setCategoryError,
         setGeneralError,
         setTagError,
-        setMessage
+        setMessage,
+        setLoading, 
     }
 
     const context = {
@@ -127,7 +129,7 @@ const CreatePostForm = props => {
             author,
             published: published,
             thumbnail: thumbnailInputRef.current.files[0],
-            images: imagesInputRef.current.files,
+            images,
             abstract: GetContent(abstractInputRef),
             category: categoryInputRef.current.value,
             tag,

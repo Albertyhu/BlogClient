@@ -23,37 +23,23 @@ HandleFileChange.propTypes = {
     setImages: PropTypes.func, 
 }
 
-//function AttachImagesToArray(evt, setImage, setFile) {
-//    const file = evt.target.files[0];
-//    const reader = new FileReader();
-//    reader.readAsDataURL(file);
-//    console.log("reader.result: ", reader)
-//    reader.onload = () => {
-//        try {
-//            setImage(prev => [...prev, reader.result]);
-//            setFile("")
-//        } catch (e) {
-//            console.log(" AttachImagesToArray error: ", e)
-//        }
-//    }
-//}
-
-function AttachImagesToArray(evt, setImage, setFile) {
+function AttachImagesToArray(evt, setImage) {
     const files = evt.target.files;
-    const images = [];
+    var images = null;
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
+        //Create FileReader
+        //This is how you can access the necessary file resources of an image 
         const reader = new FileReader();
         reader.readAsDataURL(file)
 
+        //Everytime the reader is loaded with something, add the necessary resources into the images array
         reader.onload = () => {
-            images.push({
+            images = {
                 file: file,
                 base64: reader.result,
-            });
-            if (images.length === files.length) {
-                setImage(images)
-            }
+            };
+            setImage(prev => [...prev, images])
         }
     }
 }
@@ -81,13 +67,11 @@ const Base64Hooks = () => {
     }
 
     function convertArrayToBase64(arr) {
-        return arr.map(image => {
-            return {
-                data: toBase64(image.data.data),
-                contentType: image.contentType,
-            }
-
+        var base64arr = arr; 
+        base64arr.forEach(image => {
+            image.data = toBase64(image.data.data)
         })
+        return base64arr
     }
 
     function convertObjToBase64(obj) {
@@ -105,11 +89,33 @@ const Base64Hooks = () => {
     }
 }
 
+const formatExistingImageArray = (imgArr) => {
+    var formatted = []
+    imgArr.forEach(img => {
+        const reader = new FileReader() 
+        const imgblob = new Blob([img.data], {type: img.contentType});
 
+        reader.readAsDataURL(imgblob);
+        reader.onload = () => {
+            var images = {
+                file: img,
+                base64: reader.result,
+            };
+            formatted.push(images); 
+        }
+    })
+    return formatted 
+}
+
+const formatExistingImage = (img) => {
+
+}
 
 export {
     ImageHooks,
     HandleFileChange,
     AttachImagesToArray,
-    Base64Hooks
+    Base64Hooks,
+    formatExistingImageArray,
+    formatExistingImage
 }

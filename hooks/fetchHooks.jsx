@@ -78,11 +78,9 @@ const FetchHooks = () => {
             const result = await response.json()
             if (response.ok) {
                 result.post.forEach(item => {
-                    if(item.thumbnail)
-                        item.thumbnail.data = toBase64(item.thumbnail.data.data); 
+                    if(item.mainImage)
+                        item.mainImage.data = toBase64(item.mainImage.data.data); 
                 })
-                console.log("result: ", result.post)
-
                 setPosts(result.post);
             }
             else {

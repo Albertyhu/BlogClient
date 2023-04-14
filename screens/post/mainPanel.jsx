@@ -9,6 +9,7 @@ import {
     RenderTagField
 } from '../../component/tagComponent.jsx'; 
 import { Editor } from '@tinymce/tinymce-react';
+import uuid from 'react-uuid';
 
 //Renders the main image for the post 
 const MainPanel = props => {
@@ -50,6 +51,18 @@ const MainPanel = props => {
                         id="editor-container"
                         dangerouslySetInnerHTML={{ __html: content }}
                     ></div>
+                }
+                {images && images.length > 0 &&
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-[5px]">
+                        {images.map((img, index) =>
+                            <RenderImage
+                                image={img}
+                                key={uuid()}
+                                altText={`${title} photo ${index}`}
+                            />
+                        )}
+                    </div>
+
                 }
                 <div className = "my-5 inline-grid">
                     <RenderLikeButton

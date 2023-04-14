@@ -21,6 +21,7 @@ import {
     PostContext
 } from '../../util/contextItem.jsx';
 import MessageComponent from '../../component/message.jsx'; 
+import { SpinnerAnim } from '../../component/loadingComponent.jsx';
 
 //Next task: retrieve id and username from token 
 const PostForm = props => {
@@ -28,7 +29,7 @@ const PostForm = props => {
 
     const {
         categoryList,
-        apiURL
+        apiURL,
     } = useContext(AppContext); 
 
     const { GetTagList } = TagHooks(navigate);
@@ -42,7 +43,7 @@ const PostForm = props => {
         content,
         published,
         thumbnail,
-        images,
+        images, 
         abstract,
         category,
         tag,
@@ -98,7 +99,7 @@ const PostForm = props => {
     }, [])
 
     return (
-        <div>
+        <div className="relative">
             <MessageComponent
                 message={message}
                 dispatch={setMessage}
@@ -162,9 +163,9 @@ const PostForm = props => {
                         image={thumbnail}
                         setImage={setThumbnail}
                         pictureError={thumbnailError}
-                        label="Attach a thumbnail to your post"
-                        name="thumbnail"
-                        placeholder="Browse your device to upload a thumbnail picture for the post."
+                        label="Attach a main image to your post"
+                        name="mainImage"
+                        placeholder="Browse your device to upload a main image of the post."
                         ImageInputRef={thumbnailInputRef}
                     />
                     <AttachMultipleImages

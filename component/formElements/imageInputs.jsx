@@ -8,7 +8,7 @@ import {
 } from '../../hooks/imageHooks.jsx';
 const RenderCoverPhoto = lazy(() => import("../imageRendering/coverPhoto.jsx"));
 import PropTypes from 'prop-types';
-const RenderPreviewImages = lazy(() => import("./previewImage.jsx")); 
+const RenderPreviewImages = lazy(() => import("./previewImage2.jsx")); 
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks(); 
 
 //Can be used for editing attached images as well. 
@@ -41,8 +41,6 @@ export const AttachMultipleImages = props => {
         setImage(arr); 
     }
 
-    const [file, setFile] = useState("");
-
     return (
         <>
             <div className="grid">
@@ -56,9 +54,8 @@ export const AttachMultipleImages = props => {
                     ref={ImageInputRef}
                     type="file"
                     placeholder={placeholder}
-                    value={file}
-                    className="text-lg file:rounded-lg file:font-['DecoTech'] file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
-                    onChange={(evt) => { AttachImagesToArray(evt, setImage, setFile) }}
+                    className="text-lg file:rounded-lg file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
+                    onChange={(evt) => { AttachImagesToArray(evt, setImage) }}
                     multiple
                 />
                 <div

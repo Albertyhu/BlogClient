@@ -18,6 +18,7 @@ const CreatePostForm = props => {
     const {
         apiURL,
         token,
+        setLoading, 
     } = useContext(AppContext);
     const location = useLocation(); 
     
@@ -64,6 +65,7 @@ const CreatePostForm = props => {
         setGeneralError,
         setTagError,
         setMessage,
+        setLoading
     }
 
     const context = {
@@ -122,7 +124,7 @@ const CreatePostForm = props => {
             author,
             published: published,
             thumbnail: thumbnailInputRef.current.files[0],
-            images: images,
+            images,
             abstract: GetContent(abstractInputRef),
             category: categoryInputRef.current.value,
             tag,
@@ -143,6 +145,8 @@ const CreatePostForm = props => {
             setAuthor(decoded.id)
         }
     }, [decoded])
+
+
 
     return (
         <PostContext.Provider value={context}>

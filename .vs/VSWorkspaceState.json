@@ -3,14 +3,14 @@
     "",
     "\\component",
     "\\component\\formElements",
-    "\\component\\post",
+    "\\component\\imageRendering",
+    "\\component\\user",
+    "\\hooks",
     "\\screens",
-    "\\screens\\home",
-    "\\screens\\tag",
-    "\\screens\\user",
-    "\\src",
+    "\\screens\\category",
+    "\\screens\\post",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\postHooks.jsx",
+  "SelectedNode": "\\component\\formElements\\imageInputs.jsx",
   "PreviewInSolutionExplorer": false
 }
