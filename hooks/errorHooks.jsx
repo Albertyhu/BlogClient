@@ -136,7 +136,6 @@ const ErrorMessageHooks = () => {
 
 const PostErrorHooks = () => {
     function RenderErrorArray(errorArray, dispatchFunctions) {
-        console.log("errorArray: ", errorArray)
         const {
             setGeneralError,
             setTitleError,
@@ -223,7 +222,16 @@ const PostErrorHooks = () => {
         })
 
     }
-    return { RenderErrorArray }
+
+    const RenderCommentErrorArray = (errorArray, dispatchFunctions) => {
+
+    }
+
+    return {
+        RenderErrorArray,
+        RenderCommentErrorArray 
+    }
 }
+
 
 export { ErrorMessageHooks, PostErrorHooks }

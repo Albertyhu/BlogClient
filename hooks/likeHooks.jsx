@@ -13,24 +13,40 @@ const checkIfLiked = (likeList, userID) => {
     return false; 
 } 
 
-const updateLikesInServer = async (apiURL, newLikeList, postID, token) => {
-    const FetchURL = `${apiURL}/post/${postID}/update_likes`;
-    const formData = new FormData; 
-    const stringifiedLikes = JSON.stringify(newLikeList)
-    formData.append("updatedLikes", stringifiedLikes)
+const updateLikesInServer = async (apiURL, type, documentID, userID, token, action) => {
+    var actionType = ''
+    switch (action) {
+        case "add":
+            actionType = "add_like";
+            break; 
+        case "remove":
+            actionType = "remove_like"
+            break; 
+        default:
+            console.log("Invalid input in action"); 
+            break; 
+    }
+    var FetchURL = `${apiURL}/${type}/${documentID}/${actionType}`; 
+    var formData = new FormData; 
+    formData.append("userID", userID);
+
     await fetch(FetchURL, {
         method: "PUT",
         body: formData, 
         headers: {
-            "Authorization" : `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`, 
         },
     })
-        .then(async response => {
-            if (!response.ok) {
-                const result = await response.json(); 
-                console.log("There was an error with the like features: ", result.error)   
-            }
+        .then(() => {
+        console.log("Like has been updated. ")
+        })
+        .catch(e => {
+            console.log("There is a problem with updating likes: ", e)
         })
 }
+    
 
-export { checkIfLiked, updateLikesInServer }
+export {
+    checkIfLiked,
+    updateLikesInServer,
+}

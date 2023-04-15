@@ -20,8 +20,7 @@ const RenderPost = props => {
         token, 
         apiURL, 
         categoryList, 
-    } = useContext(AppContext); 
-    const { RenderLikeButton } = PostLikeFeatures(); 
+    } = useContext(AppContext);
     const navigate = useNavigate(); 
     const { GoEditPost } = PostNavigationHooks(navigate);
     const {
@@ -36,6 +35,7 @@ const RenderPost = props => {
     const [title, setTitle] = useState(location.state ? location.state.title : null);
     const [content, setContent] = useState(location.state ? location.state.content : null);
     const [datePublished, setDatePublished] = useState(location.state ? location.state.datePublished : null);
+    const [lastEdited, setLastEdited] = useState(location.state ? location.state.lastEdited : null);
     const [thumbnail, setThumbnail] = useState(location.state ? location.state.thumbnail : null);
     const [abstract, setAbstract] = useState(location.state ? location.state.abstract : null);
     const [author, setAuthor] = useState(location.state ? location.state.author : "");
@@ -64,12 +64,14 @@ const RenderPost = props => {
         setComments,
         setLikes, 
         setPublished,
+        setLastEdited, 
     }
 
     const context = {
         title, 
         content, 
         datePublished, 
+        lastEdited, 
         thumbnail,
         abstract,
         author,

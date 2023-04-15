@@ -1,3 +1,12 @@
+4/14/23
+
+How should the comments be retrieved 
+A single post are retrieved 
+The comments get populated 
+The author gets populuted 
+Each comment get rendered with the Array.map() method
+
+
 4/11/23
 To-do 
 Check to see if drafts are working. 

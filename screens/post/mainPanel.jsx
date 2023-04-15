@@ -2,7 +2,6 @@ import { useEffect, useContext} from 'react';
 import { PostContext } from '../../util/contextItem.jsx';
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
 import RenderImage from '../../component/imageRendering/mainImage.jsx';
-import CoverPhoto from '../../component/imageRendering/coverPhoto.jsx';
 import { PostLikeFeatures } from '../../component/likeComponent.jsx';
 import {
     Tag,
@@ -19,6 +18,7 @@ const MainPanel = props => {
         content,
         author, 
         datePublished, 
+        lastEdited, 
         likes,
         thumbnail,
         images, 
@@ -39,7 +39,13 @@ const MainPanel = props => {
                 className = "w-11/12 mx-auto"
             >
                 <h1 className="text-3xl font-bold text-center my-5 pt-5 text-black">{title}</h1>
-                <p>Posted by <span className="font-bold">{author.username}</span> | <span>{FormatTimeAndDate(datePublished)}</span></p>
+                <p>Posted by <span className="font-bold">{author.username}</span> | 
+                    {lastEdited ?  
+                        <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>
+                        :
+                        <span> Date Published: {FormatTimeAndDate(datePublished)}</span>
+                    } 
+                    </p>
                 {thumbnail != null &&
                     <RenderImage
                     image={thumbnail}
@@ -67,7 +73,8 @@ const MainPanel = props => {
                 <div className = "my-5 inline-grid">
                     <RenderLikeButton
                         likes={likes}
-                        postID={postID}
+                        documentID={postID}
+                        type = "post"
                     />
                 </div>
                 {tag && tag.length > 0 &&

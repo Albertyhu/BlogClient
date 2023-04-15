@@ -1,6 +1,5 @@
 import RenderThumbnail from './renderThumbnail.jsx'; 
 import { PostLikeFeatures } from '../likeComponent.jsx';
-//import { RenderLikeButton, DisplayLikes } from '../likeComponent.jsx'; 
 import { RenderCommentSymbol } from './commentComponent.jsx'; 
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
 import { PostNavigationHooks } from '../../hooks/navigation.jsx'; 
@@ -10,7 +9,8 @@ import { RenderTagField } from '../tagComponent.jsx';
 const RenderPostPanel = props => {
     const { title,
         content, 
-        datePublished, 
+        datePublished,
+        lastEdited, 
         author,
         mainImage,
         abstract, 
@@ -20,7 +20,7 @@ const RenderPostPanel = props => {
         comments, 
         _id
     } = props; 
-    const { RenderLikeButton, DisplayLikes } = PostLikeFeatures();
+    const { DisplayLikes } = PostLikeFeatures();
     const navigate = useNavigate(); 
     const { BringDataToPost } = PostNavigationHooks(navigate); 
 
@@ -28,6 +28,7 @@ const RenderPostPanel = props => {
         title,
         content,
         datePublished,
+        lastEdited, 
         mainImage,
         abstract,
         id: _id
@@ -42,7 +43,11 @@ const RenderPostPanel = props => {
                 className="ContentWrapper">
                 <h2 className="font-bold text-2xl">{title}</h2>
                 {author && <h3>created by <span className = "font-bold">{author.username}</span></h3>}
-                <span>{FormatTimeAndDate(datePublished)}</span>
+                {lastEdited ?
+                    <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>
+                    :
+                    <span> Date Published: {FormatTimeAndDate(datePublished)}</span>
+                } 
                 {mainImage && <RenderThumbnail image={mainImage} altText={title} />}
                 {abstract &&
                     <div

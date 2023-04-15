@@ -12,6 +12,9 @@ function App() {
     const [displayMemberComponents, setDisplayMemberComponents] = useState(token ? true : false)
     const [categoryList, setCategoryList] = useState(null); 
     const [loading, setLoading] = useState(false); 
+
+    const defaultTheme = {} 
+
     const context = {
         apiURL: import.meta.env.VITE_API_URL.toString(),
         token,
@@ -31,6 +34,7 @@ function App() {
         setCategoryList, 
         loading,
         setLoading, 
+        defaultTheme, 
     }
 
     useEffect(() => {

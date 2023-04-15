@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'; 
+import { useEffect, useRef } from 'react'; 
 import uuid from 'react-uuid'; 
 
 const MessageComponent = props => {
