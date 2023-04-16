@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\component",
+    "\\component\\comment",
     "\\component\\formElements",
-    "\\component\\user",
-    "\\hooks",
+    "\\component\\imageRendering",
+    "\\component\\post",
     "\\screens",
-    "\\screens\\category",
     "\\screens\\post",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\errorHooks.jsx",
+  "SelectedNode": "\\screens\\post\\mainPanel.jsx",
   "PreviewInSolutionExplorer": false
 }

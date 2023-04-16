@@ -1,4 +1,4 @@
-import { useEffect, lazy, useState, Suspense, useRef } from 'react';
+import { useEffect, lazy, useContext, Suspense, useRef } from 'react';
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import '../../src/index.css';
 import uuid from 'react-uuid';
@@ -6,39 +6,45 @@ import {
     HandleFileChange,
     AttachImagesToArray,
 } from '../../hooks/imageHooks.jsx';
+import { PostContext } from '../../util/contextItem.jsx'; 
 const RenderCoverPhoto = lazy(() => import("../imageRendering/coverPhoto.jsx"));
 import PropTypes from 'prop-types';
 const RenderPreviewImages = lazy(() => import("./previewImage2.jsx")); 
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks(); 
 
+
 //Can be used for editing attached images as well. 
 //image is an array that will store all the uploaded images 
 export const AttachMultipleImages = props => {
     const {
-        image,
-        setImage,
-        pictureError,
         label = "Attach images",
         name,
         placeholder = "Upload an image here",
-        ImageInputRef,
         labelStyle = "text-xl",
         uploadLimit, 
+        contextItem,
     } = props;
+
+    const {
+        images,
+        setImages,
+        imagesError,
+        imagesInputRef
+    } = contextItem ? useContext(contextItem) : props; 
 
     const ImageErrorRef = useRef();
 
     useEffect(() => {
-        if (pictureError.length > 0) {
+        if (imagesError.length > 0) {
             for (var child of ImageErrorRef.current.children) {
                 AnimateErrorMessage(child)
             }
         }
-    }, [pictureError])
+    }, [imagesError])
 
     const deleteImage = (index) => {
-        var arr = image.filter((item, ind) => ind != index); 
-        setImage(arr); 
+        var arr = images.filter((item, ind) => ind != index); 
+        setImages(arr); 
     }
 
     return (
@@ -51,26 +57,26 @@ export const AttachMultipleImages = props => {
                 <input
                     name={name}
                     id={`${name}Input`}
-                    ref={ImageInputRef}
+                    ref={imagesInputRef}
                     type="file"
                     placeholder={placeholder}
                     className="text-lg file:rounded-lg file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
-                    onChange={(evt) => { AttachImagesToArray(evt, setImage) }}
+                    onChange={(evt) => { AttachImagesToArray(evt, setImages) }}
                     multiple
                 />
                 <div
-                    id="pictureError"
+                    id="imagesError"
                     className="ErrorDiv"
                     ref={ImageErrorRef}>
-                    {pictureError != null && pictureError.length > 0 && RenderError(pictureError)}
+                    {imagesError != null && imagesError.length > 0 && RenderError(imagesError)}
                 </div>
             </div>
             {
-                image && image.length > 0 &&
+                images && images.length > 0 &&
                 <>
                     <p className="text-base md:hidden text-center">[Tap on image to remove it]</p>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-[5px] object-fit  overflow-hidden">
-                        {image.map((preview, index) =>
+                        {images.map((preview, index) =>
                             <Suspense
                                 key={uuid()}
                                 fallback={<h2 className="text-center text-2xl mx-auto my-10 text-black">Loading preview...</h2>}
@@ -96,6 +102,7 @@ AttachMultipleImages.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string,
     placeholder: PropTypes.string,
+    imagesError: PropTypes.array, 
 }
 
 

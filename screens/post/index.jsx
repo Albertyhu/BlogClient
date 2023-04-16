@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext } from 'react'; 
+import { useState, useEffect, useContext, useRef } from 'react'; 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
-import { PostLikeFeatures } from "../../component/likeComponent.jsx" 
 import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
 import {
     FetchHooks,
@@ -12,6 +11,9 @@ import MessageComponent from '../../component/message.jsx';
 import { PostContext } from '../../util/contextItem.jsx';
 import MainPanel from './mainPanel.jsx'; 
 import { PostNavigationHooks, NavigationHooks } from '../../hooks/navigation.jsx'; 
+import { CommentInput } from '../../component/formElements/commentInputs.jsx'
+import { AddComment } from '../../hooks/commentHooks.jsx'; 
+import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 
 const RenderPost = props => {
     const location = useLocation(); 
@@ -19,18 +21,17 @@ const RenderPost = props => {
     const {
         token, 
         apiURL, 
-        categoryList, 
+        setLoading, 
     } = useContext(AppContext);
     const navigate = useNavigate(); 
     const { GoEditPost } = PostNavigationHooks(navigate);
     const {
         GoBack,
-        VisitOneCategory,
+        GoHome, 
     } = NavigationHooks(navigate); 
     const { FetchPostById } = FetchHooks(); 
     const { DeletePost } = CreateAndUpdatePosts(navigate); 
     const PostContainerStyle = ``;
-    const PostWrapper = ``;
 
     const [title, setTitle] = useState(location.state ? location.state.title : null);
     const [content, setContent] = useState(location.state ? location.state.content : null);
@@ -46,10 +47,18 @@ const RenderPost = props => {
     const [comments, setComments] = useState(null);
     const [likes, setLikes] = useState(null);
     const [published, setPublished] = useState(location.state ? location.state.published : true); 
-
     const [decoded, setDecoded] = useState(null)
-
     const [message, setMessage] = useState([])
+
+    //this handles whether the text input for adding new comment on the post is displayed or hidden
+    const [displayCommentInput, setDisplayCommentInput] = useState(false); 
+    const [newComment, setNewComment] = useState('')
+    const [newCommentError, setNewCommentError] = useState([]);
+    const [commentImages, setCommentImages] = useState([]); 
+    const [commmentImageError, setImageError] = useState([])
+    const imageInputRef = useRef(); 
+
+    const CloseCommentInput = () => setDisplayCommentInput(false)
 
     const dispatchFunctions = {
         setTitle,
@@ -64,26 +73,72 @@ const RenderPost = props => {
         setComments,
         setLikes, 
         setPublished,
-        setLastEdited, 
+        setLastEdited,
+        setLoading, 
+        CloseCommentInput,
+        setImageError
+    }
+
+    const RenderButtonField = () => {
+        return (
+            <>
+                <button
+                    className="btn-standard text-white bg-[#6d6d6d] mx-auto text-center"
+                    type="button"
+                    onClick={() => GoEditPost(title, post_id, context)}
+                >Edit Post</button>
+                <button
+                    className="btn-secondary my-10"
+                    type="button"
+                    onClick={() => DeletePost(apiURL, post_id, token, decoded.id, author._id, setMessage, GoHome)}
+                >Delete Post</button>
+            </>
+            )
+    }
+
+    const PostContainerRef = useRef();
+    const commentEditorRef = useRef(); 
+
+    const SubmitComment = () => {
+        const Elements = {
+            content: GetContent(commentEditorRef),
+            root: post_id, 
+            author: decoded.id
+        } 
+        AddComment(apiURL, "POST", post_id,"add_comment", Elements, dispatchFunctions, token)
     }
 
     const context = {
-        title, 
-        content, 
-        datePublished, 
-        lastEdited, 
+        title,
+        content,
+        datePublished,
+        lastEdited,
         thumbnail,
         abstract,
         author,
-        images,
+        mainPanelimages: images,
         category,
-        tag, 
-        comments, 
-        likes, 
-        published, 
-        decoded, 
-        postID: post_id, 
+        tag,
+        comments,
+        likes,
+        published,
+        decoded,
+        postID: post_id,
+        decoded,
+        EditPost: () => { GoEditPost(title, post_id, context) },
+        DeletePost: () => { DeletePost(apiURL, post_id, token, decoded.id, author._id, setMessage, GoBack) }, 
+        RenderButtonField, 
+        PostContainerRef,
+        displayCommentInput,
+        setDisplayCommentInput, 
+        toggleCommentField: () => setDisplayCommentInput(prev => !prev), 
+
+        images: commentImages, 
+        setImages: setCommentImages, 
+        imagesError: commmentImageError, 
+        imageInputRef, 
     }
+
     useEffect(() => {
         if (token) {
             setDecoded(DecodeToken(token));
@@ -100,6 +155,7 @@ const RenderPost = props => {
                 <div
                     id="PostContainer"
                     className={`${PostContainerStyle}`}
+                    ref={PostContainerRef}
                 >
                     <MessageComponent
                         message={message}
@@ -107,21 +163,19 @@ const RenderPost = props => {
                     />
                     <div
                         id="PostWrapper"
-                        className={`${PostWrapper}`}
+                        className="w-11/12 box_shadow rounded-lg mx-auto"
                     >
                         <MainPanel />
-                        {decoded && author._id == decoded.id && 
-                            <div className="my-10">
-                                <button
-                                    className= "btn-standard text-white bg-[#6d6d6d] mx-auto text-center"
-                                    type="button"
-                                    onClick={()=>GoEditPost(title, post_id, context)}
-                                >Edit Post</button>
-                                <button
-                                    className="btn-secondary my-10"
-                                    type="button"
-                                    onClick={() => DeletePost(apiURL, post_id, token, decoded.id, author._id, setMessage, GoBack)}
-                                >Delete Post</button>
+                        {displayCommentInput &&
+                            <div className="w-11/12 mx-auto pb-10">
+                                <CommentInput
+                                    root={post_id}
+                                    content={newComment}
+                                    commentError={newCommentError}
+                                    cancelEvent={() => setDisplayCommentInput(false)}
+                                    commentEditorRef={commentEditorRef}
+                                    submitEvent={SubmitComment}
+                                    />
                             </div>
                         }
                     </div>

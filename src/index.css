@@ -16,7 +16,7 @@
     }
 
     .btn-standard {
-        @apply rounded-[15px] p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-none text-center w-fit select-none mx-auto hover:bg-[#a2a2a2] box_shadow whitespace-nowrap block;
+        @apply rounded-[15px] p-[10px] active:translate-x-[5px] active:translate-y-[5px] cursor-pointer border-none text-center w-fit h-fit select-none m-auto hover:bg-[#a2a2a2] box_shadow whitespace-nowrap block;
     }
 
     .btn-submit {
@@ -24,7 +24,7 @@
     }
 
     .btn-cancel {
-        @apply !active:bg-[#4B4B4B] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333];
+        @apply active:bg-[#4B4B4B] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333] rounded-[15px] px-5;
     }
 
     .btn-add {

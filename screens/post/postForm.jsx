@@ -21,7 +21,6 @@ import {
     PostContext
 } from '../../util/contextItem.jsx';
 import MessageComponent from '../../component/message.jsx'; 
-import { SpinnerAnim } from '../../component/loadingComponent.jsx';
 
 //Next task: retrieve id and username from token 
 const PostForm = props => {
@@ -169,13 +168,10 @@ const PostForm = props => {
                         ImageInputRef={thumbnailInputRef}
                     />
                     <AttachMultipleImages
-                        image={images}
-                        setImage={setImages}
-                        pictureError={imagesError}
                         label="Attach images to your post."
                         name="images"
                         placeholder="Browse your device to upload images for the post."
-                        ImageInputRef={imagesInputRef}
+                        contextItem={PostContext}
                     />
                     <Suspense fallback={<p className = "fallbackInput">Add Tags</p>}>
                         <TagInput

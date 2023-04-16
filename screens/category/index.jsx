@@ -103,7 +103,10 @@ const CategoryPage = props => {
                     {categoryList.map(item => 
                         <Suspense
                             key={uuid()}
-                            fallback={<SubstitutePanel title={item.name} />}
+                            fallback={<SubstitutePanel
+                                title={item.name}
+                                className="z-[1]"
+                            />}
                         >
                             <Panel
                                 key={uuid()}

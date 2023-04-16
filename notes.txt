@@ -1,3 +1,34 @@
+4/15/23
+How will the comment system will be constructed. 
+There will be two types of comments. 
+1. Comments that reply to the main thread 
+2. Comments that reply to other comments. 
+
+The post keeps track of all the comments that are replies to it. 
+The main thread comments keeps track of all of its own replies. 
+
+The replies keep track of the parent comment 
+The replies pass down the parent comment to its own replies
+The comment keeps track of all its replies and replies of replies 
+
+When the post loads, it loads all the comments with array.map()
+When the comments mount, it renders all replies with array.map()
+
+
+Sample of series of events when a comment gets posts as a reply.
+Parent adds comment to 'comments' array.
+Comment adds parent ID to 'post' field. 
+
+Series of events when someone replies to a comment. 
+Comment adds ID of reply to 'replies' array. 
+Reply stores the author and object ID of the comment that it is replying to 
+
+Series of events when someone replies to a reply 
+The parent reply passes the object ID of the comment to the child reply. 
+Reply stores the author and object ID of the comment that it is replying to.
+The root comment keeps track of the objectId of the new reply.
+
+
 4/14/23
 
 How should the comments be retrieved 

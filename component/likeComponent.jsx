@@ -54,38 +54,59 @@ const PostLikeFeatures = () => {
         }, [token])
 
         useEffect(() => {
-            console.log("likes: ", likes)
             if (decoded) {
-                setLike(likes.includes(decoded.id.toString()))
+                if (likes) {
+                    setLike(likes.includes(decoded.id.toString()))
+                }
             }
         }, [decoded])
 
+        //return (
+        //    <IconContext.Provider value={{ size: '25px' }}>
+        //        <div className="[&>*]:inline-block block whitespace-nowrap relative mx-10 w-[45px] h-[100px]">
+        //            <div
+        //                className="absolute top-[50%] translate-y-[-50%] cursor-pointer"
+        //            >
+        //                <div
+        //                    className="relative"
+        //                    onClick={toggleLike}
+        //                    disabled = { token? false: true }
+        //                >
+        //                    <div
+        //                        className={`absolute top-[50%] translate-y-[-50%] right-auto left-0 select-none ${isLiked ? 'font-bold' : ''}`}
+        //                    >Like</div>
+        //                    <div
+        //                        disabled={token ? false : true}
+        //                        className="absolute top-[50%] translate-y-[-50%] right-0 left-auto"
+        //                    >
+        //                        {isLiked ?
+        //                            <AiTwotoneLike />
+        //                            :
+        //                            <AiOutlineLike style={{ color: "blue" }} />
+        //                        }
+        //                    </div>
+        //                </div>
+        //            </div>
+        //            <span className="absolute top-[50%] right-0 left-auto translate-y-[-50%] text-lg ml-1 my-auto">{number}</span>
+        //        </div>
+        //    </IconContext.Provider>
+        //)
         return (
             <IconContext.Provider value={{ size: '25px' }}>
-                <div className="[&>*]:inline-block block whitespace-nowrap relative mx-10 w-[100px] h-[100px]">
-                    <div
-                        className="absolute top-[50%] translate-y-[-50%] cursor-pointer"
-                    >
-                        <div
-                            className="relative"
-                            onClick={toggleLike}
-                        >
-                            <div
-                                className={`absolute top-[50%] translate-y-[-50%] right-auto left-0 select-none ${isLiked ? 'font-bold' : ''}`}
-                            >Like</div>
-                            <div
-                                disabled={token ? false : true}
-                                className="absolute top-[50%] translate-y-[-50%] right-0 left-auto"
-                            >
-                                {isLiked ?
-                                    <AiTwotoneLike />
-                                    :
-                                    <AiOutlineLike style={{ color: "blue" }} />
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <span className="absolute top-[50%] right-0 left-auto translate-y-[-50%] text-lg ml-1 my-auto">{number}</span>
+                <div
+                    className="whitespace-nowrap flex m-auto text-lg [&>*]:mx-1 cursor-pointer"
+                    onClick={toggleLike}
+                    disabled={token ? false : true}
+                >
+                    {isLiked ?
+                        <AiTwotoneLike />
+                        :
+                        <AiOutlineLike style={{ color: "blue" }} />
+                    }
+                    <span
+                        className={`select-none ${isLiked ? 'font-bold' : ''}`}
+                    >Like</span>
+                    <span className="">{number}</span>
                 </div>
             </IconContext.Provider>
         )

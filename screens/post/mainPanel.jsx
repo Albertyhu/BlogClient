@@ -1,85 +1,157 @@
-import { useEffect, useContext} from 'react'; 
+import { useEffect, useContext, useState, useRef} from 'react'; 
 import { PostContext } from '../../util/contextItem.jsx';
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
 import RenderImage from '../../component/imageRendering/mainImage.jsx';
 import { PostLikeFeatures } from '../../component/likeComponent.jsx';
 import {
-    Tag,
     RenderTagField
 } from '../../component/tagComponent.jsx'; 
-import { Editor } from '@tinymce/tinymce-react';
 import uuid from 'react-uuid';
+import { HiOutlineDotsHorizontal } from 'react-icons/Hi';
+import { BiCommentDetail } from 'react-icons/Bi';
+import { IconContext } from "react-icons";
 
-//Renders the main image for the post 
 const MainPanel = props => {
     const { RenderLikeButton } = PostLikeFeatures()
+    const [mobileAdminBtn, setMobileAdminBtn] = useState(false); 
+
+    const mobileAdminRef = useRef(); 
+    const DotRef = useRef(); 
+    var mobileAdminElem = document.getElementById('MobileAdminBtnPanel');
     const {
         title,
         content,
-        author, 
-        datePublished, 
-        lastEdited, 
-        likes,
+        datePublished,
+        lastEdited,
         thumbnail,
-        images, 
+        abstract,
+        author,
+        mainPanelimages,
+        category,
+        tag,
+        likes,
+        decoded, 
         postID, 
-        tag, 
+        RenderButtonField, 
+        PostContainerRef,
+        toggleCommentField, 
     } = useContext(PostContext) 
 
+    const mouseDownEvent = evt => {
+        if (mobileAdminRef.current && !mobileAdminRef.current.contains(evt.target) && evt.target != DotRef.current) {
+            setMobileAdminBtn(false);
+        }
+
+    }
+
     useEffect(() => {
-        window.scrollTo(0, 0); 
-    })
+      //  window.scrollTo(0, 0); 
+    },[])
+
+    useEffect(() => {
+        PostContainerRef.current.addEventListener("click", mouseDownEvent)
+        return () => {
+            if(PostContainerRef.current)
+                PostContainerRef.current.addEventListener("click", mouseDownEvent)
+        }
+    }, [mobileAdminRef.current])
+
+    useEffect(() => {
+        console.log("mobileAdminBtn: ", mobileAdminBtn)
+    }, [mobileAdminBtn])
 
     return (
         <div
-            className = "w-11/12 box_shadow rounded-lg mx-auto"
+            id="ContentWrapper"
+            className = "w-11/12 mx-auto"
         >
-            <div
-                id="ContentWrapper"
-                className = "w-11/12 mx-auto"
-            >
-                <h1 className="text-3xl font-bold text-center my-5 pt-5 text-black">{title}</h1>
-                <p>Posted by <span className="font-bold">{author.username}</span> | 
-                    {lastEdited ?  
-                        <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>
-                        :
-                        <span> Date Published: {FormatTimeAndDate(datePublished)}</span>
-                    } 
-                    </p>
-                {thumbnail != null &&
-                    <RenderImage
-                    image={thumbnail}
-                    altText={`${title} photo`}
-                    />
-                }
-                {content &&
+            <div className = "relative">
+                <h1 className="text-3xl font-bold text-center my-5 pt-10 text-black">{title}</h1>
+                {decoded && author._id == decoded.id && 
                     <div
-                        id="editor-container"
-                        dangerouslySetInnerHTML={{ __html: content }}
-                    ></div>
-                }
-                {images && images.length > 0 &&
-                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-[5px]">
-                        {images.map((img, index) =>
-                            <RenderImage
-                                image={img}
-                                key={uuid()}
-                                altText={`${title} photo ${index}`}
-                            />
-                        )}
+                        className="absolute left-auto right-0 top-0 translate-y-[10px]"
+                    >
+                        <div
+                            id="DotButton"
+                            ref={DotRef}
+                            className="md:hidden cursor-pointer"
+                            onClick={() => setMobileAdminBtn(true)}
+                        >
+                            <IconContext.Provider value={{size:'2em'}}><HiOutlineDotsHorizontal /></IconContext.Provider> 
+                        </div>
+                        {mobileAdminBtn &&
+                            <div
+                                id="MobileAdminBtnPanel"
+                                className="flex absolute left-auto right-0 top-0 [&>button]:mx-5 border-[1px] rounded-md z-10 bg-[#ffffff]"
+                                ref={mobileAdminRef}
+                            >
+                                <RenderButtonField />
+                            </div>
+                        }
+                        <div
+                            className="hidden md:flex absolute left-auto right-0 top-0 [&>button]:mx-5"
+                        >
+                            <RenderButtonField/>
+                        </div>
                     </div>
-
                 }
-                <div className = "my-5 inline-grid">
-                    <RenderLikeButton
-                        likes={likes}
-                        documentID={postID}
-                        type = "post"
-                    />
+            </div>
+            <p>Posted by <span className="font-bold">{author.username}</span> | 
+                {lastEdited ?  
+                    <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>
+                    :
+                    <span> Date Published: {FormatTimeAndDate(datePublished)}</span>
+                } 
+                </p>
+            {thumbnail != null &&
+                <RenderImage
+                image={thumbnail}
+                altText={`${title} photo`}
+                />
+            }
+            {content &&
+                <div
+                    id="editor-container"
+                    dangerouslySetInnerHTML={{ __html: content }}
+                ></div>
+            }
+            {mainPanelimages && mainPanelimages.length > 0 &&
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-[5px]">
+                    {mainPanelimages.map((img, index) =>
+                        <RenderImage
+                            image={img}
+                            key={uuid()}
+                            altText={`${title} photo ${index}`}
+                        />
+                    )}
                 </div>
-                {tag && tag.length > 0 &&
-                    <RenderTagField tag = {tag} />
-                }
+
+            }
+            {tag && tag.length > 0 &&
+                <div className = "mt-10">
+                    <RenderTagField tag={tag} />
+                </div>
+            }
+            <div
+                className="mt-10 pb-10 [&>*]:mx-10 flex "
+                id="interactiveField"
+            >
+                <RenderLikeButton
+                    likes={likes}
+                    documentID={postID}
+                    type="post"
+                />
+                <div
+                    className="flex m-auto [&>*]:mx-1 cursor-pointer"
+                    id="ReplyField"
+                    onClick={toggleCommentField}
+                >
+                    <span>Reply</span>
+                    <IconContext.Provider value={{size:"25px"}}>
+                        <BiCommentDetail />
+                    </IconContext.Provider>
+                </div>
+
             </div>
         </div>
         )

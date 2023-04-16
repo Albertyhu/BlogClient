@@ -256,13 +256,15 @@ export const TinyMCEInput = props => {
 
     return (
         <>
-            <label
-                htmlFor={label}
-                className={labelStyle}
-            >
-                {capitalizeFirstLetter(label)} {characterLimit && <span className="text-gray-400">(Max {characterLimit} characters)
-                </span>}
-            </label>
+            {label &&
+                <label
+                    htmlFor={label}
+                    className={labelStyle}
+                >
+                    {capitalizeFirstLetter(label)} {characterLimit && <span className="text-gray-400">(Max {characterLimit} characters)
+                    </span>}
+                </label>
+            }
             {isEditorReady && (
                 <Editor
                     onInit={(evt, editor) => editorRef.current = editor}
