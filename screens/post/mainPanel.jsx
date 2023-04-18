@@ -41,7 +41,6 @@ const MainPanel = props => {
         if (mobileAdminRef.current && !mobileAdminRef.current.contains(evt.target) && evt.target != DotRef.current) {
             setMobileAdminBtn(false);
         }
-
     }
 
     useEffect(() => {
@@ -55,10 +54,6 @@ const MainPanel = props => {
                 PostContainerRef.current.addEventListener("click", mouseDownEvent)
         }
     }, [mobileAdminRef.current])
-
-    useEffect(() => {
-        console.log("mobileAdminBtn: ", mobileAdminBtn)
-    }, [mobileAdminBtn])
 
     return (
         <div

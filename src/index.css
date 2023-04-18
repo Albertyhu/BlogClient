@@ -30,13 +30,20 @@
     .btn-add {
         @apply rounded-[15px] p-[10px] active:translate-x-[5px] active:translate-y-[5px] text-[12px] md:text-lg cursor-pointer border-none text-center w-fit select-none text-white mx-auto hover:bg-[#a2a2a2] bg-[#888888] box_shadow whitespace-nowrap [&>*]:inline-flex [&>img]:ml-5;
     }
-
+    /*This is a style to be applied to buttons with out borders or background color*/
+    .actionBarLink {
+        @apply text-base mx-10 hover:underline text-[#333333] bg-none border-none;
+    }
     .basic_formInput {
         @apply text-lg border-black border-[1px] rounded bg-[#f2e798];
     }
     /*An empty field for the error message to be revealed*/
-    .ErrorDiv, .MessageDiv {
+    .ErrorDiv {
         @apply min-h-[25px] w-full grow relative;
+    }
+
+    .MessageDiv {
+        @apply relative w-full h-full;
     }
     /*Styling for the error message*/
     .ErrorMessageTW {
@@ -76,7 +83,7 @@
     }
     /** Post Panel*/
     .PostPanel {
-        @apply rounded-lg w-full max-h-[500px] mx-auto mb-[20px] bg-[#f2e798] cursor-pointer;
+        @apply rounded-lg w-full mx-auto mb-[20px] bg-[#f2e798] cursor-pointer;
     }
 
     .fallbackInput {
@@ -119,33 +126,49 @@ body {
 }
 
 .Message {
-    background-color: #cfcfcf; 
-    border-radius: 15px; 
+    background-color: #ECECEC;
+    border-radius: 15px;
     color: #2e2e2e;
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: bold;
     font-family: inherit;
     text-align: center;
     opacity: 0.0;
-    position: static;
-    top: -20px;
-    left: 0;
-    right: 0;
+    position: fixed;
     transform: translateY(-20px);
     transition: opacity 1s ease-in, transform 500ms ease-in !important;
+    z-index: 99;
+    width: 50%;
+    padding: 15px 15px;
+    left: 25%;
 }
 
-.ErrorMessageFadeIn, .MessageFadeIn {
+.ErrorMessageFadeIn {
     opacity: 1.0;
     transform: translateY(0px);
     transition: opacity 1s ease-in, transform 1s ease-in;
 }
 
+.MessageFadeIn {
+    opacity: 1.0;
+    transform: translateY(100px);
+    transition: opacity 1s ease-in, transform 1s ease-in;
+}
 
-.ErrorMessageFadeOut, .MessageFadeOut {
+
+
+.ErrorMessageFadeOut {
     opacity: 0.0;
     transform: translateY(20px);
     transition: opacity 1s ease-in, transform 1s ease-in;
 }
+
+.MessageFadeOut {
+    opacity: 0.0;
+    transform: translateY(-20px);
+    transition: opacity 1s ease-in, transform 1s ease-in;
+}
+
 
 .AccountMenuStyle {
     position: absolute;

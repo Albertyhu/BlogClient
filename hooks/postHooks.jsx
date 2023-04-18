@@ -8,6 +8,9 @@ import {
     Base64Hooks,
     formatExistingImage,
 } from './imageHooks.jsx'; 
+import {
+    FormatAllImagesInComments, 
+} from './commentHooks.jsx'; 
 
 const { RenderErrorArray } = PostErrorHooks()
 const { toBase64,
@@ -64,6 +67,14 @@ const FetchHooks = () => {
                         if (result.payload.images) {
                             result.payload.images = convertArrayToBase64(result.payload.images) 
                         }
+
+                        if (result.payload.comments && result.payload.comments.length > 0) {
+                            result.payload.comments = FormatAllImagesInComments(result.payload.comments); 
+                        }
+
+                        //if (result.payload.comments.images && result.payload.comments.images.length > 0) {
+                        //    result.payload.comments.images = convertArraytoBase64(result.payload.comments.images); 
+                        //}
                         setTitle(result.payload.title);
                         setContent(result.payload.content);
                         setPublished(result.payload.published);

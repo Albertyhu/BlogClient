@@ -3,14 +3,14 @@
     "",
     "\\component",
     "\\component\\comment",
-    "\\component\\formElements",
-    "\\component\\imageRendering",
     "\\component\\post",
+    "\\hooks",
     "\\screens",
+    "\\screens\\category",
     "\\screens\\post",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\screens\\post\\mainPanel.jsx",
+  "SelectedNode": "\\screens\\post\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

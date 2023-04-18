@@ -25,10 +25,7 @@ export const CommentInput = props => {
                 editorRef={commentEditorRef}
             />
             <AttachMultipleImages
-                image={images}
-                setImage={setImages}
-                pictureError={imageError}
-                ImageInputRef={imageInputRef}
+
                 contextItem={PostContext}
             />
             <div

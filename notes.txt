@@ -15,7 +15,7 @@ When the post loads, it loads all the comments with array.map()
 When the comments mount, it renders all replies with array.map()
 
 
-Sample of series of events when a comment gets posts as a reply.
+Sample of series of events when a comment gets added to post as a reply.
 Parent adds comment to 'comments' array.
 Comment adds parent ID to 'post' field. 
 

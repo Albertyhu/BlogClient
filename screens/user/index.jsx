@@ -18,6 +18,7 @@ const ProfilePage = props => {
 
     useEffect(() => {
         fetchUserDetails(apiURL, id, setProfileDetails, setError)
+        window.scrollTo(0,0)
     }, [id])
 
     return (

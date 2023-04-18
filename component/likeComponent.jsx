@@ -10,12 +10,14 @@ import { AiOutlineLike, AiTwotoneLike } from 'react-icons/Ai';
 
 const PostLikeFeatures = () => {
     const RenderLikeButton = props => {
-        //likes is the array of ObjectId's of users who clicked like on a post or comment
-        //documentID is the id of the document that is being updated 
-        //'type' is the type of document, whether that will be a post or comment 
-        const {
+        const { 
+            //likes is the array of ObjectId's of users who clicked like on a post or comment
             likes,
+
+            //documentID is the id of the document that is being updated; this will later be utilized to construct the fetch endpoint
             documentID,
+
+            //'type' is the type of document, whether that will be a post or comment; this will later be utilized to construct the fetch endpoint
             type, 
         } = props;
 
@@ -45,8 +47,6 @@ const PostLikeFeatures = () => {
             updateLikesInServer(apiURL, type, documentID, decoded.id, token, action)
         }
 
-        
-
         useEffect(() => {
             if (token) {
                 setDecoded(DecodeToken(token));
@@ -61,36 +61,6 @@ const PostLikeFeatures = () => {
             }
         }, [decoded])
 
-        //return (
-        //    <IconContext.Provider value={{ size: '25px' }}>
-        //        <div className="[&>*]:inline-block block whitespace-nowrap relative mx-10 w-[45px] h-[100px]">
-        //            <div
-        //                className="absolute top-[50%] translate-y-[-50%] cursor-pointer"
-        //            >
-        //                <div
-        //                    className="relative"
-        //                    onClick={toggleLike}
-        //                    disabled = { token? false: true }
-        //                >
-        //                    <div
-        //                        className={`absolute top-[50%] translate-y-[-50%] right-auto left-0 select-none ${isLiked ? 'font-bold' : ''}`}
-        //                    >Like</div>
-        //                    <div
-        //                        disabled={token ? false : true}
-        //                        className="absolute top-[50%] translate-y-[-50%] right-0 left-auto"
-        //                    >
-        //                        {isLiked ?
-        //                            <AiTwotoneLike />
-        //                            :
-        //                            <AiOutlineLike style={{ color: "blue" }} />
-        //                        }
-        //                    </div>
-        //                </div>
-        //            </div>
-        //            <span className="absolute top-[50%] right-0 left-auto translate-y-[-50%] text-lg ml-1 my-auto">{number}</span>
-        //        </div>
-        //    </IconContext.Provider>
-        //)
         return (
             <IconContext.Provider value={{ size: '25px' }}>
                 <div

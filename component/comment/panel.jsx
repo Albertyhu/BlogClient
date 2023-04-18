@@ -4,6 +4,13 @@ import { AppContext } from '../../util/contextItem.jsx';
 import { PostLikeFeatures } from '../likeComponent.jsx';
 import ProfilePic from '../user/profilePicture.jsx';
 import RenderImage from '../imageRendering/mainImage.jsx';
+import avatar from '../../assets/images/avatar.jpg'; 
+import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
+import { NavigationHooks } from '../../hooks/navigation.jsx'; 
+import { useNavigate } from 'react-router-dom'; 
+import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
+import RenderReplyActionbar from './replyActionBar.jsx'; 
+import uuid from 'react-uuid'; 
 
 //should give owner of the comment the ability to edit 
 //Reply 
@@ -16,12 +23,23 @@ const CommentPanel = props => {
         images, 
         likes, 
         post, 
+        _id, 
+        replies, 
     } = props; 
+    const navigate = useNavigate(); 
+    const {
+        VisitUser, 
+    } = NavigationHooks(navigate)
     const { RenderLikeButton } = PostLikeFeatures() 
     const [decoded, setDecoded] = useState(null)
     const {
         token, 
+        apiURL,
     } = useContext(AppContext)
+
+    const {
+        DeleteOneCommentCompletely
+    } = FetchCommentActions(AppContext)
 
     useEffect(() => {
         if (token) {
@@ -31,7 +49,7 @@ const CommentPanel = props => {
 
     return (
         <div
-            className={``}
+            className={`my-10 mx-auto`}
             id="CommentContainer"
         >
             <div
@@ -40,33 +58,34 @@ const CommentPanel = props => {
             >   
                 <div
                     id='Content-Grid'
-                    className="grid md:grid-cols-[auto_auto] h-[50px] md:h-full w-full">
+                    className="grid h-[50px] md:h-full w-full">
                     <div id="AuthorField">
                         <div
                             id="ProfilePicField"
-                            className = "inline-flex"
+                            className="inline-flex cursor-pointer"
+                            onClick={()=>VisitUser(author.username, author._id)}
                         >
                             <ProfilePic
                                 profile_pic={author.profile_pic ? author.profile_pic : avatar}
                                 altText={`${author.username} profile picture`}
                                 dimensions = "w-[50px] h-[50px]"
                             />
-                            <div className = "md:hidden">
-                                <h2 className ="H1Style">{author.username}</h2>
+                            <div className = "w-fit ml-5">
+                                <h2 className="text-2xl font-bold">{author.username}</h2>
                             </div>
                         </div>
                         <div
                             id="MainContentField"
                             className = "grid"
                         >
-                            <h2 className="H1Style hidden md:block">{author.username}</h2>
                             <div
                                 id="DateField"
+                                className= "italic"
                             >
                                 {lastEdited ?
-                                    <p>Last Edited: {lastEdited}</p>
+                                    <p>Last Edited: {FormatTimeAndDate(lastEdited)}</p>
                                     :
-                                    <p>Date Submitted: {datePublished}</p>
+                                    <p>Date Submitted: {FormatTimeAndDate(datePublished)}</p>
                                     }
                             </div>
                             {content &&
@@ -81,7 +100,7 @@ const CommentPanel = props => {
                                         <RenderImage
                                             image={img}
                                             key={uuid()}
-                                            altText={`${title} photo ${index}`}
+                                            altText={`photo ${index}`}
                                         />
                                     )}
                                 </div>
@@ -89,18 +108,7 @@ const CommentPanel = props => {
                         </div>
                     </div>
                 </div>
-                <div
-                    id="InteractiveField"
-                    className = "inline-flex"
-                >
-                    <RenderLikeButton
-                        likes={likes}
-                        documentID={post._id}
-                        type = "comment"
-                    />
-                    <button></button>
-                
-                </div>
+                <RenderReplyActionbar />
             </div>
         </div>
     )

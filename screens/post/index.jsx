@@ -8,12 +8,14 @@ import {
 } from '../../hooks/postHooks.jsx'; 
 import { ErrorMessageHooks, PostErrorHooks } from '../../hooks/errorHooks.jsx'; 
 import MessageComponent from '../../component/message.jsx'; 
-import { PostContext } from '../../util/contextItem.jsx';
+import { PostContext, CommentContext } from '../../util/contextItem.jsx';
 import MainPanel from './mainPanel.jsx'; 
 import { PostNavigationHooks, NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { CommentInput } from '../../component/formElements/commentInputs.jsx'
-import { AddComment } from '../../hooks/commentHooks.jsx'; 
+import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
+import CommentPanel from '../../component/comment/panel.jsx'; 
+import uuid from 'react-uuid';
 
 const RenderPost = props => {
     const location = useLocation(); 
@@ -23,6 +25,10 @@ const RenderPost = props => {
         apiURL, 
         setLoading, 
     } = useContext(AppContext);
+
+    const {
+        AddComment, 
+    } = FetchCommentActions(apiURL)
     const navigate = useNavigate(); 
     const { GoEditPost } = PostNavigationHooks(navigate);
     const {
@@ -44,11 +50,12 @@ const RenderPost = props => {
     const [images, setImages] = useState(location.state ? location.state.images : []);
     const [category, setCategory] = useState(location.state ? location.state.category : "");
     const [tag, setTag] = useState(location.state ? location.state.tag : []);
-    const [comments, setComments] = useState(null);
     const [likes, setLikes] = useState(null);
     const [published, setPublished] = useState(location.state ? location.state.published : true); 
     const [decoded, setDecoded] = useState(null)
     const [message, setMessage] = useState([])
+
+    const [comments, setComments] = useState([])
 
     //this handles whether the text input for adding new comment on the post is displayed or hidden
     const [displayCommentInput, setDisplayCommentInput] = useState(false); 
@@ -59,6 +66,12 @@ const RenderPost = props => {
     const imageInputRef = useRef(); 
 
     const CloseCommentInput = () => setDisplayCommentInput(false)
+
+        //This allows the app to reset the commentImages array
+
+    const reset = () => {
+        setCommentImages([])
+    }
 
     const dispatchFunctions = {
         setTitle,
@@ -76,7 +89,9 @@ const RenderPost = props => {
         setLastEdited,
         setLoading, 
         CloseCommentInput,
-        setImageError
+        setImageError,
+        setMessage, 
+        reset, 
     }
 
     const RenderButtonField = () => {
@@ -103,9 +118,10 @@ const RenderPost = props => {
         const Elements = {
             content: GetContent(commentEditorRef),
             root: post_id, 
-            author: decoded.id
+            author: decoded.id, 
+            commentImages,  
         } 
-        AddComment(apiURL, "POST", post_id,"add_comment", Elements, dispatchFunctions, token)
+        AddComment("POST", post_id,"add_comment", Elements, dispatchFunctions, token)
     }
 
     const context = {
@@ -120,11 +136,11 @@ const RenderPost = props => {
         category,
         tag,
         comments,
+        setComments, 
         likes,
         published,
         decoded,
         postID: post_id,
-        decoded,
         EditPost: () => { GoEditPost(title, post_id, context) },
         DeletePost: () => { DeletePost(apiURL, post_id, token, decoded.id, author._id, setMessage, GoBack) }, 
         RenderButtonField, 
@@ -132,11 +148,11 @@ const RenderPost = props => {
         displayCommentInput,
         setDisplayCommentInput, 
         toggleCommentField: () => setDisplayCommentInput(prev => !prev), 
-
         images: commentImages, 
         setImages: setCommentImages, 
         imagesError: commmentImageError, 
         imageInputRef, 
+
     }
 
     useEffect(() => {
@@ -148,6 +164,10 @@ const RenderPost = props => {
     useEffect(() => {
         FetchPostById(apiURL, post_id, dispatchFunctions)
     }, [post_id])
+
+    useEffect(() => {
+       // console.log("comments: ", comments)
+    }, [comments])
 
     if (published) {
         return (
@@ -163,20 +183,55 @@ const RenderPost = props => {
                     />
                     <div
                         id="PostWrapper"
-                        className="w-11/12 box_shadow rounded-lg mx-auto"
+                        className="w-11/12 box_shadow rounded-lg mx-auto pb-10"
                     >
                         <MainPanel />
                         {displayCommentInput &&
-                            <div className="w-11/12 mx-auto pb-10">
-                                <CommentInput
-                                    root={post_id}
-                                    content={newComment}
-                                    commentError={newCommentError}
-                                    cancelEvent={() => setDisplayCommentInput(false)}
-                                    commentEditorRef={commentEditorRef}
-                                    submitEvent={SubmitComment}
-                                    />
+                            <div className="w-11/12 mx-auto pb-10 border-[1px] rounded-md box_shadow">
+                                <div className= "w-11/12 mx-auto py-5">
+                                    <CommentInput
+                                        root={post_id}
+                                        content={newComment}
+                                        commentError={newCommentError}
+                                        cancelEvent={() => setDisplayCommentInput(false)}
+                                        commentEditorRef={commentEditorRef}
+                                        submitEvent={SubmitComment}
+                                        />
+                                </div>
                             </div>
+                        }
+                        {comments && comments.length > 0 &&
+                            <>
+                            <hr className = "w-11/12 mx-auto border-2" />
+                            <h2 className="font-bold text-center text-2xl mt-10">Comments</h2>
+                            {comments.map(comment => {
+                                const commentContext = {
+                                    content: comment.content,
+                                    datePublished: comment.datePublished,
+                                    lastEdited: comment.lastEdited,
+                                    author: comment.author,
+                                    images: comment.images,
+                                    likes: comment.likes,
+                                    _id: comment._id,
+                                    replies: comment.replies, 
+                                    post: comment.post, 
+                                    decoded: decoded, 
+                                    setComments, 
+                                    setMessage,
+                                } 
+                                    return (
+                                        <CommentContext.Provider
+                                            key={uuid()}
+                                            value={commentContext}>
+                                            <CommentPanel
+                                                key={comment._id.toString()}
+                                                {...comment}
+                                                />
+                                        </CommentContext.Provider>
+                                    )
+                                })
+                                }
+                            </>
                         }
                     </div>
                 </div>

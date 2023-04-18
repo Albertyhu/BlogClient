@@ -6,3 +6,5 @@ export const AppContext = createContext();
 export const PostContext = createContext(); 
 
 export const CategoryContext = createContext(); 
+
+export const CommentContext = createContext(); 

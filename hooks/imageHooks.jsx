@@ -66,6 +66,15 @@ const Base64Hooks = () => {
         return /^data:image\/\w+;base64,/.test(str);
     }
 
+    //This function "convertArrayToBase64" is neccessary because the images retrieved from the server comes in the following format:
+    /**
+     * imageArr = [
+     * {data: {
+     *  data: <non-base64 data or blob>
+     * },
+     *  contentType: <contentType>,     
+     * }] 
+     * */
     function convertArrayToBase64(arr) {
         var base64arr = arr; 
         base64arr.forEach(image => {
@@ -74,6 +83,7 @@ const Base64Hooks = () => {
         return base64arr
     }
 
+    //The function "convertObjToBase64" is similar to the function "convertArrayToBase64", but it formats an image obj instead
     function convertObjToBase64(obj) {
         return {
             data: toBase64(obj.data.data),
@@ -107,15 +117,10 @@ const formatExistingImageArray = (imgArr) => {
     return formatted 
 }
 
-const formatExistingImage = (img) => {
-
-}
-
 export {
     ImageHooks,
     HandleFileChange,
     AttachImagesToArray,
     Base64Hooks,
     formatExistingImageArray,
-    formatExistingImage
 }
