@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import RouteComponent from '../component/routes.jsx';
 import { AppContext } from '../util/contextItem.jsx';
 import './index.css';
@@ -14,7 +14,7 @@ function App() {
     const [loading, setLoading] = useState(false); 
 
     const defaultTheme = {} 
-
+    const ContainerRef = useRef(); 
     const context = {
         apiURL: import.meta.env.VITE_API_URL.toString(),
         token,
@@ -35,6 +35,7 @@ function App() {
         loading,
         setLoading, 
         defaultTheme, 
+        ContainerRef, 
     }
 
     useEffect(() => {

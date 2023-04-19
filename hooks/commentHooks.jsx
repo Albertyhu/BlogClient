@@ -7,12 +7,12 @@ const {
 } = Base64Hooks(); 
 
 //This function can be used for either adding a comment to a post or adding a reply to a comment/reply 
+//For the process of adding a comment as a reply to the post, postID will be passed through req.params.id 
 export const FetchActions = apiURL => {
     const AddComment = async (type, documentID, action, Elements, dispatchFunctions, token) => {
         const FetchURL = `${apiURL}/${type}/${documentID}/${action}`;
         const {
             content,
-            root,
             author,
         } = Elements;
         const {
@@ -20,13 +20,19 @@ export const FetchActions = apiURL => {
             CloseCommentInput,
             setMessage,
             reset,
-            setComments, 
+            updateArray, 
         } = dispatchFunctions;
 
 
         const formData = new FormData;
         formData.append("content", content)
-        formData.append("root", root)
+
+        //If the fetch request is adding a reply to a reply, storing the ObjectID of the root of the comment tree is important
+        if (Elements.root) {
+            formData.append("root", Elements.root)
+        }
+
+        //ObjectId of current user
         formData.append("author", author)
         if (Elements.CommentRepliedTo) {
             formData.append("commentRepliedTo", Elements.CommentRepliedTo)
@@ -41,6 +47,10 @@ export const FetchActions = apiURL => {
             }
         }
 
+        if (Elements.postId) {
+            formData.append("postId", Elements.postId)
+        }
+
         try {
             setLoading(true)
             await fetch(FetchURL, {
@@ -52,9 +62,7 @@ export const FetchActions = apiURL => {
             }).then(async response => {
                 const result = await response.json();
                 if (response.ok) {
-                    setMessage([{ param: "Comment Submitted", msg: "Your message has been posted." }]);
-                    console.log("result: ", result.comment) 
-                    console.log("result.author: ", result.author); 
+                    setMessage([{ param: "Message Submitted", msg: "Your message has been posted." }]);
                     if (result.author.profile_pic) {
                         result.author.profile_pic = convertObjToBase64(result.author.profile_pic)
                     }
@@ -62,19 +70,30 @@ export const FetchActions = apiURL => {
                     var newComment = {
                         author: result.author,
                         content: result.comment.content,
-                        datePublished: result.comment.datePublished, 
+                        datePublished: result.comment.datePublished,
                         images: convertArrayToBase64(result.comment.images),
                         lastEdited: result.comment.lastEdited,
-                        likes: [], 
+                        likes: [],
                         replies: [],
                         post: result.comment.post,
-                        _id: result.comment._id, 
+                        _id: result.comment._id,
                     }
+                    if (result.comment.commentRepliedTo) {
+                        newComment.commentRepliedTo = result.comment.commentRepliedTo;
+                    }
+                    if (result.comment.userRepliedTo) {
+                        newComment.userRepliedTo = result.comment.userRepliedTo;
+                    }
+                    if (result.comment.rootComment) {
+                        newComment.rootComment = result.comment.rootComment;
+                    }
+
                     console.log("newComment: ", newComment)
-                    setComments(prev => [newComment, ...prev])
+                    updateArray(prev => [newComment, ...prev])
                 }
                 else {
                     console.log("AddComment error: ", result.error)
+                    setMessage([{ param: "error", msg: `There was an error with adding comments: ${result.error}`}])
                 }
                 reset()
                 CloseCommentInput()

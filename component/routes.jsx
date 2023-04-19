@@ -27,6 +27,7 @@ import { SpinnerAnim } from '../component/loadingComponent.jsx';
 const Apps = props => {
     //const { token } = useContext(AppContext); 
     const {
+        ContainerRef, 
         loading,
     } = useContext(AppContext); 
 
@@ -35,6 +36,7 @@ const Apps = props => {
         <div
             id="Container"
             className={containerStyle}
+            ref={ContainerRef}
         >
             {loading &&
                 <SpinnerAnim />

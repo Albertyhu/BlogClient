@@ -17,7 +17,6 @@ const MainPanel = props => {
 
     const mobileAdminRef = useRef(); 
     const DotRef = useRef(); 
-    var mobileAdminElem = document.getElementById('MobileAdminBtnPanel');
     const {
         title,
         content,
@@ -57,7 +56,7 @@ const MainPanel = props => {
 
     return (
         <div
-            id="ContentWrapper"
+            id="MainPanel"
             className = "w-11/12 mx-auto"
         >
             <div className = "relative">

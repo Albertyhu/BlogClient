@@ -19,6 +19,7 @@ const PostLikeFeatures = () => {
 
             //'type' is the type of document, whether that will be a post or comment; this will later be utilized to construct the fetch endpoint
             type, 
+            customStyle = '',
         } = props;
 
         const {
@@ -64,19 +65,19 @@ const PostLikeFeatures = () => {
         return (
             <IconContext.Provider value={{ size: '25px' }}>
                 <div
-                    className="whitespace-nowrap flex m-auto text-lg [&>*]:mx-1 cursor-pointer"
+                    className={`whitespace-nowrap flex text-lg cursor-pointer my-auto ${customStyle}`}
                     onClick={toggleLike}
                     disabled={token ? false : true}
                 >
                     {isLiked ?
-                        <AiTwotoneLike />
+                        <AiTwotoneLike style={{ marginRight: '0.25rem' }} />
                         :
                         <AiOutlineLike style={{ color: "blue" }} />
                     }
                     <span
-                        className={`select-none ${isLiked ? 'font-bold' : ''}`}
+                        className={`select-none ml-1 ${isLiked ? 'font-bold' : ''}`}
                     >Like</span>
-                    <span className="">{number}</span>
+                    <span className="ml-1">{number}</span>
                 </div>
             </IconContext.Provider>
         )

@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useRef } from 'react'; 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'; 
-import { AppContext } from '../../util/contextItem.jsx'; 
+import { AppContext, PostContext, CommentContext, ReplyContext } from '../../util/contextItem.jsx'; 
 import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
 import {
     FetchHooks,
@@ -8,13 +8,12 @@ import {
 } from '../../hooks/postHooks.jsx'; 
 import { ErrorMessageHooks, PostErrorHooks } from '../../hooks/errorHooks.jsx'; 
 import MessageComponent from '../../component/message.jsx'; 
-import { PostContext, CommentContext } from '../../util/contextItem.jsx';
 import MainPanel from './mainPanel.jsx'; 
 import { PostNavigationHooks, NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { CommentInput } from '../../component/formElements/commentInputs.jsx'
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
-import CommentPanel from '../../component/comment/panel.jsx'; 
+import CommentPanel from '../../component/commentPanel'; 
 import uuid from 'react-uuid';
 
 const RenderPost = props => {
@@ -81,9 +80,9 @@ const RenderPost = props => {
         setAbstract,
         setAuthor,
         setImages,
-        setCategory, 
-        setTag, 
+        setCategory,
         setComments,
+        setTag, 
         setLikes, 
         setPublished,
         setLastEdited,
@@ -92,6 +91,7 @@ const RenderPost = props => {
         setImageError,
         setMessage, 
         reset, 
+        updateArray: (array)=>setComments(array), 
     }
 
     const RenderButtonField = () => {
@@ -183,7 +183,7 @@ const RenderPost = props => {
                     />
                     <div
                         id="PostWrapper"
-                        className="w-11/12 box_shadow rounded-lg mx-auto pb-10"
+                        className="w-11/12 box_shadow rounded-lg mx-auto pb-10 grow h-fit"
                     >
                         <MainPanel />
                         {displayCommentInput &&
@@ -196,6 +196,7 @@ const RenderPost = props => {
                                         cancelEvent={() => setDisplayCommentInput(false)}
                                         commentEditorRef={commentEditorRef}
                                         submitEvent={SubmitComment}
+                                        contextItem={PostContext}
                                         />
                                 </div>
                             </div>
@@ -205,30 +206,16 @@ const RenderPost = props => {
                             <hr className = "w-11/12 mx-auto border-2" />
                             <h2 className="font-bold text-center text-2xl mt-10">Comments</h2>
                             {comments.map(comment => {
-                                const commentContext = {
-                                    content: comment.content,
-                                    datePublished: comment.datePublished,
-                                    lastEdited: comment.lastEdited,
-                                    author: comment.author,
-                                    images: comment.images,
-                                    likes: comment.likes,
-                                    _id: comment._id,
-                                    replies: comment.replies, 
-                                    post: comment.post, 
-                                    decoded: decoded, 
-                                    setComments, 
-                                    setMessage,
-                                } 
-                                    return (
-                                        <CommentContext.Provider
-                                            key={uuid()}
-                                            value={commentContext}>
-                                            <CommentPanel
-                                                key={comment._id.toString()}
-                                                {...comment}
-                                                />
-                                        </CommentContext.Provider>
-                                    )
+                                return (
+                                    <CommentPanel
+                                        key={comment._id.toString()}
+                                        {...comment}
+                                        setComments={setComments}
+                                        setMessage={setMessage}
+                                        root={comment._id}
+                                        decoded={decoded }
+                                    />
+                                )
                                 })
                                 }
                             </>

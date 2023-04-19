@@ -24,7 +24,7 @@
     }
 
     .btn-cancel {
-        @apply active:bg-[#4B4B4B] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333] rounded-[15px] px-5;
+        @apply active:bg-[#4B4B4B] p-[10px] border-white border-2 text-white mx-auto hover:bg-gray-300 !bg-[#333333] rounded-[15px] box_shadow;
     }
 
     .btn-add {
@@ -32,8 +32,9 @@
     }
     /*This is a style to be applied to buttons with out borders or background color*/
     .actionBarLink {
-        @apply text-base mx-10 hover:underline text-[#333333] bg-none border-none;
+        @apply text-base hover:underline text-[#333333] bg-none border-none flex m-auto cursor-pointer;
     }
+
     .basic_formInput {
         @apply text-lg border-black border-[1px] rounded bg-[#f2e798];
     }

@@ -21,7 +21,7 @@ Comment adds parent ID to 'post' field.
 
 Series of events when someone replies to a comment. 
 Comment adds ID of reply to 'replies' array. 
-Reply stores the author and object ID of the comment that it is replying to 
+Reply stores the author's usernamne and object ID of the comment that it is replying to 
 
 Series of events when someone replies to a reply 
 The parent reply passes the object ID of the comment to the child reply. 
