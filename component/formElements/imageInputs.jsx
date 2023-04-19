@@ -47,6 +47,10 @@ export const AttachMultipleImages = props => {
         setImages(arr); 
     }
 
+    useEffect(() => {
+        console.log("images: ", images)
+    }, [images])
+
     return (
         <>
             <div className="grid">

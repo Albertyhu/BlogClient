@@ -132,7 +132,7 @@ const RenderPost = props => {
         thumbnail,
         abstract,
         author,
-        mainPanelimages: images,
+        mainPanelImages: images,
         category,
         tag,
         comments,

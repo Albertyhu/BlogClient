@@ -22,7 +22,7 @@ export const CommentInput = props => {
                 editorRef={commentEditorRef}
             />
             <AttachMultipleImages
-                contextItem={PostContext}
+                contextItem={contextItem}
             />
             <div
                 className="flex flex-col md:flex-row mx-auto md:justify-space md:w-5/12 [&>button]:mb-5"

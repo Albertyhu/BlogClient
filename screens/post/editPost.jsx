@@ -17,15 +17,15 @@ const CreatePostForm = props => {
     const navigate = useNavigate();
     const { username } = useParams();
     const { GoHome } = NavigationHooks(navigate);
-    const location = useLocation(); 
+    const location = useLocation();
 
     const {
         apiURL,
         token,
-        setLoading, 
+        setLoading,
     } = useContext(AppContext);
     const { SubmitPost } = CreateAndUpdatePosts(navigate)
-    const { id } = location.state; 
+    const { id } = location.state;
     const [title, setTitle] = useState(location.state ? location.state.title : "")
     const [content, setContent] = useState(location.state ? location.state.content : "");
     const [author, setAuthor] = useState(location.state ? location.state.author._id : null);
@@ -37,8 +37,8 @@ const CreatePostForm = props => {
     const [category, setCategory] = useState(location.state ? location.state.category : null);
     const [tag, setTag] = useState(location.state ? location.state.tag : []);
     //This helps to keep track of any tags that the user decides to delete
-    const [priorTagList, setPrior] = useState(location.state ? location.state.tag : []) 
-    const [message, setMessage] = useState(''); 
+    const [priorTagList, setPrior] = useState(location.state ? location.state.tag : [])
+    const [message, setMessage] = useState('');
 
     const [decoded, setDecoded] = useState(null);
 
@@ -69,7 +69,7 @@ const CreatePostForm = props => {
         setGeneralError,
         setTagError,
         setMessage,
-        setLoading, 
+        setLoading,
     }
 
     const context = {
@@ -119,7 +119,7 @@ const CreatePostForm = props => {
         draftFunc: () => handleSubmit(false),
 
         message,
-        setMessage, 
+        setMessage,
     }
 
     const handleSubmit = (published) => {

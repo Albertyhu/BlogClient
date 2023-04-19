@@ -25,7 +25,7 @@ const MainPanel = props => {
         thumbnail,
         abstract,
         author,
-        mainPanelimages,
+        mainPanelImages,
         category,
         tag,
         likes,
@@ -109,9 +109,9 @@ const MainPanel = props => {
                     dangerouslySetInnerHTML={{ __html: content }}
                 ></div>
             }
-            {mainPanelimages && mainPanelimages.length > 0 &&
+            {mainPanelImages && mainPanelImages.length > 0 &&
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-[5px]">
-                    {mainPanelimages.map((img, index) =>
+                    {mainPanelImages.map((img, index) =>
                         <RenderImage
                             image={img}
                             key={uuid()}

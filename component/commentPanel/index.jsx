@@ -66,8 +66,12 @@ const CommentPanel = props => {
     //If the user wants to update the current comment being rendered, editmode would be switched to true 
     const [editmode, setEditMode] = useState(false)
     const [displayEditor, setDisplayEditor] = useState(false);
+
+    //For throwing errors when a user makes reply to the comment being rendered by this component
     const [replyError, setReplyError] = useState([]);
-    const [attachedImages, setAttachedImages] = useState([]); 
+
+    const [attachedImages, setAttachedImages] = useState(images ? images : []); 
+    const [imagesError, setImagesError ] = useState([])
     const replyRef = useRef();
 
     const dispatchFunctions = {
@@ -102,6 +106,7 @@ const CommentPanel = props => {
         datePublished,
         lastEdited,
         images,
+        imagesError, 
         likes,
         post,
         _id,
@@ -150,7 +155,8 @@ const CommentPanel = props => {
                                 commentError={updateError}
                                 commentEditorRef={updateRef}
                                 submitEvent={updateComment}
-                                cancelEvent={()=>setEditMode(false)}
+                                cancelEvent={() => setEditMode(false)}
+                                contextItem={ReplyContext}
                                     />
                         </div>
                 }

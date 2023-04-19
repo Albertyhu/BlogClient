@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\images",
     "\\component",
-    "\\component\\formElements",
-    "\\component\\imageRendering",
+    "\\component\\commentPanel",
+    "\\component\\footer",
+    "\\component\\post",
+    "\\component\\replyActionBar",
+    "\\component\\replyPanel",
+    "\\component\\user",
     "\\screens",
-    "\\screens\\user",
-    "\\src",
-    "\\util"
+    "\\screens\\post"
   ],
-  "SelectedNode": "\\assets\\images\\PlaceholderLogo.png",
+  "SelectedNode": "\\screens\\post\\index.jsx",
   "PreviewInSolutionExplorer": false
 }
