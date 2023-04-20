@@ -14,11 +14,14 @@ import { CommentInput } from '../../component/formElements/commentInputs.jsx'
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import CommentPanel from '../../component/commentPanel'; 
-import uuid from 'react-uuid';
+
 
 const RenderPost = props => {
     const location = useLocation(); 
-    const { post_title, post_id } = useParams(); 
+    const {
+        post_title,
+        post_id
+    } = useParams(); 
     const {
         token, 
         apiURL, 
@@ -27,7 +30,7 @@ const RenderPost = props => {
 
     const {
         AddComment, 
-    } = FetchCommentActions(apiURL)
+    } = FetchCommentActions(apiURL, setLoading, token)
     const navigate = useNavigate(); 
     const { GoEditPost } = PostNavigationHooks(navigate);
     const {
@@ -165,10 +168,6 @@ const RenderPost = props => {
         FetchPostById(apiURL, post_id, dispatchFunctions)
     }, [post_id])
 
-    useEffect(() => {
-       // console.log("comments: ", comments)
-    }, [comments])
-
     if (published) {
         return (
             <PostContext.Provider value={context}>
@@ -205,7 +204,7 @@ const RenderPost = props => {
                             <>
                             <hr className = "w-11/12 mx-auto border-2" />
                             <h2 className="font-bold text-center text-2xl mt-10">Comments</h2>
-                            {comments.map(comment => {
+                            {comments.map((comment, ind) => {
                                 return (
                                     <CommentPanel
                                         key={comment._id.toString()}
@@ -213,7 +212,9 @@ const RenderPost = props => {
                                         setComments={setComments}
                                         setMessage={setMessage}
                                         root={comment._id}
-                                        decoded={decoded }
+                                        decoded={decoded}
+                                        index={ind}
+                                        commentsArray={comments}
                                     />
                                 )
                                 })

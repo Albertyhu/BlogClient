@@ -27,9 +27,13 @@ const CommentPanel = props => {
         _id,
         replies,
         root, 
+        commentsArray, 
         setComments, 
         setMessage,
         decoded,
+
+        //index of the comment in the comment array
+        index, 
     } = props;
     const navigate = useNavigate();
     const {
@@ -48,8 +52,9 @@ const CommentPanel = props => {
 
     const {
         DeleteOneCommentCompletely,
-        AddComment
-    } = FetchCommentActions(apiURL, setLoading)
+        AddComment,
+        EditComment, 
+    } = FetchCommentActions(apiURL, setLoading, token)
 
     //This is an array of all existing replies to the comment being rendered by the Panel component. 
     const [repliesArray, setReplies] = useState(replies ? replies : []);
@@ -79,14 +84,25 @@ const CommentPanel = props => {
 
     const updateRef = useRef(); 
     const [updateError, setUpdateError ] = useState([])
-    const updateComment = () => { }
+    const updateComment = () => {
+        const Elements = {
+            index,
+            content: GetContent(updateRef), 
+            authorId: author._id, 
+            userId: decoded.id, 
+            commentsArray, 
+            images: attachedImages,
+        } 
+        EditComment(Elements, _id, { setComments, setMessage, setEditMode })
+    }
 
     const commentContext = {
         content,
         author,
         datePublished,
         lastEdited,
-        images,
+        images: attachedImages,
+        setImages: (arr) => setAttachedImages(arr),
         imagesError, 
         likes,
         post,
@@ -98,7 +114,7 @@ const CommentPanel = props => {
         decoded,
         setReplies,
         toggleReplyEditor: () => setDisplayReplyInput(prev => !prev),
-        DeleteAction: () => { DeleteOneCommentCompletely(_id, token, dispatchFunctions) },
+        DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },
         openEditorToUpdate: ()=>setEditMode(true), 
     } 
 
@@ -129,7 +145,7 @@ const CommentPanel = props => {
             UserRepliedTo: author.username,
             postId: post, 
         }
-        AddComment("comment", _id, "add_reply", Elements, replyDispatchFunctions, token)
+        AddComment("comment", _id, "add_reply", Elements, replyDispatchFunctions)
     }
 
     const replyContext = {
@@ -177,7 +193,10 @@ const CommentPanel = props => {
                                 commentError={updateError}
                                 commentEditorRef={updateRef}
                                 submitEvent={updateComment}
-                                cancelEvent={() => setEditMode(false)}
+                                cancelEvent={() => {
+                                    setAttachedImages(images)
+                                    setEditMode(false); 
+                                }}
                                 contextItem={CommentContext}
                                     />
                         </div>

@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\commentPanel",
-    "\\component\\replyActionBar",
     "\\component\\replyPanel",
     "\\component\\user",
     "\\hooks",
     "\\screens",
+    "\\screens\\category",
     "\\screens\\post",
+    "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\commentHooks.jsx",
+  "SelectedNode": "\\component\\routes.jsx",
   "PreviewInSolutionExplorer": false
 }

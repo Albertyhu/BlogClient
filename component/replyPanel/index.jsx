@@ -10,6 +10,7 @@ import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.js
 import { CommentInput } from '../formElements/commentInputs.jsx';
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import RenderComment from '../commentPanel/renderComment.jsx';
+import CommentHeader from '../commentPanel/header.jsx'; 
 
 //should give owner of the comment the ability to edit 
 //Reply 
@@ -45,19 +46,20 @@ const ReplyPanel = props => {
     const {
         DeleteOneCommentCompletely,
         AddComment
-    } = FetchCommentActions(apiURL, setLoading)
+    } = FetchCommentActions(apiURL, setLoading, token)
 
-    //This is an array of all existing replies to the comment being rendered by the Panel component. 
-
+    //This is an array of all existing replies to the comment being rendered by the Panel component.
     const [replyContent, setReplyContent] = useState("")
     const [displayReplyInput, setDisplayReplyInput] = useState(false);
     const [replyError, setReplyError] = useState([]);
-    const [attachedImages, setAttachedImages] = useState([]);
+    const [attachedImages, setAttachedImages] = useState(images ? images : []);
     const [imagesError, setImagesError] = useState([]); 
 
     /**Code for handling editing reply*/
-    const [editmode, setEditMode]=useState(false)
+    const [editmode, setEditMode] = useState(false)
+    const [updateError, setUpdateError] = useState([])
     const updateRef = useRef(); 
+    const updateComment = () => { } 
 
     const RemoveCommentFromStorage = () => {
         setReplies(prev => prev.filter(val => val._id != _id))
@@ -78,7 +80,8 @@ const ReplyPanel = props => {
         datePublished,
         lastEdited,
         author,
-        images,
+        images: attachedImages,
+        setImages: (arr) => setAttachedImages(arr), 
         imagesError, 
         likes,
         post,
@@ -89,7 +92,8 @@ const ReplyPanel = props => {
         setMessage,
         decoded,
         toggleReplyEditor: () => setDisplayReplyInput(prev => !prev),
-        DeleteAction: () => { DeleteOneCommentCompletely(_id, token, dispatchFunctions) },
+        DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },
+        openEditorToUpdate: () => setEditMode(true), 
     }
 
     /*code for posting new reples*/
@@ -118,7 +122,7 @@ const ReplyPanel = props => {
             UserRepliedTo: author.username,
             postId: post,
         }
-        AddComment("comment", rootComment, "add_reply", Elements, replyDispatchFunctions, token)
+        AddComment("comment", rootComment, "add_reply", Elements, replyDispatchFunctions)
     }
 
 
@@ -169,7 +173,10 @@ const ReplyPanel = props => {
                                 commentError={updateError}
                                 commentEditorRef={updateRef}
                                 submitEvent={updateComment}
-                                cancelEvent={() => setEditMode(false)}
+                                cancelEvent={() => {
+                                    setAttachedImages(images);
+                                    setEditMode(false);
+                                }}
                                 contextItem={CommentContext}
                             />
                         </div>

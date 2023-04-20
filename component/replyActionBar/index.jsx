@@ -4,7 +4,6 @@ import {
     CommentContext,
 } from '../../util/contextItem.jsx'; 
 import { PostLikeFeatures } from '../likeComponent.jsx';
-import { FetchActions  as CommentFetchActions } from '../../hooks/commentHooks.jsx'; 
 import {
     BiCommentDetail,
 } from 'react-icons/Bi';
@@ -16,8 +15,6 @@ import MobileMenu from './mobileMenu.jsx';
 //Purpose: This is the UI bar located beneath each comment and reply, renders buttons for features such as like, share, delete and edit
 const RenderReplyActionBar = props => {
     const {
-        apiURL, 
-        setLoading, 
         token, 
         ContainerRef, 
     } = useContext(AppContext)
@@ -45,16 +42,6 @@ const RenderReplyActionBar = props => {
         setMessage, 
         toggleReplyEditor
     } = useContext(CommentContext)
-
-
-    //After the comment is deleted from the database, comment will be removed from the useState array 'comments'
-    const RemoveCommentFromStorage = () => {
-        setComments(prev => prev.filter(val => val._id != _id))
-    }
-
-    const {
-        DeleteOneCommentCompletely, 
-    } = CommentFetchActions(apiURL)
 
     const { RenderLikeButton } = PostLikeFeatures() 
 

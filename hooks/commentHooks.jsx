@@ -8,8 +8,8 @@ const {
 
 //This function can be used for either adding a comment to a post or adding a reply to a comment/reply 
 //For the process of adding a comment as a reply to the post, postID will be passed through req.params.id 
-export const FetchActions = (apiURL, setLoading) => {
-    const AddComment = async (type, documentID, action, Elements, dispatchFunctions, token) => {
+export const FetchActions = (apiURL, setLoading, token) => {
+    const AddComment = async (type, documentID, action, Elements, dispatchFunctions) => {
         const FetchURL = `${apiURL}/${type}/${documentID}/${action}`;
         console.log("FetchURL: ", FetchURL)
         const {
@@ -36,15 +36,12 @@ export const FetchActions = (apiURL, setLoading) => {
         //ObjectId of current user
         formData.append("author", author)
         if (Elements.CommentRepliedTo) {
-            console.log("CommentRepliedTo: ", Elements.CommentRepliedTo)
             formData.append("commentRepliedTo", Elements.CommentRepliedTo)
         }
         if (Elements.UserRepliedTo) {
-            console.log("Elements.UserRepliedTo: ", Elements.UserRepliedTo)
             formData.append("userRepliedTo", Elements.UserRepliedTo)
         }
         if (Elements.commentImages) {
-            console.log("Elements.images: ", Elements.commentImages)
             for (let i = 0; i < Elements.commentImages.length; i++) {
                 formData.append("images", Elements.commentImages[i].file);
             }
@@ -108,7 +105,7 @@ export const FetchActions = (apiURL, setLoading) => {
         }
     }
 
-    const DeleteOneCommentCompletely = async (commentID, token, dispatchFunction) => {
+    const DeleteOneCommentCompletely = async (commentID, dispatchFunction) => {
         const {
             RemoveCommentFromStorage,
             setMessage
@@ -148,7 +145,7 @@ export const FetchActions = (apiURL, setLoading) => {
         }
     }
 
-    const DeleteOneReplyCompletely = async (commentID, token) => {
+    const DeleteOneReplyCompletely = async (commentID) => {
         try {
             var FetchURL = `${apiURL}/comment/${commentID}/delete_reply_completely`;
             await fetch(FetchURL, {
@@ -173,10 +170,76 @@ export const FetchActions = (apiURL, setLoading) => {
 
         }
     }
+
+    const EditComment = async (Elements, documentId, dispatchFunctions) => {
+        var FetchURL = `${apiURL}/comment/${documentId}/edit`; 
+        const {
+            index, 
+            content,
+            authorId, 
+            userId, 
+            commentsArray,
+        } = Elements; 
+        const {
+            setComments,
+            setMessage,
+            setEditMode
+        } = dispatchFunctions; 
+        var formData = new FormData; 
+        formData.append("content", content); 
+        formData.append("authorId", authorId);
+        formData.append("userId", userId); 
+        if (Elements.images) {
+            console.log("Elements.images: ", Elements.images)
+            Elements.images.forEach(img => {
+                formData.append("images", img.file)
+            })
+        }
+        console.log("Elements: ", Elements)
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+        setLoading(true)
+        try {
+            await fetch(FetchURL, {
+                method: "PUT",
+                body: formData,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+                .then(async response => {
+                    const result = await response.json();
+                    if (response.ok) {
+                        result.comment.images = convertArrayToBase64(result.comment.images)
+                        console.log("commentsArray: ", commentsArray)
+                        console.log("result.comment: ", result.comment)
+                        var arr = commentsArray
+                        arr.splice(index, 1, result.comment);
+                        console.log(arr)
+                        //setComments(arr); 
+                        //setComments(prev => prev.splice(index, 1, result.comments))
+                    }
+                    else {
+                        console.log("EditComment error 1: ", result.error)
+                        setMessage(result.error)
+                    }
+                })
+                .catch(e => {
+                    console.log("EditComment error 2: ", e)
+                })
+        } catch (e) {
+            console.log("EditComment error 3: ", e)
+        }
+        setEditMode(false)
+        setLoading(false); 
+    }
+
     return {
         AddComment,
         DeleteOneCommentCompletely,
         DeleteOneReplyCompletely, 
+        EditComment, 
     } 
 }
 
