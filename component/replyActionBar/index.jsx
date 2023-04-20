@@ -1,8 +1,7 @@
 import { useContext, useState, useRef, useEffect } from 'react'; 
 import {
-    CommentContext,
     AppContext,
-    ReplyContext,
+    CommentContext,
 } from '../../util/contextItem.jsx'; 
 import { PostLikeFeatures } from '../likeComponent.jsx';
 import { FetchActions  as CommentFetchActions } from '../../hooks/commentHooks.jsx'; 
@@ -44,8 +43,8 @@ const RenderReplyActionBar = props => {
         decoded, 
         setComments, 
         setMessage, 
-        toggleDisplayEditor
-    } = useContext(ReplyContext)
+        toggleReplyEditor
+    } = useContext(CommentContext)
 
 
     //After the comment is deleted from the database, comment will be removed from the useState array 'comments'
@@ -82,7 +81,7 @@ const RenderReplyActionBar = props => {
                 <button
                     className="actionBarLink"
                     type="button"
-                    onClick={toggleDisplayEditor}
+                    onClick={toggleReplyEditor}
                     >
                     <span className = "mr-1">Reply</span>
                     <IconContext.Provider value={{ size: "25px" }}>
@@ -107,7 +106,6 @@ const RenderReplyActionBar = props => {
             {mobileMenu &&
                 <MobileMenu
                     LinkMenuRef={LinkMenuRef}
-                    contextItem={CommentContext}
                 />
             }
         </div> 

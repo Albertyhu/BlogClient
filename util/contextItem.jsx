@@ -7,8 +7,10 @@ export const PostContext = createContext();
 
 export const CategoryContext = createContext(); 
 
-export const CommentContext = createContext(); 
+export const NewReplyContext = createContext(); 
 
-export const ReplyContext = createContext();
+export const ReplyContext = createContext(); 
+
+export const CommentContext = createContext();
 
 export const CommentPanelContext = createContext(); 

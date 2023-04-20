@@ -1,27 +1,23 @@
-import { useContext, useEffect, useState, useRef } from 'react';
-import { DecodeToken } from '../../hooks/decodeToken.jsx';
 import {
-    AppContext,
     ReplyContext,
 } from '../../util/contextItem.jsx';
-import { PostLikeFeatures } from '../likeComponent.jsx';
-import ProfilePic from '../user/profilePicture.jsx';
 import RenderImage from '../imageRendering/standardImage.jsx';
-import avatar from '../../assets/images/avatar.jpg';
-import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx';
-import { NavigationHooks } from '../../hooks/navigation.jsx';
-import { useNavigate } from 'react-router-dom';
-import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx';
+import {
+    RenderTimePosted,
+} from '../../hooks/timeHooks.jsx';
+import {
+   // FetchActions as FetchCommentActions,
+    ScrollToElement
+} from '../../hooks/commentHooks.jsx';
 import RenderReplyActionbar from '../replyActionBar';
 import uuid from 'react-uuid';
 import { CommentInput } from '../formElements/commentInputs.jsx';
-import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
-import ReplyPanel from '../replyPanel'
 import CommentHeader from './header.jsx'; 
 
+//This component renders the comment and also handles displaying the editor for posting a new reply 
 const RenderComment = props => {
     const {
-        displayEditor, 
+        displayReplyInput, 
         replyContent,
         replyError,
         submitReply,
@@ -31,7 +27,10 @@ const RenderComment = props => {
         datePublished,
         lastEdited,
         images,
-        setDisplayEditor, 
+        setDisplayReplyInput, 
+        //If the comment is a reply to another comment, the component will indicate whom the comment will be replying to 
+        userRepliedTo,
+        CommentRepliedTo, 
     } = props; 
 
     return (
@@ -51,12 +50,24 @@ const RenderComment = props => {
                             id="DateField"
                             className="italic"
                         >
-                            {lastEdited ?
-                                <p>Last Edited: {FormatTimeAndDate(lastEdited)}</p>
+                            {lastEdited != datePublished ?
+                                <p>Last Edited {RenderTimePosted(lastEdited)}</p>
                                 :
-                                <p>Date Submitted: {FormatTimeAndDate(datePublished)}</p>
+                                <p>Submitted {RenderTimePosted(datePublished)}</p>
                             }
                         </div>
+                        {userRepliedTo && 
+                            (CommentRepliedTo ? 
+                            <div
+                                className="cursor-pointer hover:underline active:no-underline active:font-bold"
+                                onClick={() => ScrollToElement(CommentRepliedTo)}
+                            >
+                                <span className="italic">@{userRepliedTo}</span>
+                            </div>
+                            :
+                                <div className="italic">@{userRepliedTo}</div>
+                            )
+                        }
                         {content &&
                             <div
                                 id="editor-container"
@@ -78,14 +89,19 @@ const RenderComment = props => {
                 </div>
             </div>
             <RenderReplyActionbar />
-            {displayEditor &&
-                <CommentInput
-                    content={replyContent}
-                    commentError={replyError}
-                    commentEditorRef={replyRef}
-                    submitEvent={submitReply}
-                    cancelEvent={() => setDisplayEditor(false)}
-                />
+            {/*Editor for posting a new reply */}
+            {displayReplyInput &&
+                <div className = "border-2 rounded-md p-5">
+                    <CommentInput
+                        content={replyContent}
+                        commentError={replyError}
+                        commentEditorRef={replyRef}
+                        submitEvent={submitReply}
+                        cancelEvent={() => setDisplayReplyInput(false)}
+                        contextItem={ReplyContext}
+                        label={`Reply to ${author.username}`}
+                     />
+                </div>
             }
         </>
     )

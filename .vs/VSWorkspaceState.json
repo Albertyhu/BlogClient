@@ -3,14 +3,14 @@
     "",
     "\\component",
     "\\component\\commentPanel",
-    "\\component\\footer",
-    "\\component\\post",
     "\\component\\replyActionBar",
     "\\component\\replyPanel",
     "\\component\\user",
+    "\\hooks",
     "\\screens",
-    "\\screens\\post"
+    "\\screens\\post",
+    "\\util"
   ],
-  "SelectedNode": "\\screens\\post\\index.jsx",
+  "SelectedNode": "\\hooks\\commentHooks.jsx",
   "PreviewInSolutionExplorer": false
 }

@@ -1,19 +1,12 @@
 import { useContext, useEffect, useState, useRef } from 'react';
-import { DecodeToken } from '../../hooks/decodeToken.jsx';
 import {
     AppContext,
+    CommentContext,
     ReplyContext,
 } from '../../util/contextItem.jsx';
-import { PostLikeFeatures } from '../likeComponent.jsx';
-import ProfilePic from '../user/profilePicture.jsx';
-import RenderImage from '../imageRendering/standardImage.jsx';
-import avatar from '../../assets/images/avatar.jpg'; 
-import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
-import RenderReplyActionbar from '../replyActionBar'; 
-import uuid from 'react-uuid'; 
 import { CommentInput } from '../formElements/commentInputs.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import ReplyPanel from '../replyPanel';
@@ -56,45 +49,33 @@ const CommentPanel = props => {
     const {
         DeleteOneCommentCompletely,
         AddComment
-    } = FetchCommentActions(apiURL)
+    } = FetchCommentActions(apiURL, setLoading)
 
     //This is an array of all existing replies to the comment being rendered by the Panel component. 
     const [repliesArray, setReplies] = useState(replies ? replies : []);
 
-    const [replyContent, setReplyContent] = useState(""); 
 
+    /*code for handling editing process*/ 
     //If the user wants to update the current comment being rendered, editmode would be switched to true 
     const [editmode, setEditMode] = useState(false)
-    const [displayEditor, setDisplayEditor] = useState(false);
+    const [displayReplyInput, setDisplayReplyInput] = useState(false);
+    const [imagesError, setImagesError] = useState([])
 
     //For throwing errors when a user makes reply to the comment being rendered by this component
     const [replyError, setReplyError] = useState([]);
 
+    //This stores any of the images in the comment 
     const [attachedImages, setAttachedImages] = useState(images ? images : []); 
-    const [imagesError, setImagesError ] = useState([])
-    const replyRef = useRef();
 
     const dispatchFunctions = {
-        setLoading,
-        CloseCommentInput: () =>setDisplayEditor(false),
+        CloseCommentInput: () =>setDisplayReplyInput(false),
         setMessage,
         RemoveCommentFromStorage, 
         reset: () => {
             setAttachedImages([]); 
         },
-        updateArray: (array)=>setReplies(array), 
+        updateArray: (array)=>setComments(array), 
     } 
-    const submitReply = () => {
-        const Elements = {
-            content: GetContent(replyRef),
-            author: decoded.id,
-            commentImages: attachedImages, 
-            root: root, 
-            CommentRepliedTo: _id, 
-            UserRepliedTo: author.username, 
-        }
-        AddComment("comment", _id, "add_reply", Elements, dispatchFunctions, token)
-    }
 
     const updateRef = useRef(); 
     const [updateError, setUpdateError ] = useState([])
@@ -115,36 +96,77 @@ const CommentPanel = props => {
         setComments,
         setMessage,
         decoded,
-        replyRef, 
-        toggleDisplayEditor: () => setDisplayEditor(prev => !prev),
+        setReplies,
+        toggleReplyEditor: () => setDisplayReplyInput(prev => !prev),
         DeleteAction: () => { DeleteOneCommentCompletely(_id, token, dispatchFunctions) },
-        openEditorToUpdate:()=>setEditMode(true), 
+        openEditorToUpdate: ()=>setEditMode(true), 
     } 
 
+    /*code for posting new reples*/
+    //This is to store conent of a new reply to the comment
+    const [replyContent, setReplyContent] = useState("");
+    const [replyImages, setReplyImages] = useState([]);
+    const [replyImagesError, setReplyImagesError] = useState([]);
+    const replyRef = useRef();
+    const replyImageInputRef = useRef(); 
+
+    const submitReply = () => {
+        const replyDispatchFunctions = {
+            setLoading,
+            CloseCommentInput: () => setDisplayReplyInput(false),
+            setMessage,
+            reset: () => {
+                setReplyImages([]);
+            },
+            updateArray: (array) => setReplies(array), 
+        }
+        const Elements = {
+            content: GetContent(replyRef),
+            author: decoded.id,
+            commentImages: replyImages,
+            root: root,
+            CommentRepliedTo: _id,
+            UserRepliedTo: author.username,
+            postId: post, 
+        }
+        AddComment("comment", _id, "add_reply", Elements, replyDispatchFunctions, token)
+    }
+
+    const replyContext = {
+        content: replyContent, 
+        images: replyImages, 
+        setImages: (val)=>setReplyImages(val), 
+        imagesError: replyImagesError,
+        replyRef, 
+        imagesInputRef: replyImageInputRef, 
+    }
+
     return (
-        <ReplyContext.Provider value={commentContext}>
+        <CommentContext.Provider value={commentContext}>
             <div
                 className={`my-10 mx-auto`}
-                id="CommentPanel"
+                id={`CommentPanel-${_id}`}
             >
                 <div
                     className="w-11/12 h-11/12 m-auto"
                     id="RenderComment"
                 >
-                {!editmode && decoded.id == author._id ?
-                        <RenderComment
-                            displayEditor={displayEditor}
-                            replyContent={replyContent}
-                            replyError={replyError}
-                            submitReply={submitReply}
-                            author={author}
-                            content={content}
-                            datePublished={datePublished}
-                            lastEdited={lastEdited}
-                            images={images}
-                            setDisplayEditor={setDisplayEditor}
-                            replyRef={replyRef}
-                        />
+                    {!editmode && decoded.id == author._id ?
+                        <ReplyContext.Provider value ={replyContext}>
+                            <RenderComment
+                                displayReplyInput={displayReplyInput}
+                                replyContent={replyContent}
+                                replyError={replyError}
+                                submitReply={submitReply}
+                                author={author}
+                                content={content}
+                                datePublished={datePublished}
+                                lastEdited={lastEdited}
+                                images={images}
+                                setDisplayReplyInput={setDisplayReplyInput}
+                                replyRef={replyRef}
+                                />
+                        </ReplyContext.Provider>
                         :
                         <div className = "border-2 rounded-md p-5 box_shadow">
                             <CommentHeader
@@ -156,24 +178,25 @@ const CommentPanel = props => {
                                 commentEditorRef={updateRef}
                                 submitEvent={updateComment}
                                 cancelEvent={() => setEditMode(false)}
-                                contextItem={ReplyContext}
+                                contextItem={CommentContext}
                                     />
                         </div>
                 }
                 </div>
             </div>
             {repliesArray && 
-                <div>
+                <div className = "w-11/12 mx-auto bg-[#dbdbdb]">
                     {repliesArray.map(reply =>
                         <ReplyPanel
                             {...reply}
+                            key={reply._id}
                             setReplies={setReplies}
                             decoded={decoded}
                             setMessage={setMessage}
                         />)}
                 </div>
             }
-        </ReplyContext.Provider>
+        </CommentContext.Provider>
     )
 }
 

@@ -1,3 +1,11 @@
+4/19/23
+Pay attention to the state variable that is used to render replies of each comment  
+
+ToDo :
+Create EditComment function
+Create DeleteReply Funcion
+Create function posting a reply to a reply 
+
 4/15/23
 How will the comment system will be constructed. 
 There will be two types of comments. 

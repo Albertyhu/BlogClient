@@ -30,7 +30,7 @@ const SubstitutePanel = props => {
         >
             <div
                 id="contentWrapper"
-                className="absolute left-0 right-0 top-[50%] !z-[20] translate-y-[-50%] text-white"
+                className="absolute left-0 right-0 top-[50%] !z-[10] translate-y-[-50%] text-white"
             >
                 <h2 className="mx-auto text-3xl md:text-5xl font-bold capitalize mb-5 w-fit wrapperChild">{title}</h2>
             </div>

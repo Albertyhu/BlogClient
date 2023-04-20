@@ -1,5 +1,5 @@
 import { useContext } from 'react'; 
-import { ReplyContext } from '../../util/contextItem.jsx';
+import { CommentContext } from '../../util/contextItem.jsx';
 import avatar from '../../assets/images/avatar.jpg';
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 

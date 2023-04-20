@@ -11,11 +11,15 @@ export const CommentInput = props => {
         commentEditorRef,
         submitEvent,
         cancelEvent,
-        contextItem
+        contextItem,
+        label, 
     } = props; 
     const { token } = useContext(AppContext); 
     return (
         <form>
+            {label && 
+                <label className = "font-bold text-lg text-center">{label}</label>
+            }
             <TinyMCEInput
                 data={content}
                 dataError={commentError}

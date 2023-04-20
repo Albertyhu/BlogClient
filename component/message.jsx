@@ -6,17 +6,19 @@ const MessageComponent = props => {
     const { message, dispatch } = props; 
 
     function AnimateMessage(DivElem) {
-        setTimeout(() => {
+
+       var obj1= setTimeout(() => {
             DivElem?.classList.remove("MessageFadeOut");
             DivElem?.classList.add("MessageFadeIn");
         }, [1])
-        setTimeout(() => {
+       var obj2 = setTimeout(() => {
             dispatch([]); 
-        }, [12000])
-        setTimeout(() => {
+        }, [6000])
+        var obj3 = setTimeout(() => {
             DivElem?.classList.remove("MessageFadeIn")
             DivElem?.classList.add("MessageFadeOut"); 
-        }, [10000])
+        }, [5000])
+
     }
 
     function RenderMessage() {
@@ -39,6 +41,7 @@ const MessageComponent = props => {
             }
         }
     }, [message])
+
     return (
         <div
             id="message"

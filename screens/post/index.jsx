@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useRef } from 'react'; 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'; 
-import { AppContext, PostContext, CommentContext, ReplyContext } from '../../util/contextItem.jsx'; 
+import { AppContext, PostContext } from '../../util/contextItem.jsx'; 
 import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
 import {
     FetchHooks,
@@ -34,7 +34,7 @@ const RenderPost = props => {
         GoBack,
         GoHome, 
     } = NavigationHooks(navigate); 
-    const { FetchPostById } = FetchHooks(); 
+    const { FetchPostById } = FetchHooks(setLoading); 
     const { DeletePost } = CreateAndUpdatePosts(navigate); 
     const PostContainerStyle = ``;
 

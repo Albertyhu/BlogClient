@@ -105,7 +105,6 @@ const CategoryPage = props => {
                             key={uuid()}
                             fallback={<SubstitutePanel
                                 title={item.name}
-                                className="z-[1]"
                             />}
                         >
                             <Panel

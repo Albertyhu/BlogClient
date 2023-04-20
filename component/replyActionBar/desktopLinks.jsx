@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import {
     AppContext,
-    ReplyContext, 
+    CommentContext, 
 } from '../../util/contextItem.jsx';
 import {
     BiEditAlt,
@@ -35,7 +35,7 @@ const MobileMenu = props => {
         DeleteAction,
         ShareAction,
         openEditorToUpdate, 
-    } = useContext(ReplyContext)
+    } = useContext(CommentContext)
 
     return (
         <>

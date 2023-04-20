@@ -1,7 +1,7 @@
 
 import { Base64Hooks } from './imageHooks.jsx';
 
-const FetchHooks = () => {
+const FetchHooks = (setLoading) => {
     const { toBase64, isBase64Image } = Base64Hooks()
     const fetchUserDetails = async (apiURL, userID, dispatch, dispatchError) => {
         try {
@@ -71,10 +71,12 @@ const FetchHooks = () => {
 
     const FetchPostsByCategory = async (apiURL, CategoryID, setPosts) => {
         var FetchURL = `${apiURL}/post/get_posts_by_category/${CategoryID}`; 
+        setLoading(true)
         await fetch(FetchURL, {
             method: 'GET',
         })
         .then(async response => {
+
             const result = await response.json()
             if (response.ok) {
                 result.post.forEach(item => {
@@ -87,6 +89,7 @@ const FetchHooks = () => {
                 console.log("There was an error with FetchPostsByCateogy: ", result.error)
             }
         })
+        setLoading(false)
     }
 
     return {

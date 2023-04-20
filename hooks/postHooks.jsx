@@ -17,7 +17,7 @@ const { toBase64,
     convertObjToBase64
 } = Base64Hooks()
 
-const FetchHooks = () => {
+const FetchHooks = (setLoading) => {
     const FetchPostsByCategory = async (apiURL, categoryID, dispatch) => {
         const FetchURL = `${apiURL}/post/get_posts_by_category/${categoryID}`;
         await fetch(FetchURL, {
@@ -51,6 +51,7 @@ const FetchHooks = () => {
             setPublished,
         } = dispatchFunctions; 
         try {
+            setLoading(true)
             await fetch(FetchURL, {
                 method: 'GET',
             })
@@ -91,6 +92,7 @@ const FetchHooks = () => {
                 .catch(e => {
                     console.log("There was an error trying to retrieve a post: ", e)
                 })
+                setLoading(false)
         } catch (e) {
             console.log("FetchPostById error: ", e)
         }

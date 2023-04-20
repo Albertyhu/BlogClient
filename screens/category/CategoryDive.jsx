@@ -17,13 +17,17 @@ import ErrorPage from '../error';
 const CategoryPage = props => {
     const navigate = useNavigate();
     const location = useLocation(); 
-
-    //id is the ObectId of the category.
+    const {
+        apiURL,
+        token,
+        categoryList,
+        setCategoryList,
+        setLoading, 
+    } = useContext(AppContext);
 
     const { EditCategory } = NavigationHooks(navigate);
     const {
         FetchPostsByCategory,
-        FetchCategoryByName
     } = PostFetchHooks(navigate); 
     const {
         category_name, 
@@ -40,14 +44,9 @@ const CategoryPage = props => {
     const {
         DeleteCategory,
         PopulateCategoryPage, 
-    } = CategoryHooks(navigate);
+    } = CategoryHooks(setLoading);
     const { CreateNewPostWithCategory } = PostButtons(navigate); 
-    const {
-        apiURL,
-        token,
-        categoryList, 
-        setCategoryList, 
-    } = useContext(AppContext);
+
 
     const dispatchFunctions = {
         setImage, 

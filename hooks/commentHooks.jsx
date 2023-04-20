@@ -8,15 +8,15 @@ const {
 
 //This function can be used for either adding a comment to a post or adding a reply to a comment/reply 
 //For the process of adding a comment as a reply to the post, postID will be passed through req.params.id 
-export const FetchActions = apiURL => {
+export const FetchActions = (apiURL, setLoading) => {
     const AddComment = async (type, documentID, action, Elements, dispatchFunctions, token) => {
         const FetchURL = `${apiURL}/${type}/${documentID}/${action}`;
+        console.log("FetchURL: ", FetchURL)
         const {
             content,
             author,
         } = Elements;
         const {
-            setLoading,
             CloseCommentInput,
             setMessage,
             reset,
@@ -29,15 +29,18 @@ export const FetchActions = apiURL => {
 
         //If the fetch request is adding a reply to a reply, storing the ObjectID of the root of the comment tree is important
         if (Elements.root) {
+            console.log("root: ", Elements.root)
             formData.append("root", Elements.root)
         }
 
         //ObjectId of current user
         formData.append("author", author)
         if (Elements.CommentRepliedTo) {
+            console.log("CommentRepliedTo: ", Elements.CommentRepliedTo)
             formData.append("commentRepliedTo", Elements.CommentRepliedTo)
         }
         if (Elements.UserRepliedTo) {
+            console.log("Elements.UserRepliedTo: ", Elements.UserRepliedTo)
             formData.append("userRepliedTo", Elements.UserRepliedTo)
         }
         if (Elements.commentImages) {
@@ -46,7 +49,6 @@ export const FetchActions = apiURL => {
                 formData.append("images", Elements.commentImages[i].file);
             }
         }
-
         if (Elements.postId) {
             formData.append("postId", Elements.postId)
         }
@@ -108,7 +110,6 @@ export const FetchActions = apiURL => {
 
     const DeleteOneCommentCompletely = async (commentID, token, dispatchFunction) => {
         const {
-            setLoading,
             RemoveCommentFromStorage,
             setMessage
         } = dispatchFunction; 
@@ -183,6 +184,7 @@ export const FormatAllImagesInComments = (commentArray) => {
     try {
         if (commentArray && commentArray.length > 0) {
             return commentArray.map(comment => {
+                //Format array of images attached to the current comment
                 if (comment.images && comment.images.length > 0) {
                     comment.images = formatImageArray(comment.images)
                 }
@@ -190,6 +192,7 @@ export const FormatAllImagesInComments = (commentArray) => {
                 if (comment.author.profile_pic) {
                     comment.author.profile_pic = convertObjToBase64(comment.author.profile_pic)
                 }
+                //This does the same for all replies to the current commment
                 formatProfilePicsInReplies(comment.replies)
                 return comment; 
             })
@@ -197,6 +200,28 @@ export const FormatAllImagesInComments = (commentArray) => {
         return commentArray; 
     } catch (e) {
     console.log("FormatAllProfilePicsInComments error: ", e)
+    }
+}
+
+const formatProfilePicsInReplies = (replyArray) => {
+    try {
+        if (replyArray && replyArray.length > 0) {
+            return replyArray.map(reply => {
+                //format the profile pic of the author of the reply 
+                if (reply.author.profile_pic) {
+                    reply.author.profile_pic = convertObjToBase64(reply.author.profile_pic);
+                }
+                //format the array of images attached to the reply 
+                if (reply.images) {
+                    reply.images = formatImageArray(reply.images)
+                }
+                return reply;
+            })
+        }
+        return replyArray
+    } catch (e) {
+        console.log("formatProfilePicsInReplies  error: ", e)
+
     }
 }
 
@@ -212,20 +237,6 @@ const formatImageArray = (imagesArray) => {
 
 }
 
-const formatProfilePicsInReplies = (replyArray) => {
-    try {
-        if (replyArray && replyArray.length > 0) {
-            return replyArray.map(reply => {
-                if (reply.author.profile_pic) {
-                    reply.author.profile_pic = convertObjToBase64(reply.author.profile_pic);
-                }
-                return reply;
-            })
-        }
-        return replyArray
-    } catch (e) {
-        console.log("formatProfilePicsInReplies  error: ", e)
-
-    }
+export const ScrollToElement = elementId => {
+    document.querySelector(`#CommentPanel-${elementId}`).scrollIntoView({ behavior: 'smooth' })
 }
-
