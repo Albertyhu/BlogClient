@@ -205,13 +205,15 @@ const CommentPanel = props => {
             </div>
             {repliesArray && 
                 <div className = "w-11/12 mx-auto bg-[#dbdbdb]">
-                    {repliesArray.map(reply =>
+                    {repliesArray.map((reply, index) =>
                         <ReplyPanel
                             {...reply}
                             key={reply._id}
                             setReplies={setReplies}
                             decoded={decoded}
                             setMessage={setMessage}
+                            index={index}
+                            repliesArray={repliesArray}
                         />)}
                 </div>
             }

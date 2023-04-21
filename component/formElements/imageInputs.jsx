@@ -35,7 +35,6 @@ export const AttachMultipleImages = props => {
         imagesError,
         imagesInputRef
     } = contextItem ? useContext(contextItem) : props; 
-    console.log("ImageInputs: ", images)
     const ImageErrorRef = useRef();
 
     useEffect(() => {
@@ -50,11 +49,6 @@ export const AttachMultipleImages = props => {
         var arr = images.filter((item, ind) => ind != index); 
         setImages(arr); 
     }
-
-    useEffect(() => {
-        console.log("images: ", images)
-    }, [images])
-
     return (
         <>
             <div className="grid">

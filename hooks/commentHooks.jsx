@@ -1,4 +1,7 @@
-import { Base64Hooks } from './imageHooks.jsx'; 
+import {
+    Base64Hooks,
+    convertImageToFile,
+} from './imageHooks.jsx'; 
 
 const {
     convertObjToBase64, 
@@ -190,14 +193,15 @@ export const FetchActions = (apiURL, setLoading, token) => {
         formData.append("authorId", authorId);
         formData.append("userId", userId); 
         if (Elements.images) {
-            console.log("Elements.images: ", Elements.images)
-            Elements.images.forEach(img => {
-                formData.append("images", img.file)
-            })
-        }
-        console.log("Elements: ", Elements)
-        for (const pair of formData.entries()) {
-            console.log(`${pair[0]}, ${pair[1]}`);
+            for (let i = 0; i < Elements.images.length; i++) {
+                if (!Elements.images[i].file) {
+                    var formattedImages = convertImageToFile(Elements.images[i])
+                    formData.append("images", formattedImages)
+                }
+                else {
+                    formData.append("images", Elements.images[i].file);
+                }
+            }
         }
         setLoading(true)
         try {
@@ -211,14 +215,17 @@ export const FetchActions = (apiURL, setLoading, token) => {
                 .then(async response => {
                     const result = await response.json();
                     if (response.ok) {
-                        result.comment.images = convertArrayToBase64(result.comment.images)
-                        console.log("commentsArray: ", commentsArray)
-                        console.log("result.comment: ", result.comment)
+                        var newComment = result.comment;
+                        newComment.author.profile_pic = convertObjToBase64(result.comment.author.profile_pic)
+                        if (result.comment.replies && result.comment.replies.length > 0) {
+                            newComment.replies = formatAllImagesInReplies(result.comment.replies); 
+                        }
+                        newComment.images = convertArrayToBase64(result.comment.images)
                         var arr = commentsArray
-                        arr.splice(index, 1, result.comment);
-                        console.log(arr)
-                        //setComments(arr); 
-                        //setComments(prev => prev.splice(index, 1, result.comments))
+                        arr.splice(index, 1, newComment);
+                        setComments(arr); 
+                        setEditMode(false)
+
                     }
                     else {
                         console.log("EditComment error 1: ", result.error)
@@ -297,7 +304,18 @@ const formatImageArray = (imagesArray) => {
     } catch (e) {
         console.log("formatImageArray error: ", e)
     }
+}
 
+const formatAllImagesInReplies = (replies) => {
+    try {
+        return replies.map(reply => {
+            reply.author.profile_pic = convertObjToBase64(reply.author.profile_pic); 
+            reply.images = formatImageArray(reply.images)
+            return reply
+        })
+    } catch (e) {
+        console.log("formatAllImagesInReplieserror: ", e)
+    }
 }
 
 export const ScrollToElement = elementId => {

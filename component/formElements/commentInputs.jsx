@@ -1,5 +1,3 @@
-import { useContext } from 'react'; 
-import { AppContext, PostContext } from '../../util/contextItem.jsx'; 
 import { TinyMCEInput } from './textInputs.jsx'; 
 import { AttachMultipleImages } from './imageInputs.jsx';
 
@@ -14,7 +12,6 @@ export const CommentInput = props => {
         contextItem,
         label, 
     } = props; 
-    const { token } = useContext(AppContext); 
     return (
         <form>
             {label && 

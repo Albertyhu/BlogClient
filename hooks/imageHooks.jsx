@@ -76,11 +76,18 @@ const Base64Hooks = () => {
      * }] 
      * */
     function convertArrayToBase64(arr) {
-        var base64arr = arr; 
-        base64arr.forEach(image => {
-            image.data = toBase64(image.data.data)
-        })
-        return base64arr
+        try {
+            var base64arr = arr;
+            base64arr.forEach(image => {
+                if(image.data)
+                    image.data = toBase64(image.data.data)
+                if (image.base64)
+                    image.data = toBase64(image.base64)
+            })
+            return base64arr
+        } catch (e) {
+            console.log("convertArrayToBase64 error: ", e)
+        }
     }
 
     //The function "convertObjToBase64" is similar to the function "convertArrayToBase64", but it formats an image obj instead
@@ -99,6 +106,7 @@ const Base64Hooks = () => {
     }
 }
 
+//converts an image to a file format
 const formatExistingImageArray = (imgArr) => {
     var formatted = []
     imgArr.forEach(img => {
@@ -117,10 +125,34 @@ const formatExistingImageArray = (imgArr) => {
     return formatted 
 }
 
+const convertImageToFile = (image) => {
+    try {
+        var byteString = atob(image.data);
+        var mimeType = image.contentType; // or 'image/png' or 'image/gif', depending on the image format
+        var arrayBuffer = new ArrayBuffer(byteString.length);
+        var uint8Array = new Uint8Array(arrayBuffer);
+
+        // Fill the ArrayBuffer with the binary data
+        for (var i = 0; i < byteString.length; i++) {
+            uint8Array[i] = byteString.charCodeAt(i);
+        }
+
+        // Create a new Blob object from the ArrayBuffer
+        var blob = new Blob([arrayBuffer], { type: mimeType });
+
+        // Create a new File object from the Blob
+        var file = new File([blob], 'filename.jpg', { type: mimeType });
+        return file; 
+    } catch (e) {
+        console.log("convertImageToFile: ", convertImageToFile)
+    }
+}
+
 export {
     ImageHooks,
     HandleFileChange,
     AttachImagesToArray,
     Base64Hooks,
     formatExistingImageArray,
+    convertImageToFile, 
 }

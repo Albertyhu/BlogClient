@@ -27,11 +27,13 @@ const ReplyPanel = props => {
         replies,
         root,
         setReplies,
+        repliesArray,
         setMessage,
         decoded,
         commentRepliedTo, 
         rootComment, 
         userRepliedTo, 
+        index,
     } = props;
     const navigate = useNavigate();
     const {
@@ -45,7 +47,8 @@ const ReplyPanel = props => {
 
     const {
         DeleteOneCommentCompletely,
-        AddComment
+        AddComment,
+        EditComment, 
     } = FetchCommentActions(apiURL, setLoading, token)
 
     //This is an array of all existing replies to the comment being rendered by the Panel component.
@@ -59,7 +62,18 @@ const ReplyPanel = props => {
     const [editmode, setEditMode] = useState(false)
     const [updateError, setUpdateError] = useState([])
     const updateRef = useRef(); 
-    const updateComment = () => { } 
+    const updateComment = () => {
+        const Elements = {
+            index,
+            content: GetContent(updateRef),
+            authorId: author._id,
+            userId: decoded.id,
+            commentsArray: repliesArray,
+            images: attachedImages,
+        }
+
+        EditComment(Elements, _id, { setComments: setReplies, setMessage, setEditMode })
+    } 
 
     const RemoveCommentFromStorage = () => {
         setReplies(prev => prev.filter(val => val._id != _id))

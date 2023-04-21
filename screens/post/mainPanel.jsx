@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState, useRef} from 'react'; 
 import { PostContext } from '../../util/contextItem.jsx';
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
-import RenderImage from '../../component/imageRendering/mainImage.jsx';
+import RenderImage from '../../component/imageRendering/standardImage.jsx';
 import { PostLikeFeatures } from '../../component/likeComponent.jsx';
 import {
     RenderTagField
