@@ -12,11 +12,14 @@ const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.
 const EditProfilePic = props => {
     const navigate = useNavigate(); 
     const { GoHome } = NavigationHooks(navigate); 
-    const { apiURL } = useContext(AppContext);
+    const {
+        apiURL,
+        setLoading,
+    } = useContext(AppContext);
     const UserToken = localStorage.getItem("token"); 
     const [User] = useState(JSON.parse(localStorage.getItem("user"))); 
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-    const { FetchProfilePic } = FetchHooks()
+    const { FetchProfilePic } = FetchHooks(apiURL, setLoading)
     const { UploadNewProfilePic } = EditUserHooks(navigate) 
     const [image, setImage] = useState(null); 
     const [fetchURL] = useState(`${apiURL}/users/${User.id}/profilepicture`)

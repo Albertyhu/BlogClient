@@ -8,16 +8,20 @@ import { AppContext } from '../../util/contextItem.jsx';
 const SignIn = () => {
     const navigate = useNavigate(); 
     const { GoHome, GoSignUp } = NavigationHooks(navigate); 
-    const { HandleLogin,
-        RenderError,
-        AnimateErrorMessage    } = RegistrationHooks();
     const {
         apiURL,
+        setDecoded, 
+        setLoading, 
         setNewToken,
         setNewUser,
         toggleDisplayAccountLink,
         setNewProfileImage
     } = useContext(AppContext); 
+
+    const { HandleLogin,
+        RenderError,
+        AnimateErrorMessage } = RegistrationHooks(apiURL, setDecoded, setLoading);
+
 
     const ButtonStyle = `rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px]
     active:translate-y-[5px] cursor-pointer border-white border-2 
@@ -60,8 +64,8 @@ const SignIn = () => {
             PasswordInput,
             SignInForm
         }
-        SignInForm?.addEventListener("submit", (evt) => { HandleLogin(evt, Elements, LoginURL, dispatchFunctions, resetErrorFields) })
-        return () => { SignInForm?.removeEventListener("submit", (evt) => { HandleLogin(evt, Elements, LoginURL, dispatchFunctions, resetErrorFields) }) }
+        SignInForm?.addEventListener("submit", (evt) => { HandleLogin(evt, Elements, dispatchFunctions, resetErrorFields) })
+        return () => { SignInForm?.removeEventListener("submit", (evt) => { HandleLogin(evt, Elements, dispatchFunctions, resetErrorFields) }) }
     }, [])
     const UsernameErrorRef = useRef(); 
     const PasswordErrorRef = useRef(); 

@@ -21,11 +21,14 @@ const EditProfilePic = props => {
     const location = useLocation(); 
     const { id } = location.state; 
     const { GoHome } = NavigationHooks(navigate);
-    const { apiURL, setNewUser } = useContext(AppContext);
+    const {
+        apiURL,
+        setNewUser,
+        setLoading    } = useContext(AppContext);
     const UserToken = localStorage.getItem("token");
     const [User, setUser] = useState(JSON.parse(localStorage.getItem("user")));
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-    const { fetchUserDetails } = FetchHooks();
+    const { fetchUserDetails } = FetchHooks(apiURL, setLoading);
     const { UpdateUserProfile } = EditUserHooks(navigate);
 
     const [image, setImage] = useState(null);
@@ -85,7 +88,7 @@ const EditProfilePic = props => {
         if (!id || !UserToken) {
             return ()=>GoHome();
         }
-        fetchUserDetails(apiURL, id, setUser, setGeneralError)
+        fetchUserDetails(id, setUser, setGeneralError)
         const decoded = JSON.parse(atob(UserToken.split('.')[1]));
     }, [id, UserToken])
 

@@ -3,21 +3,25 @@ import RouteComponent from '../component/routes.jsx';
 import { AppContext } from '../util/contextItem.jsx';
 import './index.css';
 import { CategoryHooks } from '../hooks/categoryHooks.jsx';
+import { DecodeToken } from '../hooks/decodeToken.jsx';
 
 function App() {
-    const { FetchCategories } = CategoryHooks()
     const [token, setToken] = useState(localStorage.getItem('token'));
+    const [decoded, setDecoded ] = useState(null) 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [ProfilePicture, setProfilePic] = useState(JSON.parse(localStorage.getItem('ProfilePicture')));
     const [displayMemberComponents, setDisplayMemberComponents] = useState(token ? true : false)
     const [categoryList, setCategoryList] = useState(null); 
     const [loading, setLoading] = useState(false); 
+    const [message, setMessage] = useState([]); 
 
     const defaultTheme = {} 
     const ContainerRef = useRef(); 
     const context = {
         apiURL: import.meta.env.VITE_API_URL.toString(),
         token,
+        decoded, 
+        setDecoded, 
         user, 
         ProfilePicture, 
         setNewProfileImage: (val)=>setProfilePic(val), 
@@ -36,17 +40,21 @@ function App() {
         setLoading, 
         defaultTheme, 
         ContainerRef, 
+        message,
+        setMessage
     }
+    const { FetchCategories } = CategoryHooks(null, context.apiURL, token, setLoading)
 
     useEffect(() => {
         if (token != null && typeof token != 'undefined') {
             setDisplayMemberComponents(true)
+            setDecoded(DecodeToken(token))
         }
     }, [token])
 
     useEffect(() => {
         if(categoryList == null)
-           FetchCategories(context.apiURL, {setCategoryList})
+           FetchCategories({setCategoryList})
     }, [categoryList])
 
     return (

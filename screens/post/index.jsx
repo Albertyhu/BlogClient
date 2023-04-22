@@ -7,7 +7,6 @@ import {
     CreateAndUpdatePosts,
 } from '../../hooks/postHooks.jsx'; 
 import { ErrorMessageHooks, PostErrorHooks } from '../../hooks/errorHooks.jsx'; 
-import MessageComponent from '../../component/message.jsx'; 
 import MainPanel from './mainPanel.jsx'; 
 import { PostNavigationHooks, NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { CommentInput } from '../../component/formElements/commentInputs.jsx'
@@ -26,6 +25,7 @@ const RenderPost = props => {
         token, 
         apiURL, 
         setLoading, 
+        setMessage, 
     } = useContext(AppContext);
 
     const {
@@ -55,7 +55,7 @@ const RenderPost = props => {
     const [likes, setLikes] = useState(null);
     const [published, setPublished] = useState(location.state ? location.state.published : true); 
     const [decoded, setDecoded] = useState(null)
-    const [message, setMessage] = useState([])
+    //const [message, setMessage] = useState([])
 
     const [comments, setComments] = useState([])
 
@@ -176,10 +176,6 @@ const RenderPost = props => {
                     className={`${PostContainerStyle}`}
                     ref={PostContainerRef}
                 >
-                    <MessageComponent
-                        message={message}
-                        dispatch={setMessage}
-                    />
                     <div
                         id="PostWrapper"
                         className="w-11/12 box_shadow rounded-lg mx-auto pb-10 grow h-fit"

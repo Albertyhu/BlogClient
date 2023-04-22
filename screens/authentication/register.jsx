@@ -11,20 +11,25 @@ const RegisterForm = props => {
                     [&>div]:w-full [&>div]:my-[10px] [&>div>input]:pl-0 [&>div>input]:bg-[rgba(0,0,0,0)] 
                     [&>div>input]:text-black [&>div>input]:border-white [&>div>input]:border-[1px]
                      rounded-md [&>div>input]:placeholder:text-[#545454] text-2xl
-                    [&>div>input]:placeholder:text-base`
+                    [&>div>input]:placeholder:text-base`; 
+    const {
+        apiURL,
+        toggleDisplayAccountLink,
+        setNewUser,
+        setNewProfileImage,
+        decoded, 
+        setLoading, 
+        setDecoded
+    } = useContext(AppContext);
+
     const navigate = useNavigate();
     const { GoSignIn, GoHome } = NavigationHooks(navigate);
     const { HandleSignUpSubmit,
         onChangeHandler,
         RenderError,
         AnimateErrorMessage,
-    } = RegistrationHooks();
-    const {
-        apiURL,
-        toggleDisplayAccountLink,
-        setNewUser, 
-        setNewProfileImage,
-    } = useContext(AppContext);
+    } = RegistrationHooks(apiURL, setDecoded, setLoading);
+
     const registerURL = `${apiURL}/auth/register`
 
     const [name, setName] = useState('TomHacker');
@@ -162,7 +167,7 @@ const RegisterForm = props => {
                         ConfirmInput,
                         ProfileInput,
                     }
-                    HandleSignUpSubmit(evt, FormElements, profileImage, registerURL, dispatchFunctions, resetErrorFields)
+                    HandleSignUpSubmit(evt, FormElements, profileImage, dispatchFunctions, resetErrorFields)
                 }}
                 id="RegistrationForm"
                 encType="multipart/form-data"

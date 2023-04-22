@@ -1,9 +1,9 @@
 
 import { Base64Hooks } from './imageHooks.jsx';
 
-const FetchHooks = (setLoading) => {
-    const { toBase64, isBase64Image } = Base64Hooks()
-    const fetchUserDetails = async (apiURL, userID, dispatch, dispatchError) => {
+const FetchHooks = (apiURL, setLoading) => {
+    const { toBase64 } = Base64Hooks()
+    const fetchUserDetails = async (userID, dispatch, dispatchError) => {
         try {
             const FetchURL = `${apiURL}/users/${userID}`
             var response = await fetch(FetchURL, { method: "GET" })
@@ -36,8 +36,8 @@ const FetchHooks = (setLoading) => {
             }
     }
 
-    const FetchProfilePic = async (apiURL, dispatch, updateLocal) => {
-        await fetch(apiURL,
+    const FetchProfilePic = async (FetchURL, dispatch, updateLocal) => {
+        await fetch(FetchURL,
             {
                 method: "GET",
                 mode: "cors",
@@ -69,7 +69,7 @@ const FetchHooks = (setLoading) => {
             })
     }
 
-    const FetchPostsByCategory = async (apiURL, CategoryID, setPosts) => {
+    const FetchPostsByCategory = async (CategoryID, setPosts) => {
         var FetchURL = `${apiURL}/post/get_posts_by_category/${CategoryID}`; 
         setLoading(true)
         await fetch(FetchURL, {

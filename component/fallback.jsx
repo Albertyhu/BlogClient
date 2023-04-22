@@ -17,7 +17,10 @@ const SubstituteCoverPhoto = props => {
 } 
 
 const SubstitutePanel = props => {
-    const { title } = props; 
+    const {
+        title,
+        clickEvent, 
+    } = props; 
     const divStyle = `relative w-11/12 mx-auto h-[350px] box-shadow bg-cover bg-center
         before:opacity-40 before:w-full before:h-full before:bg-black rounded-lg before:rounded-lg
         before:z-10 before:absolute before:top-0 before:left-0 before:right-0 before:bg-center before:bg-cover 
@@ -27,6 +30,7 @@ const SubstitutePanel = props => {
         <div
             id="panel"
             className={`${divStyle} backgroundTransition NormalPosition`}
+            onClick={clickEvent}
         >
             <div
                 id="contentWrapper"

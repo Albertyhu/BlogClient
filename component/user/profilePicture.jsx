@@ -7,18 +7,20 @@ const RenderProfilePic = props => {
     const {
         profile_pic,
         altText = "Profile Picture",
-        dimensions = "w-[270px] h-[270px]"
+        dimensions = "w-[270px] h-[270px]",
+        clickEvent,
     } = props;
     const ImageStyle = `select-none object-cover rounded-full mx-auto ${dimensions}`;
     const ImageWrapperStyle = `m-auto overflow-hidden relative z-[1]`; 
     const { isBase64Image } = Base64Hooks()
-    const dataURL = `data:${profile_pic.contentType};base64,${profile_pic.data}`;
+    const dataURL = !isBase64Image(profile_pic) ? `data:${profile_pic.contentType};base64,${profile_pic.data}` : profile_pic;
    
     try {
         return (
             <div
                 id="ImageWrapper"
                 className={ImageWrapperStyle}
+                onClick={clickEvent}
             >
                 <img
                     src={isBase64Image(profile_pic) ? profile_pic : dataURL}

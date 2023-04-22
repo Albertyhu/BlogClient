@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef} from 'react';
+import { useContext, useEffect, useRef, useState} from 'react';
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
 import {
     FormButtons,
@@ -22,7 +22,6 @@ const CategoryForm = props => {
     } = props; 
 
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-
     const {
         name,
         image,
@@ -48,7 +47,6 @@ const CategoryForm = props => {
             }
         }
     }, [generalError])
-
 
     return (
         <div>

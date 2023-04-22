@@ -16,26 +16,21 @@ import { SubstitutePanel } from '../../component/fallback.jsx';
 const CategoryPage = props => {
     const navigate = useNavigate();
     const { GoCreateCategory } = NavigationHooks(navigate);
+
     const {
-        FetchCategories,
-    } = CategoryHooks(navigate); 
-    const { user,
+        user,
         apiURL,
         categoryList,
         setCategoryList,
         token, 
+        setLoading, 
     } = useContext(AppContext);
+
     const {
         RenderError,
         AnimateErrorMessage
     } = ErrorMessageHooks(); 
     const [generalError, setGeneralError] = useState([]); 
-
-    const dispatchFunctions = {
-        categoryList, 
-        setCategoryList,
-        setGeneralError, 
-    }
 
     function VisitOneCategory(category, ID) {
         useCallback(navigate(`/category/${category}/${ID}`, {
@@ -63,10 +58,6 @@ const CategoryPage = props => {
             }
         }
     }, [generalError])
-
-    useEffect(() => {
-
-    }, [token])
 
     return (
         <div
@@ -105,6 +96,7 @@ const CategoryPage = props => {
                             key={uuid()}
                             fallback={<SubstitutePanel
                                 title={item.name}
+                                clickEvent={()=>VisitCategory(item)}
                             />}
                         >
                             <Panel

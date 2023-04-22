@@ -1,3 +1,17 @@
+4/21/23
+To do
+Refine the mobile menu 
+Create lazy loading
+	Use intersection observer 
+Make the homepage a wall feed 
+Create ownership of categories or communties 
+Allow users' post to show up in their profile page. 
+Allows uploading of many images in profile page. 
+[SOLVED]Figure out an alternative way to upload photos without the need save the photos onto the server. 
+Find a way to allow users to clear their pre-existing photos. 
+
+Optional-create chat functionality and notifications with web sockets 
+
 4/19/23
 Pay attention to the state variable that is used to render replies of each comment  
 

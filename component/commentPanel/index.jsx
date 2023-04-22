@@ -29,9 +29,7 @@ const CommentPanel = props => {
         root, 
         commentsArray, 
         setComments, 
-        setMessage,
         decoded,
-
         //index of the comment in the comment array
         index, 
     } = props;
@@ -43,6 +41,7 @@ const CommentPanel = props => {
         token,
         apiURL,
         setLoading, 
+        setMessage,
     } = useContext(AppContext)
 
         //After the comment is deleted from the database, comment will be removed from the useState array 'comments'

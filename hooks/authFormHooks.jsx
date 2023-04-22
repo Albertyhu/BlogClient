@@ -3,9 +3,10 @@ import { checkEmail } from './checkEmail.jsx';
 import uuid from 'react-uuid'; 
 import "../src/index.css";
 import { NavigationHooks } from './navigation.jsx'
+import { DecodeToken } from './decodeToken.jsx'; 
 
-const RegistrationHooks = props => {
-    function HandleSignUpSubmit(evt, elements, uploadedFile, apiURL, dispatchFunctions, resetErrorFields) {
+const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
+    function HandleSignUpSubmit(evt, elements, uploadedFile, dispatchFunctions, resetErrorFields) {
         evt.preventDefault();
         const {
             RegistrationForm,
@@ -33,9 +34,8 @@ const RegistrationHooks = props => {
             console.log("RegistrationHooks Error: ", errMessage)
     }
 
-    async function SubmitRegistration(data, apiURL, dispatchFunctions) {
-        console.log("Registrating user")
-        console.log("apiURL: ", apiURL)
+    async function SubmitRegistration(data, dispatchFunctions) {
+        const FetchURL = `${apiURL}/auth/register`
         const {
             username, 
             email,
@@ -59,7 +59,8 @@ const RegistrationHooks = props => {
             setNewProfileImage,
         } = dispatchFunctions; 
 
-        await fetch(apiURL, {
+        setLoading(true)
+        await fetch(FetchURL, {
             method: "POST",
             body: formData
         })
@@ -77,7 +78,9 @@ const RegistrationHooks = props => {
                             //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
                             //data about the logged in user
                             setNewUser(data.user)
+                            setDecoded(DecodeToken(data.token))
                             toggleDisplayAccountLink(true), 
+                            setLoading(false)
                             GoHome();
 
                         })
@@ -85,15 +88,18 @@ const RegistrationHooks = props => {
                 else {
                     const result = await response.json()
                     console.log("Registration failed with status code: ", result.error)
+                    setLoading(false)
                     RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
             .catch(error => {
+                setLoading(false)
                 console.log("SubmitRegistration error: ", error)
             })
     } 
 
-    async function HandleLogin(evt, elements, apiURL, dispatchFunctions, resetErrorFields) {
+    async function HandleLogin(evt, elements, dispatchFunctions, resetErrorFields) {
+        const FetchURL = `${apiURL}/auth/login`
         evt.preventDefault(); 
         const {
             NameInput,
@@ -113,8 +119,8 @@ const RegistrationHooks = props => {
             username: NameInput.value,
             password: PasswordInput.value, 
         }
-
-        await fetch(apiURL, {
+        setLoading(true)
+        await fetch(FetchURL, {
             method: "POST", 
             headers: { "Content-Type": "application/json" }, 
             body: JSON.stringify(data)
@@ -132,17 +138,20 @@ const RegistrationHooks = props => {
                         //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
                         //data about the logged in user
                         setNewUser(result.user)
+                        setDecoded(DecodeToken(result.token))
                         toggleDisplayAccountLink(true) 
+                        setLoading(false)
                         GoHome();
                     })
                     .catch(e => {
+                        setLoading(false)
                         console.log("Error in receiving user info and token: ", e)
                     })
             }
             else {
                 const result = await response.json()
-                console.log("result: ", result)
                 console.log("Sign in process has failed: ", result.error)
+                setLoading(false)
                 RenderErrorArray(result.error, dispatchFunctions)
             }
         })

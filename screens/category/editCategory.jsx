@@ -7,6 +7,7 @@ import {
     CategoryContext
 } from '../../util/contextItem.jsx';
 import RenderForm from './categoryForm.jsx'; 
+import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
 
 //Next task: retrieve id and username from token 
 const CategoryForm = props => {
@@ -20,13 +21,15 @@ const CategoryForm = props => {
         apiURL,
         token,
         setCategoryList,
-        categoryList
+        categoryList,
+        setLoading
     } = useContext(AppContext);
-    const { EditCategory } = CategoryFormHooks(navigate);
+    const { EditCategory } = CategoryFormHooks(navigate, apiURL, setLoading, token);
 
     const [name, setName] = useState(location.state ? location.state.name : "")
     const [image, setImage] = useState(location.state ? location.state.image : null);
     const [description, setDescription] = useState(location.state ? location.state.description : "")
+    const [decoded, setDecoded] = useState(null)
 
     const [nameError, setNameError] = useState([])
     const [imageError, setImageError] = useState([])
@@ -66,6 +69,9 @@ const CategoryForm = props => {
         if (!token) {
             return () => GoHome();
         }
+        else {
+            setDecoded(DecodeToken(token))
+        }
     }, [token])
 
     return (
@@ -78,8 +84,9 @@ const CategoryForm = props => {
                         description: descriptionInputRef.current.value,
                         imageData: imageInputRef.current.files[0],
                         currentImage: image,
+                        administrator: decoded.id,
                     }
-                    EditCategory(apiURL, ID, token, Elements, dispatchFunctions, categoryList)
+                    EditCategory(ID, Elements, dispatchFunctions, categoryList)
                 }}
                 imageFormLabel="Update current thumbnail photo"
             />

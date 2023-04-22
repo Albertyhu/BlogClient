@@ -3,23 +3,35 @@ import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'
 const RenderProfilePic = lazy(()=>import('../../component/user/profilePicture.jsx')); 
-import { NavigationHooks } from '../../hooks/navigation.jsx'; 
+import { NavigationHooks } from '../../hooks/navigation.jsx';
+import { DecodeToken } from '../../hooks/decodeToken.jsx';
+
 const ProfilePage = props => {
     const location = useLocation(); 
     const { id } = location.state; 
     const { username } = useParams(); 
     const { } = props; 
-    const { user, token, apiURL } = useContext(AppContext)
-    const { fetchUserDetails } = FetchHooks(); 
+    const {
+        user,
+        token,
+        setLoading, 
+        apiURL } = useContext(AppContext)
+    const { fetchUserDetails } = FetchHooks(apiURL, setLoading); 
     const [profileDetails, setProfileDetails] = useState(null)
     const [error, setError] = useState("")
     const navigate = useNavigate(); 
     const { GoEditProfilePicture } = NavigationHooks(navigate); 
-
+    const [decoded, setDecoded] = useState(null)
     useEffect(() => {
-        fetchUserDetails(apiURL, id, setProfileDetails, setError)
+        fetchUserDetails(id, setProfileDetails, setError)
         window.scrollTo(0,0)
     }, [id])
+
+    useEffect(() => {
+        if (token) {
+            setDecoded(DecodeToken(token))
+        }
+    }, [token])
 
     return (
         <div className = 'text-center mt-[20px]'>
@@ -33,13 +45,15 @@ const ProfilePage = props => {
             {profileDetails && profileDetails.profile_pic &&
                 <RenderProfilePic profile_pic={profileDetails.profile_pic} />
             }
-            {profileDetails && profileDetails.biography.trim() != "" &&
-                <div className="text-2xl text-black" id = "biography">&#09;{profileDetails.biography}</div>
+            {decoded && decoded.id.toString() == id.toString() &&
+                <button
+                    className="btn-secondary whitespace-nowrap mt-[20px]"
+                    onClick={() => { GoEditProfilePicture(username, id) }}
+                >Edit Profile Picture</button>
             }
-            <button
-                className="btn-secondary whitespace-nowrap mt-[20px]"
-                onClick={() => { GoEditProfilePicture(username, id)} }
-            >Edit Profile Picture</button>
+            {profileDetails && profileDetails.biography.trim() != "" &&
+                <div className="mt-5 text-2xl text-black" id = "biography">&#09;{profileDetails.biography}</div>
+            }
         </div>
     )
 }

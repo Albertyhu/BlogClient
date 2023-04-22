@@ -28,7 +28,6 @@ const ReplyPanel = props => {
         root,
         setReplies,
         repliesArray,
-        setMessage,
         decoded,
         commentRepliedTo, 
         rootComment, 
@@ -43,6 +42,7 @@ const ReplyPanel = props => {
         token,
         apiURL,
         setLoading,
+        setMessage,
     } = useContext(AppContext)
 
     const {
@@ -103,7 +103,7 @@ const ReplyPanel = props => {
         replies,
         root,
         setReplies,
-        setMessage,
+        
         decoded,
         toggleReplyEditor: () => setDisplayReplyInput(prev => !prev),
         DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },

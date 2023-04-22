@@ -28,7 +28,7 @@ const CategoryPage = props => {
     const { EditCategory } = NavigationHooks(navigate);
     const {
         FetchPostsByCategory,
-    } = PostFetchHooks(navigate); 
+    } = PostFetchHooks(apiURL, setLoading); 
     const {
         category_name, 
         category_id, 
@@ -43,10 +43,9 @@ const CategoryPage = props => {
 
     const {
         DeleteCategory,
-        PopulateCategoryPage, 
-    } = CategoryHooks(setLoading);
-    const { CreateNewPostWithCategory } = PostButtons(navigate); 
+    } = CategoryHooks(navigate, apiURL, token, setLoading);
 
+    const { CreateNewPostWithCategory } = PostButtons(navigate); 
 
     const dispatchFunctions = {
         setImage, 
@@ -76,12 +75,14 @@ const CategoryPage = props => {
     })
 
     useEffect(() => {
+
+        console.log("categoryID: ", categoryId)
         if (categoryId) {
-            FetchPostsByCategory(apiURL, categoryId, setPostList)
+            FetchPostsByCategory(categoryId, setPostList)
             setLoad(true);
         }
         else if (location.state) {
-            FetchPostsByCategory(apiURL, location.state.id, setPostList)
+            FetchPostsByCategory(location.state.id, setPostList)
             setLoad(true); 
         }
 
@@ -146,7 +147,7 @@ const CategoryPage = props => {
                         </button>
                         <button
                             className="btn-primary mb-10"
-                            onClick={() => DeleteCategory(apiURL, categoryId, token, categoryList, setCategoryList)}
+                            onClick={() => DeleteCategory(categoryId, categoryList, setCategoryList)}
                         >Delete Category</button>
                         <CreateNewPostWithCategory
                             buttonStyle="btn-secondary mb-10"

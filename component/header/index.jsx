@@ -20,7 +20,8 @@ const Header = props => {
 
     const {
         user,
-        displayMemberComponents
+        displayMemberComponents,
+        ContainerRef, 
     } = useContext(AppContext)
 
     const { ConfirmChild,
@@ -42,7 +43,7 @@ const Header = props => {
     const MobileIconRef = useRef(); 
 
     var MobileMenuDiv = document.getElementById('MobileMenuDiv')
-
+    const MobileMenuRef = useRef(); 
     const CheckIfClickedOutside = evt => {
         MobileMenuDiv = document.getElementById('MobileMenuDiv');
         const childAnchors = MobileMenuDiv.querySelectorAll('div');
@@ -130,7 +131,9 @@ const Header = props => {
                     />
                 </div>
             </div>
-            <MobileMenu  />
+            <MobileMenu
+                MobileMenuRef={MobileMenuRef}
+            />
         </>
     )
 }

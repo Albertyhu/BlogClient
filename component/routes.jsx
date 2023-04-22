@@ -23,12 +23,15 @@ import CreatePost from '../screens/post/createPost.jsx';
 import EditPost from '../screens/post/editPost.jsx';
 import ErrorPage from '../screens/error';
 import { SpinnerAnim } from '../component/loadingComponent.jsx'; 
+import MessageComponent from '../component/messageComponent.jsx'; 
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
     const {
         ContainerRef, 
         loading,
+        message, 
+        setMessage, 
     } = useContext(AppContext); 
 
     const containerStyle = `w-full flex flex-col relative grow min-h-[120vh]`
@@ -41,6 +44,10 @@ const Apps = props => {
             {loading &&
                 <SpinnerAnim />
             }
+            <MessageComponent
+                message={message}
+                dispatch={setMessage}
+            />
             <BrowserRouter>
                 <Header />
                 <div

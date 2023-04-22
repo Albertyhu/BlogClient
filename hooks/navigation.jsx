@@ -1,4 +1,6 @@
-const NavigationHooks = (navigate) => {
+import {cleanString} from './textHooks.jsx'; 
+
+const NavigationHooks = (navigate, setMessage) => {
     function GoBack() {
         navigate(-1);
     }
@@ -9,6 +11,8 @@ const NavigationHooks = (navigate) => {
 
     function GoSignIn() {
         navigate("/signin", {})
+        if(setMessage)
+          setMessage("You are now logged in.")
     } 
 
     function GoSignUp() {
@@ -16,17 +20,20 @@ const NavigationHooks = (navigate) => {
     }
 
     function GoEditProfile(username, userID) {
-        navigate(`/profile/${username}/editProfile`, {
+        navigate(`/profile/${cleanString(username)}/editProfile`, {
             state: {
-                id: userID
+                id: userID,
+                username, 
+
             }
         })
     }
 
     function VisitUser(username, userID) {
-        navigate(`/profile/${username}`, {
+        navigate(`/profile/${cleanString(username)}`, {
             state: {
-                id: userID
+                id: userID,
+                username, 
             }
         })
     }  
@@ -41,15 +48,16 @@ const NavigationHooks = (navigate) => {
 
 
     function VisitOneCategory(categoryName, ID) {
-        navigate(`/category/${categoryName}/${ID}`, {
+        navigate(`/category/${cleanString(categoryName)}/${ID}`, {
             state: {
                 id: ID, 
+                categoryName, 
             }
         })
     }
     //This navigates the user to a single category page and it passes relevant data
     function VisitOneCategoryAndPopulate(categoryName, ID, image, description) {
-        navigate(`/category/${categoryName}`, {
+        navigate(`/category/${cleanString(categoryName)}`, {
             state: {
                 id: ID,
                 name: categoryName, 
@@ -60,7 +68,7 @@ const NavigationHooks = (navigate) => {
     }
 
     function EditCategory(ID, name, description, image) {
-        navigate(`/category/${name}/edit`, {
+        navigate(`/category/${cleanString(name)}/edit`, {
             state: {
                 id: ID, 
                 name: name, 
@@ -84,14 +92,14 @@ const NavigationHooks = (navigate) => {
     }
 
     function GoEditProfilePicture(username, userID) {
-        navigate(`/profile/${username}/editProfilePicture`, {
+        navigate(`/profile/${cleanString(username)}/editProfilePicture`, {
             state: {
                 id: userID
                 }
         })
     }
     function GoEditPassword(username, userID) {
-        navigate(`/profile/${username}/editpassword`, {
+        navigate(`/profile/${cleanString(username)}/editpassword`, {
             state: {
                 id: userID
             }
@@ -120,7 +128,7 @@ const NavigationHooks = (navigate) => {
 
 const PostNavigationHooks = (navigate) => {
     function GoToPost(postTitle, postID) {
-        navigate(`/post/${postTitle}/${postID}`, {
+        navigate(`/post/${cleanString(postTitle)}/${postID}`, {
             state: {
                 id: postID, 
             }
@@ -140,7 +148,7 @@ const PostNavigationHooks = (navigate) => {
             tag,
             id, 
         } = data; 
-        navigate(`/post/${data.title}/${id}`, {
+        navigate(`/post/${cleanString(data.title)}/${id}`, {
             state: {
                 title,
                 content,
@@ -169,8 +177,8 @@ const PostNavigationHooks = (navigate) => {
         })
 
     }
-
-    function GoEditPost(name, postID, elements) {
+    //There is a problem with this. 
+    function GoEditPost(postTitle, postID, elements) {
         const {
             author,
             title,
@@ -183,7 +191,8 @@ const PostNavigationHooks = (navigate) => {
             category,
             tag, 
         } = elements; 
-        navigate(`/post/${name}/edit`, {
+        console.log("clean title: ", cleanString(postTitle))
+        navigate(`/post/${cleanString(postTitle)}/edit`, {
             state: {
                 id: postID, 
                 author,

@@ -3,13 +3,16 @@ import { NavigationHooks } from './navigation.jsx'
 import { Base64Hooks } from '../hooks/imageHooks.jsx';
 
 const { RenderErrorArray } = ErrorMessageHooks()
+const { toBase64 } = Base64Hooks()
+const CategoryHooks = (navigate, apiURL, token, setLoading) => {
+    const {
+        GoCategory,
+    } = NavigationHooks(navigate);
 
-const CategoryHooks = (navigate) => {
-    const { GoCategory } = NavigationHooks(navigate);
-    const { toBase64 } = Base64Hooks()
-    const FetchCategories = async (apiURL, dispatchFunctions) => {
+    const FetchCategories = async (dispatchFunctions) => {
         const { setCategoryList } = dispatchFunctions;
         const FetchURL = `${apiURL}/category`;
+        setLoading(true)
         await fetch(FetchURL, {
             method: "GET",
             headers: {
@@ -23,47 +26,58 @@ const CategoryHooks = (navigate) => {
                     list.forEach(item => {
                         item.image.data = toBase64(item.image.data.data)
                     })
-
+                    setLoading(false)
                     setCategoryList(list);
                 }
                 else {
+                    setLoading(false)
                     console.log("Error: ", result.error)
                 }
             })
             .catch(e => {
+                setLoading(false)
                 console.log("Error 30: ", e)
             })
     }
 
 
-    const FetchCategoryById = async (apiURL, categoryID, dispatchFunctions) => {
+    const FetchCategoryById = async (categoryID, dispatchFunctions) => {
         const FetchURL = `${apiURL}/category/${categoryID}`
+        setLoading(true)
         await fetch(FetchURL, {
             method: 'GET'
         })
             .then( async response => {
                 const result = await response.JSON(); 
-                if (response.ok)
+                if (response.ok) {
                     dispatch(result);
+                    setLoading(false);
+                }
                 else {
+                    setLoading(false)
                     RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
             .catch(e => {
+                setLoading(false)
                 RenderErrorArray(result.error, dispatchFunctions)
             })
     }
 
-    const FetchCategoryByName = async (apiURL, categoryName, dispatchFunctions) => {
+    const FetchCategoryByName = async (categoryName, dispatchFunctions) => {
         const FetchURL = `${apiURL}/category/${categoryName}`
+        setLoading(true)
         await fetch(FetchURL, {
             method: 'GET'
         })
             .then(async response => {
                 const result = await response.JSON();
-                if (response.ok)
+                if (response.ok) {
                     dispatch(result);
+                    setLoading(false)
+                }
                 else {
+                    setLoading(false)
                     RenderErrorArray(result.error, dispatchFunctions)
                 }
             })
@@ -72,8 +86,9 @@ const CategoryHooks = (navigate) => {
             })
     }
 
-    const DeleteCategory = (apiURL, ID, token, categoryList, setCategoryList) => {
+    const DeleteCategory = (ID, categoryList, setCategoryList) => {
         const FetchURL = `${apiURL}/category/${ID}/delete`; 
+        setLoading(true);
         fetch(FetchURL, {
             method: "DELETE", 
             headers: {
@@ -84,26 +99,16 @@ const CategoryHooks = (navigate) => {
             if (response.ok) {
                 console.log(result.message);
                 var newArr = categoryList.filter(val => val._id.toString() != result.deletedCategory.toString())
-                setCategoryList(newArr)
+                setCategoryList(newArr);
+                setLoading(false)
                 GoCategory(); 
             }
             else {
+                setLoading(false)
                 console.log("There was an error in the attempt to delete the category.", result.error); 
             }
         })
     }
-
-    //const PopulateCategoryPage = (categoryList, name, dispatchFunctions) => {
-    //    const target = categoryList.find(val => val.name == name)
-    //    const {
-    //        setImage,
-    //        setDescription,
-    //        setCategoryId,
-    //    } = dispatchFunctions;
-    //    setImage(target.image);
-    //    setDescription(target.description);
-    //    setCategoryId(target._id)
-    //}
 
     const PopulateCategoryPage = (categoryList, name) => {
         const target = categoryList.find(val => val.name == name)
@@ -118,20 +123,23 @@ const CategoryHooks = (navigate) => {
     }
 }
 
-const CategoryFormHooks = (navigate) => {
-    const { GoCategory } = NavigationHooks(navigate);
-    const CreateCategory = async (apiURL, token, Elements, dispatchFunctions) => {
+const CategoryFormHooks = (navigate, apiURL, setLoading, token) => {
+    const { GoCategory, VisitOneCategory } = NavigationHooks(navigate);
+    const CreateCategory = async (Elements, dispatchFunctions) => {
         const FetchURL = `${apiURL}/category/create`;
         const {
             name, 
             description,
-            imageData
+            imageData,
+            administrator, 
         } = Elements; 
         const { setCategoryList } = dispatchFunctions; 
         const formData = new FormData; 
         formData.append("name", name)
         formData.append("description", description)
-        formData.append("image", imageData)
+        formData.append("image", imageData); 
+        formData.append("administrator", administrator)
+        setLoading(true)
         await fetch(FetchURL, {
             method: "POST",
             body: formData, 
@@ -147,15 +155,18 @@ const CategoryFormHooks = (navigate) => {
                         result.newCategory.image.data = toBase64(result.newCategory.image.data.data)
                     }
                     setCategoryList(prev => [...prev, result.newCategory])
-                    GoCategory();
+                    setLoading(false)
+                    VisitOneCategory(name, result.newCategory._id)
                 }
                 else {
                     console.log("Error in trying to create a new category: ", result.error)
+                    setLoading(false)
                     RenderErrorArray(result.error, dispatchFunctions); 
                 }
             })
     }
-    const EditCategory = async (apiURL, categoryID, token, Elements, dispatchFunctions, categoryList) => {
+
+    const EditCategory = async (categoryID, Elements, dispatchFunctions, categoryList) => {
         const FetchURL = `${apiURL}/category/${categoryID}/edit`;
         const {
             name,
@@ -168,6 +179,7 @@ const CategoryFormHooks = (navigate) => {
         formData.append("name", name)
         formData.append("description", description)
         formData.append("image", imageData)
+        setLoading(true)
         await fetch(FetchURL, {
             method: "PUT",
             body: formData,
@@ -194,9 +206,12 @@ const CategoryFormHooks = (navigate) => {
                     updatedList.splice(index, 1, result.updatedCategory)
                     console.log("updatedList: ", updatedList)
                     setCategoryList(updatedList)
-                    GoCategory();
+                    setLoading(false)
+                    VisitOneCategory(name, result.updatedCategory._id)
                 }
                 else {
+                    setLoading(false)
+
                     console.log("Error in trying to create a new category: ", result.error)
                     RenderErrorArray(result.error, dispatchFunctions);
                 }

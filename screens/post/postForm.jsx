@@ -20,7 +20,6 @@ import {
     AppContext,
     PostContext
 } from '../../util/contextItem.jsx';
-import MessageComponent from '../../component/message.jsx'; 
 
 //Next task: retrieve id and username from token 
 const PostForm = props => {
@@ -72,12 +71,8 @@ const PostForm = props => {
         categoryError,
         tagError,
         generalError,
-
         setTagError,
-
         abstract_char_limit,
-        message,
-        setMessage,
     } = useContext(PostContext); 
 
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
@@ -99,10 +94,6 @@ const PostForm = props => {
 
     return (
         <div className="relative">
-            <MessageComponent
-                message={message}
-                dispatch={setMessage}
-            />
             <div
                 id="generalError"
                 className="ErrorDiv"
