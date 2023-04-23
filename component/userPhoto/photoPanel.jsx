@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import {
     AppContext,
     UserPhotoContext,
@@ -16,6 +16,8 @@ const PhotoPanel = props => {
         owner, 
         altText = "photo", 
         selectMode, 
+        index, 
+        panelRef, 
     } = props
     const {
         userId,
@@ -28,15 +30,32 @@ const PhotoPanel = props => {
         VisitOnePhoto, 
         } =NavigationHooks(navigate)
     const imageStyle = `h-full w-full md:w-full md:h-auto bg-bottom bg-cover top-[50%] translate-y-[-50%] 
-                        absolute object-cover cursor-pointer`;
-    const containerStyle = `w-full h-[150px] md:h-[250px] relative select-none bg-no-repeat overflow-hidden 
-                        hover:border-4 hover:border-[#333333]`;
+                        absolute cursor-pointer`;
+    const containerStyle = `w-full h-[150px] md:h-[250px] relative select-none bg-no-repeat overflow-hidden
+                            transition-[opacity_transform] opacity-0 duration-[1000ms] delay-[${400 * index}ms]
+                            translate-y-[-20px] object-fit`;
     const dataURL = !isBase64Image(image) ? `data:${image.contentType};base64,${image.data}` : image;
+    const imageRef = useRef(); 
+
+    const FadeIn = () => {
+        imageRef.current.classList.remove("opacity-0")
+        imageRef.current.classList.remove("translate-y-[-20px]")
+        imageRef.current.classList.add("opacity-100")
+        imageRef.current.classList.add("translate-y-[0px]")
+    }
+
+    useEffect(() => {
+        if (imageRef.current) {
+            FadeIn()
+        }
+    }, [imageRef.current])
+
     try {
         return (
             <div
                 id="MainImage"
                 className={`${containerStyle} ${selectMode ? "border-2" : ""}`}
+                ref={imageRef}
                 onClick={()=>VisitOnePhoto(username, userId, _id)}
             >
                 <img

@@ -16,17 +16,17 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
         .then(async response => {
             const result = await response.json(); 
             if (response.ok) {
-                var photos = convertArrayToBase64(result.photos) 
+                var photos = FormatUserPhotos(result.photos) 
                 setPhotos(photos)
             }
             else {
-                setMessage(result.error.isArray() ? result.error : [result.error])
+                setMessage(Array.isArray(result.error) ? result.error : [result.error])
             }
             setLoading(false)
         })
             .catch(error => {
                 console.log("FetchHooks error: ", error)
-                setMessage(result.error.isArray() ? result.error : [result.error])
+                setMessage(Array.isArray(error) ? error : [error])
                 setLoading(false)
             })
     }
@@ -54,13 +54,13 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
                 }
                 else {
                     console.log("FetchPhotoDetails error: ", error)
-                    setMessage(result.error.isArray() ? result.error : [result.error])
+                    setMessage(Array.isArray(result.error) ? result.error : [result.error])
                 }
                 setLoading(false)
             })
             .catch(error => {
                 console.log("FetchPhotoDetails error: ", error)
-                setMessage(result.error.isArray() ? result.error : [result.error])
+                setMessage(Array.isArray(error) ? error : [error])
                 setLoading(false)
             })
     }
@@ -74,6 +74,9 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
         images.forEach(img => {
             formData.append("images", img.file); 
         })
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
         setLoading(true)
         await fetch(FetchURL, {
             method: "PUT", 
@@ -84,21 +87,21 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
 
         })
             .then(async response => {
-                const result = await response.json(); 
                 if (response.ok) {
-
+                    setLoading(false)
+                    navigateToPhotos()
                 }
                 else {
-                    console.log("BulkUploadPhotos error: ", error)
-                    setMessage(result.error.isArray() ? result.error : [result.error])
+                    const result = await response.json(); 
+                    setLoading(false)
+                    console.log("BulkUploadPhotos error: ", result.error)
+                    setMessage(Array.isArray(result?.error) ? result.error : [result.error])
                 }
-                navigateToPhotos()
-                setLoading(false)
-                setMessage("Your photos have been uploaded.")
+
             })
             .catch(error => {
                 console.log("BulkUploadPhotos error: ", error)
-                setMessage(result.error.isArray() ? result.error : [result.error])
+                setMessage(Array.isArray(error) ? error : [error])
                 setLoading(false)
             })
 
@@ -111,6 +114,16 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
     }
 }
 
-
+const FormatUserPhotos = (data) => {
+    return data.map(item => {
+        return {
+            ...item, 
+            image: {
+                data: toBase64(item.image.data.data),
+                contentType: item.contentType,
+            }
+        }
+    })
+}
 
 export {FetchHooks}

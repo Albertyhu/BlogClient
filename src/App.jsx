@@ -50,7 +50,6 @@ function App() {
             setDisplayMemberComponents(true)
             setDecoded(DecodeToken(token))
         }
-        console.log("token: ", token)
     }, [token])
 
     useEffect(() => {

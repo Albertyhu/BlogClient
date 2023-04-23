@@ -21,7 +21,7 @@ const BulkUploadForm = props => {
         setLoading,
         apiURL,
         setMessage, 
-    } = useState(AppContext)
+    } = useContext(AppContext)
     const [decoded, setDecoded] = useState(DecodeToken(localStorage.getItem('token')))
     const {
         GoHome, 
@@ -38,49 +38,54 @@ const BulkUploadForm = props => {
         BulkUploadPhotos
     } = FetchHooks(apiURL, token, setLoading, setMessage)
     const submitPhotos = evt => {
-        evt.preventDefault(); 
+        const successMessage = "Your photos have been uploaded."
         const dispatchFunctions = {
-            navigateToPhotos: () => GoUserPhotos(decoded.username, decoded.id), 
+            navigateToPhotos: () => GoUserPhotos(decoded.username, decoded.id, successMessage), 
         } 
-        BulkUploadPhotos(decoded.id, images, dispatchFunctions)
+        if(images.length > 0)
+            BulkUploadPhotos(decoded.id, images, dispatchFunctions)
+        else
+            setMessage([{msg: "You haven't uploaded any images yet.", param: "error"}])
     }
 
-    //useEffect(() => {
-    //    if (token) {
-    //        setDecoded(DecodeToken(token))
-    //    }
-    //}, [token])
-
     useEffect(() => {
-        if (decoded) {
+        if (!decoded) {
             GoHome("You don't have permission to visit that page.")
         }
-        console.log("decoded: ", decoded)
+
     }, [decoded])
 
     return (
-        <UserPhotoContext.Provider value = {context}>
-            <form>
-                <AttachMultipleImages
-                    label="Upload photos."
-                    name="images"
-                    placeholder="Browse your device to upload images."
-                    contextItem={UserPhotoContext}
-                />
-                <div
-                    className="w-full md:w-9/12 mx-auto [&>button]:block [&>button]:mx-auto md:[&>button]:inline-block md:[&>button]:mx-10 justify-between flex"
-                >
-                    <button
-                        className="btn-primary"
-                        onClick={submitPhotos}
-                        type="button"
-                    >Upload</button>
-                    <button
-                        type="button"
-                        className="btn-standard bg-[#000000] text-white"
-                        value="Cancel"
-                        onClick={useCallback(() => navigate(-1))}
-                    >Cancel</button>
+        <UserPhotoContext.Provider value={context}>
+            <h1
+                className="text-2xl text-center font-bold my-10"
+            >Upload Photos</h1>
+            <form
+                encType="multipart/form-data"
+                className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
+            >
+                <div className="FormStyle w-11/12 mx-auto grid">
+                    <AttachMultipleImages
+                        label=""
+                        name="images"
+                        placeholder="Browse your device to upload images."
+                        contextItem={UserPhotoContext}
+                    />
+                    <div
+                        className="w-full md:w-9/12 mx-auto [&>button]:block [&>button]:mx-auto md:[&>button]:inline-block md:[&>button]:mx-10 justify-between flex"
+                    >
+                        <button
+                            className="btn-primary"
+                            onClick={submitPhotos}
+                            type="button"
+                        >Upload</button>
+                        <button
+                            type="button"
+                            className="btn-standard bg-[#000000] text-white"
+                            value="Cancel"
+                            onClick={useCallback(() => navigate(-1))}
+                        >Cancel</button>
+                    </div>
                 </div>
             </form>
         </UserPhotoContext.Provider>

@@ -43,7 +43,7 @@ const Home = props => {
     }, [user])
 
     useEffect(() => {
-        if (location.state.message != null) {
+        if (location.state != null) {
             const {
                 message
             } = location.state; 

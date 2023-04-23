@@ -111,11 +111,13 @@ const NavigationHooks = (navigate) => {
     }
 
     //User photo navigation 
-    function GoUserPhotos(username, userId) {
+    function GoUserPhotos(username, userId, message) {
+        console.log("GoUserPhotos")
         navigate(`/profile/${cleanString(username)}/user_photos`, {
             state: {
                 username, 
                 userId, 
+                message, 
             }
         })
     }
