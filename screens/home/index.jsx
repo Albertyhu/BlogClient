@@ -1,21 +1,25 @@
 import React, { useCallback, useContext, useEffect, useState, lazy} from 'react'; 
 import { Button } from '../../component/button.jsx';
-import { useNavigate } from 'react-router-dom'; 
+import {
+    useNavigate,
+    useLocation, 
+} from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx'; 
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'; 
-
 const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx'));
 
 const Home = props => {
     const navigate = useNavigate();
+    const location = useLocation(); 
     const { GoSignIn, GoSignUp } = NavigationHooks(navigate);
     const { user,
             apiURL,
             ClearUserData,
             displayMemberComponents,
-            ProfilePicture
+            ProfilePicture,
+            setMessage, 
     } = useContext(AppContext);
     const { FetchProfilePic } = FetchHooks()
     const FetchImageURL = user ? `${apiURL}/users/${user.id}/profilepicture` : null; 
@@ -37,6 +41,17 @@ const Home = props => {
             
         }
     }, [user])
+
+    useEffect(() => {
+        if (location.state.message != null) {
+            const {
+                message
+            } = location.state; 
+            if(message && message.length > 0)
+                setMessage(message)
+            console.log(location.state.message)
+        }
+    }, [location.state])
 
     return (
         <div

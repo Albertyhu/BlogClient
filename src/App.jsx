@@ -41,15 +41,16 @@ function App() {
         defaultTheme, 
         ContainerRef, 
         message,
-        setMessage
+        setMessage,
     }
     const { FetchCategories } = CategoryHooks(null, context.apiURL, token, setLoading)
 
     useEffect(() => {
-        if (token != null && typeof token != 'undefined') {
+        if (token) {
             setDisplayMemberComponents(true)
             setDecoded(DecodeToken(token))
         }
+        console.log("token: ", token)
     }, [token])
 
     useEffect(() => {

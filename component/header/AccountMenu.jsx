@@ -19,6 +19,7 @@ const AccountMenu = props => {
         GoHome,
         GoCategory,
         GoCreateCategory,
+        GoUserPhotos,
     } = NavigationHooks(navigate); 
     const { LogOut } = AuthenticationHooks(navigate); 
     const { closeAccountMenu } = HeaderFunctions(); 
@@ -75,6 +76,11 @@ const AccountMenu = props => {
                     VisitUser(user.username, user.id);
                     closeAccountMenu(setAccountMenuOpened)
                 }}>Your profile</div>
+            <div
+                className="hover:underline" onClick={() => {
+                    GoUserPhotos(user.username, user.id);
+                    closeAccountMenu(setAccountMenuOpened)
+                }}>Your photos</div>
             <div className="hover:underline" onClick={() => {
                     GoEditProfile(user.username, user.id);
                     closeAccountMenu(setAccountMenuOpened)

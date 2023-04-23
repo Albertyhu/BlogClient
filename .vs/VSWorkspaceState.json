@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\post",
     "\\component\\replyPanel",
-    "\\hooks",
+    "\\component\\user",
+    "\\component\\userPhoto",
     "\\screens",
-    "\\screens\\home",
-    "\\screens\\post",
+    "\\screens\\authentication",
+    "\\screens\\user",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\screens\\post\\mainPanel.jsx",
+  "SelectedNode": "\\screens\\user\\photoScreen.jsx",
   "PreviewInSolutionExplorer": false
 }

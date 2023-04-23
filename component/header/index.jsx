@@ -15,7 +15,7 @@ const Header = props => {
     const {
         GoHome,
         GoSignUp,
-        GoSignIn
+        GoSignIn,
     } = NavigationHooks(navigate); 
 
     const {

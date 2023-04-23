@@ -24,6 +24,9 @@ import EditPost from '../screens/post/editPost.jsx';
 import ErrorPage from '../screens/error';
 import { SpinnerAnim } from '../component/loadingComponent.jsx'; 
 import MessageComponent from '../component/messageComponent.jsx'; 
+import UserPhotosScreen from '../screens/userPhoto'; 
+import PhotoDetailScreen from '../screens/userPhoto/photoDetail.jsx'; 
+import BulkUploadForm from '../screens/userPhoto/bulkUpload.jsx';
 
 const Apps = props => {
     //const { token } = useContext(AppContext); 
@@ -72,6 +75,9 @@ const Apps = props => {
                         <Route path="/post/new" element={<CreatePost />} />
                         <Route path="/post/:post_name/edit" element={<EditPost />} />
                         <Route path="/error" element={<ErrorPage />} />
+                        <Route path="/profile/:username/user_photos" element={<UserPhotosScreen />} />
+                        <Route path="/profile/:username/user_photos/:photoId" element={<PhotoDetailScreen />} />
+                        <Route path="/profile/:username/user_photos/bulk_upload" element={<BulkUploadForm />} />
                     </Routes>
                 </div>
                 <Footer />

@@ -14,7 +14,6 @@ import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.js
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import CommentPanel from '../../component/commentPanel'; 
 
-
 const RenderPost = props => {
     const location = useLocation(); 
     const {
@@ -68,7 +67,6 @@ const RenderPost = props => {
     const imageInputRef = useRef(); 
 
     const CloseCommentInput = () => setDisplayCommentInput(false)
-
         //This allows the app to reset the commentImages array
 
     const reset = () => {

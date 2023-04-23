@@ -1,4 +1,3 @@
-
 import { Base64Hooks } from './imageHooks.jsx';
 
 const FetchHooks = (apiURL, setLoading) => {

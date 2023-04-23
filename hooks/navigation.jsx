@@ -1,11 +1,15 @@
 import {cleanString} from './textHooks.jsx'; 
 
-const NavigationHooks = (navigate, setMessage) => {
+const NavigationHooks = (navigate) => {
     function GoBack() {
         navigate(-1);
     }
-    function GoHome() {
-        navigate("/", {})
+    function GoHome(message) {
+        navigate("/", {
+            state: {
+                message: message ? [{ param: "general", msg: message }] : null, 
+            }
+        })
     }
 
 
@@ -106,6 +110,33 @@ const NavigationHooks = (navigate, setMessage) => {
         })
     }
 
+    //User photo navigation 
+    function GoUserPhotos(username, userId) {
+        navigate(`/profile/${cleanString(username)}/user_photos`, {
+            state: {
+                username, 
+                userId, 
+            }
+        })
+    }
+    function VisitOnePhoto(username, userId, photoId) {
+        navigate(`/profile/${cleanString(username)}/user_photos/${photoId}`, {
+            state: {
+                username,
+                userId, 
+                photoId
+            }
+        })
+    }
+    function GoBulkUpload(username, userId) {
+        navigate(`/profile/${cleanString(username)}/user_photos/bulk_upload`, {
+            state: {
+                username,
+                userId, 
+            }
+        })
+    }
+
     return {
         GoHome,
         GoSignIn,
@@ -122,7 +153,9 @@ const NavigationHooks = (navigate, setMessage) => {
         EditCategory,
         GoTagPage,
         GoCreateTag,
-        
+        GoUserPhotos, 
+        VisitOnePhoto, 
+        GoBulkUpload,
     }
 }
 

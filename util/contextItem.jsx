@@ -14,3 +14,5 @@ export const ReplyContext = createContext();
 export const CommentContext = createContext();
 
 export const CommentPanelContext = createContext(); 
+
+export const UserPhotoContext = createContext(); 

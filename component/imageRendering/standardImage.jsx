@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { Base64Hooks } from '../../hooks/imageHooks.jsx'; 
 
@@ -29,7 +29,6 @@ const RenderImage = props => {
         }
     }
     ContainerRef.current.addEventListener('mousedown', clickEvent)
-    useEffect(() => { }, [])
 
     try {
         return (

@@ -10,7 +10,6 @@ const ProfilePage = props => {
     const location = useLocation(); 
     const { id } = location.state; 
     const { username } = useParams(); 
-    const { } = props; 
     const {
         user,
         token,
