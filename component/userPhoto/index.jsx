@@ -20,8 +20,6 @@ const RenderUserPhotos = props => {
         setLoading, 
     } = useContext(AppContext)
 
-    const photoContext = {}
-
     const panelRef = useRef([])
 
     return (

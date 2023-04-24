@@ -1,4 +1,8 @@
 
+const GetToken = () => {
+    return localStorage.getItem("token");
+}
+
 const DecodeToken = token => {
     try {
         return JSON.parse(atob(token.split('.')[1]));
@@ -7,4 +11,12 @@ const DecodeToken = token => {
     }
 }
 
-export { DecodeToken }
+const GetDecodedToken = () => {
+    return DecodeToken(localStorage.getItem("token"))
+} 
+
+export {
+    GetToken, 
+    DecodeToken,
+    GetDecodedToken
+}

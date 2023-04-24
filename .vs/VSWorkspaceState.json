@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\userPhoto",
-    "\\hooks",
+    "\\component\\commentPanel",
+    "\\component\\formElements",
     "\\screens",
     "\\screens\\error",
     "\\screens\\home",
@@ -11,6 +11,6 @@
     "\\screens\\userPhoto",
     "\\src"
   ],
-  "SelectedNode": "\\component\\userPhoto\\index.jsx",
+  "SelectedNode": "\\screens\\post\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

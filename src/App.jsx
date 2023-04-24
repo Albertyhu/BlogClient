@@ -3,11 +3,14 @@ import RouteComponent from '../component/routes.jsx';
 import { AppContext } from '../util/contextItem.jsx';
 import './index.css';
 import { CategoryHooks } from '../hooks/categoryHooks.jsx';
-import { DecodeToken } from '../hooks/decodeToken.jsx';
+import {
+    DecodeToken,
+    GetDecodedToken, 
+} from '../hooks/decodeToken.jsx';
 
 function App() {
     const [token, setToken] = useState(localStorage.getItem('token'));
-    const [decoded, setDecoded ] = useState(null) 
+    const [decoded, setDecoded ] = useState(GetDecodedToken()) 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [ProfilePicture, setProfilePic] = useState(JSON.parse(localStorage.getItem('ProfilePicture')));
     const [displayMemberComponents, setDisplayMemberComponents] = useState(token ? true : false)

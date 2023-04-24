@@ -1,5 +1,6 @@
 import { Base64Hooks } from './imageHooks.jsx';
 import { NavigationHooks } from './navigation.jsx'; 
+import { alertMessage } from './textHooks.jsx'; 
 
 const {
     toBase64,
@@ -108,10 +109,52 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
 
     }
 
+    const BulkDeletePhotos = async (imgIdArray, userId, decoded) => {
+        if (decoded.id != userId) {
+            setMessage([{ msg: "You are not permitted to do that", param: "general"}])
+            return; 
+        }
+        const FetchURL = `${apiURL}/users/${userId}/delete_photos`; 
+        setLoading(true)
+
+        console.log("imgIdArray: ", imgIdArray)
+        const formData = new FormData(); 
+        formData.append("images", JSON.stringify(imgIdArray))
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+        await fetch(FetchURL, {
+            method: "PUT", 
+            body: formData, 
+            headers: {
+                "Authorization" : `Bearer ${token}`,
+            }
+        })
+            .then(async response => {
+                if (response.ok) {
+                    setLoading(false)
+                    alertMessage("Your photos are successfully deleled.", setMessage)
+                }
+                else {
+                    const result = await response.json();
+                    console.log("BulkDeletePhotos error: ", result.error)
+                    setLoading(false)
+                    setMessage(result.error)
+                }
+            })
+            .catch(error => {
+                console.log("BulkDeletePhotos error: ", error)
+                setLoading(false)
+                setMessage(error)
+            })
+        setLoading(false); 
+    }
+
     return {
         FetchUserPhotos,
         FetchPhotoDetails,
         BulkUploadPhotos, 
+        BulkDeletePhotos, 
     }
 }
 

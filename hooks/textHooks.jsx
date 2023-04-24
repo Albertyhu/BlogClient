@@ -12,3 +12,12 @@ export function cleanString(str) {
         console.log("cleanString error: ", e)
     }
 }
+
+//This function is a supplement to the message component.
+//It converts the message into the proper array format and recreates the alert function
+export function alertMessage(message, dispatch) {
+    try {
+        var arr = [{ param: "general", msg: message }]
+        dispatch(arr)
+    } catch (e) { console.log("alertMessage error: ", e) }
+}

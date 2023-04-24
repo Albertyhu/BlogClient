@@ -67,9 +67,7 @@ const PhotoPanel = props => {
     }
 
     useEffect(() => {
-        if (imageRef.current) {
-            FadeIn()
-        }
+        FadeIn()
     }, [imageRef.current])
     
     try {

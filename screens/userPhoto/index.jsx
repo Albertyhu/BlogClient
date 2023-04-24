@@ -7,7 +7,10 @@ import {
 import { FetchHooks } from '../../hooks/userPhotoHooks.jsx'
 const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx'));
 import { NavigationHooks } from '../../hooks/navigation.jsx';
-import { DecodeToken } from '../../hooks/decodeToken.jsx';
+import {
+    DecodeToken,
+    GetDecodedToken,
+} from '../../hooks/decodeToken.jsx';
 import RenderUserPhotos from '../../component/userPhoto'; 
 import AddButton from '../../component/addButton.jsx'; 
 import { BiTrash } from 'react-icons/Bi';
@@ -25,21 +28,27 @@ const RenderPhotoScreen = props => {
 
     const {
         user,
-        token,
         setLoading,
         setMessage, 
         apiURL,
+        token, 
+        decoded,
     } = useContext(AppContext)
     const navigate = useNavigate();
     const { GoBulkUpload } = NavigationHooks(navigate, setMessage)
     const {
         FetchUserPhotos, 
+        BulkDeletePhotos, 
     } = FetchHooks(apiURL, token, setLoading, setMessage)
-
     //This determines whether or not edit mode is on, which gives the user opportunity to delete photos in bulk.
     const [editmode, setEditMode] = useState(false)
     //The follow variable stores photos that have been clicked and selected 
     const [selected, setSelected] = useState([])
+
+    const removePhotos = () => {
+        var arr = photos.filter(photo => !selected.some(ID => ID == photo._id.toString()))
+        setPhotos(arr); 
+    }
 
     const context = {
         userId,
@@ -62,6 +71,12 @@ const RenderPhotoScreen = props => {
         }
     }
 
+    const DeletePhotos = () => {
+        BulkDeletePhotos(selected, userId, decoded);
+        removePhotos();
+        setSelected([]);
+        setEditMode(false);
+    }
 
     useEffect(() => {
         if (userId) {
@@ -80,45 +95,47 @@ const RenderPhotoScreen = props => {
                     <h1
                         className="text-2xl text-center my-10 mx-auto capitalize"
                     >{username}'s Photos</h1>
+                    {decoded && decoded.id == userId &&
                         <div
                             id="ButtonField"
                             className="md:absolute md:left-auto md:right-[10px] md:top-[10px] grid md:flex mx-auto [&>*]:mx-5 w-fit"
                         >
-                        {!editmode ? 
-                            <>
-                                <AddButton
-                                    title="Upload more photos"
-                                    dispatchFunction={() => GoBulkUpload(userId, username)}
-                                    buttonStyle="btn-add mx-auto block mb-10"
-                                />
-                                <button
-                                    id="DeleteButton"
-                                    className="btn-cancel mb-10"
-                                    onClick={() => setEditMode(true)}
-                                >Select and remove</button>
-                            </>
-                            :
-                            <>
-                                <IconContext.Provider value={{size:"25px"}}>
+                            {!editmode ?
+                                <>
+                                    <AddButton
+                                        title="Upload more photos"
+                                        dispatchFunction={() => GoBulkUpload(userId, username)}
+                                        buttonStyle="btn-add mx-auto block mb-10"
+                                    />
                                     <button
                                         id="DeleteButton"
-                                        className="btn-delete mb-10 [&>*]:inline-block [&>*]:whitespace-nowrap font-bold"
+                                        className="btn-cancel mb-10"
                                         onClick={() => setEditMode(true)}
-                                    >
-                                        <span
-                                            className="mr-5"
-                                        >Remove selected</span>
-                                        <BiTrash />
-                                    </button>
-                                </IconContext.Provider>
-                                <button
-                                    id="DeleteButton"
-                                    className="btn-cancel mb-10 font-bold"
-                                    onClick={() => setEditMode(false)}
-                                >Cancel</button>
-                            </>
+                                    >Select and remove</button>
+                                </>
+                                :
+                                <>
+                                    <IconContext.Provider value={{ size: "25px" }}>
+                                        <button
+                                            id="DeleteButton"
+                                            className="btn-delete mb-10 [&>*]:inline-block [&>*]:whitespace-nowrap font-bold"
+                                            onClick={DeletePhotos}
+                                        >
+                                            <span
+                                                className="mr-5"
+                                            >Remove selected</span>
+                                            <BiTrash />
+                                        </button>
+                                    </IconContext.Provider>
+                                    <button
+                                        id="CancelButton"
+                                        className="btn-cancel mb-10 font-bold"
+                                        onClick={() => setEditMode(false)}
+                                    >Cancel</button>
+                                </>
                             }
                         </div>
+                        }
                 </div>
                 {photos && photos.length > 0 ? 
                     <RenderUserPhotos
