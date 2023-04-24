@@ -145,7 +145,6 @@ const MainPanel = props => {
                         <BiCommentDetail />
                     </IconContext.Provider>
                 </div>
-
             </div>
         </div>
         )

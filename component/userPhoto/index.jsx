@@ -12,6 +12,7 @@ const RenderUserPhotos = props => {
         images,
         username, 
         userID, 
+        selected, 
     } = props; 
     const {
         apiURL,
@@ -24,26 +25,25 @@ const RenderUserPhotos = props => {
     const panelRef = useRef([])
 
     return (
-        <UserPhotoContext.Provider value={photoContext}>
-            <div
-                id="UserPhotoContainer" 
-                className = "w-full"
-            >
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto gap-[5px]">
-                    {images && images.length > 0 && 
-                        images.map((img, index) => {
-                            return (
-                                <PhotoPanel
-                                    {...img}
-                                    key={img._id}
-                                    index={index}
-                                    panelRef={panelRef}
-                                />
-                                )
-                        })}
-                </div>
+        <div
+            id="UserPhotoContainer" 
+            className = "w-full"
+        >
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto gap-[5px]">
+                {images && images.length > 0 && 
+                    images.map((img, index) => {
+                        return (
+                            <PhotoPanel
+                                {...img}
+                                key={img._id}
+                                index={index}
+                                panelRef={panelRef}
+                                selected={selected}
+                            />
+                            )
+                    })}
             </div>
-        </UserPhotoContext.Provider>
+        </div>
         )
 }
 

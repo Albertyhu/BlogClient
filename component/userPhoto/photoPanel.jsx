@@ -1,29 +1,41 @@
 import { useContext, useState, useEffect, useRef } from 'react';
 import {
-    AppContext,
     UserPhotoContext,
 } from '../../util/contextItem.jsx'; 
 import { Base64Hooks } from '../../hooks/imageHooks.jsx';
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
-import { useNavigate } from 'react-router-dom'; 
-
+import { useNavigate } from 'react-router-dom';
+import { GiCheckMark } from 'react-icons/Gi';
+import { IconContext } from 'react-icons'; 
 const PhotoPanel = props => {
     const {
         image,
         _id,
-        publishedDate, 
-        lastEdited, 
-        owner, 
+        title, 
         altText = "photo", 
-        selectMode, 
         index, 
-        panelRef, 
     } = props
     const {
         userId,
         username,
+        editmode, 
+        toggleSelected, 
     } = UserPhotoContext ? useContext(UserPhotoContext) : props; 
 
+    //selected useState variable is used to determine whether or not the photos are selected 
+    const [selected, setSelected] = useState(false)
+
+    //.selectPhoto is a css value to mark selected photos 
+    const toggleEvent = () => {
+        toggleSelected(_id)
+        setSelected(prev => !prev)
+        if (imageRef.current.classList.contains("selectedPhoto")) {
+            imageRef.current.classList.remove("selectedPhoto")
+        }
+        else {
+            imageRef.current.classList.add("selectedPhoto")
+        }
+    }
     const navigate = useNavigate(); 
     const { isBase64Image } = Base64Hooks()
     const {  
@@ -44,25 +56,49 @@ const PhotoPanel = props => {
         imageRef.current.classList.add("translate-y-[0px]")
     }
 
+    const clickEvent = () => {
+        //Allows user to toggle the photo
+        if (editmode) {
+            toggleEvent()
+        }
+        else {
+            VisitOnePhoto(username, userId, _id, image, title)
+        }
+    }
+
     useEffect(() => {
         if (imageRef.current) {
             FadeIn()
         }
     }, [imageRef.current])
-
+    
     try {
         return (
             <div
                 id="MainImage"
-                className={`${containerStyle} ${selectMode ? "border-2" : ""}`}
+                className={`${containerStyle}`}
                 ref={imageRef}
-                onClick={()=>VisitOnePhoto(username, userId, _id)}
+                onClick={clickEvent}
             >
                 <img
                     src={isBase64Image(image) ? image : dataURL}
                     alt={altText}
                     className={`${imageStyle}`}
                 />
+                {editmode && selected && 
+                    <div
+                        className="absolute left-auto right-[10px] top-[10px] z-[21]"
+                    >
+                        <IconContext.Provider value={
+                            {
+                                size: "25px",
+                                color: "white",
+                                border: "white"
+                            }}>
+                            <GiCheckMark />
+                        </IconContext.Provider>
+                    </div>
+                }
             </div>
         )
     } catch (e) {

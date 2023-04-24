@@ -4,6 +4,7 @@ import { NavigationHooks } from './navigation.jsx';
 const {
     toBase64,
     convertArrayToBase64, 
+    convertObjToBase64, 
 } = Base64Hooks()
 
 const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
@@ -46,7 +47,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
             .then(async response => {
                 const result = await response.json(); 
                 if (response.ok) {
-                    var image = toBase64(result.photo.image)
+                    var image = convertObjToBase64(result.photo.image)
                     setImage(image)
                     setDetails(result.photo)
                     setLikes(result.photo.likes)

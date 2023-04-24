@@ -121,12 +121,14 @@ const NavigationHooks = (navigate) => {
             }
         })
     }
-    function VisitOnePhoto(username, userId, photoId) {
+    function VisitOnePhoto(username, userId, photoId, image, title) {
         navigate(`/profile/${cleanString(username)}/user_photos/${photoId}`, {
             state: {
                 username,
                 userId, 
-                photoId
+                photoId, 
+                image, 
+                title
             }
         })
     }
