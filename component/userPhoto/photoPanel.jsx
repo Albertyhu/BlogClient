@@ -24,6 +24,7 @@ const PhotoPanel = props => {
 
     //selected useState variable is used to determine whether or not the photos are selected 
     const [selected, setSelected] = useState(false)
+    const [animationComplete, setAnimationComplete] = useState(false);
 
     //.selectPhoto is a css value to mark selected photos 
     const toggleEvent = () => {
@@ -43,9 +44,12 @@ const PhotoPanel = props => {
         } =NavigationHooks(navigate)
     const imageStyle = `h-full w-full md:w-full md:h-auto bg-bottom bg-cover top-[50%] translate-y-[-50%] 
                         absolute cursor-pointer`;
+
+    const Delay = `delay-[${400 * index}ms]`
     const containerStyle = `w-full h-[150px] md:h-[250px] relative select-none bg-no-repeat overflow-hidden
-                            transition-[opacity_transform] opacity-0 duration-[1000ms] delay-[${400 * index}ms]
+                            transition-[opacity_transform] opacity-0 duration-[1000ms]
                             translate-y-[-20px] object-fit`;
+
     const dataURL = !isBase64Image(image) ? `data:${image.contentType};base64,${image.data}` : image;
     const imageRef = useRef(); 
 
@@ -54,6 +58,7 @@ const PhotoPanel = props => {
         imageRef.current.classList.remove("translate-y-[-20px]")
         imageRef.current.classList.add("opacity-100")
         imageRef.current.classList.add("translate-y-[0px]")
+
     }
 
     const clickEvent = () => {
@@ -67,9 +72,10 @@ const PhotoPanel = props => {
     }
 
     useEffect(() => {
-        FadeIn()
+        var cancelTO = setTimeout(() => { FadeIn() }, 400 * index)
+        return () => { clearTimeout(cancelTO)}
     }, [imageRef.current])
-    
+
     try {
         return (
             <div

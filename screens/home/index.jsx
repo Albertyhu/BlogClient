@@ -14,17 +14,19 @@ const Home = props => {
     const navigate = useNavigate();
     const location = useLocation(); 
     const { GoSignIn, GoSignUp } = NavigationHooks(navigate);
-    const { user,
-            apiURL,
-            ClearUserData,
-            displayMemberComponents,
-            ProfilePicture,
-            setMessage, 
+    const {
+        user,
+        apiURL,
+        ClearUserData,
+        displayMemberComponents,
+        ProfilePicture,
+        setMessage,
+        token,
+        setLoading, 
     } = useContext(AppContext);
-    const { FetchProfilePic } = FetchHooks()
+    const { FetchProfilePic } = FetchHooks(apiURL, token, setLoading, setMessage)
     const FetchImageURL = user ? `${apiURL}/users/${user.id}/profilepicture` : null; 
     const [profileImage, setProfileImage] = useState(null)
-
 
 
     const { DeleteUser } = UserProfileHooks(); 
@@ -35,10 +37,8 @@ const Home = props => {
     }
 
     useEffect(() => {
-        user ? console.log("userID: ", user.id) : null;
         if (user) {
             FetchProfilePic(FetchImageURL, setProfileImage, true)
-            
         }
     }, [user])
 
@@ -49,7 +49,6 @@ const Home = props => {
             } = location.state; 
             if(message && message.length > 0)
                 setMessage(message)
-            console.log(location.state.message)
         }
     }, [location.state])
 

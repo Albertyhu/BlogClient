@@ -15,11 +15,13 @@ const EditProfilePic = props => {
     const {
         apiURL,
         setLoading,
+        token, 
+        setMessage,
     } = useContext(AppContext);
     const UserToken = localStorage.getItem("token"); 
     const [User] = useState(JSON.parse(localStorage.getItem("user"))); 
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-    const { FetchProfilePic } = FetchHooks(apiURL, setLoading)
+    const { FetchProfilePic } = FetchHooks(apiURL, token, setLoading, setMessage)
     const { UploadNewProfilePic } = EditUserHooks(navigate) 
     const [image, setImage] = useState(null); 
     const [fetchURL] = useState(`${apiURL}/users/${User.id}/profilepicture`)

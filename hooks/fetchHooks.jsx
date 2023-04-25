@@ -1,7 +1,35 @@
 import { Base64Hooks } from './imageHooks.jsx';
+import { alertMessage } from './textHooks.jsx';
 
-const FetchHooks = (apiURL, setLoading) => {
+const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     const { toBase64 } = Base64Hooks()
+
+    const GetAllUsers = async (setUsers) => {
+        const FetchURL = `${apiURL}/users`; 
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: 'GET',
+        })
+            .then(async response => {
+                const result = await response.JSON();
+                if (response.ok) {
+                    setUsers(result.users)
+                    setLoading(false)
+
+                }
+                else {
+                    console.log("GetAllUsers error: ", result.error)
+                    setLoading(false)
+                    alertMessage("Something went wrong with fetching users from the database", setMessage)
+                }
+            })
+            .catch(error => {
+                console.log("GetAllUsers error: ", error)
+                setLoading(false)
+                alertMessage("Something went wrong with fetching users from the database", setMessage)
+            })
+    }
+
     const fetchUserDetails = async (userID, dispatch, dispatchError) => {
         try {
             const FetchURL = `${apiURL}/users/${userID}`
@@ -91,11 +119,50 @@ const FetchHooks = (apiURL, setLoading) => {
         setLoading(false)
     }
 
+    //This function runs when the app starts 
+    const GetUsersAndCategeries = async (dispatchFunctions) => {
+        const FetchURL = `${apiURL}/users_and_categories`; 
+        const {
+            setCategoryList, 
+            setUsersList, 
+        } = dispatchFunctions; 
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: 'GET'
+        })
+            .then(async response => {
+                const result = await response.json();
+                if (response.ok) {
+                    console.log("users: ", result.Users)
+                    console.log("categories: ", result.categories)
+                    const list = result.categories;
+                    list.forEach(item => {
+                        item.image.data = toBase64(item.image.data.data)
+                    })
+                    setCategoryList(list)
+                    setUsersList(result.Users)
+                    setLoading(false)
+                }
+                else {
+                    console.log("There was an error with GetUsersAndCategeries: ", result.error)
+                    alertMessage("There was a problem with the database", setMessage)
+                    setLoading(false)
+                }
+            })
+            .catch(error => {
+                console.log("GetUsersAndCategeries  error: ", error)
+                setLoading(false)
+                alertMessage("Something went wrong with fetching users from the database", setMessage)
+            })
+    }
+
     return {
+        GetAllUsers, 
         fetchUserDetails,
         fetchUsernameAndEmails,
         FetchProfilePic,
         FetchPostsByCategory,
+        GetUsersAndCategeries, 
     }
 }
 

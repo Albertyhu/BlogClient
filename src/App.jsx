@@ -3,6 +3,7 @@ import RouteComponent from '../component/routes.jsx';
 import { AppContext } from '../util/contextItem.jsx';
 import './index.css';
 import { CategoryHooks } from '../hooks/categoryHooks.jsx';
+import { FetchHooks } from '../hooks/fetchHooks.jsx'; 
 import {
     DecodeToken,
     GetDecodedToken, 
@@ -12,7 +13,12 @@ function App() {
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [decoded, setDecoded ] = useState(GetDecodedToken()) 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+    //usersList keeps track of all users of the site
+    const [usersList, setUsersList] = useState([]);
     const [ProfilePicture, setProfilePic] = useState(JSON.parse(localStorage.getItem('ProfilePicture')));
+
+    //This is the for the header menu
     const [displayMemberComponents, setDisplayMemberComponents] = useState(token ? true : false)
     const [categoryList, setCategoryList] = useState(null); 
     const [loading, setLoading] = useState(false); 
@@ -47,7 +53,7 @@ function App() {
         setMessage,
     }
     const { FetchCategories } = CategoryHooks(null, context.apiURL, token, setLoading)
-
+    const { GetUsersAndCategeries } = FetchHooks(context.apiURL, token, setLoading, setMessage)
     useEffect(() => {
         if (token) {
             setDisplayMemberComponents(true)
@@ -60,6 +66,10 @@ function App() {
            FetchCategories({setCategoryList})
     }, [categoryList])
 
+    //useEffect(() => {
+    //    GetUsersAndCategeries({ setCategoryList, setUsersList })
+    //}, [])
+    //window.onload= () => GetUsersAndCategeries({ setCategoryList, setUsersList })
     return (
         <AppContext.Provider value={context}>
             <RouteComponent token={token} />

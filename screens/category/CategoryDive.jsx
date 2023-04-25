@@ -23,12 +23,13 @@ const CategoryPage = props => {
         categoryList,
         setCategoryList,
         setLoading, 
+        setMessage,
     } = useContext(AppContext);
 
     const { EditCategory } = NavigationHooks(navigate);
     const {
         FetchPostsByCategory,
-    } = PostFetchHooks(apiURL, setLoading); 
+    } = PostFetchHooks(apiURL, token, setLoading, setMessage); 
     const {
         category_name, 
         category_id, 

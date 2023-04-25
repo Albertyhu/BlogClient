@@ -14,8 +14,9 @@ const ProfilePage = props => {
         user,
         token,
         setLoading, 
+        setMessage, 
         apiURL } = useContext(AppContext)
-    const { fetchUserDetails } = FetchHooks(apiURL, setLoading); 
+    const { fetchUserDetails } = FetchHooks(apiURL, token, setLoading, setMessage); 
     const [profileDetails, setProfileDetails] = useState(null)
     const [error, setError] = useState("")
     const navigate = useNavigate(); 
