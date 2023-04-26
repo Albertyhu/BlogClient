@@ -103,7 +103,6 @@ const ReplyPanel = props => {
         replies,
         root,
         setReplies,
-        
         decoded,
         toggleReplyEditor: () => setDisplayReplyInput(prev => !prev),
         DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },

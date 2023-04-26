@@ -233,4 +233,70 @@ const PostErrorHooks = () => {
     }
 }
 
-export { ErrorMessageHooks, PostErrorHooks }
+const UserPhotoErrorHooks = () => {
+    const RenderErrorArray = (errorArray, dispatchFunctions) => {
+        const {
+            setCaptionError,
+            setTitleError, 
+        } = dispatchFunctions; 
+        function resetErrorFields() {
+            if (setCaptionError) {
+                setCaptionError([])
+            }
+            if (setTitleError) {
+                setTitleError([])
+            }
+        }
+        resetErrorFields(); 
+        errorArray.forEach(error => {
+            switch (error.param.toLowerCase()) {
+                case 'title':
+                    setTitleError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                case 'caption':
+                    setCaptionError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+                default:
+                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    break;
+            }
+        })
+
+    }
+
+    return {
+        RenderErrorArray, 
+    }
+}
+
+function AnimateErrorMessage(DivElem) {
+    setTimeout(() => {
+        DivElem?.classList.remove("ErrorMessageFadeOut");
+        DivElem?.classList.add("ErrorMessageFadeIn");
+    }, [1])
+
+    setTimeout(() => {
+        DivElem?.classList.remove("ErrorMessageFadeIn")
+        DivElem?.classList.add("ErrorMessageFadeOut");
+    }, [10000])
+}
+
+
+function RenderError(Error) {
+    //Dont use any hooks here.  
+    return Error.map((err, index) => {
+        const ID = `${err.param}-${index}`;
+        return <div
+            key={uuid()}
+            id={ID}
+            className={`ErrorMessage`}>{err.msg}</div>
+    })
+}
+
+export {
+    ErrorMessageHooks,
+    PostErrorHooks,
+    UserPhotoErrorHooks, 
+    AnimateErrorMessage,
+    RenderError
+}

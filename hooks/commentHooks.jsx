@@ -26,6 +26,7 @@ export const FetchActions = (apiURL, setLoading, token) => {
             updateArray, 
         } = dispatchFunctions;
 
+        console.log("Elements: ", Elements)
 
         const formData = new FormData;
         formData.append("content", content)
@@ -49,9 +50,13 @@ export const FetchActions = (apiURL, setLoading, token) => {
                 formData.append("images", Elements.commentImages[i].file);
             }
         }
-        if (Elements.postId) {
-            formData.append("postId", Elements.postId)
-        }
+        //if (Elements.postId) {
+        //    formData.append("postId", Elements.postId)
+        //}
+
+        //if (Elements.userPhotoId) {
+        //    formData.append("userPhotoId", Elements.userPhotoId)
+        //}
 
         try {
             setLoading(true)
@@ -112,7 +117,7 @@ export const FetchActions = (apiURL, setLoading, token) => {
         const {
             RemoveCommentFromStorage,
             setMessage
-        } = dispatchFunction; 
+        } = dispatchFunction;
         try {
             var FetchURL = `${apiURL}/comment/${commentID}/delete_completely`;
 
@@ -126,7 +131,7 @@ export const FetchActions = (apiURL, setLoading, token) => {
                 .then(async response => {
                     const result = await response.json();
                     if (response.ok) {
-                        RemoveCommentFromStorage(); 
+                        RemoveCommentFromStorage();
                         console.log("Comment is successfully deleted.")
                         setMessage(result.message)
                         window.scrollTo({
@@ -144,7 +149,7 @@ export const FetchActions = (apiURL, setLoading, token) => {
         }
         catch (e) {
             setLoading(false)
-            console.log("DeleteOneCommentCompletely error: ", e); 
+            console.log("DeleteOneCommentCompletely error: ", e);
         }
     }
 

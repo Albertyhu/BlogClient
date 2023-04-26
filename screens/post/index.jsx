@@ -122,7 +122,7 @@ const RenderPost = props => {
             author: decoded.id, 
             commentImages,  
         } 
-        AddComment("POST", post_id,"add_comment", Elements, dispatchFunctions, token)
+        AddComment("post", post_id,"add_comment", Elements, dispatchFunctions, token)
     }
 
     const context = {

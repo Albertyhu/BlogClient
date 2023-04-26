@@ -32,6 +32,7 @@ const CommentPanel = props => {
         decoded,
         //index of the comment in the comment array
         index, 
+        fullActionBar = true, 
     } = props;
     const navigate = useNavigate();
     const {
@@ -114,7 +115,8 @@ const CommentPanel = props => {
         setReplies,
         toggleReplyEditor: () => setDisplayReplyInput(prev => !prev),
         DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },
-        openEditorToUpdate: ()=>setEditMode(true), 
+        openEditorToUpdate: () => setEditMode(true), 
+        fullActionBar, 
     } 
 
     /*code for posting new reples*/

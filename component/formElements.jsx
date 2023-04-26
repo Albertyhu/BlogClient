@@ -1,29 +1,11 @@
-import { useEffect, lazy, useCallback, useState, Suspense, useRef} from 'react';
+import { useEffect, lazy, useCallback, Suspense, useRef} from 'react';
 import { ErrorMessageHooks } from "../hooks/errorHooks.jsx";
-import { RegistrationHooks } from '../hooks/authFormHooks.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import '../src/index.css'; 
-import DeleteIcon from '../assets/icons/cancel.png'; 
-import uuid from 'react-uuid';
-import { searchTag } from '../hooks/tagHooks.jsx';
-import {
-    HandleFileChange,
-    AttachImagesToArray,
-} from '../hooks/imageHooks.jsx';
-import { wait } from '../hooks/wait.jsx'
-const RenderProfilePic = lazy(() => import('./user/profilePicture.jsx'));
-const RenderCoverPhoto = lazy(() => import("./imageRendering/coverPhoto.jsx"));
 import PropTypes from 'prop-types';
 const AddButton = lazy(() => import('./addButton.jsx'));
 import { NavigationHooks } from '../hooks/navigation.jsx';
-//import RenderPreviewImages from "./imageRendering/mainImage.jsx";
-const RenderPreviewImages = lazy(() => import("./imageRendering/previewImage.jsx")); 
-
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
-const BasicInputStyle = `px-1 text-lg border-black border-[1px] rounded bg-transparent`;
-const BasicLabelStyle = `text-lg`;
-const BasicTextAreaStyle = `resize-none rounded-lg w-full p-1 bg-[rgba(0,0,0,0)] border-[1px] 
-                            border-white placeholder:text-[#545454] text-lg`
 
 export const FormButtons = props => {
     const navigate = useNavigate(); 

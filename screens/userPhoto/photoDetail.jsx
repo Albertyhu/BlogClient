@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, lazy, useRef } from 'react'
+import { useContext, useState, useEffect, lazy, useRef, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
     AppContext,
@@ -16,6 +16,8 @@ import { IconContext } from 'react-icons';
 import { CommentInput } from '../../component/formElements/commentInputs.jsx';
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
+import RenderPhotoText from '../../component/userPhoto/renderPhotoText.jsx'; 
+import EditPhotoTextPanel from '../../component/userPhoto/editPhotoText.jsx'; 
 
 const RenderPhotoDetail = props => {
     const {
@@ -33,9 +35,16 @@ const RenderPhotoDetail = props => {
     const { FetchPhotoDetails  } = FetchHooks(apiURL, token, setLoading, setMessage, navigate)
     const [image, setImage] = useState(location.state.image ? location.state.image : null)
     const [details, setDetails] = useState(null)
+    const [title, setTitle] = useState(); 
+    const [caption, setCaption] = useState(); 
+
     const [likes, setLikes] = useState([])
     const [comments, setComments] = useState([])
+    const [publishedDate, setPublishedDate] = useState(null);
+    const [lastEdited, setLastEdited] = useState(null); 
     const { RenderLikeButton } = PostLikeFeatures()
+
+    const [editmode, setEditMode] = useState(false); 
 
     //code for reply editor
     const [displayReplyEditor, setDisplayReplyEditor] = useState(false); 
@@ -45,16 +54,46 @@ const RenderPhotoDetail = props => {
     const [commentImagesError, setCommentImagesError] = useState([])
     const commentImagesInputRef = useRef(); 
     const PhotoContext = {
+        details, 
+        setDetails, 
         images: commentImages, 
         setImages: setCommentImages, 
         imagesError: commentImagesError, 
         iamgesInputRef: commentImagesInputRef, 
+        fullActionBar: false, 
+        title, 
+        setTitle, 
+        caption,
+        publishedDate,
+        lastEdited, 
+        setCaption, 
+        setPublishedDate, 
+        setLastEdited, 
     }
 
     const commentEditorRef = useRef();
     const {
         AddComment,
     } = FetchCommentActions(apiURL, setLoading, token)
+
+    const dispatchFunctions = {
+        setImage,
+        setDetails,
+        setLikes,
+        setComments,
+        setMessage,
+        setCaption,
+        setTitle,
+        setPublishedDate,
+        setLastEdited, 
+        CloseCommentInput: () => {
+            setDisplayReplyEditor(false)
+        },
+        reset: () => {
+            setNewComment([]);
+        },
+        updateArray: (array) => setComments(array),
+    }; 
     const submitReply = () => {
         const Elements = {
             content: GetContent(commentEditorRef),
@@ -62,15 +101,10 @@ const RenderPhotoDetail = props => {
             author: decoded.id,
             commentImages,
         }
-        AddComment("POST", post_id, "add_comment", Elements, dispatchFunctions, token)
+        AddComment("user_photo", photoId, "add_comment", Elements, dispatchFunctions)
     }
 
-    const dispatchFunctions = {
-        setImage,
-        setDetails,
-        setLikes,
-        setComments,
-    }; 
+
     useEffect(() => {
         if (photoId) {
             console.log("photoId: ", photoId)
@@ -106,38 +140,39 @@ const RenderPhotoDetail = props => {
                         id="TextSection"
                         className = "w-11/12 mx-auto"
                     >
-                    {details && details.title != null &&
-                        <h1 className="hidden md:block text-center font-bold text-2xl py-10">{details.title}</h1>
-                    }
-                    {details && details.lastEdited && details.lastEdited != details.publishedDate ?
-                        <div><span>Edited {RenderTimePosted(details.lastEdited)}</span></div>
-                        :
-                        details && details.publishedDate && <div>Published {RenderTimePosted(details.publishedDate)}</div>
-                    }
-                    {details && details.caption &&
-                        <div>
-                            {details.caption}
-                        </div>
-                    }
+                        {!editmode ? 
+                            <RenderPhotoText
+                                details={details}
+                            />
+                            :
+                            <EditPhotoTextPanel
+                                contextItem={contextItem}
+                                closeEdit={()=>setEditMode(false)}
+                            />
+                        }
                         <div
                             className="mt-10 pb-10 [&>*]:mx-10 flex "
                             id="interactiveField"
                         >
-                            <RenderLikeButton
-                                likes={likes}
-                                documentID={photoId}
-                                type="user_photo"
-                            />
-                            <div
-                                className="flex m-auto [&>*]:mx-1 cursor-pointer"
-                                id="ReplyField"
-                                onClick={()=>setDisplayReplyEditor(prev => !prev)}
-                            >
-                                <span>Reply</span>
-                                <IconContext.Provider value={{ size: "25px" }}>
-                                    <BiCommentDetail />
-                                </IconContext.Provider>
-                            </div>
+                            {token && 
+                                <>
+                                    <RenderLikeButton
+                                        likes={likes}
+                                        documentID={photoId}
+                                        type="user_photo"
+                                    />
+                                    <div
+                                        className="flex m-auto [&>*]:mx-1 cursor-pointer"
+                                        id="ReplyField"
+                                        onClick={()=>setDisplayReplyEditor(prev => !prev)}
+                                    >
+                                        <span>Reply</span>
+                                        <IconContext.Provider value={{ size: "25px" }}>
+                                            <BiCommentDetail />
+                                        </IconContext.Provider>
+                                    </div>
+                                </>
+                            }
                         </div>
                     {displayReplyEditor &&
                         <div className="w-11/12 mx-auto pb-10 border-[1px] rounded-md box_shadow">
@@ -158,6 +193,9 @@ const RenderPhotoDetail = props => {
                         <>
                             <hr className="w-11/12 mx-auto border-2" />
                             <h2 className="font-bold text-center text-2xl mt-10">Comments</h2>
+                            <div
+                                className = "md:overflow-y-scroll md:overflow-x-hidden w-full md:max-h-[500px]"
+                            >
                             {comments.map((comment, ind) => {
                                 return (
                                     <CommentPanel
@@ -169,10 +207,12 @@ const RenderPhotoDetail = props => {
                                         decoded={decoded}
                                         index={ind}
                                         commentsArray={comments}
+                                        fullActionBar={false}
                                     />
                                 )
                             })
                             }
+                            </div>
                         </>
                     }
                     </div>

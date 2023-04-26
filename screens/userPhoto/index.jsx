@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, lazy } from 'react'
+import { useContext, useState, useEffect, lazy, useMemo } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import {
     AppContext,
@@ -19,7 +19,8 @@ import { IconContext } from "react-icons";
 //This screen renders all the photos the user has posted on his profile
 //Prerequisite of rendering this component: must retrieve User's ObjectId
 const RenderPhotoScreen = props => {
-    const location = useLocation();  
+    const location = useLocation(); 
+    var memoizedPhotos = null; 
     const [photos, setPhotos]=useState([])
     const {
         userId,
@@ -28,6 +29,7 @@ const RenderPhotoScreen = props => {
 
     const {
         user,
+        loading, 
         setLoading,
         setMessage, 
         apiURL,
@@ -39,7 +41,7 @@ const RenderPhotoScreen = props => {
     const {
         FetchUserPhotos, 
         BulkDeletePhotos, 
-    } = FetchHooks(apiURL, token, setLoading, setMessage)
+    } = FetchHooks(apiURL, token, setLoading, setMessage) 
     //This determines whether or not edit mode is on, which gives the user opportunity to delete photos in bulk.
     const [editmode, setEditMode] = useState(false)
     //The follow variable stores photos that have been clicked and selected 
@@ -80,9 +82,10 @@ const RenderPhotoScreen = props => {
 
     useEffect(() => {
         if (userId) {
-            FetchUserPhotos(userId, setPhotos)
+           FetchUserPhotos(userId, setPhotos)
         }
     }, [userId])
+
     return (
         <UserPhotoContext.Provider value ={context}>
             <div
@@ -137,13 +140,16 @@ const RenderPhotoScreen = props => {
                         </div>
                         }
                 </div>
-                {photos && photos.length > 0 ? 
+                {!loading ?
+                    photos && photos.length > 0 ?
                     <RenderUserPhotos
                         images={photos}
                         selected={selected}
                     />
                     :
-                    <p className= "text-center">The user doesn't have any uploaded photos yet.</p>
+                    <p className="text-center">The user doesn't have any uploaded photos yet.</p>
+                    :
+                    <p className="text-center">loading</p>
                 }
             </div>
         </UserPhotoContext.Provider>

@@ -6,7 +6,7 @@ export const SpinnerAnim = props => {
     return (
         <div
             id="SpinnnerAnimation"
-            className="w-full h-full fixed bg-[rgba(255,255,255,0.7)] z-[100] fixed top-0">
+            className="w-full h-full fixed bg-[rgba(255,255,255,0.7)] z-[25] fixed top-0">
             <div className="w-full h-full relative">
                 <Spinner
                     color="#333333"

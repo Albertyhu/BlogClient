@@ -29,7 +29,6 @@ import PhotoDetailScreen from '../screens/userPhoto/photoDetail.jsx';
 import BulkUploadForm from '../screens/userPhoto/bulkUpload.jsx';
 
 const Apps = props => {
-    //const { token } = useContext(AppContext); 
     const {
         ContainerRef, 
         loading,
