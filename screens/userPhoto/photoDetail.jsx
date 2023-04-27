@@ -3,13 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
     AppContext,
     UserPhotoContext,
+    CommentContext, 
 } from '../../util/contextItem.jsx';
-import { FetchHooks } from '../../hooks/userPhotoHooks.jsx'
-import { NavigationHooks } from '../../hooks/navigation.jsx';
-import { DecodeToken } from '../../hooks/decodeToken.jsx';
+import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
 import RenderImage from '../../component/imageRendering/fullImage.jsx'; 
 import CommentPanel from '../../component/commentPanel';
-import { RenderTimePosted } from '../../hooks/timeHooks.jsx'; 
 import { PostLikeFeatures } from '../../component/likeComponent.jsx';
 import { BiCommentDetail } from 'react-icons/Bi';
 import { IconContext } from 'react-icons'; 
@@ -17,7 +15,8 @@ import { CommentInput } from '../../component/formElements/commentInputs.jsx';
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import RenderPhotoText from '../../component/userPhoto/renderPhotoText.jsx'; 
-import EditPhotoTextPanel from '../../component/userPhoto/editPhotoText.jsx'; 
+import EditPhotoTextPanel from '../../component/userPhoto/editPhotoText.jsx';
+import ReplyActionBar from '../../component/replyActionBar'; 
 
 const RenderPhotoDetail = props => {
     const {
@@ -32,7 +31,10 @@ const RenderPhotoDetail = props => {
         photoId, 
     } = location.state; 
     const navigate = useNavigate(); 
-    const { FetchPhotoDetails  } = FetchHooks(apiURL, token, setLoading, setMessage, navigate)
+    const {
+        FetchPhotoDetails,
+        DeletePhoto, 
+    } = FetchHooks(apiURL, token, setLoading, setMessage, navigate)
     const [image, setImage] = useState(location.state.image ? location.state.image : null)
     const [details, setDetails] = useState(null)
     const [title, setTitle] = useState(); 
@@ -42,6 +44,7 @@ const RenderPhotoDetail = props => {
     const [comments, setComments] = useState([])
     const [publishedDate, setPublishedDate] = useState(null);
     const [lastEdited, setLastEdited] = useState(null); 
+    const [owner, setOwner] = useState(null)
     const { RenderLikeButton } = PostLikeFeatures()
 
     const [editmode, setEditMode] = useState(false); 
@@ -61,8 +64,10 @@ const RenderPhotoDetail = props => {
         imagesError: commentImagesError, 
         iamgesInputRef: commentImagesInputRef, 
         fullActionBar: false, 
+        photoId, 
         title, 
         setTitle, 
+        owner,
         caption,
         publishedDate,
         lastEdited, 
@@ -86,6 +91,7 @@ const RenderPhotoDetail = props => {
         setTitle,
         setPublishedDate,
         setLastEdited, 
+        setOwner, 
         CloseCommentInput: () => {
             setDisplayReplyEditor(false)
         },
@@ -104,20 +110,26 @@ const RenderPhotoDetail = props => {
         AddComment("user_photo", photoId, "add_comment", Elements, dispatchFunctions)
     }
 
+    const commentContext = {
+        likes,
+        _id: photoId, 
+        author: owner,
+        toggleReplyEditor: () => setDisplayReplyEditor(prev => !prev), 
+        ShareAction: () => { }, 
+        decoded, 
+        DeleteAction: () => {DeletePhoto(photoId, owner._id, owner.username)}, 
+        openEditorToUpdate: () => setEditMode(true), 
+        fullActionBar:false, 
+    }
 
     useEffect(() => {
         if (photoId) {
-            console.log("photoId: ", photoId)
             FetchPhotoDetails(photoId, dispatchFunctions)
         }
     }, [photoId])
 
-    useEffect(() => {
-        if (details) {
-            console.log("details: ", details)
-        }
-    }, [details]
-    )
+
+
     return (
         <UserPhotoContext.Provider value = {PhotoContext}>
             <div
@@ -140,39 +152,28 @@ const RenderPhotoDetail = props => {
                         id="TextSection"
                         className = "w-11/12 mx-auto"
                     >
-                        {!editmode ? 
+                        {owner && !editmode && decoded.id == owner._id ? 
                             <RenderPhotoText
+                                lastEdited={lastEdited}
                                 details={details}
+                                title={title}
+                                caption={caption}
                             />
                             :
                             <EditPhotoTextPanel
-                                contextItem={contextItem}
+                                contextItem={UserPhotoContext}
                                 closeEdit={()=>setEditMode(false)}
                             />
                         }
                         <div
-                            className="mt-10 pb-10 [&>*]:mx-10 flex "
+                            className="mt-10 pb-10 relative mr-auto w-fit"
                             id="interactiveField"
                         >
-                            {token && 
-                                <>
-                                    <RenderLikeButton
-                                        likes={likes}
-                                        documentID={photoId}
-                                        type="user_photo"
-                                    />
-                                    <div
-                                        className="flex m-auto [&>*]:mx-1 cursor-pointer"
-                                        id="ReplyField"
-                                        onClick={()=>setDisplayReplyEditor(prev => !prev)}
-                                    >
-                                        <span>Reply</span>
-                                        <IconContext.Provider value={{ size: "25px" }}>
-                                            <BiCommentDetail />
-                                        </IconContext.Provider>
-                                    </div>
-                                </>
-                            }
+                            <CommentContext.Provider value={commentContext}>
+                                <ReplyActionBar
+                                    customStyle={`inline-flex mt-5 mx-auto [&>*]:mx-[10px]`}
+                                />
+                            </CommentContext.Provider>
                         </div>
                     {displayReplyEditor &&
                         <div className="w-11/12 mx-auto pb-10 border-[1px] rounded-md box_shadow">

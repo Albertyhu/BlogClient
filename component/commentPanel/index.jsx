@@ -182,6 +182,7 @@ const CommentPanel = props => {
                                 images={images}
                                 setDisplayReplyInput={setDisplayReplyInput}
                                 replyRef={replyRef}
+                                contextItem={CommentContext}
                                 />
                         </ReplyContext.Provider>
                         :
@@ -199,7 +200,7 @@ const CommentPanel = props => {
                                     setEditMode(false); 
                                 }}
                                 contextItem={CommentContext}
-                                    />
+                                />
                         </div>
                 }
                 </div>

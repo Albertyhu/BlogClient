@@ -13,6 +13,7 @@ import RenderReplyActionbar from '../replyActionBar';
 import uuid from 'react-uuid';
 import { CommentInput } from '../formElements/commentInputs.jsx';
 import CommentHeader from './header.jsx'; 
+import { CommentContext } from '../../util/contextItem.jsx'; 
 
 //This component renders the comment and also handles displaying the editor for posting a new reply 
 const RenderComment = props => {
@@ -31,6 +32,9 @@ const RenderComment = props => {
         //If the comment is a reply to another comment, the component will indicate whom the comment will be replying to 
         userRepliedTo,
         CommentRepliedTo, 
+
+        //This passes the context item to ReplyActionBar component 
+        contextItem, 
     } = props; 
 
     return (
@@ -50,7 +54,7 @@ const RenderComment = props => {
                             id="DateField"
                             className="italic"
                         >
-                            {lastEdited != datePublished ?
+                            {lastEdited != undefined && lastEdited != datePublished ?
                                 <p>Last Edited {RenderTimePosted(lastEdited)}</p>
                                 :
                                 <p>Submitted {RenderTimePosted(datePublished)}</p>
@@ -88,7 +92,9 @@ const RenderComment = props => {
                     </div>
                 </div>
             </div>
-            <RenderReplyActionbar />
+            <RenderReplyActionbar
+                contextItem={contextItem}
+            />
             {/*Editor for posting a new reply */}
             {displayReplyInput &&
                 <div className = "border-2 rounded-md p-5">

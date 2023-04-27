@@ -3,14 +3,14 @@
     "",
     "\\component",
     "\\component\\commentPanel",
-    "\\component\\header",
-    "\\component\\replyActionBar",
+    "\\component\\replyActionBar (2)",
+    "\\component\\userPhoto",
     "\\hooks",
     "\\screens",
     "\\screens\\home",
     "\\screens\\post",
     "\\screens\\userPhoto"
   ],
-  "SelectedNode": "\\component\\userPhoto\\photoPanel.jsx",
+  "SelectedNode": "\\component\\replyActionBar (2)\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

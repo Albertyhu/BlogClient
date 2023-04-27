@@ -15,30 +15,18 @@ import { RiDeleteBin6Line } from 'react-icons/Ri';
 const MobileMenu = props => {
 
     const {
-        contextItem,
         LinkMenuRef,
+        closeMobileMenu, 
     } = props; 
     const {
-        apiURL,
-        setLoading,
         token,
     } = useContext(AppContext);
 
     const linkStyle = `actionBarLink hover:bg-[#33333] mb-5`; 
 
     const {
-        content,
-        datePublished,
-        lastEdited,
         author,
-        images,
-        likes,
-        post,
-        _id,
-        replies,
         decoded,
-        setComments,
-        setMessage, 
         DeleteAction, 
         ShareAction, 
         openEditorToUpdate, 
@@ -58,7 +46,10 @@ const MobileMenu = props => {
                 <button
                     className={`${linkStyle}`}
                     type='button'
-                    onClick={openEditorToUpdate}
+                    onClick={() => {
+                        openEditorToUpdate();
+                        closeMobileMenu();
+                    }}
                 >
                     <span>Edit</span>
                     <IconContext.Provider value={{ size: "25px" }}>
@@ -68,7 +59,10 @@ const MobileMenu = props => {
                 <button
                     className={`${linkStyle}`}
                     type='button'
-                    onClick={DeleteAction}
+                    onClick={() => {
+                        DeleteAction();
+                        closeMobileMenu(); 
+                    }}
                 >
                     <span>Delete</span>
                     <IconContext.Provider value={{ size: "25px" }}>
@@ -81,7 +75,10 @@ const MobileMenu = props => {
                 <button
                     className={`${linkStyle}`}
                     type='button'
-                    onClick={ShareAction}
+                    onClick={() => {
+                        ShareAction();
+                        closeMobileMenu();
+                    }}
                 >
                     <span>Share</span>
                     <IconContext.Provider value={{ size: "25px" }}>

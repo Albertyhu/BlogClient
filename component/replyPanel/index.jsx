@@ -107,6 +107,7 @@ const ReplyPanel = props => {
         toggleReplyEditor: () => setDisplayReplyInput(prev => !prev),
         DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },
         openEditorToUpdate: () => setEditMode(true), 
+        fullActionBar: false,
     }
 
     /*code for posting new reples*/
@@ -140,12 +141,15 @@ const ReplyPanel = props => {
 
 
     const replyContext = {
+        decoded,
+        author, 
         content: replyContent,
         images: replyImages,
         setImages: (val) => setReplyImages(val),
         imagesError: replyImagesError,
         replyRef,
-        imagesInputRef: replyImageInputRef, 
+        imagesInputRef: replyImageInputRef,
+
     } 
 
     return (
@@ -174,6 +178,7 @@ const ReplyPanel = props => {
                                 replyRef={replyRef}
                                 userRepliedTo={userRepliedTo}
                                 CommentRepliedTo={commentRepliedTo}
+                                contextItem={ReplyContext}
                             />
                         </ReplyContext.Provider>
                         :

@@ -92,7 +92,19 @@
     }
 
     .selectedPhoto {
-        @apply before:border-4 before:border-black before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] before:z-[10] before:absolute before:object-cover before:top-0 before:left-0 before:right-0; 
+        @apply before:border-4 before:border-black before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] before:z-[10] before:absolute before:object-cover before:top-0 before:left-0 before:right-0;
+    }
+
+    .adminButtonScrollStyle {
+        @apply lg:before:bg-[#ffffff] lg:before:h-[150px]  lg:before:opacity-100;
+    }
+
+    .adminButtonInitial {
+        @apply lg:before:h-[0];
+    }
+
+    .box_shadow_bottom {
+        @apply before:shadow-[0px_15px_10px_-15px_#111];
     }
 }
 
@@ -114,7 +126,6 @@ body {
 .box_shadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-
 
 .ErrorMessage {
     color: red;

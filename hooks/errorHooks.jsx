@@ -238,6 +238,7 @@ const UserPhotoErrorHooks = () => {
         const {
             setCaptionError,
             setTitleError, 
+            setMessage, 
         } = dispatchFunctions; 
         function resetErrorFields() {
             if (setCaptionError) {
@@ -257,7 +258,7 @@ const UserPhotoErrorHooks = () => {
                     setCaptionError(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
                 default:
-                    setGeneralError(prev => [...prev, { param: error.param, msg: error.msg }]);
+                    setMessage(prev => [...prev, { param: error.param, msg: error.msg }]);
                     break;
             }
         })

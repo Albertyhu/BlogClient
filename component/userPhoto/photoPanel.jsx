@@ -43,12 +43,12 @@ const PhotoPanel = props => {
         VisitOnePhoto, 
         } =NavigationHooks(navigate)
     const imageStyle = `h-full w-full md:w-full md:h-auto bg-bottom bg-cover top-[50%] translate-y-[-50%] 
-                        absolute cursor-pointer`;
+                        absolute cursor-pointer object-cover`;
 
     const Delay = `delay-[${400 * index}ms]`
-    const containerStyle = `w-full h-[150px] md:h-[250px] relative select-none bg-no-repeat overflow-hidden
+    const containerStyle = `w-full h-[360px] sm:h-[250px] md:h-[250px] relative select-none bg-no-repeat overflow-hidden
                             transition-[opacity_transform] opacity-0 duration-[1000ms]
-                            translate-y-[-20px] object-fit`;
+                            translate-y-[-20px] `;
 
     const dataURL = !isBase64Image(image) ? `data:${image.contentType};base64,${image.data}` : image;
     const imageRef = useRef(); 

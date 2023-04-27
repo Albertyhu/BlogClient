@@ -1,20 +1,17 @@
 import { useContext, useState, useEffect, lazy, useMemo } from 'react'
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     AppContext,
     UserPhotoContext, 
 } from '../../util/contextItem.jsx';
-import { FetchHooks } from '../../hooks/userPhotoHooks.jsx'
-const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx'));
+import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import {
     DecodeToken,
     GetDecodedToken,
 } from '../../hooks/decodeToken.jsx';
 import RenderUserPhotos from '../../component/userPhoto'; 
-import AddButton from '../../component/addButton.jsx'; 
-import { BiTrash } from 'react-icons/Bi';
-import { IconContext } from "react-icons";
+import { AdminButtons } from '../../component/userPhoto/adminButtons.jsx'; 
 
 //This screen renders all the photos the user has posted on his profile
 //Prerequisite of rendering this component: must retrieve User's ObjectId
@@ -52,12 +49,20 @@ const RenderPhotoScreen = props => {
         setPhotos(arr); 
     }
 
+    const DeletePhotos = () => {
+        BulkDeletePhotos(selected, userId, decoded);
+        removePhotos();
+        setSelected([]);
+        setEditMode(false);
+    }
+
     const context = {
         userId,
         username, 
         editmode,
         setEditMode, 
         setSelected,
+        setPhotos, 
         addSelected: (val) => { setSelected(prev => [...prev, val]) },
         removeSelected: (val) => {
             var arr = selected.filter(item => item != val)
@@ -73,12 +78,7 @@ const RenderPhotoScreen = props => {
         }
     }
 
-    const DeletePhotos = () => {
-        BulkDeletePhotos(selected, userId, decoded);
-        removePhotos();
-        setSelected([]);
-        setEditMode(false);
-    }
+
 
     useEffect(() => {
         if (userId) {
@@ -99,45 +99,12 @@ const RenderPhotoScreen = props => {
                         className="text-2xl text-center my-10 mx-auto capitalize"
                     >{username}'s Photos</h1>
                     {decoded && decoded.id == userId &&
-                        <div
-                            id="ButtonField"
-                            className="md:absolute md:left-auto md:right-[10px] md:top-[10px] grid md:flex mx-auto [&>*]:mx-5 w-fit"
-                        >
-                            {!editmode ?
-                                <>
-                                    <AddButton
-                                        title="Upload more photos"
-                                        dispatchFunction={() => GoBulkUpload(userId, username)}
-                                        buttonStyle="btn-add mx-auto block mb-10"
-                                    />
-                                    <button
-                                        id="DeleteButton"
-                                        className="btn-cancel mb-10"
-                                        onClick={() => setEditMode(true)}
-                                    >Select and remove</button>
-                                </>
-                                :
-                                <>
-                                    <IconContext.Provider value={{ size: "25px" }}>
-                                        <button
-                                            id="DeleteButton"
-                                            className="btn-delete mb-10 [&>*]:inline-block [&>*]:whitespace-nowrap font-bold"
-                                            onClick={DeletePhotos}
-                                        >
-                                            <span
-                                                className="mr-5"
-                                            >Remove selected</span>
-                                            <BiTrash />
-                                        </button>
-                                    </IconContext.Provider>
-                                    <button
-                                        id="CancelButton"
-                                        className="btn-cancel mb-10 font-bold"
-                                        onClick={() => setEditMode(false)}
-                                    >Cancel</button>
-                                </>
-                            }
-                        </div>
+
+                        <AdminButtons
+                            editmode={editmode}
+                            photos={photos}
+                            selected={selected}
+                        />
                         }
                 </div>
                 {!loading ?

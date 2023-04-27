@@ -1,0 +1,31 @@
+replyActionBar 
+
+Purpose: This renders the action bar beneath comments and other components. 
+It allows users to edit, delete or reply to comments. 
+
+Prerequsites: 
+It must use CommentContext
+ 
+Input Data:
+        likes,
+        //The array of ObjectId's of users who liks the comment, reply or post
+
+        _id,
+        //ObjectId of the comment, reply or post
+
+        toggleReplyEditor,
+        //Function that controls whether text editor for replying either opens or closes
+        
+        ShareAction
+        //Function that triggers when the share button is clicked 
+        
+        author,
+        decoded,
+        DeleteAction, 
+        //function that triggers when the delete button is clicked 
+       
+       openEditorToUpdate, 
+        
+        fullActionBar 
+        //fullActionBar is a boolean value that determines whether to show the desktop or mobile verion of the action bar;
+        //Since the fullActionBar component is being used in other components, this gives more controll on how the bar should be displayed.

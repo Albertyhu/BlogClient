@@ -1,13 +1,24 @@
-import { useContext } from 'react';
+import {
+    useContext,
+    useEffect,
+} from 'react';
 import { UserPhotoContext } from '../../util/contextItem.jsx'; 
 import { RenderTimePosted } from '../../hooks/timeHooks.jsx';
 const RenderPhotoText = props => {
     const {
+        lastEdited, 
         title, 
         caption,
+    } = props; 
+
+    const {
         publishedDate, 
-        lastEdited, 
     } = useContext(UserPhotoContext)
+
+    useEffect(() => {
+        console.log("lastEdited", lastEdited)
+    }, [lastEdited])
+
     return (
         <>
             {title &&
@@ -19,8 +30,9 @@ const RenderPhotoText = props => {
                 publishedDate && <div>Published {RenderTimePosted(publishedDate)}</div>
             }
             {caption &&
-                <div>
-                    {caption}
+                <div
+                    dangerouslySetInnerHTML={{ __html: caption }}
+                >
                 </div>
             }
         </>

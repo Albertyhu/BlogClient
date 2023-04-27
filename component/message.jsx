@@ -4,7 +4,6 @@ import uuid from 'react-uuid';
 //this is component is for displaying messages that notifies user of when their post is saved, or when their comments are submitted, etc. 
 const MessageComponent = props => {
     const { message, dispatch } = props; 
-
     function AnimateMessage(DivElem) {
 
        var obj1= setTimeout(() => {

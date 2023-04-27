@@ -14,25 +14,12 @@ import { RiDeleteBin6Line } from 'react-icons/Ri';
 
 const MobileMenu = props => {
     const {
-        apiURL,
-        setLoading,
         token,
-        contextItem, 
     } = useContext(AppContext);
 
     const {
-        content,
-        datePublished,
-        lastEdited,
         author,
-        images,
-        likes,
-        post,
-        _id,
-        replies,
         decoded,
-        setComments,
-        setMessage,
         DeleteAction,
         ShareAction,
         openEditorToUpdate, 

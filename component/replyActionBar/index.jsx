@@ -16,6 +16,9 @@ import MobileMenu from './mobileMenu.jsx';
 //This is mainly for the comment component
 const RenderReplyActionBar = props => {
     const {
+        customStyle = null, 
+    } = props; 
+    const {
         token, 
         ContainerRef, 
     } = useContext(AppContext)
@@ -29,18 +32,8 @@ const RenderReplyActionBar = props => {
         }
     }
     const {
-        content,
-        datePublished,
-        lastEdited,
-        author,
-        images,
         likes,
-        post,
         _id,
-        replies, 
-        decoded, 
-        setComments, 
-        setMessage, 
         toggleReplyEditor,
 
         //fullActionBar is a boolean value that determines whether to show the desktop or mobile verion of the action bar; 
@@ -65,7 +58,7 @@ const RenderReplyActionBar = props => {
     return (
         <div
             id="InteractiveField"
-            className="inline-flex mt-5 relative [&>*]:mr-10"
+            className={customStyle ? customStyle : `inline-flex mt-5 relative [&>*]:mx-[8px] [&>*]:md:mr-10`}
         >
             {token &&
             <>
@@ -86,11 +79,13 @@ const RenderReplyActionBar = props => {
                     </button>
             </>
             }
-            {fullActionBar && <DesktopLinks />}
+            {fullActionBar &&
+                <DesktopLinks
+                />
+            }
             {token &&
                 <div
                     id="MobileIcon"
-                    //className="block md:hidden"
                     className={`cursor-pointer ${!fullActionBar ? "block" : "block md:hidden"}`}
                     onClick={() => setMobileMenu(true)}
                     ref={DotRef}
@@ -102,7 +97,8 @@ const RenderReplyActionBar = props => {
             }
             {mobileMenu &&
                 <MobileMenu
-                    LinkMenuRef={LinkMenuRef}
+                LinkMenuRef={LinkMenuRef}
+                closeMobileMenu={() => setMobileMenu(false)}
                 />
             }
         </div> 

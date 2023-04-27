@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from 'react'; 
+import { useState, useContext, useRef, useEffect } from 'react'; 
 import {
     UserPhotoContext,
     AppContext, 
@@ -11,10 +11,6 @@ import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
 
 const EditPhotoTextPanel = props => {
     const {
-        cancel, 
-        photoId,
-        userId, 
-        owner, 
         contextItem, 
         closeEdit, 
     } = props;
@@ -25,11 +21,13 @@ const EditPhotoTextPanel = props => {
         setMessage, 
     } = useContext(AppContext)
     const {
+        photoId, 
         title,
         setTitle,
         caption,
         setCaption,
         setLastEdited, 
+        owner, 
     } = contextItem ? useContext(contextItem) : props; 
     const originalTitle = title;
     const originalCaption = caption; 
@@ -43,16 +41,23 @@ const EditPhotoTextPanel = props => {
         captionInputRef, 
         photoId, 
         owner, 
-        setLastEdited, 
+
     } 
+    const dispatchFunctions = {
+        setCaption, 
+        setLastEdited,
+        setCaptionError,
+        setTitleError,
+    }
     const reset = () => {
         setTitle(originalTitle)
         setCaption(originalCaption)
     }
+
     return (
         <form
             id="EditPhotoTextForm"
-            className="grid" 
+            className="grid mt-10" 
         >
             <BasicTextInput
                 data={title}
@@ -73,12 +78,12 @@ const EditPhotoTextPanel = props => {
                 editorRef={captionInputRef}
                 HEIGHT={500}
             />
-            <div className = "grid md:flex mx-auto">
+            <div className= "flex md:flex mx-auto [&>*]:mx-5 [&>*]:md:mx-10 [&>*]:mb-5">
                 <button
                     type="button"
                     className="btn-primary"
                     onClick={() => {
-                        UpdateDetails(Elements); 
+                        UpdateDetails(Elements, dispatchFunctions); 
                         closeEdit(); 
                     }}
                 >Save</button>

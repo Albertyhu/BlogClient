@@ -1,3 +1,17 @@
+4/26/23
+Here is a huge issue I just realized. 
+If you can make an error in the client that causes the server to crash, the crash will not be fixed until the server is manually restarted. 
+How do you guard against this? 
+
+The profile page goes blank if you are not logged in.
+
+4/26/12
+The like component for user photos is not working. 
+The toolbar of the tinyMCE editor juts out in mobile view
+
+To Do: 
+Test out deleting user photo functionality 
+
 4/21/23
 To do
 Refine the mobile menu 

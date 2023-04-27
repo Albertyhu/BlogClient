@@ -18,6 +18,7 @@ const {
 } = Base64Hooks()
 
 const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
+    const { GoUserPhotos } = NavigationHooks(navigate)
     const FetchUserPhotos = async (userId, setPhotos) => {
         const FetchURL = `${apiURL}/users/${userId}/user_photos`;
         setLoading(true)
@@ -55,6 +56,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
             setDetails, 
             setLikes, 
             setComments, 
+            setOwner, 
         } = dispatchFunctions;  
         const FetchURL = `${apiURL}/user_photo/${photoId}`;
         setLoading(true)
@@ -76,6 +78,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
                     setLastEdited(result.photo.lastEdited); 
                     setLikes(result.photo.likes)
                     setComments(result.photo.comments)
+                    setOwner(result.photo.owner); 
                 }
                 else {
                     console.log("FetchPhotoDetails error: ", error)
@@ -132,6 +135,35 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
 
     }
 
+    const DeletePhoto = async (photoId, userId, username) => {
+        const FetchURL = `${apiURL}/user_photo/${photoId}/delete`; 
+        await fetch(FetchURL, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        })
+            .then(async response => {
+                if (response.ok) {
+                    setLoading(false)
+                    GoUserPhotos(username, userId, "Your photo has been deleted.")
+                }
+                else {
+                    const result = await response.json();
+                    setLoading(false)
+                    console.log("DeletePhoto error: ", result.error)
+                    setMessage(Array.isArray(result?.error) ? result.error : [result.error])
+                }
+
+            })
+            .catch(error => {
+                console.log("DeletePhoto error: ", error)
+                setMessage(Array.isArray(error) ? error : [error])
+                setLoading(false)
+            })
+    }
+
+
     const BulkDeletePhotos = async (imgIdArray, userId, decoded) => {
         if (decoded.id != userId) {
             setMessage([{ msg: "You are not permitted to do that", param: "general"}])
@@ -173,15 +205,19 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
         setLoading(false); 
     }
 
-    const UpdateDetails = async ({
+    const UpdateDetails = async({
         title,
         captionInputRef,
         photoId,
-        owner, 
-        setLastEdited ,
+        owner
+    }, { 
+        setCaption, 
+        setLastEdited,
+        setCaptionError,
+        setTitleError, 
     }) => {
         const decoded = DecodeToken(token);
-        if (decoded.id != owner) {
+        if (decoded.id != owner._id) {
             alertMessage("You don't permission to do that.", setMessage)
             return; 
         }
@@ -189,7 +225,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
         const caption = GetContent(captionInputRef); 
         const FetchURL = `${apiURL}/user_photo/${photoId}/edit`
         formData.append("caption", caption)
-        formaData.append("title", title)
+        formData.append("title", title)
         setLoading(true)
         await fetch(FetchURL, {
             method: "PUT", 
@@ -198,16 +234,19 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
                 "Authorization": `Bearer ${token}`
             }
         }).then(async response => {
-            const result = await response.JSON(); 
+            const result = await response.json(); 
             if (response.ok) {
-                //dispatch(result.updatedPhoto);
+                console.log("title: ", result.title)
+                console.log("caption: ", result.caption)
+                setCaption(caption)
                 setLastEdited(result.lastEdited)
                 setLoading(false)
                 alertMessage("Your photo has been updated.", setMessage)
             }
             else {
                 setLoading(false)
-                RenderErrorArray(result.error)
+                console.log("result.error: ", result.error)
+                RenderErrorArray(result.error, {setCaptionError, setTitleError, setMessage})
             }
         })
             .catch(error => {
@@ -216,10 +255,13 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
             })
     }
 
+
+
     return {
         FetchUserPhotos,
         FetchPhotoDetails,
-        BulkUploadPhotos, 
+        BulkUploadPhotos,
+        DeletePhoto, 
         BulkDeletePhotos, 
         UpdateDetails, 
     }
