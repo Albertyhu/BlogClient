@@ -16,3 +16,7 @@ export const CommentContext = createContext();
 export const CommentPanelContext = createContext(); 
 
 export const UserPhotoContext = createContext(); 
+
+export const MenuLinksContext = createContext(); 
+
+export const PasswordFormContext = createContext(); 

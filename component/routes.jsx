@@ -27,6 +27,7 @@ import MessageComponent from '../component/messageComponent.jsx';
 import UserPhotosScreen from '../screens/userPhoto'; 
 import PhotoDetailScreen from '../screens/userPhoto/photoDetail.jsx'; 
 import BulkUploadForm from '../screens/userPhoto/bulkUpload.jsx';
+import SettingsPage from '../screens/userSettings'; 
 
 const Apps = props => {
     const {
@@ -36,7 +37,7 @@ const Apps = props => {
         setMessage, 
     } = useContext(AppContext); 
 
-    const containerStyle = `w-full flex flex-col relative grow min-h-[120vh]`
+    const containerStyle = `w-full flex flex-col relative grow min-h-[120vh] bg-[#E5E5E5]`
     return (
         <div
             id="Container"
@@ -77,6 +78,7 @@ const Apps = props => {
                         <Route path="/profile/:username/user_photos" element={<UserPhotosScreen />} />
                         <Route path="/profile/:username/user_photos/:photoId" element={<PhotoDetailScreen />} />
                         <Route path="/profile/:username/user_photos/bulk_upload" element={<BulkUploadForm />} />
+                        <Route path="/profile/:username/settings" element={<SettingsPage />} />
                     </Routes>
                 </div>
                 <Footer />

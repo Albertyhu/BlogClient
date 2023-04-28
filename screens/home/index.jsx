@@ -29,7 +29,7 @@ const Home = props => {
     const [profileImage, setProfileImage] = useState(null)
 
 
-    const { DeleteUser } = UserProfileHooks(); 
+    const { DeleteUser } = UserProfileHooks(apiURL, token, setLoading, setMessage); 
  
     const dispatchFunctions = {
         ClearUserData,
@@ -75,8 +75,7 @@ const Home = props => {
                 <button
                         type='button'
                         className='btn-delete'
-                        value="Sign Up"
-                        onClick={() => { DeleteUser(apiURL, user.id, dispatchFunctions)} }
+                        onClick={() => { DeleteUser(user.id, dispatchFunctions)} }
                 >Delete Account</button>
             }
             </div>

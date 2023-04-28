@@ -24,7 +24,7 @@ const ProfilePage = props => {
     const [decoded, setDecoded] = useState(null)
     useEffect(() => {
         fetchUserDetails(id, setProfileDetails, setError)
-        window.scrollTo(0,0)
+        
     }, [id])
 
     useEffect(() => {
@@ -32,6 +32,13 @@ const ProfilePage = props => {
             setDecoded(DecodeToken(token))
         }
     }, [token])
+
+    useEffect(() => {
+        window.addEventListener("load", () => scrollTo(0, 0))
+        return () => {
+            window.removeEventListener("load", () => scrollTo(0, 0))
+        }
+    }, [])
 
     return (
         <div className = 'text-center mt-[20px]'>

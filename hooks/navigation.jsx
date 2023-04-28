@@ -14,13 +14,15 @@ const NavigationHooks = (navigate) => {
 
 
     function GoSignIn() {
-        navigate("/signin", {})
-        if(setMessage)
-          setMessage("You are now logged in.")
+        navigate("/signin", {
+            message: message ? [{ param: "general", msg: "You are now logged in." }] : null, 
+        })
     } 
 
     function GoSignUp() {
-        navigate("/signup", {})
+        navigate("/signup", {
+            message: message ? [{ param: "general", msg: "Your account has been created." }] : null, 
+        })
     }
 
     function GoEditProfile(username, userID) {
@@ -28,7 +30,6 @@ const NavigationHooks = (navigate) => {
             state: {
                 id: userID,
                 username, 
-
             }
         })
     }
@@ -140,6 +141,15 @@ const NavigationHooks = (navigate) => {
         })
     }
 
+    function GoSettings(username, userId) {
+        navigate(`/profile/${cleanString(username)}/settings`, {
+            state: {
+                username,
+                userId,
+            }
+        })
+    }
+
     return {
         GoHome,
         GoSignIn,
@@ -159,6 +169,7 @@ const NavigationHooks = (navigate) => {
         GoUserPhotos, 
         VisitOnePhoto, 
         GoBulkUpload,
+        GoSettings,
     }
 }
 

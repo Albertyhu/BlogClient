@@ -54,7 +54,8 @@ export const AdminButtons = props => {
     }
 
     const BackgroundField = useRef(); 
-    const scrollEvent = (position) => {
+    const scrollEvent = () => {
+        var position = window.scrollY;
         if (position >= 42) {
             BackgroundField.current.classList.remove("adminButtonInitial")
             BackgroundField.current.classList.add("adminButtonScrollStyle")
@@ -65,12 +66,15 @@ export const AdminButtons = props => {
         }
     }
 
-    window.onscroll = (evt) => {
-        var position = window.scrollY;
-        scrollEvent(position);
-    }
+    useEffect(() => {
+        window.addEventListener('scroll', scrollEvent);
+        window.addEventListener('load', () => { window.scrollTo(0, 0) });
 
-    window.onload = () => { window.scrollTo(0,0)}
+        return () => {
+            window.removeEventListener('scroll', scrollEvent);
+            window.removeEventListener('load', () => { window.scrollTo(0, 0) });
+        };
+    }, []);
 
     return (
         <div

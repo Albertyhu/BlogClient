@@ -53,7 +53,10 @@ function App() {
         setMessage,
     }
     const { FetchCategories } = CategoryHooks(null, context.apiURL, token, setLoading)
-    const { GetUsersAndCategeries } = FetchHooks(context.apiURL, token, setLoading, setMessage)
+    const {
+        GetUsersAndCategeries,
+        GetCurrentUserAndCategories, 
+    } = FetchHooks(context.apiURL, token, setLoading, setMessage)
     useEffect(() => {
         if (token) {
             setDisplayMemberComponents(true)

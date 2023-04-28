@@ -1,7 +1,13 @@
-import { useCallback, useEffect } from 'react'; 
+import { useCallback, useEffect, useContext, useState } from 'react'; 
+import {
+    AppContext,
+    PasswordFormContext, 
+} from '../util/contextItem.jsx'; 
+import { UserProfileHooks } from '../hooks/userProfileHooks.jsx';
 import { useNavigate } from 'react-router-dom'
 import PlusIcon from '../assets/icons/white_plus_icon.png'; 
 import "../src/index.css"; 
+import PasswordForm from './user/passwordForm.jsx'; 
 
 //Pre-requisites: react-router-dom
 //ButtonStyle: Tailwind CSS properties of the button
@@ -27,6 +33,8 @@ const Button = props => {
         >{Value}</button>)
 }
 
+
+
 const AddButton = props => {
     const { title,
         dispatchFunction,
@@ -48,7 +56,54 @@ const AddButton = props => {
         )
 }
 
+const DeleteAccountButton = () => {
+    const {
+        apiURL, 
+        decoded,
+        ClearUserData,
+        token,
+        setLoading,
+        setMessage,
+    } = useContext(AppContext)
+    const { DeleteUserWithPassword } = UserProfileHooks(apiURL, token, setLoading, setMessage); 
+    const navigate = useNavigate(); 
+    const dispatchFunctions = { ClearUserData, navigate }; 
+    const [currentPassword, setCurrentPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+    const [displayForm, setDisplayForm] = useState(false)
+    const context = {
+        prompt: "Enter your password to delete your account.",
+        currentPassword,
+        setCurrentPassword,
+        confirmPassword,
+        setConfirmPassword, 
+        cancel: () =>setDisplayForm(false), 
+    } 
+    return (
+        <PasswordFormContext.Provider value={context}>
+            <button
+                type='button'
+                className='btn-delete'
+                onClick={() => { setDisplayForm(true) }}
+            >Delete Account</button>
+            {displayForm &&
+                <div
+                    id="DeleteFormWrapper"
+                    className = "absolute z-25 top-[5%] left-[0px] sm:left-[50%] sm:translate-x-[-50%]"
+                >
+                    <PasswordForm
+                        submitEvent={()=>DeleteUserWithPassword(decoded.id, currentPassword, confirmPasssword, dispatchFunctions)}
+                        />
+                </div>
+            }
+        </PasswordFormContext.Provider >
+        )
+}
+
+
 export {
     AddButton,
-    Button
+    Button, 
+    DeleteAccountButton
 }
+

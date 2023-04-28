@@ -9,33 +9,31 @@ const HeaderFunctions = () => {
 		})
 		return confirmed;
 	}
-	const CloseMobileMenu = (MobileMenuDiv) => {
-		MobileMenuDiv = document.getElementById('MobileMenuDiv');
-		MobileMenuDiv.classList.remove("translate-x-[0px]");
-		MobileMenuDiv.classList.add("translate-x-[270px]");
+	const CloseMobileMenu = (elemRef) => {
+		elemRef.current.classList.remove("translate-x-[0px]");
+		elemRef.current.classList.add("translate-x-[270px]");
 	}
-	const OpenMobileMenu = (MobileMenuDiv) => {
-		MobileMenuDiv = document.getElementById('MobileMenuDiv');
-		MobileMenuDiv.classList.remove("translate-x-[270px]");
-		MobileMenuDiv.classList.add("translate-x-[0px]");
+	const OpenMobileMenu = (elemRef) => {
+		elemRef.current.classList.remove("translate-x-[270px]");
+		elemRef.current.classList.add("translate-x-[0px]");
 	} 
 
-	const toggleAccountMenu = (setAccountMenuOpened) => {
-		var AccountMenuElem = document.querySelector("#AccountMenu");
-		if (AccountMenuElem.classList.contains("hidden")) {
-			AccountMenuElem.classList.remove('hidden');
-			AccountMenuElem.classList.add('grid');
+	const toggleAccountMenu = (setAccountMenuOpened, elemRef) => {
+		if (elemRef.current.classList.contains("hidden")) {
+			elemRef.current.classList.remove('hidden');
+			elemRef.current.classList.add('grid');
 			setAccountMenuOpened(true)
 		}
 		else {
-			closeAccountMenu(setAccountMenuOpened); 
+			elemRef.current.classList.remove('grid');
+			elemRef.current.classList.add('hidden');
+			closeAccountMenu(setAccountMenuOpened, elemRef);
 		}
 	}
 
-	const closeAccountMenu = (setAccountMenuOpened) => {
-		var AccountMenuElem = document.querySelector("#AccountMenu");
-		AccountMenuElem.classList.remove('grid');
-		AccountMenuElem.classList.add('hidden');
+	const closeAccountMenu = (setAccountMenuOpened, elemRef) => {
+		elemRef.current.classList.remove('grid');
+		elemRef.current.classList.add('hidden');
 		setAccountMenuOpened(false)
 	}
 

@@ -1,9 +1,12 @@
 import { Base64Hooks } from './imageHooks.jsx';
 import { alertMessage } from './textHooks.jsx';
 
-const FetchHooks = (apiURL, token, setLoading, setMessage) => {
-    const { toBase64 } = Base64Hooks()
+const {
+    convertObjToBase64,
+    toBase64, 
+} = Base64Hooks(); 
 
+const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     const GetAllUsers = async (setUsers) => {
         const FetchURL = `${apiURL}/users`; 
         setLoading(true)
@@ -156,6 +159,39 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             })
     }
 
+    const GetCurrentUserAndCategories = async (userId, dispatchFunctions) => {
+        const {
+            setCategoryList, 
+            setUser
+        } = dispatchFunctions; 
+        const FetchURL = `${apiURL}/users/${userId}/get_current_user_and_categories`; 
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: "GET",
+            headers: {
+                "Authorization" : `Bearer ${token}`
+            }
+        }).then(async response => {
+            const result = await response.json(); 
+            if (response.ok) {
+                result.user.profile_pic = convertObjToBase64(result.user.profile_pic)
+                setUser(result.user); 
+                setCategoryList(result.categories)
+                setLoading(false)
+            }
+            else {
+                console.log("GetOneUserAndCategories error 1: ", result.error); 
+                setLoading(false)
+                alertMessage(result.error, setMessage)
+
+            }
+        }).catch(error => {
+            setLoading(false)
+            console.log("GetOneUserAndCategories error 2: ", error);
+            alertMessage(error, setMessage)
+        })
+    }
+
     return {
         GetAllUsers, 
         fetchUserDetails,
@@ -163,6 +199,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
         FetchProfilePic,
         FetchPostsByCategory,
         GetUsersAndCategeries, 
+        GetCurrentUserAndCategories,
     }
 }
 

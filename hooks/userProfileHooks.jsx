@@ -1,8 +1,8 @@
 import { NavigationHooks } from './navigation.jsx'; 
 import { ErrorMessageHooks  } from './errorHooks.jsx';
 
-const UserProfileHooks = () => {
-    const DeleteUser = async (apiURL, userID, dispatchFunctions) => {
+const UserProfileHooks = (apiURL, token, setLoading, setMessage) => {
+    const DeleteUser = async (userID, dispatchFunctions) => {
         const DeleteURL = `${apiURL}/users/${userID}/delete`; 
         const { ClearUserData, navigate } = dispatchFunctions; 
         console.log("DeleteURL: ", DeleteURL)
@@ -10,6 +10,7 @@ const UserProfileHooks = () => {
             method: "DELETE",
         } 
         const { GoHome } = NavigationHooks(navigate);
+        setLoading(true)
         await fetch(DeleteURL, options)
             .then(async res => {
                 const data = await res.json(); 
@@ -19,13 +20,57 @@ const UserProfileHooks = () => {
                 }
                 localStorage.clear();
                 ClearUserData();
-                GoHome(navigate); 
+                setLoading(false)
+                GoHome("Account has been deleted"); 
             })
             .catch(err => {
+                setLoading(false)
                 console.error(err)
             })
     }
-    return {DeleteUser}
+
+    const DeleteUserWithPassword = async (userID, currentPassword, confirmPasssword, dispatchFunctions) => {
+        const DeleteURL = `${apiURL}/users/${userID}/delete_with_password`;
+        const { ClearUserData, navigate } = dispatchFunctions;
+        console.log("DeleteURL: ", DeleteURL)
+
+        const { GoHome } = NavigationHooks(navigate);
+        const formData = new FormData();
+        formData.append("currentPassword", currentPassword)
+        formData.append("confirmPassword", confirmPassword)
+        const options = {
+            method: "DELETE",
+            body: formData, 
+            headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+        }
+        setLoading(true)
+        await fetch(DeleteURL, options)
+            .then(async res => {
+                const data = await res.json();
+                if (!res.ok) {
+                    const error = (data.error || response.status)
+                    console.log("Internal service error: ", error)
+                    setLoading(false)
+                    alertMessage(`Error: ${error}`, setMessage)
+                }
+                localStorage.clear();
+                ClearUserData();
+                setLoading(false)
+                GoHome("Account has been deleted");
+            })
+            .catch(err => {
+                console.error(err)
+                alertMessage(`Error: ${error}`, setMessage)
+                setLoading(false)
+            })
+    }
+    return {
+        DeleteUser,
+        DeleteUserWithPassword
+
+    }
 }
 
 const EditUserHooks = (navigate) => {

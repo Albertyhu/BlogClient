@@ -1,80 +1,79 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx';
-import { AppContext } from '../../util/contextItem.jsx'; 
+import {
+    AppContext,
+    MenuLinksContext, 
+} from '../../util/contextItem.jsx'; 
 import RenderProfilePic from '../user/profilePicture.jsx'; 
+import MenuLinks from './menuLinks.jsx'; 
 
 const MobileMenu = props => {
     const {
-        Links,
         MobileMenuRef, 
+        MobileIconRef,
     } = props;
-    const {CloseMobileMenu} = HeaderFunctions();
     const {
-        user, 
-        token,
+        CloseMobileMenu,
+    } = HeaderFunctions();
+    const {
         ProfilePicture, 
         decoded, 
     } = useContext(AppContext)
     const navigate = useNavigate();
     const {
-        GoHome,
-        GoSignUp,
-        GoSignIn,
         VisitUser,
     } = NavigationHooks(navigate); 
-    var MobileMenuDiv = document.getElementById('MobileMenuDiv')
 
     const MobileMenuStyle = `block md:hidden bg-white w-[270px] text-black h-full overflow-y-scroll  
         fixed left-auto right-0 top-0 translate-x-[270px] transition-[transform] z-50`
 
-    return (
-        <div
-            id="MobileMenuDiv"
-            ref={MobileMenuRef}
-            className={MobileMenuStyle}
-            >
-            <div id="LinkWrapper"
-                className="w-8/12 mx-auto mt-[20px] [&>*]:mb-10 [&>*]:cursor-pointer"
-            >
-                {ProfilePicture && 
-                    <RenderProfilePic
-                    profile_pic={ProfilePicture}
-                    altText="ProfilePicture"
-                    clickEvent={()=>VisitUser(decoded.username, decoded.id)}
-                    />
-                }
-                <div onClick={useCallback(() => {
-                    console.log("Clicked on home.")
-                    GoHome(navigate);
-                    CloseMobileMenu(MobileMenuDiv);
-                }, [navigate])}>Home</div>
-                {token ? 
-                    <div>
-                        Account
-                    </div>
-                    :
-                    <div>
-                        <div
-                            onClick={() => {
-                            GoSignIn();
-                            CloseMobileMenu(MobileMenuDiv);
-                            }}
-                        >Sign In</div>
-                        <div
-                            onClick={() => {
-                            GoSignUp();
-                            CloseMobileMenu(MobileMenuDiv);
-                            }}
-                        >Sign Up</div>
-                        </div>
-                    }
+    const checkIfClickedOutside = evt => {
+        if (MobileMenuRef.current &&
+            MobileMenuRef.current.classList.contains("translate-x-[0px]") &&
+            MobileIconRef.current != evt.target &&
+            !MobileMenuRef.current.contains(evt.target)) {
+            CloseMobileMenu(MobileMenuRef)
+        }
+    }
 
-                {typeof Links != "undefined" && Links.map(link => <div>{link}</div>)}
-                <div onClick={()=>CloseMobileMenu(MobileMenuDiv)}>Close</div>
+    const LinkContext = {
+        //elemRef is a reference to the popup menu 
+        elemRef: MobileMenuRef,
+
+        //parentRef is a reference to element that toggles the menu 
+/*        parentRef: MobileIconRef, */
+        checkIfClickedOutside,
+        closeMenu: () =>CloseMobileMenu(MobileMenuRef), 
+
+    }
+
+    return (
+        <MenuLinksContext.Provider value={LinkContext}>
+            <div
+                id="MobileMenuDiv"
+                ref={MobileMenuRef}
+                className={MobileMenuStyle}
+                >
+                <div id="LinkWrapper"
+                    className="w-8/12 mx-auto mt-[20px] [&>*]:mb-10 [&>*]:cursor-pointer"
+                >
+                    {decoded && 
+                        <p className = "font-bold text-center">Hello, {decoded.username}.</p>
+                    }
+                    {ProfilePicture && 
+                        <RenderProfilePic
+                        profile_pic={ProfilePicture}
+                        altText="ProfilePicture"
+                        clickEvent={() => VisitUser(decoded.username, decoded.id)}
+                        dimensions="w-[170px] h-[170px]"
+                        />
+                    }
+                    <MenuLinks />
+                </div>
             </div>
-        </div>
+        </MenuLinksContext.Provider>
         )
 }
 
