@@ -1,15 +1,11 @@
 import { useContext, useState, useEffect, lazy, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     AppContext,
     UserPhotoContext, 
 } from '../../util/contextItem.jsx';
 import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
-import {
-    DecodeToken,
-    GetDecodedToken,
-} from '../../hooks/decodeToken.jsx';
 import RenderUserPhotos from '../../component/userPhoto'; 
 import { AdminButtons } from '../../component/userPhoto/adminButtons.jsx'; 
 
@@ -17,13 +13,8 @@ import { AdminButtons } from '../../component/userPhoto/adminButtons.jsx';
 //Prerequisite of rendering this component: must retrieve User's ObjectId
 const RenderPhotoScreen = props => {
     const location = useLocation(); 
-    var memoizedPhotos = null; 
     const [photos, setPhotos]=useState([])
-    const {
-        userId,
-        username, 
-    } = location.state
-
+    const { username } = useParams(); 
     const {
         user,
         loading, 
@@ -34,30 +25,18 @@ const RenderPhotoScreen = props => {
         decoded,
     } = useContext(AppContext)
     const navigate = useNavigate();
-    const { GoBulkUpload } = NavigationHooks(navigate, setMessage)
     const {
         FetchUserPhotos, 
-        BulkDeletePhotos, 
     } = FetchHooks(apiURL, token, setLoading, setMessage) 
     //This determines whether or not edit mode is on, which gives the user opportunity to delete photos in bulk.
+    const [userID, setUserID] = useState(location.state ? location.state.userId : null)
+
     const [editmode, setEditMode] = useState(false)
     //The follow variable stores photos that have been clicked and selected 
     const [selected, setSelected] = useState([])
 
-    const removePhotos = () => {
-        var arr = photos.filter(photo => !selected.some(ID => ID == photo._id.toString()))
-        setPhotos(arr); 
-    }
-
-    const DeletePhotos = () => {
-        BulkDeletePhotos(selected, userId, decoded);
-        removePhotos();
-        setSelected([]);
-        setEditMode(false);
-    }
-
     const context = {
-        userId,
+        userId: userID,
         username, 
         editmode,
         setEditMode, 
@@ -77,14 +56,16 @@ const RenderPhotoScreen = props => {
             }
         }
     }
-
-
-
+    
     useEffect(() => {
-        if (userId) {
-           FetchUserPhotos(userId, setPhotos)
+        if (username) {
+            const dispatchFunctions = {
+                setPhotos, 
+                setUserID, 
+            }
+           FetchUserPhotos(username, dispatchFunctions)
         }
-    }, [userId])
+    }, [username])
 
     return (
         <UserPhotoContext.Provider value ={context}>
@@ -98,7 +79,7 @@ const RenderPhotoScreen = props => {
                     <h1
                         className="text-2xl text-center my-10 mx-auto capitalize"
                     >{username}'s Photos</h1>
-                    {decoded && decoded.id == userId &&
+                    {decoded && userID && decoded.id == userID &&
 
                         <AdminButtons
                             editmode={editmode}

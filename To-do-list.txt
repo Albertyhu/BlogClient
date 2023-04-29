@@ -1,0 +1,11 @@
+To do
+Create lazy loading
+	Use intersection observer 
+Make the homepage a wall feed 
+Allow users' post to show up in their profile page. 
+Create search functionality
+Create abilty to filter through posts
+Need to configure how posts and comments should show up if the owners' accounts are deleted from database 
+Build Connections feature? 
+Users should be able to change to other photos when viewing user_photos 
+Fix like component in user photo details 

@@ -12,8 +12,7 @@ import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import RenderComment from '../commentPanel/renderComment.jsx';
 import CommentHeader from '../commentPanel/header.jsx'; 
 
-//should give owner of the comment the ability to edit 
-//Reply 
+//Renders the reply to a comment
 const ReplyPanel = props => {
     const {
         content,
@@ -33,6 +32,7 @@ const ReplyPanel = props => {
         rootComment, 
         userRepliedTo, 
         index,
+        userPhoto, 
     } = props;
     const navigate = useNavigate();
     const {
@@ -134,7 +134,8 @@ const ReplyPanel = props => {
             root: rootComment,
             CommentRepliedTo: _id,
             UserRepliedTo: author.username,
-            postId: post,
+            postId: post ? post : null,
+            userPhoto: userPhoto ? userPHoto : null, 
         }
         AddComment("comment", rootComment, "add_reply", Elements, replyDispatchFunctions)
     }

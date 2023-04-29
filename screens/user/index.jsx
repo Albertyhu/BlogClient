@@ -8,7 +8,6 @@ import { DecodeToken } from '../../hooks/decodeToken.jsx';
 
 const ProfilePage = props => {
     const location = useLocation(); 
-    const { id } = location.state; 
     const { username } = useParams(); 
     const {
         user,
@@ -16,16 +15,26 @@ const ProfilePage = props => {
         setLoading, 
         setMessage, 
         apiURL } = useContext(AppContext)
-    const { fetchUserDetails } = FetchHooks(apiURL, token, setLoading, setMessage); 
+    const {
+        fetchUserDetails,
+        fetchUserByName, 
+    } = FetchHooks(apiURL, token, setLoading, setMessage); 
+    const [profileId, setProfileId] = useState(location.state ? location.state.id? location.state.id : null : null)
     const [profileDetails, setProfileDetails] = useState(null)
     const [error, setError] = useState("")
     const navigate = useNavigate(); 
     const { GoEditProfilePicture } = NavigationHooks(navigate); 
     const [decoded, setDecoded] = useState(null)
+
     useEffect(() => {
-        fetchUserDetails(id, setProfileDetails, setError)
-        
-    }, [id])
+        if (username) {
+            var dispatchFunctions = {
+                setProfileDetails,
+                setProfileId
+            }
+            fetchUserByName(username, dispatchFunctions)
+        }
+    }, [username])
 
     useEffect(() => {
         if (token) {
@@ -52,7 +61,7 @@ const ProfilePage = props => {
             {profileDetails && profileDetails.profile_pic &&
                 <RenderProfilePic profile_pic={profileDetails.profile_pic} />
             }
-            {decoded && decoded.id.toString() == id.toString() &&
+            {decoded && profileId && decoded.id.toString() == profileId.toString() &&
                 <button
                     className="btn-secondary whitespace-nowrap mt-[20px]"
                     onClick={() => { GoEditProfilePicture(username, id) }}

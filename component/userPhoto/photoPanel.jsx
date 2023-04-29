@@ -67,7 +67,7 @@ const PhotoPanel = props => {
             toggleEvent()
         }
         else {
-            VisitOnePhoto(username, userId, _id, image, title)
+            VisitOnePhoto(username, userId, _id, title)
         }
     }
 

@@ -33,6 +33,7 @@ const CommentPanel = props => {
         //index of the comment in the comment array
         index, 
         fullActionBar = true, 
+        userPhoto, 
     } = props;
     const navigate = useNavigate();
     const {
@@ -106,6 +107,7 @@ const CommentPanel = props => {
         imagesError, 
         likes,
         post,
+        userPhoto,
         _id,
         replies,
         root,
@@ -144,7 +146,8 @@ const CommentPanel = props => {
             root: root,
             CommentRepliedTo: _id,
             UserRepliedTo: author.username,
-            postId: post, 
+            postId: post ? post : null,
+            userPhotoId: userPhoto ? userPhoto : null, 
         }
         AddComment("comment", _id, "add_reply", Elements, replyDispatchFunctions)
     }

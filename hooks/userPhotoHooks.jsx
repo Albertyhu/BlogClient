@@ -19,26 +19,31 @@ const {
 
 const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
     const { GoUserPhotos } = NavigationHooks(navigate)
-    const FetchUserPhotos = async (userId, setPhotos) => {
-        const FetchURL = `${apiURL}/users/${userId}/user_photos`;
+
+    const FetchUserPhotos = async (username, {
+        setPhotos,
+        setUserID,
+    }) => {
+        const FetchURL = `${apiURL}/users/${username}/user_photos`;
         setLoading(true)
         await fetch(FetchURL, {
             method: "GET",
         })
-        .then(async response => {
-            const result = await response.json(); 
-            if (response.ok) {
-                var photos = FormatUserPhotos(result.photos) 
-                setPhotos(photos)
-               // return photos
-                setLoading(false)
-            }
-            else {
-                setMessage(Array.isArray(result.error) ? result.error : [result.error])
-                setLoading(false)
-            }
-            
-        })
+            .then(async response => {
+                const result = await response.json();
+                if (response.ok) {
+                    var photos = FormatUserPhotos(result.photos);
+                    setPhotos(photos);
+                    setUserID(result.userId);
+                    // return photos
+                    setLoading(false)
+                }
+                else {
+                    setMessage(Array.isArray(result.error) ? result.error : [result.error])
+                    setLoading(false)
+                }
+
+            })
             .catch(error => {
                 console.log("FetchHooks error: ", error)
                 setMessage(Array.isArray(error) ? error : [error])
@@ -132,13 +137,15 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
                 setMessage(Array.isArray(error) ? error : [error])
                 setLoading(false)
             })
-
     }
 
     const DeletePhoto = async (photoId, userId, username) => {
         const FetchURL = `${apiURL}/user_photo/${photoId}/delete`; 
+        const formData = new FormData(); 
+        formData.append('owner', userId)
         await fetch(FetchURL, {
             method: "DELETE",
+            body: formData, 
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -279,4 +286,24 @@ const FormatUserPhotos = (data) => {
     })
 }
 
-export {FetchHooks}
+//This function returns the ObjectId's of the photos that are placed consecutively to the current photo in the user's photo array
+const GetNeighboringPhotos = (currentPhotoId, photoArray) => {
+    try {
+        var index = photoArray.findIndex(ID => ID.toString() === currentPhotoId.toString())
+        var neighbors = {
+            left: null,
+            right: null, 
+        };
+        neighbors.left = photoArray[index - 1] ? photoArray[index - 1] : null;
+        neighbors.right = photoArray[index + 1] ? photoArray[index + 1] : null;
+        return neighbors;
+    } catch (e) {
+        console.log("GetNeighboringPhotos error: ", e)
+        return {}; 
+    }
+}
+
+export {
+    FetchHooks,
+    GetNeighboringPhotos,
+}

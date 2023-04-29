@@ -6,7 +6,6 @@ import {
     FetchHooks,
     CreateAndUpdatePosts,
 } from '../../hooks/postHooks.jsx'; 
-import { ErrorMessageHooks, PostErrorHooks } from '../../hooks/errorHooks.jsx'; 
 import MainPanel from './mainPanel.jsx'; 
 import { PostNavigationHooks, NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { CommentInput } from '../../component/formElements/commentInputs.jsx'
@@ -40,7 +39,7 @@ const RenderPost = props => {
     const { DeletePost } = CreateAndUpdatePosts(navigate); 
     const PostContainerStyle = ``;
 
-    const [title, setTitle] = useState(location.state ? location.state.title : null);
+    const [title, setTitle] = useState(location.state ? location.state.title : post_title ? post_title : null);
     const [content, setContent] = useState(location.state ? location.state.content : null);
     const [datePublished, setDatePublished] = useState(location.state ? location.state.datePublished : null);
     const [lastEdited, setLastEdited] = useState(location.state ? location.state.lastEdited : null);
@@ -177,7 +176,7 @@ const RenderPost = props => {
                 >
                     <div
                         id="PostWrapper"
-                        className="w-11/12 box_shadow rounded-lg mx-auto pb-10 grow h-fit"
+                        className="w-11/12 box_shadow rounded-lg mx-auto pb-10 grow h-fit bg-[#ffffff]"
                     >
                         <MainPanel />
                         {displayCommentInput &&

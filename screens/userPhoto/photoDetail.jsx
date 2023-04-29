@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, lazy, useRef, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     AppContext,
     UserPhotoContext,
@@ -8,9 +8,6 @@ import {
 import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
 import RenderImage from '../../component/imageRendering/fullImage.jsx'; 
 import CommentPanel from '../../component/commentPanel';
-import { PostLikeFeatures } from '../../component/likeComponent.jsx';
-import { BiCommentDetail } from 'react-icons/Bi';
-import { IconContext } from 'react-icons'; 
 import { CommentInput } from '../../component/formElements/commentInputs.jsx';
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
@@ -27,16 +24,17 @@ const RenderPhotoDetail = props => {
         decoded, 
     } = useContext(AppContext)
     const location = useLocation(); 
+
     const {
         photoId, 
-    } = location.state; 
+    } = useParams() 
     const navigate = useNavigate(); 
     const {
         FetchPhotoDetails,
         DeletePhoto, 
     } = FetchHooks(apiURL, token, setLoading, setMessage, navigate)
-    const [image, setImage] = useState(location.state.image ? location.state.image : null)
-    const [details, setDetails] = useState(null)
+    const [image, setImage] = useState(null); 
+    const [details, setDetails] = useState(null); 
     const [title, setTitle] = useState(); 
     const [caption, setCaption] = useState(); 
 
@@ -45,7 +43,6 @@ const RenderPhotoDetail = props => {
     const [publishedDate, setPublishedDate] = useState(null);
     const [lastEdited, setLastEdited] = useState(null); 
     const [owner, setOwner] = useState(null)
-    const { RenderLikeButton } = PostLikeFeatures()
 
     const [editmode, setEditMode] = useState(false); 
 
@@ -125,15 +122,27 @@ const RenderPhotoDetail = props => {
     useEffect(() => {
         if (photoId) {
             FetchPhotoDetails(photoId, dispatchFunctions)
+            console.log("photoId: ", photoId)
         }
     }, [photoId])
 
+    useEffect(() => {
+        owner ? console.log("owner: ", owner._id) : null; 
 
+    }, [owner])
+
+    if (!photoId) {
+        return (
+            <h1 className = "text-center font-bold mt-10" >
+                The photo either doesn't exist or it has been removed.
+            </h1> 
+            )
+    }
 
     return (
         <UserPhotoContext.Provider value = {PhotoContext}>
             <div
-                className="w-11/12 box_shadow rounded-lg mx-auto pb-10 grow h-fit mt-10"
+                className="w-11/12 box_shadow rounded-lg mx-auto pb-10 grow h-fit mt-10 bg-[#ffffff]"
                 id = "UserPhotoDetailContainer"
             >
                 <div
@@ -143,11 +152,14 @@ const RenderPhotoDetail = props => {
                     {details && details.title != null &&
                         <h1 className = "block md:hidden text-center font-bold text-2xl py-10">{details.title}</h1>
                     }
-                    <RenderImage
+                    {image &&
+                        <RenderImage
                         image={image}
                         altText={location.state ? location.state.title : details ? details.title ? details.title : "photo" : "photo"}
                         customStyle='md:pt-10'
-                    />
+                        photoIdArray={owner.images}
+                        currentPhotoId={photoId}
+                        />}
                     <div
                         id="TextSection"
                         className = "w-11/12 mx-auto"

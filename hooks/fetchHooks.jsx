@@ -8,7 +8,7 @@ const {
 
 const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     const GetAllUsers = async (setUsers) => {
-        const FetchURL = `${apiURL}/users`; 
+        const FetchURL = `${apiURL}/users`;
         setLoading(true)
         await fetch(FetchURL, {
             method: 'GET',
@@ -37,22 +37,51 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
         try {
             const FetchURL = `${apiURL}/users/${userID}`
             var response = await fetch(FetchURL, { method: "GET" })
+            var data = await response.json();
             if (response.ok) {
-                var data = await response.json();
-                data.profile_pic.data = toBase64(data.profile_pic.data.data)
+                if (data.profile_pic)
+                    data.profile_pic.data = toBase64(data.profile_pic.data.data)
                 dispatch(data);
             }
             else {
-                const result = await response.json(); 
                 console.log(result.error)
                 if (dispatchError) {
                     dispatchError(result.error)
-              }
+                }
             }
 
         } catch (err) {
             console.log("Error: ", err)
         }
+    }
+
+    //This function retrieves data on a user's profile by his username
+    const fetchUserByName = async (username, { setProfileDetails, setProfileId } ) => {
+        const FetchURL = `${apiURL}/users/${username}/fetch_user`; 
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: "GET", 
+        }).then(async response => {
+            const result = await response.json();
+            if (response.ok) {
+                if (result.user.profile_pic)
+                    { result.user.profile_pic.data = toBase64(result.user.profile_pic.data.data) }
+                setProfileDetails(result.user)
+                setProfileId(result.user._id)
+                setLoading(false)
+            }
+            else {
+                console.log("fetchUserByName: ", result.error)
+                setLoading(false)
+                //alertMessage(`Error: ${result.error}`, setMessage)
+                setMessage(result.error)
+            }
+        }).catch(error => {
+            console.log("fetchUserByName: ", error)
+            setLoading(false)
+            //alertMessage(`Error: ${error}`, setMessage)
+            setMessage(error)
+        })
     }
 
     const fetchUsernameAndEmails = async (dispatch) => {
@@ -195,6 +224,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     return {
         GetAllUsers, 
         fetchUserDetails,
+        fetchUserByName, 
         fetchUsernameAndEmails,
         FetchProfilePic,
         FetchPostsByCategory,

@@ -48,12 +48,6 @@ const CategoryPage = props => {
 
     const { CreateNewPostWithCategory } = PostButtons(navigate); 
 
-    const dispatchFunctions = {
-        setImage, 
-        setDescription,
-        setCategoryId,
-    }
-
     const {
         RenderError,
         AnimateErrorMessage
@@ -76,8 +70,6 @@ const CategoryPage = props => {
     })
 
     useEffect(() => {
-
-        console.log("categoryID: ", categoryId)
         if (categoryId) {
             FetchPostsByCategory(categoryId, setPostList)
             setLoad(true);
@@ -102,7 +94,6 @@ const CategoryPage = props => {
                 setLoad(false)
             }
         }
-
     }, [category_name, categoryList])
     if (!shouldLoad) {
         return (

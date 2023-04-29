@@ -50,13 +50,13 @@ export const FetchActions = (apiURL, setLoading, token) => {
                 formData.append("images", Elements.commentImages[i].file);
             }
         }
-        //if (Elements.postId) {
-        //    formData.append("postId", Elements.postId)
-        //}
+        if (Elements.postId) {
+            formData.append("postId", Elements.postId)
+        }
 
-        //if (Elements.userPhotoId) {
-        //    formData.append("userPhotoId", Elements.userPhotoId)
-        //}
+        if (Elements.userPhotoId) {
+            formData.append("userPhotoId", Elements.userPhotoId)
+        }
 
         try {
             setLoading(true)
@@ -84,6 +84,7 @@ export const FetchActions = (apiURL, setLoading, token) => {
                         replies: [],
                         post: result.comment.post,
                         _id: result.comment._id,
+                        userPhoto: result.comment.userPhoto,
                     }
                     if (result.comment.commentRepliedTo) {
                         newComment.commentRepliedTo = result.comment.commentRepliedTo;
