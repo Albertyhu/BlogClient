@@ -108,6 +108,7 @@ const ReplyPanel = props => {
         DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },
         openEditorToUpdate: () => setEditMode(true), 
         fullActionBar: false,
+        type:"comment",
     }
 
     /*code for posting new reples*/
@@ -150,7 +151,7 @@ const ReplyPanel = props => {
         imagesError: replyImagesError,
         replyRef,
         imagesInputRef: replyImageInputRef,
-
+        type:"comment", 
     } 
 
     return (

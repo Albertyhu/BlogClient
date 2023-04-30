@@ -163,8 +163,13 @@ const RenderPost = props => {
 
     useEffect(() => {
         FetchPostById(apiURL, post_id, dispatchFunctions)
-        window.scrollTo(0,0)
+
     }, [post_id])
+
+    useEffect(() => {
+        window.addEventListener('load', () => window.scrollTo(0, 0))
+        return () => { window.removeEventListener('load', () => window.scrollTo(0, 0)) }
+    }, [])
 
     if (published) {
         return (

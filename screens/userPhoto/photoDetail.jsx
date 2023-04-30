@@ -116,7 +116,8 @@ const RenderPhotoDetail = props => {
         decoded, 
         DeleteAction: () => {DeletePhoto(photoId, owner._id, owner.username)}, 
         openEditorToUpdate: () => setEditMode(true), 
-        fullActionBar:false, 
+        fullActionBar: false, 
+        type: "user_photo",
     }
 
     useEffect(() => {

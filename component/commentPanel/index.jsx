@@ -119,6 +119,7 @@ const CommentPanel = props => {
         DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },
         openEditorToUpdate: () => setEditMode(true), 
         fullActionBar, 
+        type: 'comment',
     } 
 
     /*code for posting new reples*/

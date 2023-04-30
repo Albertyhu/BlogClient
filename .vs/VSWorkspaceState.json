@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\user",
-    "\\component\\userPhoto",
+    "\\component\\formElements",
+    "\\component\\replyActionBar",
     "\\hooks",
     "\\screens",
-    "\\screens\\authentication",
-    "\\screens\\home",
-    "\\screens\\userSettings",
+    "\\screens\\category",
+    "\\screens\\post",
+    "\\screens\\userPhoto",
     "\\util"
   ],
-  "SelectedNode": "\\screens\\userPhoto\\editPhotoDetail.jsx",
+  "SelectedNode": "\\component\\formElements\\imageInputs.jsx",
   "PreviewInSolutionExplorer": false
 }

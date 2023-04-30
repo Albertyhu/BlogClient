@@ -11,6 +11,8 @@ export const NewReplyContext = createContext();
 
 export const ReplyContext = createContext(); 
 
+export const ReplyActionBarContext = createContext(); 
+
 export const CommentContext = createContext();
 
 export const CommentPanelContext = createContext(); 

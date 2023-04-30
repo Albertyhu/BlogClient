@@ -2,6 +2,7 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import {
     AppContext,
     CommentContext,
+    ReplyActionBarContext, 
 } from '../../util/contextItem.jsx'; 
 import { PostLikeFeatures } from '../likeComponent.jsx';
 import {
@@ -35,11 +36,21 @@ const RenderReplyActionBar = props => {
         likes,
         _id,
         toggleReplyEditor,
-
+        type,
         //fullActionBar is a boolean value that determines whether to show the desktop or mobile verion of the action bar; 
         //Since the fullActionBar component is being used in other components, this gives more controll on how the bar should be displayed.
         fullActionBar = true,
     } = useContext(CommentContext)
+
+    //const {
+    //    likes,
+    //    _id,
+    //    toggleReplyEditor,
+    //    type,
+    //    //fullActionBar is a boolean value that determines whether to show the desktop or mobile verion of the action bar; 
+    //    //Since the fullActionBar component is being used in other components, this gives more controll on how the bar should be displayed.
+    //    fullActionBar = true,
+    //} = useContext(ReplyActionBarContext)
 
     const { RenderLikeButton } = PostLikeFeatures() 
 
@@ -51,10 +62,6 @@ const RenderReplyActionBar = props => {
         }
     }, [LinkMenuRef.current])
 
-    useEffect(() => {
-        console.log("mobileMenu: ", mobileMenu)
-    }, [mobileMenu])
-
     return (
         <div
             id="InteractiveField"
@@ -65,7 +72,7 @@ const RenderReplyActionBar = props => {
                 <RenderLikeButton
                     likes={likes}
                     documentID={_id}
-                    type="comment"
+                    type={type}
                 />
                 <button
                     className="actionBarLink"
