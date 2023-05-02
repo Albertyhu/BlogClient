@@ -14,6 +14,7 @@ const SettingsScreen = props => {
     } = useContext(AppContext)
     const {
         GoHome, 
+        GoEditPassword, 
     } = NavigationHooks(navigate); 
     useEffect(() => {
         if (!token) {
@@ -30,6 +31,7 @@ const SettingsScreen = props => {
             >Settings</h1>
             <button
                 className="btn-standard"
+                onClick={()=>GoEditPassword(decoded.username, decoded.id)}
             >Change Password</button>
             <DeleteAccountButton />
         </div>

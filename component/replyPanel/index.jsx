@@ -157,7 +157,7 @@ const ReplyPanel = props => {
     return (
         <CommentContext.Provider value={commentContext}>
             <div
-                className={`my-10 mx-auto`}
+                className={`my-10 mx-auto py-5`}
                 id={`CommentPanel-${_id}`}
             >
                 <div

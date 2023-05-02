@@ -13,37 +13,6 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
         GoCategory,
     } = NavigationHooks(navigate);
 
-    //const FetchCategories = async (dispatchFunctions) => {
-    //    const { setCategoryList } = dispatchFunctions;
-    //    const FetchURL = `${apiURL}/category`;
-    //    setLoading(true)
-    //    await fetch(FetchURL, {
-    //        method: "GET",
-    //        headers: {
-    //            "Content-Type": "application/json",
-    //        }
-    //    })
-    //        .then(async response => {
-    //            const result = await response.json();
-    //            if (response.ok) {
-    //                const list = result.categories;
-    //                list.forEach(item => {
-    //                    item.image.data = toBase64(item.image.data.data)
-    //                })
-    //                setLoading(false)
-    //                setCategoryList(list);
-    //            }
-    //            else {
-    //                setLoading(false)
-    //                console.log("Error: ", result.error)
-    //            }
-    //        })
-    //        .catch(e => {
-    //            setLoading(false)
-    //            console.log("Error 30: ", e)
-    //        })
-    //}
-
     //axios version
     const FetchCategories = async (dispatchFunctions) => {
         const { setCategoryList } = dispatchFunctions;
@@ -56,7 +25,7 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
                 },
             }).then(async response => {
                 const result = await response.data;
-
+                console.log("categories: ", result.categories)
                 if (response.status === 200) {
                     const list = result.categories;
                     list.forEach((item) => {

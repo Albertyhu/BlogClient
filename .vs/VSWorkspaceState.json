@@ -1,17 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\images",
     "\\component",
-    "\\component\\replyActionBar",
-    "\\hooks",
+    "\\component\\post",
+    "\\component\\user",
     "\\screens",
-    "\\screens\\category",
-    "\\screens\\home",
-    "\\screens\\post",
     "\\screens\\userPhoto",
     "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\hooks\\categoryHooks.jsx",
+  "SelectedNode": "\\component\\paginatedDisplay.jsx",
   "PreviewInSolutionExplorer": false
 }

@@ -1,5 +1,5 @@
 import React, { useContext, useState, lazy, useEffect, Suspense } from 'react';
-
+import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import {
     useNavigate,
 } from 'react-router-dom';
@@ -8,11 +8,12 @@ import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx';
 import Avatar from '../../assets/images/avatar.jpg'
 import { FormatDate } from '../../hooks/timeHooks.jsx'; 
 
-const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx'));
+const RenderProfilePic = lazy(() => import('./profilePicture.jsx'));
 
 const ProfilePanel = props => {
     const { userId } = props; 
     const navigate = useNavigate();
+    const { VisitUser } = NavigationHooks(navigate);
     const {
         user,
         apiURL,
@@ -43,8 +44,9 @@ const ProfilePanel = props => {
                 {profileImage &&
                     <Suspense fallback={<div className= "rounded-full w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]">Profile image loading</div>}>
                         <RenderProfilePic
-                        profile_pic={profileImage}
-                        dimensions="w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]"
+                            profile_pic={profileImage}
+                            dimensions="w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]"
+                            clickEvent={()=>VisitUser(decoded.username, decoded.id)}
                             />
                     </Suspense>
                         }

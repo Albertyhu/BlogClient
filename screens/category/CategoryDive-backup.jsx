@@ -1,10 +1,7 @@
 import React, {  useContext, useEffect, useState, lazy, useRef, startTransition, Suspense } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
-import {
-    AppContext,
-    PaginatedDisplayContext, 
-} from '../../util/contextItem.jsx';
+import { AppContext } from '../../util/contextItem.jsx';
 import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
 import PlusIcon from '../../assets/icons/white_plus_icon.png';
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx';
@@ -14,8 +11,7 @@ import { FetchHooks as PostFetchHooks } from '../../hooks/fetchHooks.jsx';
 const CoverPhoto = lazy(() => import("../../component/imageRendering/coverPhoto.jsx"));
 const Panel = lazy(() => import('../../component/post/post_panel.jsx'))
 import { PostButtons } from '../../component/post/buttons.jsx'; 
-import ErrorPage from '../error';
-import PaginatedDisplay from '../../component/paginatedDisplay.jsx'; 
+import ErrorPage from '../error'; 
 
 /** This component displays individual categories and its data*/
 const CategoryPage = props => {

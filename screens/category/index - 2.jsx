@@ -1,17 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState, lazy, useRef, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
-import { AppContext } from '../../util/contextItem.jsx';
-import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
-import PlusIcon from '../../assets/icons/white_plus_icon.png'; 
+import {
+    AppContext,
+    PaginatedDisplayContext, 
+} from '../../util/contextItem.jsx';
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx'; 
 import uuid from 'react-uuid';
 import { wait } from '../../hooks/wait.jsx';
-//const Panel = lazy(() => import('../../component/panel.jsx')); 
 const Panel = lazy(() =>import('../../component/panel.jsx')); 
-//import { AddButton } from '../../component/button.jsx'; 
 const AddButton = lazy(() => import('../../component/addButton.jsx'));
 import { SubstitutePanel } from '../../component/fallback.jsx';
+import PaginatedDisplay from "../../component/paginatedDisplay.jsx"; 
 
 const CategoryPage = props => {
     const navigate = useNavigate();
@@ -59,9 +59,32 @@ const CategoryPage = props => {
         }
     }, [generalError])
 
-    useEffect(() => {
-        return () => { setLoading(false) }
-    }, [])
+    const [itemsRendered, setItemsList] = useState([])
+
+    const renderPaginatedItems = (pageNumber, COUNT, setItemList, setHasMore) => {
+        const start = pageNumber;  
+        const end = pageNumber + COUNT - 1;
+        const newItems = categoryList.slice(start, end); 
+        setItemList(prev => { return [...new Set([...prev, ...newItems])] })
+        setHasMore(newItems.length > 0); 
+    }
+
+    const paginatedContext = {
+        itemList: itemsRendered,
+        setItemList: (val) => setItemsList(val),
+        fetchAction: renderPaginatedItems,
+        fallback: (item) => <SubstitutePanel
+            title={item.name}
+            clickEvent={() => VisitCategory(item)}
+        />,
+        RenderPanel: (keyValue, item) =>
+            <Panel
+                {...item}
+                key={keyValue}
+                CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer"
+                navigateTo={() => VisitCategory(item)}
+            />,
+    }
 
 
     return (
@@ -96,21 +119,9 @@ const CategoryPage = props => {
                     key={uuid()}
                     id="CategoryGrid"
                     className="grid mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-x-[10px] w-full">
-                    {categoryList.map(item => 
-                        <Suspense
-                            key={uuid()}
-                            fallback={<SubstitutePanel
-                                title={item.name}
-                                clickEvent={()=>VisitCategory(item)}
-                            />}
-                        >
-                            <Panel
-                                key={uuid()}
-                                {...item}
-                                navigateTo={()=>VisitCategory(item)}
-                                />
-                        </Suspense>
-                    )}
+                    <paginatedContext.Provider value={paginatedContext}>
+                        <PaginatedDisplay COUNT={9} />
+                    </paginatedContext.Provider>
                 </div>
             }
         </div>)

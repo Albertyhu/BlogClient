@@ -67,6 +67,10 @@ const RenderPhotoScreen = props => {
         }
     }, [username])
 
+    useEffect(() => {
+        return () => { setLoading(false)}
+    }, [])
+
     return (
         <UserPhotoContext.Provider value ={context}>
             <div
