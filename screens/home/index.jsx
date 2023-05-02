@@ -1,50 +1,35 @@
-import React, { useCallback, useContext, useEffect, useState, lazy} from 'react'; 
-import { Button } from '../../component/button.jsx';
+import React, { useContext, useEffect, useState, lazy, suspense} from 'react'; 
 import {
     useNavigate,
     useLocation, 
 } from 'react-router-dom'; 
-import { NavigationHooks } from '../../hooks/navigation.jsx'; 
-import { AppContext } from '../../util/contextItem.jsx'; 
-import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx'; 
-import { FetchHooks } from '../../hooks/fetchHooks.jsx'; 
+import {
+    AppContext,
+    PaginatedDisplayContext,
+} from '../../util/contextItem.jsx'; 
+import { FetchHooks as PostFetchHooks } from '../../hooks/postHooks.jsx'; 
 import ProfilePanel from '../../component/user/profilePanel.jsx'; 
-import PaginatedDisplay from '../../component/post/paginatedDisplay.jsx'; 
-
-const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx'));
+//import PaginatedDisplay from '../../component/post/paginatedDisplay.jsx'; 
+import PaginatedDisplay from '../../component/paginatedDisplay.jsx';
+import PostPanel from '../../component/post/post_panel.jsx'; 
 
 const Home = props => {
-    const navigate = useNavigate();
     const location = useLocation(); 
-    const { GoSignIn, GoSignUp } = NavigationHooks(navigate);
     const {
-        user,
         apiURL,
-        ClearUserData,
-        displayMemberComponents,
-        ProfilePicture,
         setMessage,
-        token,
         setLoading, 
         decoded, 
     } = useContext(AppContext);
-    const { FetchProfilePic } = FetchHooks(apiURL, token, setLoading, setMessage)
-    const FetchImageURL = user ? `${apiURL}/users/${user.id}/profilepicture` : null; 
-    const [profileImage, setProfileImage] = useState(null)
+    const [postList, setPostList] = useState([])
+    const { FetchNewestPost } = PostFetchHooks(apiURL, setLoading, setMessage) 
 
-
-    const { DeleteUser } = UserProfileHooks(apiURL, token, setLoading, setMessage); 
- 
-    const dispatchFunctions = {
-        ClearUserData,
-        navigate
+    const PaginatedContext = {
+        itemList: postList, 
+        setItemList: (val) => setPostList(val), 
+        fetchAction: FetchNewestPost, 
+        RenderPanel: (keyValue, item) => <PostPanel {...item} key={keyValue} CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer" />, 
     }
-
-    useEffect(() => {
-        if (user) {
-            FetchProfilePic(FetchImageURL, setProfileImage, true)
-        }
-    }, [user])
 
     useEffect(() => {
         if (location.state != null) {
@@ -65,9 +50,9 @@ const Home = props => {
             <div
                 className= "grid w-11/12 mx-auto md:grid-cols-[75%_25%] md:gap-[20px]"
             >
-                <div>
+                <PaginatedDisplayContext.Provider value={PaginatedContext}>
                     <PaginatedDisplay />
-                </div>
+                </PaginatedDisplayContext.Provider>
                 <ProfilePanel userId={decoded.id} />
             </div>
         </div>

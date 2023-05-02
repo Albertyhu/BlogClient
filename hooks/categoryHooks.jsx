@@ -4,7 +4,10 @@ import { Base64Hooks } from '../hooks/imageHooks.jsx';
 import axios from 'axios'; 
 
 const { RenderErrorArray } = ErrorMessageHooks()
-const { toBase64 } = Base64Hooks()
+const {
+    toBase64,
+    convertObjToBase64, 
+} = Base64Hooks()
 const CategoryHooks = (navigate, apiURL, token, setLoading) => {
     const {
         GoCategory,
@@ -71,6 +74,33 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
             console.log("Error 30: ", e);
         }
     };
+
+    const FetchPaginatedCategories = async (pagination, count, setItemList, setHasMore) => {
+        const FetchURL = `${apiURL}/category/get_paginated_categories/${pagination}/${count}`;
+        setLoading(true)
+        await axios.get(FetchURL)
+            .then(async response => {
+                const result = await response.data;
+                if (response.status === 200) {
+                    console.log("result: ", result)
+                    result.paginatedResult = FormatCategoryImage(result.paginatedResult);
+                    setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
+                    setHasMore(result.paginatedResult.length > 0)
+                }
+                else {
+                    console.log("FetchPaginatedCategories error: ", result.error);
+                    alertMessage(`Error: ${result.error}`, setMessage);
+                }
+            }).catch(error => {
+                if (axios.isCancel(error)) {
+                    return;
+                }
+                console.log("FetchPaginatedCategories error: ", error);
+                setLoading(false)
+                alertMessage(`Error: ${error}`, setMessage);
+            })
+        setLoading(false)
+    }
 
     const FetchCategoryById = async (categoryID, dispatchFunctions) => {
         const FetchURL = `${apiURL}/category/${categoryID}`
@@ -150,7 +180,8 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
         FetchCategoryById,
         DeleteCategory,
         FetchCategoryByName,
-        PopulateCategoryPage
+        PopulateCategoryPage,
+        FetchPaginatedCategories,
     }
 }
 
@@ -253,6 +284,14 @@ const CategoryFormHooks = (navigate, apiURL, setLoading, token) => {
         CreateCategory,
         EditCategory
     };
+}
+
+const FormatCategoryImage = categories => {
+    var formatted = categories.map(item => {
+        item.image = convertObjToBase64(item.image); 
+        return item;
+    })
+    return formatted; 
 }
 
 export { CategoryFormHooks, CategoryHooks }; 

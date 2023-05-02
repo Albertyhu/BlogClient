@@ -22,3 +22,5 @@ export const UserPhotoContext = createContext();
 export const MenuLinksContext = createContext(); 
 
 export const PasswordFormContext = createContext(); 
+
+export const PaginatedDisplayContext = createContext(); 

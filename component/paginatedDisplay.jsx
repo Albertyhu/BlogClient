@@ -1,21 +1,31 @@
 import { useEffect, useCallback, useRef, useContext, useState, lazy, Suspense } from 'react'; 
-import { FetchHooks } from '../../hooks/postHooks.jsx';
-import { AppContext } from '../../util/contextItem.jsx'; 
-import PostPanel from './post_panel.jsx'; 
+import {
+    AppContext,
+    PaginatedDisplayContext, 
+} from '../util/contextItem.jsx'; 
+import PostPanel from './post/post_panel.jsx'; 
 
+//This component creates the functionality of load on scroll affect
 //Treat Paginated results like an array. The first element starts at index 0.
-const COUNT = 5; 
-
 const PaginatedResults = props => {
+    const {
+        COUNT = 5,
+    } = props; 
+
     const {
         apiURL, 
         setMessage,
         setLoading,
-        loading, 
     } = useContext(AppContext)
+
+    const {
+        itemList = [], 
+        setItemList, 
+        fetchAction, 
+        RenderPanel,
+    } = useContext(PaginatedDisplayContext)
+
     const [pageNumber, setPageNumber] = useState(0); 
-    const [postList, setPostList] = useState([]); 
-    const [existingSize, setExistingSize] = useState(null); 
     const [hasMore, setHasMore] = useState(false); 
     //const [cancel, setCancelToken] = useState(null)
     const observerRef = useRef(); 
@@ -29,30 +39,20 @@ const PaginatedResults = props => {
         if (node) observerRef.current.observe(node)
     }, [hasMore])
 
-    const {
-        FetchNewestPost, 
-    } = FetchHooks(apiURL, setLoading, setMessage); 
     useEffect(() => {
-        FetchNewestPost(pageNumber, COUNT, { setPostList, setExistingSize, setHasMore})
+        fetchAction(pageNumber, COUNT, setItemList, setHasMore)
     }, [pageNumber])
     return (
         <div>
-            {postList.length > 0 && 
+            {itemList.length > 0 && 
                 <Suspense fallback={<div className="text-center font-bold">Loading...</div>}>
-                {postList.map((post, index) =>
-                    <PostPanel
-                        CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer"
-                        key={post._id}
-                        {...post}
-                    />
-                    )}
-
+                    {itemList.map((item, index) => RenderPanel(item._id, item))}
                 {hasMore &&
-                    <span
-                        className="font-bold"
+                    <div
+                        className="font-bold text-center text-2xl w-full"
                         id="LastElement"
                         ref={lastElement}
-                        >Loading...</span>}
+                        >Loading more...</div>}
                 </Suspense>
             }
         </div>

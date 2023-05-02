@@ -100,24 +100,15 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
         }
     }
 
-    const FetchNewestPost = async (pagination, count, dispatchFunctions) => {
+    const FetchNewestPost = async (pagination, count, setItemList, setHasMore) => {
         const FetchURL = `${apiURL}/post/get_newest_posts/${pagination}/${count}`;
-        const {
-            setPostList,
-            setExistingSize,
-            setHasMore, 
-        } = dispatchFunctions
         setLoading(true)
-        await axios.get(FetchURL, {
-            //cancelToken: new axios.CancelToken(c => cancel = c), 
-        })
+        await axios.get(FetchURL)
             .then(async response => {
                 const result = await response.data;
                 if (response.status === 200) {
-                    console.log("result: ", result)
                     result.paginatedResult = FormatImagesInPostAndAuthors(result.paginatedResult);
-                    setPostList(prev => { return [...new Set( [...prev, ...result.paginatedResult])] });
-                    setExistingSize(result.PostListSize);
+                    setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
                     setHasMore(result.paginatedResult.length > 0)
                 }
                 else {
