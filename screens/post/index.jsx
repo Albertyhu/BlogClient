@@ -35,8 +35,8 @@ const RenderPost = props => {
         GoBack,
         GoHome, 
     } = NavigationHooks(navigate); 
-    const { FetchPostById } = FetchHooks(setLoading); 
-    const { DeletePost } = CreateAndUpdatePosts(navigate); 
+    const { FetchPostById } = FetchHooks(apiURL, setLoading, setMessage); 
+    const { DeletePost } = CreateAndUpdatePosts(navigate, apiURL, setLoading, setMessage, token); 
     const PostContainerStyle = ``;
 
     const [title, setTitle] = useState(location.state ? location.state.title : post_title ? post_title : null);
@@ -105,7 +105,7 @@ const RenderPost = props => {
                 <button
                     className="btn-secondary my-10"
                     type="button"
-                    onClick={() => DeletePost(apiURL, post_id, token, decoded.id, author._id, setMessage, GoHome)}
+                    onClick={() => DeletePost(post_id, decoded.id, author._id, GoHome)}
                 >Delete Post</button>
             </>
             )
@@ -142,7 +142,7 @@ const RenderPost = props => {
         decoded,
         postID: post_id,
         EditPost: () => { GoEditPost(title, post_id, context) },
-        DeletePost: () => { DeletePost(apiURL, post_id, token, decoded.id, author._id, setMessage, GoBack) }, 
+        DeletePost: () => { DeletePost(post_id, decoded.id, author._id, GoBack) }, 
         RenderButtonField, 
         PostContainerRef,
         displayCommentInput,
@@ -162,7 +162,7 @@ const RenderPost = props => {
     }, [token])
 
     useEffect(() => {
-        FetchPostById(apiURL, post_id, dispatchFunctions)
+        FetchPostById(post_id, dispatchFunctions)
 
     }, [post_id])
 

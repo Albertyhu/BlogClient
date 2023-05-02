@@ -8,6 +8,9 @@ import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx'; 
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'; 
+import ProfilePanel from '../../component/user/profilePanel.jsx'; 
+import PaginatedDisplay from '../../component/post/paginatedDisplay.jsx'; 
+
 const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx'));
 
 const Home = props => {
@@ -23,6 +26,7 @@ const Home = props => {
         setMessage,
         token,
         setLoading, 
+        decoded, 
     } = useContext(AppContext);
     const { FetchProfilePic } = FetchHooks(apiURL, token, setLoading, setMessage)
     const FetchImageURL = user ? `${apiURL}/users/${user.id}/profilepicture` : null; 
@@ -54,32 +58,20 @@ const Home = props => {
 
     return (
         <div
-            className = "w-full text-center text-lg text-black" 
+            className="w-full" 
+            id="Container"
         >
-            <h1 className="text-center mx-auto mt-[20px] text-2xl">Home</h1>
-            {profileImage && <RenderProfilePic profile_pic={profileImage} />}
-            <div className= "[&>*]:inline-block grid [&>*]:my-10 ">
-            <button
-                    type="button"
-                    value="Sign In"
-                    className="btn-primary"
-                    onClick={useCallback(() =>GoSignIn(), [navigate])}
-            >Sign In</button>
-            <button
-                type='button'
-                className='btn-secondary'
-                value="Sign Up"
-                onClick={useCallback(() => GoSignUp(), [navigate])}
-                >Sign Up</button>
-            {user && displayMemberComponents &&  
-                <button
-                        type='button'
-                        className='btn-delete'
-                        onClick={() => { DeleteUser(user.id, dispatchFunctions)} }
-                >Delete Account</button>
-            }
+            <h1 className="text-center mx-auto my-[20px] text-2xl">Home</h1>
+            <div
+                className= "grid w-11/12 mx-auto md:grid-cols-[75%_25%] md:gap-[20px]"
+            >
+                <div>
+                    <PaginatedDisplay />
+                </div>
+                <ProfilePanel userId={decoded.id} />
             </div>
-    </div>)
+        </div>
+    )
 }
 
 export default Home; 

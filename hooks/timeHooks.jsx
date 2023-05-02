@@ -6,6 +6,14 @@ export const FormatTimeAndDate = time => {
     }
 }
 
+export const FormatDate = time => {
+    try {
+        return new Date(time).toDateString()
+    } catch (e) {
+        console.log("Error in FormatTimeAndDate: ", e, time)
+    }
+}
+
 export function RenderTimePosted(timePosted) {
     var timeParsed = new Date(timePosted)
     var currentTime = new Date(Date.now());

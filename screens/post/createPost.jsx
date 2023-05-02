@@ -19,10 +19,12 @@ const CreatePostForm = props => {
         apiURL,
         token,
         setLoading, 
+        message, 
+        setMessage, 
     } = useContext(AppContext);
     const location = useLocation(); 
     
-    const { SubmitPost } = CreateAndUpdatePosts(navigate)
+    const { SubmitPost } = CreateAndUpdatePosts(navigate, apiURL, setLoading, setMessage, token)
 
     const [title, setTitle] = useState("How to pet a dog")
     const [content, setContent] = useState("<p>Most dogs are comfortable being petted on the chest, the shoulders, and the base of the neck.</p>");
@@ -33,8 +35,6 @@ const CreatePostForm = props => {
     const [abstract, setAbstract] = useState('');
     const [category, setCategory] = useState(location.state ? location.state.category ? location.state.category : '' : '');
     const [tag, setTag] = useState([]);
-
-    const [message, setMessage] = useState(''); 
 
     const [decoded, setDecoded] = useState(null);
 
@@ -130,7 +130,7 @@ const CreatePostForm = props => {
             tag,
             abstract_char_limit: abstract_char_limit,
         };
-        SubmitPost(apiURL, Elements, dispatchFunctions, "POST", null, token)
+        SubmitPost(Elements, dispatchFunctions, "POST", null)
     }
 
     useEffect(() => {

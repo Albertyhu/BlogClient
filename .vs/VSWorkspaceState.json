@@ -2,15 +2,16 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\formElements",
     "\\component\\replyActionBar",
     "\\hooks",
     "\\screens",
     "\\screens\\category",
+    "\\screens\\home",
     "\\screens\\post",
     "\\screens\\userPhoto",
+    "\\src",
     "\\util"
   ],
-  "SelectedNode": "\\component\\formElements\\imageInputs.jsx",
+  "SelectedNode": "\\hooks\\categoryHooks.jsx",
   "PreviewInSolutionExplorer": false
 }

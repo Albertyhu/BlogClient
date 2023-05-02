@@ -69,10 +69,6 @@ function App() {
            FetchCategories({setCategoryList})
     }, [categoryList])
 
-    //useEffect(() => {
-    //    GetUsersAndCategeries({ setCategoryList, setUsersList })
-    //}, [])
-    //window.onload= () => GetUsersAndCategeries({ setCategoryList, setUsersList })
     return (
         <AppContext.Provider value={context}>
             <RouteComponent token={token} />

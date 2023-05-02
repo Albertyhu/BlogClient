@@ -8,17 +8,18 @@ import { RenderTagField } from '../tagComponent.jsx';
 
 const RenderPostPanel = props => {
     const { title,
-        content, 
+        content,
         datePublished,
-        lastEdited, 
+        lastEdited,
         author,
         mainImage,
-        abstract, 
+        abstract,
         category,
         tag,
-        likes, 
-        comments, 
-        _id
+        likes,
+        comments,
+        _id,
+        CustomStyle = "PostPanel"
     } = props; 
     const { DisplayLikes } = PostLikeFeatures();
     const navigate = useNavigate(); 
@@ -35,13 +36,13 @@ const RenderPostPanel = props => {
     }
     return (
         <div
-            className="PostPanel box_shadow"
+            className={`${CustomStyle} box_shadow`}
             onClick={() =>BringDataToPost(data)}
         >
             <div
                 id="ContentWrapper"
                 className="ContentWrapper">
-                <h2 className="font-bold text-2xl">{title}</h2>
+                <h2 className="font-bold text-2xl pt-5">{title}</h2>
                 {author && <h3>created by <span className = "font-bold">{author.username}</span></h3>}
                 {lastEdited ?
                     <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>

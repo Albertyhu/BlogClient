@@ -23,8 +23,10 @@ const CreatePostForm = props => {
         apiURL,
         token,
         setLoading,
+        setMessage, 
+        message, 
     } = useContext(AppContext);
-    const { SubmitPost } = CreateAndUpdatePosts(navigate)
+    const { SubmitPost } = CreateAndUpdatePosts(navigate, apiURL, setLoading, setMessage, token)
     const { id } = location.state;
     const [title, setTitle] = useState(location.state ? location.state.title : "")
     const [content, setContent] = useState(location.state ? location.state.content : "");
@@ -38,7 +40,6 @@ const CreatePostForm = props => {
     const [tag, setTag] = useState(location.state ? location.state.tag : []);
     //This helps to keep track of any tags that the user decides to delete
     const [priorTagList, setPrior] = useState(location.state ? location.state.tag : [])
-    const [message, setMessage] = useState('');
 
     const [decoded, setDecoded] = useState(null);
 
@@ -136,7 +137,7 @@ const CreatePostForm = props => {
             abstract_char_limit: abstract_char_limit,
             priorTagList
         };
-        SubmitPost(apiURL, Elements, dispatchFunctions, "PUT", id, token)
+        SubmitPost(Elements, dispatchFunctions, "PUT", id)
     }
 
     useEffect(() => {
