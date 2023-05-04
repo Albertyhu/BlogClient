@@ -157,6 +157,10 @@ const NavigationHooks = (navigate) => {
         })
     }
 
+    function GoSearchScreen() {
+        navigate(`/search`)
+    }
+
     return {
         GoHome,
         GoSignIn,
@@ -178,6 +182,7 @@ const NavigationHooks = (navigate) => {
         VisitOnePhoto, 
         GoBulkUpload,
         GoSettings,
+        GoSearchScreen,
     }
 }
 

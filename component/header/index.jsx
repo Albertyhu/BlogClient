@@ -14,6 +14,8 @@ import {
 import DownIcon from '../downIcon.jsx'; 
 import { AiOutlineLogin } from 'react-icons/Ai';
 import RenderProfilePic from '../user/profilePicture.jsx'; 
+import { BiSearchAlt2 } from 'react-icons/bi';
+import { IconContext } from 'react-icons';
 
 const Header = props => {
     const navigate = useNavigate(); 
@@ -24,6 +26,7 @@ const Header = props => {
         GoSignIn,
         GoCategory,
         ViewAllUsers,
+        GoSearchScreen,
     } = NavigationHooks(navigate); 
 
     const {
@@ -88,6 +91,16 @@ const Header = props => {
                         <div className="inline-block select-none" onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
                         <div className="inline-block select-none" onClick={useCallback(() => GoCategory(navigate), [navigate])}>Categories</div>
                         <div className="inline-block select-none" onClick={useCallback(() => ViewAllUsers(navigate), [navigate])}>Members</div>
+                        <div
+                            className="inline-block select-none"
+                            onClick={useCallback(() => GoSearchScreen(), [navigate])}
+                        >
+                            <div className ="[&>*]:inline-block">Search
+                            <IconContext.Provider value={{ size: "25px", padding: "5px", margin: "auto"}}>
+                                <BiSearchAlt2 />
+                                </IconContext.Provider>
+                            </div>
+                        </div>
 
                         {user && displayMemberComponents ?
                             <>

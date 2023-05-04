@@ -24,3 +24,5 @@ export const MenuLinksContext = createContext();
 export const PasswordFormContext = createContext(); 
 
 export const PaginatedDisplayContext = createContext(); 
+
+export const SearchBarContext = createContext(); 

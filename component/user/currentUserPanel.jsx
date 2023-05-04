@@ -11,10 +11,6 @@ import { FormatDate } from '../../hooks/timeHooks.jsx';
 const RenderProfilePic = lazy(() => import('./profilePicture.jsx'));
 
 const ProfilePanel = props => {
-    const {
-        userId, 
-        username, 
-    } = props; 
     const navigate = useNavigate();
     const { VisitUser } = NavigationHooks(navigate);
     const {
@@ -49,12 +45,12 @@ const ProfilePanel = props => {
                         <RenderProfilePic
                             profile_pic={profileImage}
                             dimensions="w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]"
-                            clickEvent={() => VisitUser(username, userId)}
+                            clickEvent={() => VisitUser(user.username, decoded._id)}
                             customStyle="cursor-pointer"
                             />
                     </Suspense>
                         }
-                {token && decoded === userId &&
+                {token && decoded === decoded._id &&
                     <button
                         type='button'
                         className='btn-delete'

@@ -29,6 +29,7 @@ import PhotoDetailScreen from '../screens/userPhoto/photoDetail.jsx';
 import BulkUploadForm from '../screens/userPhoto/bulkUpload.jsx';
 import SettingsPage from '../screens/userSettings'; 
 import DisplayAllUsers from '../screens/user/renderAllUsers.jsx'; 
+import SearchScreen from '../screens/search'; 
 
 const Apps = props => {
     const {
@@ -81,6 +82,7 @@ const Apps = props => {
                         <Route path="/profile/:username/user_photos/bulk_upload" element={<BulkUploadForm />} />
                         <Route path="/profile/:username/settings" element={<SettingsPage />} />
                         <Route path="/users" element={<DisplayAllUsers />} />
+                        <Route path="/search" element={<SearchScreen />} />
                     </Routes>
                 </div>
                 <Footer />

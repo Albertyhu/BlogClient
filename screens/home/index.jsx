@@ -67,10 +67,8 @@ const Home = props => {
                     </PaginatedDisplayContext.Provider>
                 </div>
                 {decoded &&
-                    <ProfilePanel
-                    userId={decoded.id}
-                    username={decoded.username}
-                />}
+                    <ProfilePanel />
+                }
             </div>
         </div>
     )

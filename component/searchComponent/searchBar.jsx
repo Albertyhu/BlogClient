@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { MyContext } from '../../util/contextItem.js';
+import React, { useEffect, useState, useContext } from 'react'
+import { SearchBarContext } from '../../util/contextItem.jsx';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { IconContext } from 'react-icons'; 
 
 const SearchBar = props => {
     const { data } = props;
-    const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [diplaySearchResults, setDisplay] = useState(false);
+
+    const {
+        query,
+        setQuery, 
+    } = useContext(SearchBarContext)
 
     const searchByCriteria = (obj, criteria) => {
         switch (criteria) {
@@ -54,24 +58,15 @@ const SearchBar = props => {
     return (
         <div
             id="BarContainer"
-            className = "flex, bg-[#ffffff] rounded-[5px] h-[30px] m-auto, w-[60%]"
+            className = "flex bg-[#ffffff] rounded-[5px] h-[30px] mx-auto w-full "
         >
             <input
                 value={query}
                 onChange={handleQuery}
-                className = "w-full border-none outline-none p-[15px] rounded-[5px]"
+                className= "w-full border-none p-[15px] outline-none rounded-[5px]"
             />
-            <IconContext.Provider value={{size: "25px", padding: "5px"}}>
-            <BiSearchAlt2 style={iconStyle} />
-            {diplaySearchResults ? <RenderSearchResults
-                searchResult={results}
-                reset={resetSearch}
-                diplaySearchResults={diplaySearchResults}
-                />
-                   
-                :
-                null
-                }
+            <IconContext.Provider value={{size: "25px", padding: "15px"}}>
+                <BiSearchAlt2 />
             </IconContext.Provider>
         </div>
     )

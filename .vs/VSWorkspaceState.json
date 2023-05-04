@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\connections",
-    "\\component\\header",
-    "\\component\\imageRendering",
-    "\\component\\replyPanel",
+    "\\component\\formElements",
+    "\\component\\searchBar",
+    "\\component\\userPhoto",
     "\\screens",
-    "\\screens\\user",
-    "\\screens\\userPhoto",
-    "\\screens\\userSettings"
+    "\\screens\\authentication",
+    "\\screens\\category",
+    "\\screens\\post",
+    "\\screens\\userPhoto"
   ],
-  "SelectedNode": "\\hooks\\connectionHooks.jsx",
+  "SelectedNode": "\\component\\paginatedDisplay.jsx",
   "PreviewInSolutionExplorer": false
 }
