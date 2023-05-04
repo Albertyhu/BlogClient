@@ -11,11 +11,17 @@ import uuid from 'react-uuid';
 import { HiOutlineDotsHorizontal } from 'react-icons/Hi';
 import { BiCommentDetail } from 'react-icons/Bi';
 import { IconContext } from "react-icons";
+import { NavigationHooks } from '../../hooks/navigation.jsx'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const MainPanel = props => {
     const { RenderLikeButton } = PostLikeFeatures()
     const [mobileAdminBtn, setMobileAdminBtn] = useState(false); 
-
+    const navigate = useNavigate(); 
+    const {
+        VisitOneCategory, 
+        VisitUser,
+    } = NavigationHooks(navigate); 
     const mobileAdminRef = useRef(); 
     const DotRef = useRef(); 
     const {
@@ -91,13 +97,22 @@ const MainPanel = props => {
                     </div>
                 }
             </div>
-            <p>Posted by <span className="font-bold">{author.username}</span> | 
+            <p>Posted by <span
+                className="font-bold cursor-pointer hover:underline"
+                onClick={()=>VisitUser(author.username, author._id)}
+            >{author.username}</span> | 
                 {lastEdited ?  
                     <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>
                     :
                     <span> Date Published: {FormatTimeAndDate(datePublished)}</span>
                 } 
-                </p>
+            </p>
+            {category && 
+                <span>Category: <span
+                            onClick={() => VisitOneCategory(category.name, category._id)}
+                            className="font-bold cursor-pointer hover:underline"
+                            >{category.name}</span></span>
+            }
             {thumbnail != null &&
                 <RenderFullImage
                 image={thumbnail}

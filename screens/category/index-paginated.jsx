@@ -3,15 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import {
     AppContext,
-    PaginatedDisplayContext, 
+    PaginatedDisplayContext,
 } from '../../util/contextItem.jsx';
+import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
+import PlusIcon from '../../assets/icons/white_plus_icon.png'; 
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx'; 
 import uuid from 'react-uuid';
 import { wait } from '../../hooks/wait.jsx';
+//const Panel = lazy(() => import('../../component/panel.jsx')); 
 const Panel = lazy(() =>import('../../component/panel.jsx')); 
+//import { AddButton } from '../../component/button.jsx'; 
 const AddButton = lazy(() => import('../../component/addButton.jsx'));
 import { SubstitutePanel } from '../../component/fallback.jsx';
-import PaginatedDisplay from "../../component/paginatedDisplay.jsx"; 
+import PaginatedDisplay from '../../component/paginatedDisplay.jsx'; 
 
 const CategoryPage = props => {
     const navigate = useNavigate();
@@ -25,7 +29,7 @@ const CategoryPage = props => {
         token, 
         setLoading, 
     } = useContext(AppContext);
-
+    const { FetchPaginatedCategories } = CategoryHooks(navigate, apiURL, token, setLoading)
     const {
         RenderError,
         AnimateErrorMessage
@@ -50,6 +54,17 @@ const CategoryPage = props => {
     }), [navigate])
 
     const generalErrorRef = useRef(); 
+    const [itemList, setItemList]=useState([])
+    const paginatedContext = {
+        itemList,
+        setItemList,
+        fetchAction: FetchPaginatedCategories,
+        RenderPanel: (id, item) => <Panel
+                                    key={id}
+                                    {...item}
+                                    navigateTo={() => VisitCategory(item)}
+                                    />,
+    } 
 
     useEffect(() => {
         if (generalError != null && generalError.length > 0) {
@@ -59,33 +74,9 @@ const CategoryPage = props => {
         }
     }, [generalError])
 
-    const [itemsRendered, setItemsList] = useState([])
-
-    const renderPaginatedItems = (pageNumber, COUNT, setItemList, setHasMore) => {
-        const start = pageNumber;  
-        const end = pageNumber + COUNT - 1;
-        const newItems = categoryList.slice(start, end); 
-        setItemList(prev => { return [...new Set([...prev, ...newItems])] })
-        setHasMore(newItems.length > 0); 
-    }
-
-    const paginatedContext = {
-        itemList: itemsRendered,
-        setItemList: (val) => setItemsList(val),
-        fetchAction: renderPaginatedItems,
-        fallback: (item) => <SubstitutePanel
-            title={item.name}
-            clickEvent={() => VisitCategory(item)}
-        />,
-        RenderPanel: (keyValue, item) =>
-            <Panel
-                {...item}
-                key={keyValue}
-                CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer"
-                navigateTo={() => VisitCategory(item)}
-            />,
-    }
-
+    useEffect(() => {
+        return () => { setLoading(false) }
+    }, [])
 
     return (
         <div
@@ -115,14 +106,13 @@ const CategoryPage = props => {
                 </div>
             }
             {categoryList &&
-                <div
-                    key={uuid()}
-                    id="CategoryGrid"
-                    className="grid mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-x-[10px] w-full">
-                    <paginatedContext.Provider value={paginatedContext}>
-                        <PaginatedDisplay COUNT={9} />
-                    </paginatedContext.Provider>
-                </div>
+                <PaginatedDisplayContext.Provider value={paginatedContext} >
+                    <PaginatedDisplay
+                        grid={true}
+                        customStyle="grid mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-x-[10px] w-full"
+                        COUNT={9}
+                    />
+                </PaginatedDisplayContext.Provider>
             }
         </div>)
 }

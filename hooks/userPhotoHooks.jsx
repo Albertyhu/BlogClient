@@ -51,6 +51,40 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
             })
     }
 
+    const FetchUserPhotosByPage = async (page, count, username, {
+        setPhotos,
+        setUserID,
+        setHasMore
+    }) => {
+        const FetchURL = `${apiURL}/users/${username}/get_user_photos_by_page/${page}/${count}`;
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: "GET",
+        })
+            .then(async response => {
+                const result = await response.json();
+                if (response.ok) {
+                    var photos = FormatUserPhotos(result.photos);
+                    console.log("photos: ", photos)
+                    setPhotos(prev => {return [...new Set([...prev, ...photos])] })
+                    setUserID(result.userId);
+                    setHasMore(result.photos.length > 0)
+                    //setHasMore(false)
+                    setLoading(false)
+                }
+                else {
+                    setMessage(Array.isArray(result.error) ? result.error : [result.error])
+                    setLoading(false)
+                }
+
+            })
+            .catch(error => {
+                console.log("FetchHooks error: ", error)
+                setMessage(Array.isArray(error) ? error : [error])
+                setLoading(false)
+            })
+    }
+
     const FetchPhotoDetails = async (photoId, dispatchFunctions) => {
         const {
             setTitle, 
@@ -262,10 +296,9 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
             })
     }
 
-
-
     return {
         FetchUserPhotos,
+        FetchUserPhotosByPage,
         FetchPhotoDetails,
         BulkUploadPhotos,
         DeletePhoto, 

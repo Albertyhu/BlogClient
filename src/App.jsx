@@ -17,7 +17,8 @@ function App() {
     //usersList keeps track of all users of the site
     const [usersList, setUsersList] = useState([]);
     const [ProfilePicture, setProfilePic] = useState(JSON.parse(localStorage.getItem('ProfilePicture')));
-
+    const [coverPhoto, setNewCoverPhoto] = useState(JSON.parse(localStorage.getItem("coverPhoto"))); 
+    const [connection, setConnection] = useState(JSON.parse(localStorage.getItem('connection')))
     //This is the for the header menu
     const [displayMemberComponents, setDisplayMemberComponents] = useState(token ? true : false)
     const [categoryList, setCategoryList] = useState(null); 
@@ -33,6 +34,10 @@ function App() {
         setDecoded, 
         user, 
         ProfilePicture, 
+        coverPhoto, 
+        setNewCoverPhoto, 
+        connection,
+        setConnection, 
         setNewProfileImage: (val)=>setProfilePic(val), 
         displayMemberComponents,
         setNewToken: (val)=>setToken(val),

@@ -34,6 +34,14 @@ const NavigationHooks = (navigate) => {
         })
     }
 
+    function ViewAllUsers(message) {
+        navigate("/users", {
+            state: {
+                message: message ? message : null,
+            }
+        })
+    }
+
     function VisitUser(username, userID) {
         navigate(`/profile/${cleanString(username)}`, {
             state: {
@@ -154,6 +162,7 @@ const NavigationHooks = (navigate) => {
         GoSignIn,
         GoSignUp,
         GoBack,
+        ViewAllUsers,
         VisitUser,
         GoEditProfile,
         GoEditProfilePicture,

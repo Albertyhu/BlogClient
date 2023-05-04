@@ -1,5 +1,8 @@
 import { NavigationHooks } from './navigation.jsx'; 
 import { ErrorMessageHooks  } from './errorHooks.jsx';
+import { Base64Hooks } from './imageHooks.jsx'; 
+
+const { convertObjToBase64 } = Base64Hooks()
 
 const UserProfileHooks = (apiURL, token, setLoading, setMessage) => {
     const DeleteUser = async (userID, dispatchFunctions) => {
@@ -83,18 +86,25 @@ const EditUserHooks = (navigate) => {
             username,
             email,
             biography,
+            coverPhoto,
         } = Elements; 
         const {
             id, 
             token 
         } = UserDetails; 
-        const { setNewUser } = dispatchFunctions; 
+        
+        const {
+            setNewUser,
+            setNewProfileImage,
+            setNewCoverPhoto, 
+        } = dispatchFunctions; 
         const FetchURL = `${apiURL}/users/${id}/update_user_profile`; 
         const formData = new FormData;
         formData.append("username", username);
         formData.append("email", email);
         formData.append("biography", biography);
         formData.append("profile_pic", imageData);
+        formData.append("coverPhoto", coverPhoto);
         try {
             await fetch(FetchURL,
                 {
@@ -110,6 +120,26 @@ const EditUserHooks = (navigate) => {
 
                     if (response.ok) {
                         console.log(result.message);
+                        localStorage.setItem('user', JSON.stringify(result.user))
+                        if (result.ProfilePicture) {
+                            result.ProfilePicture = convertObjToBase64(result.ProfilePicture);
+                            localStorage.setItem('ProfilePicture', JSON.stringify(result.ProfilePicture))
+                            setNewProfileImage(result.ProfilePicture)
+                        }
+                        else {
+                            localStorage.removeItem("ProfilePicture")
+                            setNewProfileImage(null)
+                        }
+                        if (result.coverPhoto && Object.keys(result.coverPhoto).length > 0) {
+                            result.coverPhoto = convertObjToBase64(result.coverPhoto);
+                            localStorage.setItem('coverPhoto', JSON.stringify(result.coverPhoto))
+                            console.log("cover photo: ", result.coverPhoto)
+                            setNewCoverPhoto(result.coverPhoto)
+                        }
+                        else {
+                            localStorage.removeItem("coverPhoto")
+                            setNewCoverPhoto(null)
+                        }
                         setNewUser(result.user)
                         VisitUser(username, id);
                     }

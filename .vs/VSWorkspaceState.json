@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\images",
     "\\component",
-    "\\component\\post",
-    "\\component\\user",
+    "\\component\\connections",
+    "\\component\\header",
+    "\\component\\imageRendering",
+    "\\component\\replyPanel",
     "\\screens",
+    "\\screens\\user",
     "\\screens\\userPhoto",
-    "\\src",
-    "\\util"
+    "\\screens\\userSettings"
   ],
-  "SelectedNode": "\\component\\paginatedDisplay.jsx",
+  "SelectedNode": "\\hooks\\connectionHooks.jsx",
   "PreviewInSolutionExplorer": false
 }

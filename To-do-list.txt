@@ -9,3 +9,4 @@ Need to configure how posts and comments should show up if the owners' accounts 
 Build Connections feature? 
 Users should be able to change to other photos when viewing user_photos [DONE]
 Fix like component in user photo details [FIXED]
+Add in feature to allow users to upload a photo for their cover photos. 

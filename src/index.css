@@ -84,7 +84,7 @@
     }
     /** Post Panel*/
     .PostPanel {
-        @apply rounded-lg w-full mx-auto mb-[20px] bg-[#f2e798] cursor-pointer;
+        @apply rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer;
     }
 
     .fallbackInput {

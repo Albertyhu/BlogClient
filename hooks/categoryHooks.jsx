@@ -25,7 +25,7 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
                 },
             }).then(async response => {
                 const result = await response.data;
-                console.log("categories: ", result.categories)
+
                 if (response.status === 200) {
                     const list = result.categories;
                     list.forEach((item) => {
@@ -51,7 +51,7 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
             .then(async response => {
                 const result = await response.data;
                 if (response.status === 200) {
-                    console.log("result: ", result)
+                    console.log("result: ", result.paginatedResult)
                     result.paginatedResult = FormatCategoryImage(result.paginatedResult);
                     setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
                     setHasMore(result.paginatedResult.length > 0)

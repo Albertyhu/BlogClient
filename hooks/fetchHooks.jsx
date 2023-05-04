@@ -1,6 +1,6 @@
 import { Base64Hooks } from './imageHooks.jsx';
 import { alertMessage } from './textHooks.jsx';
-
+import { FormatImagesInListOfUsers } from './formatHooks.jsx'; 
 const {
     convertObjToBase64,
     toBase64, 
@@ -14,11 +14,39 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             method: 'GET',
         })
             .then(async response => {
-                const result = await response.JSON();
+                const result = await response.json();
                 if (response.ok) {
-                    setUsers(result.users)
+                    setUsers(FormatImagesInUserData(result.users))
                     setLoading(false)
 
+                }
+                else {
+                    console.log("GetAllUsers error: ", result.error)
+                    setLoading(false)
+                    alertMessage("Something went wrong with fetching users from the database", setMessage)
+                }
+            })
+            .catch(error => {
+                console.log("GetAllUsers error: ", error)
+                setLoading(false)
+                alertMessage("Something went wrong with fetching users from the database", setMessage)
+            })
+    }
+
+    //This functions allows the loading of multiple users as the current user scrolls down a page
+    const GetUsersByPage = async (pageNumber, COUNT, setItemList, setHasMore) => {
+        const FetchURL = `${apiURL}/users/get_users_by_pagination/${pageNumber}/${COUNT}`;
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: 'GET',
+        })
+            .then(async response => {
+                const result = await response.json();
+                if (response.ok) {
+                    const users = FormatImagesInListOfUsers(result.users)
+                    setItemList(prev => [...new Set([...prev, ...users])])
+                    setHasMore(users.length > 0)
+                    setLoading(false)
                 }
                 else {
                     console.log("GetAllUsers error: ", result.error)
@@ -41,6 +69,8 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             if (response.ok) {
                 if (data.profile_pic)
                     data.profile_pic.data = toBase64(data.profile_pic.data.data)
+                if (data.coverPhoto && Object.keys(data.coverPhoto).length > 0)
+                    data.coverPhoto = convertObjToBase64(data.coverPhoto); 
                 dispatch(data);
             }
             else {
@@ -65,7 +95,10 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             const result = await response.json();
             if (response.ok) {
                 if (result.user.profile_pic)
-                    { result.user.profile_pic.data = toBase64(result.user.profile_pic.data.data) }
+                { result.user.profile_pic.data = toBase64(result.user.profile_pic.data.data) }
+                if (result.user.coverPhoto) {
+                    result.user.coverPhoto = convertObjToBase64(result.user.coverPhoto)
+                }
                 setProfileDetails(result.user)
                 setProfileId(result.user._id)
                 setLoading(false)
@@ -203,7 +236,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
         }).then(async response => {
             const result = await response.json(); 
             if (response.ok) {
-                result.user.profile_pic = convertObjToBase64(result.user.profile_pic)
+                result.user = FormatImagesInUserData(result.user); 
                 setUser(result.user); 
                 setCategoryList(result.categories)
                 setLoading(false)
@@ -223,6 +256,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
 
     return {
         GetAllUsers, 
+        GetUsersByPage,
         fetchUserDetails,
         fetchUserByName, 
         fetchUsernameAndEmails,
@@ -233,4 +267,5 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     }
 }
 
-export {FetchHooks}; 
+
+export {FetchHooks}

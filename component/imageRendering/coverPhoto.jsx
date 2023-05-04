@@ -6,7 +6,8 @@ const RenderCover = props => {
         altText = "Cover photo",
         image,
         title,
-        isPreview = false, 
+        isPreview = false,
+        customContainerStyle = null, 
     } = props; 
     const {
         toBase64,
@@ -23,7 +24,7 @@ const RenderCover = props => {
         return (
             <div
                 id="CoverPhoto"
-                className={`${containerStyle} ${!isPreview ? beforeStyle: ""}`}
+                className={`${customContainerStyle ? customContainerStyle : containerStyle} ${!isPreview ? beforeStyle: ""}`}
             >
                 {title &&
                     <div

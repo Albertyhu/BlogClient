@@ -26,7 +26,9 @@ const EditProfilePic = props => {
         setNewUser,
         setLoading,
         setMessage,
-        token
+        token,
+        setNewProfileImage,
+        setNewCoverPhoto, 
     } = useContext(AppContext);
     const UserToken = localStorage.getItem("token");
     const [User, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -36,10 +38,12 @@ const EditProfilePic = props => {
 
     const [image, setImage] = useState(null);
     const [username, setUsername] = useState(User.username); 
+    const [coverPhoto, setCoverPhoto] = useState(null)
     const [email, setEmail] = useState(User.email);
     const [biography, setBiography] = useState(User.biography);
 
     const [pictureError, setPictureError] = useState([])
+    const [coverPhotoError, setCoverPhotoError] = useState([])
     const [usernameError, setUsernameError] = useState([])
     const [emailError, setEmailError] = useState([]);
     const [biographyError, setBiographyError] = useState([]);
@@ -51,7 +55,11 @@ const EditProfilePic = props => {
         setBiographyError,
         setGeneralError,
         setPictureError,
-        setNewUser
+        setNewUser,
+        setNewProfileImage,
+        setCoverPhotoError,
+        setCoverPhoto, 
+        setNewCoverPhoto
     }
 
     const imageInputRef = useRef();
@@ -65,6 +73,9 @@ const EditProfilePic = props => {
 
     const biographyInputRef = useRef();
     const biographyErrorRef = useRef();
+
+    const coverPhotoInputRef = useRef(); 
+    const coverPhotoErrorRef = useRef(); 
 
     const generalErrorRef = useRef();
 
@@ -84,6 +95,7 @@ const EditProfilePic = props => {
             setUsername(User.username);
             setEmail(User.email);
             setBiography(User.biography);
+            setCoverPhoto(User.coverPhoto ? User.coverPhoto : null); 
         }
     }, [User])
 
@@ -121,6 +133,7 @@ const EditProfilePic = props => {
                         username,
                         email,
                         biography,
+                        coverPhoto: coverPhotoInputRef.current.files[0],
                     }
                     UpdateUserProfile(apiURL, UserDetails, Elements, dispatchFunctions)
                 }}
@@ -135,6 +148,16 @@ const EditProfilePic = props => {
                         placeholder="Browse your device to change your profile picture"
                         ImageInputRef={imageInputRef}
                         ImageErrorRef={imageErrorRef}
+                    />
+                    <EditImageInput
+                        image={coverPhoto}
+                        setImage={setCoverPhoto}
+                        pictureError={coverPhotoError}
+                        label="Update your cover photo for your profile page"
+                        name="cover_photo"
+                        placeholder="Browse your device to change your cover photo"
+                        ImageInputRef={coverPhotoInputRef}
+                        ImageErrorRef={coverPhotoErrorRef}
                     />
                     <BasicTextInput
                         data={username}

@@ -9,9 +9,11 @@ const SubstituteCoverPhoto = props => {
         <div
             className={`${containerStyle}`}
         >
-            <div
-                className="absolute left-0 right-0 top-[50%] !z-[20] translate-y-[-50%] text-black"
-            >{title}</div>
+            {title &&
+                <div
+                 className="absolute left-0 right-0 top-[50%] !z-[20] translate-y-[-50%] text-black"
+                >{title}</div>
+            }
         </div>
         )
 } 

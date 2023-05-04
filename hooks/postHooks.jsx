@@ -20,6 +20,25 @@ const { toBase64,
 } = Base64Hooks()
 
 const FetchHooks = (apiURL, setLoading, setMessage) => {
+
+    const GetAllPosts = async (dispatch) => {
+        const FetchURL = `${apiURL}/post`; 
+        await axios.get(FetchURL)
+            .then(async response => {
+                const result = await response.data 
+                if (response.status === 200) {
+                    console.log("post list: ", result.post)
+                    result.post = FormatImagesInPostAndAuthors(result.post)
+                    dispatch(result.post)
+                }
+                else {
+                    console.log("GetAllPosts error: ", result.error)
+                }
+            }).catch(error => {
+                console.log("GetAllPosts error: ", error)
+            })
+    }
+
     const FetchPostsByCategory = async (apiURL, categoryID, dispatch) => {
         const FetchURL = `${apiURL}/post/get_posts_by_category/${categoryID}`;
         await fetch(FetchURL, {
@@ -34,6 +53,31 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
                     console.log(result.error)
                 }
             })
+    }
+
+    const GetPaginatedPostByCategory = async (page, count, categoryId, setItemList, setHasMore) => {
+        const FetchURL = `${apiURL}/post/get_paginated_post_by_category/${categoryId}/${page}/${count}`;
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: "GET",
+        })
+            .then(async response => {
+                const result = await response.json();
+                if (response.status === 200) {
+                    result.paginatedResult = FormatImagesInPostAndAuthors(result.paginatedResult);
+                    setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
+                    setHasMore(result.paginatedResult.length > 0)
+                }
+                else {
+                    console.log("FetchNewestPost error: ", result.error);
+                    alertMessage(`Error: ${result.error}`, setMessage);
+                }
+            }).catch(error => {
+                console.log("FetchNewestPost error: ", error);
+                setLoading(false)
+                alertMessage(`Error: ${error}`, setMessage);
+            })
+        setLoading(false)
     }
 
     const FetchPostById = async (postID, dispatchFunctions) => {
@@ -100,12 +144,15 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
         }
     }
 
+        //This functions allows the loading of multiple posts as the current user scrolls down a page
     const FetchNewestPost = async (pagination, count, setItemList, setHasMore) => {
         const FetchURL = `${apiURL}/post/get_newest_posts/${pagination}/${count}`;
         setLoading(true)
-        await axios.get(FetchURL)
+        await fetch(FetchURL, {
+            method: "GET", 
+        })
             .then(async response => {
-                const result = await response.data;
+                const result = await response.json();
                 if (response.status === 200) {
                     result.paginatedResult = FormatImagesInPostAndAuthors(result.paginatedResult);
                     setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
@@ -116,9 +163,6 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
                     alertMessage(`Error: ${result.error}`, setMessage);
                 }
             }).catch(error => {
-                if (axios.isCancel(error)) {
-                    return;
-                }
                 console.log("FetchNewestPost error: ", error);
                 setLoading(false)
                 alertMessage(`Error: ${error}`, setMessage);
@@ -127,7 +171,9 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
     }
 
     return {
+        GetAllPosts, 
         FetchPostsByCategory,
+        GetPaginatedPostByCategory,
         FetchPostById, 
         FetchNewestPost, 
     } 
@@ -303,15 +349,19 @@ const CreateAndUpdatePosts = (navigate, apiURL, setLoading, setMessage, token) =
 }
 
 const FormatImagesInPostAndAuthors = (postList) => {
-    var formatted = postList.map(post => {
-        if (post.mainImage) { post.mainImage = convertObjToBase64(post.mainImage); }
-        if (post.images && post.images.length > 0) { post.images = convertArrayToBase64(post.images); }
-        if (post.author.profile_pic) {
-            post.author.profile_pic.data = toBase64(post.author.profile_pic.data.data);
-        }
-        return post; 
-    })
-    return formatted; 
+    try {
+        var formatted = postList.map(post => {
+            if (post.mainImage) { post.mainImage = convertObjToBase64(post.mainImage); }
+            if (post.images && post.images.length > 0) { post.images = convertArrayToBase64(post.images); }
+            if (post.author.profile_pic) {
+                post.author.profile_pic.data = toBase64(post.author.profile_pic.data.data);
+            }
+            return post;
+        })
+        return formatted;
+    } catch (e) {
+        console.log("FormatImagesInPostAndAuthors error: ", e)
+    }
 }
 
 

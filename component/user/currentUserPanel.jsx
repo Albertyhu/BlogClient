@@ -11,7 +11,10 @@ import { FormatDate } from '../../hooks/timeHooks.jsx';
 const RenderProfilePic = lazy(() => import('./profilePicture.jsx'));
 
 const ProfilePanel = props => {
-    const { userId } = props; 
+    const {
+        userId, 
+        username, 
+    } = props; 
     const navigate = useNavigate();
     const { VisitUser } = NavigationHooks(navigate);
     const {
@@ -41,12 +44,13 @@ const ProfilePanel = props => {
                 className="w-11/12 mx-auto"
                 id="ProfileWrapper"
             >
-                {profileImage &&
+                {profileImage && 
                     <Suspense fallback={<div className= "rounded-full w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]">Profile image loading</div>}>
                         <RenderProfilePic
                             profile_pic={profileImage}
                             dimensions="w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]"
-                            clickEvent={()=>VisitUser(decoded.username, decoded.id)}
+                            clickEvent={() => VisitUser(username, userId)}
+                            customStyle="cursor-pointer"
                             />
                     </Suspense>
                         }

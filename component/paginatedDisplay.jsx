@@ -4,23 +4,25 @@ import {
 } from '../util/contextItem.jsx'; 
 import uuid from 'react-uuid';
 import PostPanel from './post/post_panel.jsx'; 
-//This component creates the functionality of load on scroll affect
+//This component creates the functionality of load on scroll affect and has the option to load the content onto a grid in desktop view 
 //Treat Paginated results like an array. The first element starts at index 0.
 //The higher level component must supply this component with their own way of rendering the item list. 
 const PaginatedResults = props => {
     const {
         COUNT = 5,
+        grid = false, 
+        customGrid = null, 
     } = props; 
-
-    const {
-        itemList = [], 
-        setItemList, 
-        fetchAction, 
-        RenderPanel,
-    } = useContext(PaginatedDisplayContext)
 
     const [pageNumber, setPageNumber] = useState(0); 
     const [hasMore, setHasMore] = useState(false); 
+
+    const {
+        itemList = [],
+        setItemList,
+        fetchAction,
+        RenderPanel,
+    } = useContext(PaginatedDisplayContext)
 
     const observerRef = useRef(); 
     const lastElement = useCallback(node => {
@@ -36,36 +38,29 @@ const PaginatedResults = props => {
     useEffect(() => {
         fetchAction(pageNumber, COUNT, setItemList, setHasMore)
     }, [pageNumber])
-    return (
-        <div>
-            {itemList.length > 0 &&
-                <>
-                    {itemList.map((item, index) =>RenderPanel(item._id, item))}
-                    {hasMore &&
-                        <div
-                            className="font-bold text-center text-2xl w-full"
-                            id="LastElement"
-                            ref={lastElement}
-                        >Loading more...</div>}
-                </>
+
+    return itemList.length > 0 &&
+        <>
+        {grid ?
+            <div
+                id="Grid"
+                className={`${customGrid ? customGrid : "w-11/12 mx-auto grid md:grid-cols-3 gap-[10px]"}`}
+            >
+                {itemList.map((item, index) => RenderPanel(item._id, item))}
+            </div>
+            : 
+            itemList.map((item, index) => RenderPanel(item._id, item)) 
             }
-        </div>
-    )
-    //return (
-    //    <div>
-    //        {itemList.length > 0 &&
-    //            <>
-    //            {itemList.map((item, index) => <PostPanel {...item} key={item._id} CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer" />)}
-    //                {hasMore &&
-    //                    <div
-    //                        className="font-bold text-center text-2xl w-full"
-    //                        id="LastElement"
-    //                        ref={lastElement}
-    //                    >Loading more...</div>}
-    //            </>
-    //        }
-    //    </div>
-    //)
+            {hasMore &&
+                <div
+                    className="font-bold text-center text-2xl w-full"
+                    id="LastElement"
+                    ref={lastElement}
+                >Loading more...</div>}
+        </>
+
+
+
 }
 
 export default PaginatedResults; 

@@ -1,21 +1,19 @@
-import React, {  useContext, useEffect, useState, lazy, useRef, startTransition, Suspense } from 'react';
+import React, {  useContext, useEffect, useState, lazy, useRef, Suspense, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import {
     AppContext,
-    PaginatedDisplayContext, 
 } from '../../util/contextItem.jsx';
 import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
-import PlusIcon from '../../assets/icons/white_plus_icon.png';
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx';
 import uuid from 'react-uuid';
 import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
-import { FetchHooks as PostFetchHooks } from '../../hooks/fetchHooks.jsx'; 
+//import { FetchHooks as PostFetchHooks } from '../../hooks/fetchHooks.jsx'; 
+import { FetchHooks  } from '../../hooks/postHooks.jsx'; 
 const CoverPhoto = lazy(() => import("../../component/imageRendering/coverPhoto.jsx"));
 const Panel = lazy(() => import('../../component/post/post_panel.jsx'))
 import { PostButtons } from '../../component/post/buttons.jsx'; 
 import ErrorPage from '../error';
-import PaginatedDisplay from '../../component/paginatedDisplay.jsx'; 
 
 /** This component displays individual categories and its data*/
 const CategoryPage = props => {
@@ -32,8 +30,8 @@ const CategoryPage = props => {
 
     const { EditCategory } = NavigationHooks(navigate);
     const {
-        FetchPostsByCategory,
-    } = PostFetchHooks(apiURL, token, setLoading, setMessage); 
+        GetPaginatedPostByCategory,
+    } = FetchHooks(apiURL, setLoading, setMessage); 
     const {
         category_name, 
         category_id, 
@@ -60,6 +58,20 @@ const CategoryPage = props => {
 
     const generalErrorRef = useRef();
 
+    const [pageNumber, setPageNumber] = useState(0);
+    const [hasMore, setHasMore] = useState(false);
+
+    const observerRef = useRef();
+    const lastElement = useCallback(node => {
+        if (observerRef.current) observerRef.current.disconnect();
+        observerRef.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPageNumber(prev => prev + 1)
+            }
+        })
+        if (node) observerRef.current.observe(node)
+    }, [hasMore])
+
     useEffect(() => {
         if (generalError != null && generalError.length > 0) {
             for (var child of generalErrorRef.current.children) {
@@ -68,22 +80,10 @@ const CategoryPage = props => {
         }
     }, [generalError])
 
-
     useEffect(() => {
-        window.scrollTo(0, 0);
-    })
-
-    useEffect(() => {
-        if (categoryId) {
-            FetchPostsByCategory(categoryId, setPostList)
-            setLoad(true);
-        }
-        else if (location.state) {
-            FetchPostsByCategory(location.state.id, setPostList)
-            setLoad(true); 
-        }
-
-    }, [categoryId])
+        window.addEventListener("load", () => window.scrollTo(0, 0))
+        return () => { window.removeEventListener("load", () => window.scrollTo(0, 0)) }
+    }, [])
 
     useEffect(() => {
         if (category_name && categoryList) {
@@ -99,6 +99,12 @@ const CategoryPage = props => {
             }
         }
     }, [category_name, categoryList])
+
+    useEffect(() => {
+        if(categoryId)
+            GetPaginatedPostByCategory(pageNumber, 5, categoryId, setPostList, setHasMore)
+    }, [pageNumber, categoryId])
+
     if (!shouldLoad) {
         return (
             <div className = "my-20"> 
@@ -170,6 +176,12 @@ const CategoryPage = props => {
                             }
                         }
                         )}
+                        {hasMore &&
+                            <div
+                                className="font-bold text-center text-2xl w-full"
+                                id="LastElement"
+                                ref={lastElement}
+                            >Loading more...</div>}
                     </div>
                 }
             </div>

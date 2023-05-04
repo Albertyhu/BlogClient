@@ -135,6 +135,9 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
                             localStorage.setItem("ProfilePicture", JSON.stringify(result.profile_pic))
                             setNewProfileImage(result.profile_pic)
                         }
+                        if (result.connection && result.connection.length > 0) {
+                            localStorage.setItem("connection", JSON.stringify(result.connection))
+                        }
                         //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
                         //data about the logged in user
                         setNewUser(result.user)

@@ -22,6 +22,8 @@ const Header = props => {
         GoHome,
         GoSignUp,
         GoSignIn,
+        GoCategory,
+        ViewAllUsers,
     } = NavigationHooks(navigate); 
 
     const {
@@ -83,7 +85,10 @@ const Header = props => {
                         id="DesktopMenuLinks"
                         className={DesktopMenuLinks}
                     >
-                        <div className= "inline-block select-none" onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
+                        <div className="inline-block select-none" onClick={useCallback(() => GoHome(navigate), [navigate])}>Home</div>
+                        <div className="inline-block select-none" onClick={useCallback(() => GoCategory(navigate), [navigate])}>Categories</div>
+                        <div className="inline-block select-none" onClick={useCallback(() => ViewAllUsers(navigate), [navigate])}>Members</div>
+
                         {user && displayMemberComponents ?
                             <>
                                 <div

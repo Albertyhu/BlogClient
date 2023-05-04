@@ -53,7 +53,6 @@ const RenderPost = props => {
     const [likes, setLikes] = useState(null);
     const [published, setPublished] = useState(location.state ? location.state.published : true); 
     const [decoded, setDecoded] = useState(null)
-    //const [message, setMessage] = useState([])
 
     const [comments, setComments] = useState([])
 

@@ -11,7 +11,10 @@ import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { AiOutlineHome, AiFillEdit } from 'react-icons/Ai';
 import { RxPerson } from 'react-icons/Rx';
 import { BiPhotoAlbum, BiLogOut, BiLogIn, BiCategoryAlt } from 'react-icons/Bi';
-import { FaRegWindowClose } from 'react-icons/Fa';
+import {
+    FaRegWindowClose,
+    FaUsers,
+} from 'react-icons/Fa';
 import { BsFillPersonPlusFill } from 'react-icons/Bs';
 import { CiSettings } from 'react-icons/Ci';
 import { Button } from './button.jsx'; 
@@ -33,6 +36,7 @@ const MenuLinks = props => {
         GoHome,
         GoSignUp,
         GoSignIn,
+        ViewAllUsers,
         VisitUser,
         GoUserPhotos,
         GoEditProfile,
@@ -84,6 +88,12 @@ const MenuLinks = props => {
                         clickEvent={() => GoEditProfile(user.username, user.id)}
                         elemRef={elemRef}
                         icon={() => <AiFillEdit />}
+                    />
+                    <Button
+                        title="View members"
+                        clickEvent={() => ViewAllUsers(null)}
+                        elemRef={elemRef}
+                        icon={() => <FaUsers />}
                     />
                     <Button
                         title="Settings"
