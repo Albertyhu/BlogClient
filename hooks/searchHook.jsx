@@ -4,7 +4,7 @@ import axios from 'axios';
 //When the server retrieves all possible documents, it creates an array called collectedString
 //The array is a collection all text from titles, content, names, etc, any element that can be used to be compared with the query 
 const HandleSearchQuery = (query, list) => {
-    //console.log("list: ", list)
+    console.log("list: ", list)
     var result = list.filter(item => {
         if (item.collectedStrings) {
             return item.collectedStrings.some(text => {

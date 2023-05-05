@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback, useContext } from 'react';
+import {  useCallback, useContext, useMemo } from 'react';
 import {
     SearchBarContext,
     AppContext,
 } from '../../util/contextItem.jsx';
 import uuid from 'react-uuid';
-import RenderPostItems from "../post/searchResultItem.jsx"; 
+import RenderSearchResultItems from './searchResultItem.jsx'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const RenderSearchResults = props => {
     const {
@@ -12,34 +13,36 @@ const RenderSearchResults = props => {
         selectedSearchType
     } = props; 
 
+    const {
+        setMessage, 
+    } = useContext(AppContext)
+    const navigate = useNavigate(); 
+    const {
+        RenderPostSearchResultItem,
+        RenderCategorySearchResultItem,
+        RenderCommentSearchResultItem,
+        RenderUserSearchResultItem
+    } = RenderSearchResultItems(navigate, setMessage)
 
     const RenderSearchType = (item, index) => {
         switch (selectedSearchType) {
             case "post":
-                return <RenderPostItems {...item} index={index} key={item._id} />
+                return <RenderPostSearchResultItem {...item} index={index} key={item._id} />
                 break; 
             case "users":
-                return <RenderPostItems {...item} index={index} key={item._id} />
+                return < RenderUserSearchResultItem {...item} index={index} key={item._id} />
                 break; 
             case "category":
-                return <RenderPostItems {...item} index={index} key={item._id} />
+                return <RenderCategorySearchResultItem {...item} index={index} key={item._id} />
                 break; 
             case "comment":
-                return <RenderPostItems {...item} index={index} key={item._id} />
+                return <RenderCommentSearchResultItem {...item} index={index} key={item._id} />
                 break; 
             default:
                 return null;
                 break; 
         }
     }
-
-    useEffect(() => {
-        if (searchResults.length > 0) {
-            console.log("searchResults: ", searchResults)
-        }
-
-    }, [searchResults])
-
     return searchResults.map((item, index) => RenderSearchType(item, index))
 }
 

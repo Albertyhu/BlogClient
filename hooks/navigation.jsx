@@ -59,16 +59,6 @@ const NavigationHooks = (navigate) => {
         navigate("/category/create")
     }
 
-
-    //function VisitOneCategory(categoryName, ID) {
-    //    navigate(`/category/${cleanString(categoryName)}/${ID}`, {
-    //        state: {
-    //            id: ID,
-    //            categoryName,
-    //        }
-    //    })
-    //}
-
     function VisitOneCategory(categoryName, ID) {
         navigate(`/category/${categoryName}/${ID}`, {
             state: {

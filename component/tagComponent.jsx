@@ -32,7 +32,6 @@ export const Tag = props => {
 
 export const RenderTagField = props => {
     const { tag } = props; 
-    console.log("tags: ", tag)
     return (
         <div className = "text-left">
             <h3

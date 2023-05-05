@@ -53,11 +53,13 @@ const SearchScreen = props => {
 
     useEffect(() => {
         setDisplayResults(data.length > 0 && searchResults.length > 0)
-    }, [searchResults])
+    }, [searchResults, selectedSearchType])
 
-    useEffect(() => {
-        console.log("displayResults: ", displayResults)
-    }, [displayResults])
+    const CallbackSearchResults = useCallback(() => 
+        <RenderSearchResults
+            selectedSearchType={selectedSearchType}
+            searchResults={searchResults}
+        />, [selectedSearchType])
 
     return (
         <SearchBarContext.Provider value={searchContext}>
