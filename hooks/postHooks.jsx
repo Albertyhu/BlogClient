@@ -154,8 +154,15 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
             .then(async response => {
                 const result = await response.json();
                 if (response.status === 200) {
-                    result.paginatedResult = FormatImagesInPostAndAuthors(result.paginatedResult);
-                    setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
+                    if (result.paginatedResult && result.paginatedResult.length > 0 && Array.isArray(result.paginatedResult)) {
+                        try {
+                            result.paginatedResult = FormatImagesInPostAndAuthors(result.paginatedResult);
+                            setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
+                        } catch (e) {
+                            console.log("error: ", e)
+                            console.log("result: ", result.paginatedResult)
+                        }
+                    }
                     setHasMore(result.paginatedResult.length > 0)
                 }
                 else {
@@ -361,6 +368,7 @@ const FormatImagesInPostAndAuthors = (postList) => {
         return formatted;
     } catch (e) {
         console.log("FormatImagesInPostAndAuthors error: ", e)
+        console.log("postList: ", postList)
     }
 }
 

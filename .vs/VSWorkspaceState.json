@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\formElements",
-    "\\component\\searchBar",
-    "\\component\\userPhoto",
+    "\\component\\header",
+    "\\component\\searchComponent",
+    "\\component\\user",
+    "\\hooks",
     "\\screens",
-    "\\screens\\authentication",
-    "\\screens\\category",
-    "\\screens\\post",
-    "\\screens\\userPhoto"
+    "\\screens\\home",
+    "\\screens\\search",
+    "\\util"
   ],
-  "SelectedNode": "\\component\\paginatedDisplay.jsx",
+  "SelectedNode": "\\screens\\home\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

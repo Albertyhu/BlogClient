@@ -4,7 +4,10 @@ import { NavigationHooks } from '../../hooks/navigation.jsx';
 import {
     AppContext,
 } from '../../util/contextItem.jsx';
-import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
+import {
+    CategoryHooks,
+    CheckIfAdministrator,
+} from '../../hooks/categoryHooks.jsx';
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx';
 import uuid from 'react-uuid';
 import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
@@ -26,6 +29,7 @@ const CategoryPage = props => {
         setCategoryList,
         setLoading, 
         setMessage,
+        decoded,
     } = useContext(AppContext);
 
     const { EditCategory } = NavigationHooks(navigate);
@@ -81,8 +85,7 @@ const CategoryPage = props => {
     }, [generalError])
 
     useEffect(() => {
-        window.addEventListener("load", () => window.scrollTo(0, 0))
-        return () => { window.removeEventListener("load", () => window.scrollTo(0, 0)) }
+       window.scrollTo(0, 0)
     }, [])
 
     useEffect(() => {
@@ -140,24 +143,27 @@ const CategoryPage = props => {
                 {generalError != null && generalError.length > 0 && RenderError(generalError)}
             </div>
             <div>
-                {token && 
-                    <div className ="grid">
+                <div className="grid [&>*]:md:inline-block md:flex">
+                    {decoded && categoryList && CheckIfAdministrator(decoded.id, categoryList) &&
+                        <>
                         <button
                             className="btn-add mb-10"
                             onClick={() => EditCategory(categoryId, categoryName, description, coverImage)}
                         >Edit category
                         </button>
                         <button
-                            className="btn-primary mb-10"
+                            className="btn-delete mb-10"
                             onClick={() => DeleteCategory(categoryId, categoryList, setCategoryList)}
                         >Delete Category</button>
+                        </>
+                    }
+                    {token &&
                         <CreateNewPostWithCategory
                             buttonStyle="btn-secondary mb-10"
                             categoryID={categoryId}
                         />
-                     </div>
-                }
-
+                    }
+                </div>
                 {postList && postList.length > 0 &&
                     <div className="w-11/12 md:w-6/12 mx-auto flex-grow z-10">
                         {postList.map(post => {

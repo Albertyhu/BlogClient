@@ -60,11 +60,20 @@ const NavigationHooks = (navigate) => {
     }
 
 
+    //function VisitOneCategory(categoryName, ID) {
+    //    navigate(`/category/${cleanString(categoryName)}/${ID}`, {
+    //        state: {
+    //            id: ID,
+    //            categoryName,
+    //        }
+    //    })
+    //}
+
     function VisitOneCategory(categoryName, ID) {
-        navigate(`/category/${cleanString(categoryName)}/${ID}`, {
+        navigate(`/category/${categoryName}/${ID}`, {
             state: {
-                id: ID, 
-                categoryName, 
+                id: ID,
+                categoryName,
             }
         })
     }

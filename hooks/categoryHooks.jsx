@@ -263,4 +263,16 @@ const FormatCategoryImage = categories => {
     return formatted; 
 }
 
-export { CategoryFormHooks, CategoryHooks }; 
+const CheckIfAdministrator = (currentUserId, categoryList) => {
+    try {
+        return categoryList.some(category => category.administrator.toString() == currentUserId.toString())
+    } catch (e) {
+        console.log("CheckIfAdministrator error: ", error)
+    }
+}
+
+export {
+    CategoryFormHooks,
+    CategoryHooks,
+    CheckIfAdministrator
+}; 

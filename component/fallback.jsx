@@ -32,7 +32,7 @@ const SubstitutePanel = props => {
         <div
             id="panel"
             className={`${divStyle} backgroundTransition NormalPosition`}
-            onClick={clickEvent}
+            onClick={clickEvent ? clickEvent : null }
         >
             <div
                 id="contentWrapper"

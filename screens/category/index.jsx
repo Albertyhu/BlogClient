@@ -2,14 +2,9 @@ import React, { useCallback, useContext, useEffect, useState, lazy, useRef, Susp
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { AppContext } from '../../util/contextItem.jsx';
-import { CategoryHooks } from '../../hooks/categoryHooks.jsx';
-import PlusIcon from '../../assets/icons/white_plus_icon.png'; 
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx'; 
 import uuid from 'react-uuid';
-import { wait } from '../../hooks/wait.jsx';
-//const Panel = lazy(() => import('../../component/panel.jsx')); 
-const Panel = lazy(() =>import('../../component/panel.jsx')); 
-//import { AddButton } from '../../component/button.jsx'; 
+const Panel = lazy(() =>import('../../component/generalPanels/panel.jsx')); 
 const AddButton = lazy(() => import('../../component/addButton.jsx'));
 import { SubstitutePanel } from '../../component/fallback.jsx';
 
@@ -18,10 +13,7 @@ const CategoryPage = props => {
     const { GoCreateCategory } = NavigationHooks(navigate);
 
     const {
-        user,
-        apiURL,
         categoryList,
-        setCategoryList,
         token, 
         setLoading, 
     } = useContext(AppContext);
@@ -31,14 +23,6 @@ const CategoryPage = props => {
         AnimateErrorMessage
     } = ErrorMessageHooks(); 
     const [generalError, setGeneralError] = useState([]); 
-
-    function VisitOneCategory(category, ID) {
-        useCallback(navigate(`/category/${category}/${ID}`, {
-            state: {
-                id: ID,
-            }
-        }),[navigate])
-    }
 
     const VisitCategory = useCallback((item)=>navigate(`/category/${item.name}/${item._id}`, {
         state: {

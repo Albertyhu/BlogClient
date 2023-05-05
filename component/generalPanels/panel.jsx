@@ -1,8 +1,9 @@
 import { lazy, useRef, useEffect } from 'react'; 
-import '../src/index.css'; 
-import { Base64Hooks } from '../hooks/imageHooks.jsx';
+import { Base64Hooks } from '../../hooks/imageHooks.jsx';
 
 const { toBase64, isBase64Image } = Base64Hooks()
+
+//Used to render panels of each categories
 const RenderPanel = props => {
     const {
         name,

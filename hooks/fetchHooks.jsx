@@ -5,6 +5,7 @@ const {
     convertObjToBase64,
     toBase64, 
 } = Base64Hooks(); 
+import axios from 'axios';
 
 const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     const GetAllUsers = async (setUsers) => {
@@ -254,6 +255,30 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
         })
     }
 
+    const GetPopularCategoriesAndPosts = async (count, dispatchFunctions) => {
+        const {
+            setTopCategories, 
+            setTopPosts, 
+        } = dispatchFunctions;
+        setLoading(true)
+        const FetchURL = `${apiURL}/get_popular_categories_and_posts/${count}`; 
+        await axios.get(FetchURL)
+            .then(async response => {
+                const result = await response.data; 
+                console.log(result)
+                if (response.status === 200) {
+                    setTopCategories(result.TopCategories)
+                    setTopPosts(result.TopPosts)
+                }
+                else {
+                    console.log("GetPopularCategoriesAndPosts error: ", result.error)
+                }
+            })
+            .catch(error => {
+                console.log("GetPopularCategoriesAndPosts error: ", error)
+            })
+    }
+
     return {
         GetAllUsers, 
         GetUsersByPage,
@@ -264,6 +289,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
         FetchPostsByCategory,
         GetUsersAndCategeries, 
         GetCurrentUserAndCategories,
+        GetPopularCategoriesAndPosts,
     }
 }
 

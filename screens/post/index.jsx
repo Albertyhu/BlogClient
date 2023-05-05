@@ -166,8 +166,7 @@ const RenderPost = props => {
     }, [post_id])
 
     useEffect(() => {
-        window.addEventListener('load', () => window.scrollTo(0, 0))
-        return () => { window.removeEventListener('load', () => window.scrollTo(0, 0)) }
+        window.scrollTo(0, 0)
     }, [])
 
     if (published) {

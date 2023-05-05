@@ -33,7 +33,7 @@ const ProfilePanel = props => {
 
     return (
         <div
-            className="hidden md:block w-full text-center text-lg text-black rounded-lg bg-[#ffffff] py-10 mr-10 box_shadow mb-5"
+            className="hidden md:block w-full h-fit text-center text-lg text-black rounded-lg bg-[#ffffff] py-10 mr-10 box_shadow mb-5"
             id="ProfileContainer" 
         >
             <div
