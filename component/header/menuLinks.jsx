@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { AiOutlineHome, AiFillEdit } from 'react-icons/Ai';
 import { RxPerson } from 'react-icons/Rx';
-import { BiPhotoAlbum, BiLogOut, BiLogIn, BiCategoryAlt } from 'react-icons/Bi';
+import { BiPhotoAlbum, BiLogOut, BiLogIn, BiCategoryAlt } from 'react-icons/bi';
 import {
     FaRegWindowClose,
     FaUsers,

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'; 
-import { NavigationHooks } from '../hooks/navigation.jsx'; 
-import AddButton from './AddButton.jsx'; 
+import { NavigationHooks } from '../../hooks/navigation.jsx'; 
+import AddButton from '../AddButton.jsx'; 
 import { FiLogIn } from 'react-icons/fi';
 import { IconContext } from 'react-icons'; 
 
@@ -13,7 +13,7 @@ const Panel = props => {
     return (
         <div
             id="GuestPanel"
-            className=" hidden md:block bg-[#ffffff] rounded-[15px] py-10 mx-auto box_shadow"
+            className=" hidden md:block bg-[#ffffff] rounded-[15px] py-10 mx-auto box_shadow mb-5"
         >
             <div
                 className= "w-8/12 mx-auto justify-center" 

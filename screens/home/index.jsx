@@ -10,15 +10,12 @@ import { FetchHooks as PostFetchHooks } from '../../hooks/postHooks.jsx';
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'; 
 import ProfilePanel from '../../component/user/currentUserPanel.jsx'; 
 const PaginatedDisplay = lazy(() => import('../../component/paginatedDisplay.jsx')); 
-import uuid from 'react-uuid'; 
 import PostPanel from '../../component/post/post_panel.jsx'; 
 const GuestPanel = lazy(() => import('../../component/generalPanels/guestPanel.jsx')); 
 import { SubstitutePanel } from '../../component/fallback.jsx'; 
 const RenderPopularPanel = lazy(() => import('../../component/generalPanels/popularPanel.jsx'));
 import RenderPopularPostListItem from '../../component/post/PopularPostItem.jsx'; 
 import RenderPopularCategoryListItem from '../../component/categoryComponent/PopularCategoryItem.jsx';
-import CoverPhoto from '../../component/imageRendering/parallaxImage'; 
-import Meditation from '../../assets/images/city.jpg';
 
 const Home = props => {
     const location = useLocation(); 

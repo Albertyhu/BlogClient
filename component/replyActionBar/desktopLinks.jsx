@@ -5,7 +5,7 @@ import {
 } from '../../util/contextItem.jsx';
 import {
     BiEditAlt,
-} from 'react-icons/Bi';
+} from 'react-icons/bi';
 import {
     BsShare
 } from 'react-icons/Bs';

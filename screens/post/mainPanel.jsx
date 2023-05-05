@@ -9,11 +9,11 @@ import {
 } from '../../component/tagComponent.jsx'; 
 import uuid from 'react-uuid';
 import { HiOutlineDotsHorizontal } from 'react-icons/Hi';
-import { BiCommentDetail } from 'react-icons/Bi';
+import { BiCommentDetail } from 'react-icons/bi';
 import { IconContext } from "react-icons";
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
-
+ 
 const MainPanel = props => {
     const { RenderLikeButton } = PostLikeFeatures()
     const [mobileAdminBtn, setMobileAdminBtn] = useState(false); 

@@ -7,10 +7,11 @@ import {
 import RenderSearchResults from '../../component/searchComponent/renderSearchResults.jsx';
 import RenderSelection from '../../component/searchComponent/selectType.jsx'; 
 import ProfilePanel from '../../component/user/currentUserPanel.jsx';
-import { SearchRequests } from '../../hooks/searchHook.jsx'; 
+import {
+    SearchRequests,
+} from '../../hooks/searchHook.jsx'; 
 
 const SearchScreen = props => {
-
     const SEARCH_TYPES = [
         "post",
         "users",
@@ -34,20 +35,29 @@ const SearchScreen = props => {
 
     const { GetSearchData } = SearchRequests(apiURL, setLoading, setData);
 
+    const searchContext = {
+        query,
+        setQuery,
+        selectedSearchType,
+        setType,
+        setSearchResults,
+    } 
+    const resetSearch = () => {
+        setQuery('')
+        setResults([]);
+        setDisplay(false)
+    }
     useEffect(() => {
-       GetSearchData(selectedSearchType)
+        GetSearchData(selectedSearchType)
     }, [selectedSearchType])
 
     useEffect(() => {
         setDisplayResults(data.length > 0 && searchResults.length > 0)
     }, [searchResults])
 
-    const searchContext = {
-        query,
-        setQuery,
-        selectedSearchType,
-        setType,
-    } 
+    useEffect(() => {
+        console.log("displayResults: ", displayResults)
+    }, [displayResults])
 
     return (
         <SearchBarContext.Provider value={searchContext}>
@@ -62,7 +72,10 @@ const SearchScreen = props => {
                     <SearchBar data={data} />
                     <RenderSelection searchTypes={SEARCH_TYPES} />
                     {displayResults &&
-                        <RenderSearchResults />
+                        <RenderSearchResults
+                            selectedSearchType={selectedSearchType}
+                            searchResults={searchResults}
+                        />
                     }
                 </div>
                 <>

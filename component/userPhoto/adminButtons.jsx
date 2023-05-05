@@ -12,7 +12,7 @@ import { IconContext } from 'react-icons';
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
-import { BiTrash } from 'react-icons/Bi';
+import { BiTrash } from 'react-icons/bi';
 
 export const AdminButtons = props => {
     const {

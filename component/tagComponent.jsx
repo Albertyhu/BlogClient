@@ -32,6 +32,7 @@ export const Tag = props => {
 
 export const RenderTagField = props => {
     const { tag } = props; 
+    console.log("tags: ", tag)
     return (
         <div className = "text-left">
             <h3
@@ -40,7 +41,8 @@ export const RenderTagField = props => {
             <div
                 id="TagField"
             >
-                {tag.map(item =>
+                {tag &&
+                    tag.map(item =>
                     <Tag
                         key={uuid()}
                         {...item}

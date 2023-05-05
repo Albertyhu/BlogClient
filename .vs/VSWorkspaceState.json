@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
     "\\component",
-    "\\component\\header",
+    "\\component\\categoryComponent",
+    "\\component\\imageRendering",
+    "\\component\\post",
     "\\component\\searchComponent",
     "\\component\\user",
-    "\\hooks",
     "\\screens",
-    "\\screens\\home",
-    "\\screens\\search",
-    "\\util"
+    "\\screens\\category"
   ],
-  "SelectedNode": "\\screens\\home\\index.jsx",
+  "SelectedNode": "\\screens\\search\\index.jsx",
   "PreviewInSolutionExplorer": false
 }
