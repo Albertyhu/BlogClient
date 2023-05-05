@@ -16,6 +16,8 @@ import { SubstitutePanel } from '../../component/fallback.jsx';
 const RenderPopularPanel = lazy(() => import('../../component/generalPanels/popularPanel.jsx'));
 import RenderPopularPostListItem from '../../component/post/PopularPostItem.jsx'; 
 import RenderPopularCategoryListItem from '../../component/categoryComponent/PopularCategoryItem.jsx';
+import uuid from 'react-uuid'; 
+const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
 
 const Home = props => {
     const location = useLocation(); 
@@ -63,7 +65,7 @@ const Home = props => {
             className="w-full"
             id="Container"
         >
-            <h1 className="text-center mx-auto my-[20px] text-2xl">Home</h1>
+            <h1 className="text-center mx-auto my-[20px] text-2xl">The lastest content.</h1>
             <div
                 className= "grid w-11/12 mx-auto md:grid-cols-[75%_25%] md:gap-[20px]"
             >
@@ -73,7 +75,7 @@ const Home = props => {
                 >
                 <PaginatedDisplayContext.Provider value={PaginatedContext}>
                     <Suspense
-                        fallback={<div className="text-center font-bold text-2xl">Loading content...</div>}
+                            fallback={<div key={uuid()} className="text-center font-bold text-2xl">Loading content...</div>}
                     >
                             <PaginatedDisplay
                             itemList={postList}
@@ -88,13 +90,16 @@ const Home = props => {
                     id="RightDesktopColumn"
                     className = "flex flex-col"
                 >
-                {token ?
+                    {token ?
                     <ProfilePanel />
                     :
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>
                         <GuestPanel />
                     </Suspense>
                     }
+                    <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                        <RenderPromptPanel />
+                    </Suspense>
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>
                         {TopPosts && TopPosts.length > 0 &&
                             <RenderPopularPanel
@@ -109,6 +114,7 @@ const Home = props => {
                             />
                         }
                     </Suspense>
+                    
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>
                         {TopCategories && TopCategories.length > 0 &&
                             <RenderPopularPanel
@@ -119,6 +125,7 @@ const Home = props => {
                                         {...item}
                                         keyValue={key}
                                         index={index}
+                                        
                                     />}
                             />
                         }

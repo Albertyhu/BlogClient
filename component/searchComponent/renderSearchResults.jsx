@@ -24,25 +24,46 @@ const RenderSearchResults = props => {
         RenderUserSearchResultItem
     } = RenderSearchResultItems(navigate, setMessage)
 
-    const RenderSearchType = (item, index) => {
+    //const RenderSearchType = (item, index) => {
+    //    switch (selectedSearchType) {
+    //        case "post":
+    //            return <RenderPostSearchResultItem {...item} index={index} key={item._id} />
+    //            break; 
+    //        case "users":
+    //            return < RenderUserSearchResultItem {...item} index={index} key={item._id} />
+    //            break; 
+    //        case "category":
+    //            return <RenderCategorySearchResultItem {...item} index={index} key={item._id} />
+    //            break; 
+    //        case "comment":
+    //            return <RenderCommentSearchResultItem {...item} index={index} key={item._id} />
+    //            break; 
+    //        default:
+    //            return null;
+    //            break; 
+    //    }
+    //}
+
+    const RenderSearchType = useCallback((item, index) => {
         switch (selectedSearchType) {
             case "post":
                 return <RenderPostSearchResultItem {...item} index={index} key={item._id} />
-                break; 
+                break;
             case "users":
                 return < RenderUserSearchResultItem {...item} index={index} key={item._id} />
-                break; 
+                break;
             case "category":
                 return <RenderCategorySearchResultItem {...item} index={index} key={item._id} />
-                break; 
+                break;
             case "comment":
                 return <RenderCommentSearchResultItem {...item} index={index} key={item._id} />
-                break; 
+                break;
             default:
                 return null;
-                break; 
+                break;
         }
-    }
+    }, [selectedSearchType])
+
     return searchResults.map((item, index) => RenderSearchType(item, index))
 }
 

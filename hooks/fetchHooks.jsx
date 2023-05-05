@@ -265,7 +265,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
         await axios.get(FetchURL)
             .then(async response => {
                 const result = await response.data; 
-                console.log(result)
                 if (response.status === 200) {
                     setTopCategories(result.TopCategories)
                     setTopPosts(result.TopPosts)

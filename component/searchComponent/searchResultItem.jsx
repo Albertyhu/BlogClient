@@ -77,7 +77,7 @@ const SearchResultItems = (navigate, setMessage) => {
                             ></p>
                         </div>
                     }
-                    <div className="flex">
+                    <div className="flex my-1">
                         {likes &&
                             <DisplayLikes likes={likes} />
                         }
@@ -155,7 +155,7 @@ const SearchResultItems = (navigate, setMessage) => {
             userPhoto, 
             articleType, 
         } = props;
-        console.log("post: ", post)
+
         const clickEvent = () => {
             switch (articleType) {
                 case "post":

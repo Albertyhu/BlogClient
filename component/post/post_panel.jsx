@@ -37,7 +37,7 @@ const RenderPostPanel = props => {
     return (
         <div
             className={`${CustomStyle} box_shadow`}
-            onClick={() =>BringDataToPost(data)}
+            onClick={() => BringDataToPost(data)}
         >
             <div
                 id="ContentWrapper"

@@ -2,8 +2,7 @@ import { useEffect, useCallback, useRef, useContext, useState, lazy, Suspense } 
 import {
     PaginatedDisplayContext, 
 } from '../util/contextItem.jsx'; 
-import uuid from 'react-uuid';
-import PostPanel from './post/post_panel.jsx'; 
+ 
 //This component creates the functionality of load on scroll affect and has the option to load the content onto a grid in desktop view 
 //Treat Paginated results like an array. The first element starts at index 0.
 //The higher level component must supply this component with their own way of rendering the item list. 

@@ -7,10 +7,18 @@ import {
     AppContext,
 } from '../../util/contextItem.jsx'; 
 import { useNavigate } from 'react-router-dom';
-import { NavigationHooks } from '../../hooks/navigation.jsx';
-import { AiOutlineHome, AiFillEdit } from 'react-icons/Ai';
+import {
+    NavigationHooks,
+    PostNavigationHooks, 
+} from '../../hooks/navigation.jsx';
+import {
+    AiOutlineHome,
+    AiFillEdit,
+    AiOutlineFileAdd,
+    AiOutlineCamera
+} from 'react-icons/Ai';
 import { RxPerson } from 'react-icons/Rx';
-import { BiPhotoAlbum, BiLogOut, BiLogIn, BiCategoryAlt } from 'react-icons/bi';
+import { BiPhotoAlbum, BiLogOut, BiLogIn, BiCategoryAlt, BiSearchAlt2 } from 'react-icons/bi';
 import {
     FaRegWindowClose,
     FaUsers,
@@ -42,7 +50,13 @@ const MenuLinks = props => {
         GoEditProfile,
         GoCategory, 
         GoSettings,
+        GoBulkUpload,
+        GoSearchScreen
     } = NavigationHooks(navigate); 
+
+    const {
+        GoCreatePost, 
+    } = PostNavigationHooks(navigate)
 
     useEffect(() => {
         if (ContainerRef.current) {
@@ -69,6 +83,12 @@ const MenuLinks = props => {
                 elemRef={elemRef}
                 icon={() => <BiCategoryAlt />}
             />
+            <Button
+                title="Search site"
+                clickEvent={() => GoSearchScreen()}
+                elemRef={elemRef}
+                icon={() => <BiSearchAlt2 />}
+            />
             {token ?
                 <>
                     <Button
@@ -82,6 +102,18 @@ const MenuLinks = props => {
                         clickEvent={() => GoUserPhotos(user.username, user.id)}
                         elemRef={elemRef}
                         icon={() => <BiPhotoAlbum />}
+                    />
+                    <Button
+                        title="Create new post"
+                        clickEvent={() => GoCreatePost}
+                        elemRef={elemRef}
+                        icon={() => <AiOutlineFileAdd />}
+                    />
+                    <Button
+                        title="Upload photos"
+                        clickEvent={() => GoBulkUpload(user.username, user.id)}
+                        elemRef={elemRef}
+                        icon={() => <AiOutlineCamera />}
                     />
                     <Button
                         title="Edit profile"

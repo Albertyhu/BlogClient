@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useContext } from 'react'; 
+import { useState, useEffect, useRef, useCallback, useContext, lazy, Suspense } from 'react'; 
 import SearchBar from '../../component/searchComponent/searchBar.jsx';
 import {
     SearchBarContext,
@@ -10,6 +10,8 @@ import ProfilePanel from '../../component/user/currentUserPanel.jsx';
 import {
     SearchRequests,
 } from '../../hooks/searchHook.jsx'; 
+const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
+import { SubstitutePanel } from '../../component/fallback.jsx';
 
 const SearchScreen = props => {
     const SEARCH_TYPES = [
@@ -41,25 +43,20 @@ const SearchScreen = props => {
         selectedSearchType,
         setType,
         setSearchResults,
+        GetSearchData
     } 
-    const resetSearch = () => {
-        setQuery('')
-        setResults([]);
-        setDisplay(false)
-    }
+
     useEffect(() => {
         GetSearchData(selectedSearchType)
     }, [selectedSearchType])
 
     useEffect(() => {
         setDisplayResults(data.length > 0 && searchResults.length > 0)
-    }, [searchResults, selectedSearchType])
+    }, [searchResults])
 
-    const CallbackSearchResults = useCallback(() => 
-        <RenderSearchResults
-            selectedSearchType={selectedSearchType}
-            searchResults={searchResults}
-        />, [selectedSearchType])
+    useEffect(() => {
+        window.scrollTo(0,0)
+    }, [])
 
     return (
         <SearchBarContext.Provider value={searchContext}>
@@ -71,7 +68,10 @@ const SearchScreen = props => {
                     id="SearchWrapper"
                     className = "w-11/12 mx-auto mt-5"
                 >
-                    <SearchBar data={data} />
+                    <SearchBar
+                        data={data}
+                        selectedSearchType={selectedSearchType}
+                    />
                     <RenderSelection searchTypes={SEARCH_TYPES} />
                     {displayResults &&
                         <RenderSearchResults
@@ -80,9 +80,12 @@ const SearchScreen = props => {
                         />
                     }
                 </div>
-                <>
+                <div>
                     <ProfilePanel />
-                </>
+                    <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                        <RenderPromptPanel />
+                    </Suspense>
+                </div>
             </div>
         </SearchBarContext.Provider>  
     )

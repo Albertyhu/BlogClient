@@ -6,13 +6,15 @@ import {
     HandleSearchQuery,
 } from '../../hooks/searchHook.jsx';
 const SearchBar = props => {
-    const { data } = props;
+    const {
+        data,
+        selectedSearchType
+    } = props;
 
     const {
         query,
         setQuery, 
         setSearchResults,
-        selectedSearchType, 
     } = useContext(SearchBarContext)
 
     const handleQuery = event => {

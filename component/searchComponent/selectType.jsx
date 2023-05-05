@@ -32,7 +32,8 @@ const Button = props => {
 
     const {
         setType, 
-        selectedSearchType, 
+        selectedSearchType,
+        GetSearchData
     } = useContext(SearchBarContext)
 
     return (
@@ -40,7 +41,10 @@ const Button = props => {
             type="button"
             className={`rounded-[15px] w-fit px-[10px] py-1 text-base text-black box_shadow cursor-pointer font-bold ${selectedSearchType === searchType ? "bg-[#dedede]" : "bg-white"}`}
             id={`${searchType} switch button`}
-            onClick={() => {setType(searchType)}}
+            onClick={async () => {
+               await GetSearchData(searchType)
+               setType(searchType)
+            }}
         >{searchType}</button>
     )
 }

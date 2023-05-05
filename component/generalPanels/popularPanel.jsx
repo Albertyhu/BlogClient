@@ -1,3 +1,4 @@
+import uuid from 'react-uuid'; 
 
 const RenderPanel = props => {
     const {
@@ -19,7 +20,13 @@ const RenderPanel = props => {
 
             {itemList && itemList.length > 0 &&
                 <ul className = "">
-                    {itemList.map((item, index) => RenderListItem(item, item._id, index))}
+                        {itemList.map((item, index) =>
+                            <li
+                                key={`popular-${item._id}`}
+                                className={`cursor-pointer my-5 text-left ${index % 2 == 1 ? "bg-[#ffffff]" : "bg-[#dedede]"}`}
+                            >
+                                {RenderListItem(item, item._id, index)}
+                            </li>)}
                 </ul>
                 }
             </div>

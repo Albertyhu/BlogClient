@@ -10,8 +10,12 @@ export default defineConfig({
             output: {
                 globals: {
                     '@tinymce/tinymce-react': 'window.tinymce'
-                }
-            }
+                },
+                chunkFileNames: 'chunks/[name]-[hash].js',
+            },
+            manualChunks: {
+                react: ['react', 'react-dom', 'react-is', 'prop-types'],
+            },
         }
     }
 })

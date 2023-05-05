@@ -20,12 +20,11 @@ const RenderItem = props => {
     } = PostNavigationHooks(navigate); 
 
     return (
-        <li
+        <span
             key={uuid()}
             id="PopularListItem"
             onClick={() => GoToPost(title, _id)}
-            className={`cursor-pointer my-5 text-left ${index%2 == 1 ? "bg-[#ffffff]" : "bg-[#dedede]"}`}
-        ><span className ="font-bold">{index + 1}.</span> {title}</li>
+        ><span className ="font-bold">{index + 1}.</span> {title}</span>
         )
 }
 
