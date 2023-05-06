@@ -1,12 +1,12 @@
 To do
-Create lazy loading
+Create lazy loading [DONE]
 	Use intersection observer 
-Make the homepage a wall feed 
+Make the homepage a wall feed [DONE]
 Allow users' post to show up in their profile page. 
-Create search functionality
-Create abilty to filter through posts
+Create search functionality [DONE]
+Create abilty to filter through posts [DONE]
 Need to configure how posts and comments should show up if the owners' accounts are deleted from database [DONE]
-Build Connections feature? 
+Build Connections feature? [TBD]
 Users should be able to change to other photos when viewing user_photos [DONE]
 Fix like component in user photo details [FIXED]
-Add in feature to allow users to upload a photo for their cover photos. 
+Add in feature to allow users to upload a photo for their cover photos. [DONE]

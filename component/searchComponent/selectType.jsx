@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { SearchBarContext } from '../../util/contextItem.jsx'; 
 import uuid from 'react-uuid';
 
+//This component renders the buttons that allows the user to choose to display search results by either posts, categories, comments or users
 const RenderSelection = props => {
     const {
         searchTypes, 
@@ -42,6 +43,7 @@ const Button = props => {
             className={`rounded-[15px] w-fit px-[10px] py-1 text-base text-black box_shadow cursor-pointer font-bold ${selectedSearchType === searchType ? "bg-[#dedede]" : "bg-white"}`}
             id={`${searchType} switch button`}
             onClick={async () => {
+                //Putting GetSearchData function here is necessary because without it, the search results gets updated too late
                await GetSearchData(searchType)
                setType(searchType)
             }}

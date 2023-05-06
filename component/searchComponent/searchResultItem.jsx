@@ -9,6 +9,8 @@ import uuid from 'react-uuid';
 import RenderThumbnail  from '../imageRendering/thumbnailImage.jsx'
 import { alertMessage } from '../../hooks/textHooks.jsx'; 
 
+//This factory function provides functional components to render the post, comments, categories and users in the search results.
+//They are adjusted to what the type of information available. 
 const SearchResultItems = (navigate, setMessage) => {
     const { DisplayLikes } = PostLikeFeatures();
 

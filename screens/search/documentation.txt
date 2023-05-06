@@ -1,0 +1,18 @@
+How the search feature works: 
+
+The user inputs a query onto the search bar.
+When the search page is loaded, the app indentifies what type of information to retrieve,
+whether that be posts, comments, categories, or users. 
+The app is set to retrieve all posts published by default. 
+The app sends a fetch request using the following endpoint:
+	const FetchURL = `${apiURL}/${searchType}/get_search_data`;
+
+	The endpoint is interchangeable for post, comments, categories, and users. 
+	The variable "searchType" determines which information the user is trying to retrieve.
+
+The server receives the request and collects all relevant information.
+It collects all the strings into an array called collectedStrings and sends all the relevant information back to the client.
+The client uses the object "collectedStrings" to compare its value to the user's query with the search function "HandleSearchQuery" 
+in searchHooks.jsx
+
+
