@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, lazy, Suspense } from 'react'; 
+import { useState, useContext, useEffect } from 'react'; 
 import PaginatedDisplay from '../../component/paginatedDisplay.jsx';
 import {
     AppContext,
@@ -18,7 +18,6 @@ const RenderAllUsers = props => {
         apiURL,
     } = useContext(AppContext)
 
-
     const [users, setUsers] = useState([])
 
     const { GetUsersByPage } = FetchHooks(apiURL, token, setLoading, setMessage)
@@ -29,6 +28,10 @@ const RenderAllUsers = props => {
         fetchAction: GetUsersByPage,
         RenderPanel: (id, item) => <UserPanel key={id} {...item} />,
     } 
+
+    useEffect(() => {
+        window.scrollTo(0,0)
+    }, [])
      
     return (
         <div
@@ -36,10 +39,10 @@ const RenderAllUsers = props => {
             className = "w-full mt-10"
         >
             <PaginatedDisplayContext.Provider value={paginatedContext}>
-                    <PaginatedDisplay
-                    COUNT={9}
-                    grid={true}
-                    />
+                <PaginatedDisplay
+                COUNT={9}
+                grid={true}
+                />
             </PaginatedDisplayContext.Provider>
         {users.length <= 0 && 
             <div

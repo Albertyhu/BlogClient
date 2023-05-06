@@ -1,13 +1,17 @@
 import { useContext, useState, useEffect, lazy, Suspense } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'; 
-import { AppContext } from '../../util/contextItem.jsx'; 
+import {
+    AppContext,
+    UserPhotoContext,
+} from '../../util/contextItem.jsx'; 
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'
 const RenderProfilePic = lazy(()=>import('../../component/user/profilePicture.jsx')); 
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { DecodeToken } from '../../hooks/decodeToken.jsx';
 const RenderCoverPhoto = lazy(() => import('../../component/imageRendering/coverPhoto.jsx'));  
-import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
-
+import { SubstituteCoverPhoto, SubstitutePanel } from '../../component/fallback.jsx';
+import RenderUserPhotos from '../../component/userPhoto'; 
+const PostPanel = lazy(()=>import("../../component/post/post_panel.jsx"))
 //This component displays information of a single user. 
 const ProfilePage = props => {
     const location = useLocation(); 
@@ -28,12 +32,23 @@ const ProfilePage = props => {
     const navigate = useNavigate(); 
     const { GoEditProfile } = NavigationHooks(navigate); 
     const [decoded, setDecoded] = useState(null)
+    const [posts, setPosts] = useState([]); 
+    const [userPhotos, setUserPhotos] = useState([])
+
+    const userPhotoContext = {
+        userId: profileId, 
+        username: username, 
+        editmode: null, 
+        toggleSelected: null, 
+    } 
 
     useEffect(() => {
         if (username) {
             var dispatchFunctions = {
                 setProfileDetails,
-                setProfileId
+                setProfileId,
+                setPosts,
+                setUserPhotos, 
             }
             fetchUserByName(username, dispatchFunctions)
         }
@@ -51,6 +66,10 @@ const ProfilePage = props => {
             window.removeEventListener("load", () => scrollTo(0, 0))
         }
     }, [])
+
+    useEffect(() => {
+        console.log("posts: ", posts)
+    }, [posts])
 
     return (
         <div className = 'text-center mt-[20px]'>
@@ -86,7 +105,29 @@ const ProfilePage = props => {
                 >Edit Profile</button>
             }
             {profileDetails && profileDetails.biography.trim() != "" &&
-                <div className="mt-5 text-2xl text-black mx-auto w-11/12 md:w-8/12" id = "biography">&#09;{profileDetails.biography}</div>
+                <div className="mt-5 text-2xl text-black mx-auto w-11/12 md:w-10/12" id = "biography">&#09;{profileDetails.biography}</div>
+            }
+            {userPhotos && userPhotos.length > 0 &&
+                <UserPhotoContext.Provider value={userPhotoContext}>
+                    <div className="my-10">
+                        <h2 className = "font-bold text-2xl mb-5" >Uploaded photos</h2>
+                        <RenderUserPhotos
+                            images={userPhotos}
+                            selected={null}
+                            displayViewMorePanel={true}
+                            />
+                    </div>
+                </UserPhotoContext.Provider>
+
+            }
+            {posts && posts.length > 0 &&
+                <div className = "w-11/12 md:w-10/12 mx-auto">
+                    <h2 className="font-bold text-2xl my-5">Posts</h2>
+                    {posts.map(entry => 
+                    <Suspense fallback={<SubstitutePanel />}>
+                            <PostPanel {...entry} />
+                    </Suspense> )}
+                </div>
             }
         </div>
     )

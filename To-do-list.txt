@@ -10,3 +10,5 @@ Build Connections feature? [TBD]
 Users should be able to change to other photos when viewing user_photos [DONE]
 Fix like component in user photo details [FIXED]
 Add in feature to allow users to upload a photo for their cover photos. [DONE]
+Create photo panel in user profile 
+Add photos home wall feed 

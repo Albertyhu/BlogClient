@@ -4,7 +4,7 @@ import {
     UserPhotoContext,
 } from '../../util/contextItem.jsx'; 
 import PhotoPanel from './photoPanel.jsx'; 
-
+import ViewMorePanel from './viewMorePanel.jsx';
 
 //This is a screen for rendering all the photos that the user has uploaded
 const RenderUserPhotos = props => {
@@ -13,14 +13,13 @@ const RenderUserPhotos = props => {
         username, 
         userID, 
         selected, 
+        displayViewMorePanel = false, 
     } = props; 
     const {
         apiURL,
         token, 
         setLoading, 
     } = useContext(AppContext)
-
-    console.log("images: ", images)
 
     const panelRef = useRef([])
 
@@ -42,6 +41,11 @@ const RenderUserPhotos = props => {
                             />
                             )
                     })}
+                {displayViewMorePanel && 
+                    <ViewMorePanel
+                    delayCount={images.length + 1}
+                    />
+                }
             </div>
         </div>
         )

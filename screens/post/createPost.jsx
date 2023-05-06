@@ -26,8 +26,8 @@ const CreatePostForm = props => {
     
     const { SubmitPost } = CreateAndUpdatePosts(navigate, apiURL, setLoading, setMessage, token)
 
-    const [title, setTitle] = useState("How to pet a dog")
-    const [content, setContent] = useState("<p>Most dogs are comfortable being petted on the chest, the shoulders, and the base of the neck.</p>");
+    const [title, setTitle] = useState("")
+    const [content, setContent] = useState("");
     const [author, setAuthor] = useState(''); 
     const [published, setPublished] = useState(false);
     const [thumbnail, setThumbnail] = useState(null);

@@ -155,6 +155,51 @@ const EditUserHooks = (navigate) => {
         }
     }
 
+    const EditUserProfileAsAdmin = async (apiURL, UserDetails, Elements, dispatchFunctions) => {
+        const {
+            imageData,
+            username,
+            email,
+            biography,
+            coverPhoto,
+        } = Elements;
+        const {
+            id,
+        } = UserDetails;
+
+        const FetchURL = `${apiURL}/users/${id}/edit_user_profile_as_admin`;
+        const formData = new FormData;
+        formData.append("username", username);
+        formData.append("email", email);
+        formData.append("biography", biography);
+        formData.append("profile_pic", imageData);
+        formData.append("coverPhoto", coverPhoto);
+        try {
+            await fetch(FetchURL,
+                {
+                    method: "PUT",
+                    body: formData,
+                }
+            )
+                .then(async response => {
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        console.log(result.message);
+                        VisitUser(username, id);
+                    }
+                    else {
+                        console.log("Upload failed: ", result.error)
+                        RenderErrorArray(result.error, dispatchFunctions);
+                    }
+                })
+        } catch (e) {
+            console.log("Error uploading file:", e);
+            const error = { error: [{ param: "file upload error", msg: `Upload error: ${e}` }] }
+            RenderErrorArray(error, dispatchFunctions);
+        }
+    }
+
     const UploadNewProfilePic = async (apiURL, ImageInputElem, dispatchFunctions, userDetail) => {
         const formData = new FormData; 
         formData.append("profile_pic", ImageInputElem.files[0])
@@ -229,7 +274,12 @@ const EditUserHooks = (navigate) => {
         }
     }
 
-    return { UploadNewProfilePic, UpdateUserProfile, ChangePassword }
+    return {
+        UploadNewProfilePic,
+        UpdateUserProfile,
+        ChangePassword,
+        EditUserProfileAsAdmin 
+    }
 }
 
 export {UserProfileHooks, EditUserHooks}

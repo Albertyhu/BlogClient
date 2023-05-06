@@ -11,9 +11,9 @@ const PhotoPanel = props => {
     const {
         image,
         _id,
-        title, 
-        altText = "photo", 
-        index, 
+        title,
+        altText = "photo",
+        index,
     } = props
     const {
         userId,

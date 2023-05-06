@@ -105,7 +105,7 @@ const MenuLinks = props => {
                     />
                     <Button
                         title="Create new post"
-                        clickEvent={() => GoCreatePost}
+                        clickEvent={() => GoCreatePost()}
                         elemRef={elemRef}
                         icon={() => <AiOutlineFileAdd />}
                     />

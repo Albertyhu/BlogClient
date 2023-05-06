@@ -12,7 +12,6 @@ The app sends a fetch request using the following endpoint:
 
 The server receives the request and collects all relevant information.
 It collects all the strings into an array called collectedStrings and sends all the relevant information back to the client.
-The client uses the object "collectedStrings" to compare its value to the user's query with the search function "HandleSearchQuery" 
-in searchHooks.jsx
+The client uses the object "collectedStrings" to compare its value to the user's query with the search function "HandleSearchQuery" in searchHooks.jsx
 
 

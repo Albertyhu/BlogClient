@@ -10,14 +10,19 @@ import {
 } from '../../hooks/categoryHooks.jsx';
 import { ErrorMessageHooks } from '../../hooks/errorHooks.jsx';
 import uuid from 'react-uuid';
-import { SubstituteCoverPhoto } from '../../component/fallback.jsx';
-//import { FetchHooks as PostFetchHooks } from '../../hooks/fetchHooks.jsx'; 
+import {
+    SubstituteCoverPhoto,
+    SubstitutePanel
+} from '../../component/fallback.jsx';
 import { FetchHooks  } from '../../hooks/postHooks.jsx'; 
 const CoverPhoto = lazy(() => import("../../component/imageRendering/coverPhoto.jsx"));
 const Panel = lazy(() => import('../../component/post/post_panel.jsx'))
 import { PostButtons } from '../../component/post/buttons.jsx'; 
 import ErrorPage from '../error';
-
+const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
+const ProfilePanel = lazy(()=>import('../../component/user/currentUserPanel.jsx')); 
+const GuestPanel = lazy(() => import('../../component/generalPanels/guestPanel.jsx')); 
+const CategoryAdministratorPanel = lazy(() => import("../../component/categoryComponent/administratorPanel.jsx")); 
 /** This component displays individual categories and its data*/
 const CategoryPage = props => {
     const navigate = useNavigate();
@@ -142,8 +147,8 @@ const CategoryPage = props => {
             >
                 {generalError != null && generalError.length > 0 && RenderError(generalError)}
             </div>
-            <div>
-                <div className="grid [&>*]:md:inline-block md:flex">
+            <div className= "grid md:grid-cols-[75%_25%] w-11/12 mx-auto md:gap-[20px]">
+                <div className="grid [&>*]:md:inline-block md:hidden">
                     {decoded && categoryList && CheckIfAdministrator(decoded.id, categoryList) &&
                         <>
                         <button
@@ -164,32 +169,58 @@ const CategoryPage = props => {
                         />
                     }
                 </div>
-                {postList && postList.length > 0 &&
-                    <div className="w-11/12 md:w-6/12 mx-auto flex-grow z-10">
-                        {postList.map(post => {
-                            if (post.published) {
-                                return (
-                                    <Suspense
-                                        key={uuid()}
-                                        value={<span key={uuid()}>Loading...</span>}
-                                    >
-                                    <Panel
-                                        key={uuid()}
-                                        {...post}
-                                    />
-                                    </Suspense>
-                                    )
+                <div>
+                   {postList && postList.length > 0 &&
+                        <div className="w-11/12 mx-auto flex-grow z-10">
+                            {postList.map(post => {
+                                if (post.published) {
+                                    return (
+                                        <Suspense
+                                            key={uuid()}
+                                            value={<span key={uuid()}>Loading...</span>}
+                                        >
+                                        <Panel
+                                            key={uuid()}
+                                            {...post}
+                                        />
+                                        </Suspense>
+                                        )
+                                }
                             }
-                        }
-                        )}
-                        {hasMore &&
-                            <div
-                                className="font-bold text-center text-2xl w-full"
-                                id="LastElement"
-                                ref={lastElement}
-                            >Loading more...</div>}
-                    </div>
-                }
+                            )}
+                            {hasMore &&
+                                <div
+                                    className="font-bold text-center text-2xl w-full"
+                                    id="LastElement"
+                                    ref={lastElement}
+                                >Loading more...</div>}
+                        </div>
+                    }
+                </div>
+                <div className="hidden md:flex md:flex-col">
+                    {token ?
+                        <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                            <ProfilePanel />
+                        </Suspense>
+                        :
+                        <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                            <GuestPanel />
+                        </Suspense>
+                    }
+                    <Suspense fallback={<div className="text-center font-bold text-2xl">Loading...</div>}>
+                        <RenderPromptPanel />
+                    </Suspense>
+                    {decoded && categoryList && CheckIfAdministrator(decoded.id, categoryList) && 
+                        <Suspense fallback={<div className="text-center font-bold text-2xl">Loading...</div>}>
+                            <CategoryAdministratorPanel
+                                categoryId={categoryId}
+                                categoryName={categoryName}
+                                description={description}
+                                coverImage={coverImage}
+                                />
+                        </Suspense>
+                    }
+                </div>
             </div>
 
         </div>)

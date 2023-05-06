@@ -160,6 +160,14 @@ const NavigationHooks = (navigate) => {
         navigate(`/search`)
     }
 
+    function GoEditProfileAsAdmin(ID) {
+        navigate(`/profile/${ID}/editProfileAsAdmin`, {
+            state: {
+                id: ID, 
+            }
+        })
+    }
+
     return {
         GoHome,
         GoSignIn,
@@ -182,6 +190,7 @@ const NavigationHooks = (navigate) => {
         GoBulkUpload,
         GoSettings,
         GoSearchScreen,
+        GoEditProfileAsAdmin, 
     }
 }
 

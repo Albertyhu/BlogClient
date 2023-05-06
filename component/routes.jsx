@@ -30,6 +30,7 @@ import BulkUploadForm from '../screens/userPhoto/bulkUpload.jsx';
 import SettingsPage from '../screens/userSettings'; 
 import DisplayAllUsers from '../screens/user/renderAllUsers.jsx'; 
 import SearchScreen from '../screens/search'; 
+import EditUserProfileAsAdmin from '../screens/user/editProfileAsAdmin.jsx'; 
 
 const Apps = props => {
     const {
@@ -83,6 +84,7 @@ const Apps = props => {
                         <Route path="/profile/:username/settings" element={<SettingsPage />} />
                         <Route path="/users" element={<DisplayAllUsers />} />
                         <Route path="/search" element={<SearchScreen />} />
+                        <Route path="/profile/:username/editProfileAsAdmin" element={<EditUserProfileAsAdmin />} />
                     </Routes>
                 </div>
                 <Footer />

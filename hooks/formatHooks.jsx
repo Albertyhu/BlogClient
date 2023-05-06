@@ -42,3 +42,28 @@ export const FormatImagesInListOfUsers = userList => {
 
     return formatted;
 }
+
+export const FormatImagesInArrayOfPosts = postList => {
+    try {
+        var formatted = postList.map(post => {
+            if (post.mainImage)
+                post.mainImage = convertObjToBase64(post.mainImage);
+            return post; 
+        })
+        return formatted;
+    } catch (e) {
+        console.log("FormatImagesInArrayOfPosts error: ", e)
+    }
+}
+
+export const FormatImagesInUserPhotoArray = userPhotoArray => {
+    try {
+        var formatted = userPhotoArray.map(obj => {
+            obj.image = convertObjToBase64(obj.image)
+            return obj;
+        })
+        return formatted;
+    } catch (e) {
+        console.log("FormatImagesInUserPhotoArray error: ", e)
+    }
+}

@@ -1,6 +1,10 @@
 import { Base64Hooks } from './imageHooks.jsx';
 import { alertMessage } from './textHooks.jsx';
-import { FormatImagesInListOfUsers } from './formatHooks.jsx'; 
+import {
+    FormatImagesInListOfUsers,
+    FormatImagesInArrayOfPosts,
+    FormatImagesInUserPhotoArray,
+} from './formatHooks.jsx'; 
 const {
     convertObjToBase64,
     toBase64, 
@@ -87,36 +91,44 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     }
 
     //This function retrieves data on a user's profile by his username
-    const fetchUserByName = async (username, { setProfileDetails, setProfileId } ) => {
-        const FetchURL = `${apiURL}/users/${username}/fetch_user`; 
+    const fetchUserByName = async (username, { setProfileDetails, setProfileId, setPosts, setUserPhotos }) => {
+        const FetchURL = `${apiURL}/users/${username}/fetch_user`;
         setLoading(true)
         await fetch(FetchURL, {
-            method: "GET", 
+            method: "GET",
         }).then(async response => {
             const result = await response.json();
             if (response.ok) {
-                if (result.user.profile_pic)
-                { result.user.profile_pic.data = toBase64(result.user.profile_pic.data.data) }
+                if (result.user.profile_pic) { result.user.profile_pic.data = toBase64(result.user.profile_pic.data.data) }
                 if (result.user.coverPhoto) {
                     result.user.coverPhoto = convertObjToBase64(result.user.coverPhoto)
                 }
-                setProfileDetails(result.user)
-                setProfileId(result.user._id)
-                setLoading(false)
+                setProfileDetails(result.user);
+                setProfileId(result.user._id);
+                console.log("posts: ", result.posts)
+                if (result.posts && result.posts.length > 0) {
+                    result.posts = await FormatImagesInArrayOfPosts(result.posts)
+                    setPosts(result.posts);
+                }
+
+                if (result.images && result.images.length > 0) {
+                    result.images = await FormatImagesInUserPhotoArray(result.images)
+                    setUserPhotos(result.images);
+                }
+                setLoading(false);
             }
             else {
                 console.log("fetchUserByName: ", result.error)
                 setLoading(false)
-                //alertMessage(`Error: ${result.error}`, setMessage)
                 setMessage(result.error)
             }
         }).catch(error => {
             console.log("fetchUserByName: ", error)
             setLoading(false)
-            //alertMessage(`Error: ${error}`, setMessage)
             setMessage(error)
         })
     }
+
 
     const fetchUsernameAndEmails = async (dispatch) => {
             try {

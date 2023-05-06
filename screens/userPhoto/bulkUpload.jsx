@@ -55,6 +55,10 @@ const BulkUploadForm = props => {
 
     }, [decoded])
 
+    useEffect(() => {
+        window.scrollTo(0,0)
+    }, [])
+
     return (
         <UserPhotoContext.Provider value={context}>
             <h1
