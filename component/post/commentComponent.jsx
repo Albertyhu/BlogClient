@@ -6,9 +6,9 @@ const RenderCommentSymbol = props => {
         number
     } = props; 
     return (
-            <span className="inline-flex my-10">
-                <CommentIcon />
-                <span className="ml-5">{number}</span>
+            <span className="flex">
+                <CommentIcon customStyle = "mx-1"/>
+                <span className="text-lg ml-1">{number}</span>
             </span>
         )
 }

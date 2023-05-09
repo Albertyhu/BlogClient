@@ -31,6 +31,10 @@ const ProfilePanel = props => {
         navigate
     }
 
+    useEffect(() => {
+        console.log("ProfilePicture: ", ProfilePicture)
+    }, [ProfilePicture])
+
     return (
         <div
             className="hidden md:block w-full h-fit text-center text-lg text-black rounded-lg bg-[#ffffff] py-10 mr-10 box_shadow mb-5"
@@ -50,7 +54,7 @@ const ProfilePanel = props => {
                             />
                     </Suspense>
                         }
-                {token && decoded === decoded._id &&
+                {decoded === decoded._id &&
                     <button
                         type='button'
                         className='btn-delete'

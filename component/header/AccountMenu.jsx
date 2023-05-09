@@ -25,9 +25,9 @@ const AccountMenu = props => {
     //For some reason, when the Account Menu is clicked on, the tailwind property top-[40px] and
     //...translate-x-[-60px] no longer applies. I have make them !important in order for the 
     //...Accout Menu to stay in position. It's a bandaid solution. 
-    var AccountMenuStyle = `absolute left-auto right-[0px] top-[60px] [&>div]:!my-5 overflow-y-scroll 
+    var AccountMenuStyle = `absolute left-auto right-[0px] top-[60px] [&>div]:!my-5 overflow-y-scroll max-h-[100vh]
             [&>div]:whitespace-nowrap bg-[#f2e796] [&>div]:text-black [&>div]:cursor-pointer
-            [&>div]:mx-[10px] [&>div]:select-none z-[50]`;
+            [&>div]:mx-[10px] [&>div]:select-none z-[100]`;
     function ConfirmChild(target, NodeList) {
         var confirmed = false;
         NodeList.forEach(node => {

@@ -172,8 +172,25 @@ const CommentPanel = props => {
                     className="w-11/12 h-11/12 m-auto"
                     id="RenderComment"
                 >
-                    {!editmode && decoded.id == author._id ?
-                        <ReplyContext.Provider value ={replyContext}>
+                    {editmode && decoded && decoded.id == author._id ?
+                        <div className="border-2 rounded-md p-5 box_shadow">
+                            <CommentHeader
+                                author={author}
+                            />
+                            <CommentInput
+                                content={content}
+                                commentError={updateError}
+                                commentEditorRef={updateRef}
+                                submitEvent={updateComment}
+                                cancelEvent={() => {
+                                    setAttachedImages(images)
+                                    setEditMode(false);
+                                }}
+                                contextItem={CommentContext}
+                            />
+                        </div>
+                        :
+                        <ReplyContext.Provider value={replyContext}>
                             <RenderComment
                                 displayReplyInput={displayReplyInput}
                                 replyContent={replyContent}
@@ -187,26 +204,9 @@ const CommentPanel = props => {
                                 setDisplayReplyInput={setDisplayReplyInput}
                                 replyRef={replyRef}
                                 contextItem={CommentContext}
-                                />
-                        </ReplyContext.Provider>
-                        :
-                        <div className = "border-2 rounded-md p-5 box_shadow">
-                            <CommentHeader
-                                author={author}
                             />
-                            <CommentInput
-                                content={content}
-                                commentError={updateError}
-                                commentEditorRef={updateRef}
-                                submitEvent={updateComment}
-                                cancelEvent={() => {
-                                    setAttachedImages(images)
-                                    setEditMode(false); 
-                                }}
-                                contextItem={CommentContext}
-                                />
-                        </div>
-                }
+                        </ReplyContext.Provider>
+                    }
                 </div>
             </div>
             {repliesArray && 

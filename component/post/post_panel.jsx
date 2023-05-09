@@ -60,7 +60,7 @@ const RenderPostPanel = props => {
                             className="italic"
                         ></span>
                     </div>}
-                <div className="flex">
+                <div className="flex my-5 pb-5">
                     <DisplayLikes
                         likes={likes}
                         postID={_id}

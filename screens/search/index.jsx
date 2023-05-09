@@ -12,6 +12,7 @@ import {
 } from '../../hooks/searchHook.jsx'; 
 const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
 import { SubstitutePanel } from '../../component/fallback.jsx';
+const GuestPanel = lazy(() => import('../../component/generalPanels/guestPanel.jsx'));
 
 const SearchScreen = props => {
     const SEARCH_TYPES = [
@@ -33,6 +34,7 @@ const SearchScreen = props => {
     const {
         apiURL, 
         setLoading, 
+        decoded, 
     } = useContext(AppContext)
 
     const { GetSearchData } = SearchRequests(apiURL, setLoading, setData);
@@ -81,7 +83,14 @@ const SearchScreen = props => {
                     }
                 </div>
                 <div>
-                    <ProfilePanel />
+                    {decoded ?  
+                        <ProfilePanel />
+                        : 
+                        <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                            <GuestPanel />
+                        </Suspense>
+                        }
+
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>
                         <RenderPromptPanel />
                     </Suspense>

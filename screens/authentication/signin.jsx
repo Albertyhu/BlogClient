@@ -20,7 +20,7 @@ const SignIn = () => {
 
     const { HandleLogin,
         RenderError,
-        AnimateErrorMessage } = RegistrationHooks(apiURL, setDecoded, setLoading);
+        AnimateErrorMessage } = RegistrationHooks(apiURL, setDecoded, setLoading, navigate, setNewProfileImage);
 
 
     const ButtonStyle = `rounded-full px-[10px] py-1 sm:px-[12px] active:translate-x-[5px]

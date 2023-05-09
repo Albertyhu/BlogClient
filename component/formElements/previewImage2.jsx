@@ -55,6 +55,7 @@ const RenderPreview= props => {
         }
     }, [imageRef.current])
 
+
     try {
         return (
             <div

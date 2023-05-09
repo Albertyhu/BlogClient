@@ -1,5 +1,7 @@
+import { useContext } from 'react'; 
 import {
     ReplyContext,
+    AppContext,
 } from '../../util/contextItem.jsx';
 import RenderImage from '../imageRendering/standardImage.jsx';
 import {
@@ -13,10 +15,12 @@ import RenderReplyActionbar from '../replyActionBar';
 import uuid from 'react-uuid';
 import { CommentInput } from '../formElements/commentInputs.jsx';
 import CommentHeader from './header.jsx'; 
-import { CommentContext } from '../../util/contextItem.jsx'; 
+
 
 //This component renders the comment and also handles displaying the editor for posting a new reply 
 const RenderComment = props => {
+    const { decoded } = useContext(AppContext)
+
     const {
         displayReplyInput, 
         replyContent,
@@ -92,9 +96,11 @@ const RenderComment = props => {
                     </div>
                 </div>
             </div>
-            <RenderReplyActionbar
-                contextItem={contextItem}
-            />
+            {decoded && decoded.id == author._id &&  
+                <RenderReplyActionbar
+                    contextItem={contextItem}
+                />
+            }
             {/*Editor for posting a new reply */}
             {displayReplyInput &&
                 <div className = "border-2 rounded-md p-5">

@@ -4,8 +4,11 @@ import uuid from 'react-uuid';
 import "../src/index.css";
 import { NavigationHooks } from './navigation.jsx'
 import { DecodeToken } from './decodeToken.jsx'; 
+import { Base64Hooks } from './imageHooks.jsx'; 
 
-const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
+const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfileImage) => {
+    const { GoHome } = NavigationHooks(navigate); 
+    const { convertObjToBase64 } = Base64Hooks()
     function HandleSignUpSubmit(evt, elements, uploadedFile, dispatchFunctions, resetErrorFields) {
         evt.preventDefault();
         const {
@@ -56,7 +59,6 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
             GoHome,
             toggleDisplayAccountLink,
             setNewUser,
-            setNewProfileImage,
         } = dispatchFunctions; 
 
         setLoading(true)
@@ -72,6 +74,7 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
                             localStorage.setItem("user", JSON.stringify(data.user))
                             localStorage.setItem('token', data.token)
                             if (data.profile_pic) {
+                                data.profile_pic = convertObjToBase64(data.profile_pic);
                                 localStorage.setItem("ProfilePicture", JSON.stringify(data.profile_pic))
                                 setNewProfileImage(data.profile_pic)
                             }
@@ -108,11 +111,10 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
         } = elements; 
         resetErrorFields(); 
 
-        const { GoHome,
+        const { 
             setNewToken,
             setNewUser,
             toggleDisplayAccountLink, 
-            setNewProfileImage
         } = dispatchFunctions; 
 
         const data = {
@@ -133,6 +135,7 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
                         localStorage.setItem("user", JSON.stringify(result.user));
                         if (result.profile_pic) {
                             localStorage.setItem("ProfilePicture", JSON.stringify(result.profile_pic))
+                            result.profile_pic = convertObjToBase64(result.profile_pic)
                             setNewProfileImage(result.profile_pic)
                         }
                         if (result.connection && result.connection.length > 0) {
@@ -144,7 +147,7 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
                         setDecoded(DecodeToken(result.token))
                         toggleDisplayAccountLink(true) 
                         setLoading(false)
-                        GoHome();
+                        GoHome("You have been signed in.");
                     })
                     .catch(e => {
                         setLoading(false)
@@ -248,6 +251,15 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
         dispatch(evt.target.value)
     }
 
+    const LogOut = async () => {
+        setLoading(true)
+        localStorage.clear();
+        setDecoded(null);
+        setNewProfileImage(null)
+        setLoading(false)
+        GoHome("You are now logged out.");
+    }
+
     return {
         HandleSignUpSubmit,
         onChangeHandler,
@@ -256,6 +268,7 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading) => {
         RenderError,
         AnimateErrorMessage,
         HandleLogin,
+        LogOut, 
     } 
 }
 
@@ -263,9 +276,8 @@ const AuthenticationHooks = (navigate) => {
     const { GoHome } = NavigationHooks(navigate);
     const LogOut = async () => {
         localStorage.clear();
-        GoHome();
+        GoHome("You are now logged out.");
     }
-
     return { LogOut }; 
 
 }

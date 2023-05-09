@@ -71,11 +71,16 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             const FetchURL = `${apiURL}/users/${userID}`
             var response = await fetch(FetchURL, { method: "GET" })
             var data = await response.json();
+            console.log("data: ", data)
             if (response.ok) {
-                if (data.profile_pic)
+                if (data.profile_pic && Object.keys(data.profile_pic).length > 0) {
+                    console.log("data.profile_pic: ", data.profile_pic)
                     data.profile_pic.data = toBase64(data.profile_pic.data.data)
-                if (data.coverPhoto && Object.keys(data.coverPhoto).length > 0)
-                    data.coverPhoto = convertObjToBase64(data.coverPhoto); 
+                }
+                if (data.coverPhoto && Object.keys(data.coverPhoto).length > 0) {
+                    console.log("data.coverPhoto: ", data.coverPhoto)
+                    data.coverPhoto = convertObjToBase64(data.coverPhoto);
+                }
                 dispatch(data);
             }
             else {

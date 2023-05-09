@@ -90,7 +90,7 @@ const Home = props => {
                     id="RightDesktopColumn"
                     className = "flex flex-col"
                 >
-                    {token ?
+                    {decoded ?
                     <ProfilePanel />
                     :
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>

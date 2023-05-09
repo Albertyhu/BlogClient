@@ -37,10 +37,10 @@ const EditProfilePic = props => {
     const { UpdateUserProfile } = EditUserHooks(navigate);
 
     const [image, setImage] = useState(null);
-    const [username, setUsername] = useState(User.username); 
+    const [username, setUsername] = useState(""); 
     const [coverPhoto, setCoverPhoto] = useState(null)
-    const [email, setEmail] = useState(User.email);
-    const [biography, setBiography] = useState(User.biography);
+    const [email, setEmail] = useState(User ? User.email : "");
+    const [biography, setBiography] = useState("");
 
     const [pictureError, setPictureError] = useState([])
     const [coverPhotoError, setCoverPhotoError] = useState([])
@@ -90,6 +90,7 @@ const EditProfilePic = props => {
     }, [generalError])
 
     useEffect(() => {
+        console.log("user: ", User)
         if (User) {
             setImage(User.profile_pic);
             setUsername(User.username);

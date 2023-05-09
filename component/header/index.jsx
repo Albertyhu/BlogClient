@@ -13,6 +13,7 @@ import {
 } from '../../util/contextItem.jsx';
 import DownIcon from '../downIcon.jsx'; 
 import RenderProfilePic from '../user/profilePicture.jsx'; 
+import Avatar from '../../assets/images/avatar.jpg'
 
 const Header = props => {
     const navigate = useNavigate(); 
@@ -28,15 +29,18 @@ const Header = props => {
 
     const {
         user,
-        decoded, 
         displayMemberComponents,
         ProfilePicture, 
+        token, 
+        decoded, 
     } = useContext(AppContext)
 
     const {
         OpenMobileMenu,
         toggleAccountMenu
     } = HeaderFunctions();  
+
+    const [Token] = useState(localStorage.getItem("token"))
 
     const HeaderBackgroundColor = "bg-black";
     const TextColor = "text-white"; 
@@ -60,12 +64,6 @@ const Header = props => {
 
     //AccountMenuOpened determines whethe the arrow icon is pointing up or down. 
     const [AccountMenuOpened, setAccountMenuOpened] = useState(AccountMenuRef.current ? AccountMenuRef.current.classList.contains("grid") ? true: false : false)
-
-    //const SignInIcon = () => {
-    //    return (
-    //        <span className= "w-[20px] h-[20px] my-auto ml-[5px] inline-block select-none"><AiOutlineLogin /></span>
-    //    )
-    //}
 
     return (
         <>
@@ -96,7 +94,7 @@ const Header = props => {
                             </div>
                         </div>
 
-                        {user && displayMemberComponents ?
+                        {decoded ?
                             <>
                                 <div
                                     id="AccountLink"
@@ -104,7 +102,7 @@ const Header = props => {
                                     onClick={() => toggleAccountMenu(setAccountMenuOpened, AccountMenuRef)}
                                 >
                                     <RenderProfilePic
-                                        profile_pic={ProfilePicture}
+                                        profile_pic={ProfilePicture ? ProfilePicture : Avatar}
                                         altText={`${user.username}'s profile picture`}
                                         //The reason I can put "border-[2px] border-[#ffffff]" is because the prop dimensions is written to the image's class name
                                         dimensions="w-[30px] h-[30px] border-[2px] border-[#ffffff]"

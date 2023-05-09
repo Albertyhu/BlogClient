@@ -19,7 +19,7 @@ const RegisterForm = props => {
         setNewProfileImage,
         decoded, 
         setLoading, 
-        setDecoded
+        setDecoded,
     } = useContext(AppContext);
 
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ const RegisterForm = props => {
         onChangeHandler,
         RenderError,
         AnimateErrorMessage,
-    } = RegistrationHooks(apiURL, setDecoded, setLoading);
+    } = RegistrationHooks(apiURL, setDecoded, setLoading, navigate, setNewProfileImage);
 
     const registerURL = `${apiURL}/auth/register`
 

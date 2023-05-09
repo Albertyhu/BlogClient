@@ -29,6 +29,7 @@ import {
     SignupIcon,
     CloseIcon
 } from '../iconComponents.jsx';
+import { RegistrationHooks } from '../../hooks/authFormHooks.jsx'; 
 
 const MenuLinks = props => {
     const {
@@ -41,6 +42,10 @@ const MenuLinks = props => {
         user,
         token,
         ContainerRef, 
+        setLoading, 
+        setDecoded,
+        setNewProfileImage,
+        decoded, 
     } = useContext(AppContext)
     const navigate = useNavigate();
     const {
@@ -54,9 +59,10 @@ const MenuLinks = props => {
         GoCategory, 
         GoSettings,
         GoBulkUpload,
-        GoSearchScreen
+        GoSearchScreen,
+        
     } = NavigationHooks(navigate); 
-
+    const { LogOut } = RegistrationHooks(null, setDecoded, setLoading, navigate, setNewProfileImage)
     const {
         GoCreatePost, 
     } = PostNavigationHooks(navigate)
@@ -92,7 +98,7 @@ const MenuLinks = props => {
                 elemRef={elemRef}
                 icon={() => <MagnifierIcon />}
             />
-            {token ?
+            {decoded ?
                 <>
                     <Button
                         title="Your profile"
@@ -138,7 +144,7 @@ const MenuLinks = props => {
                     />
                     <Button
                         title="Log out"
-                        clickEvent={() => localStorage.clear()}
+                        clickEvent={() =>LogOut()}
                         elemRef={elemRef}
                         icon={() => <LogoutIcon />}
                     />
