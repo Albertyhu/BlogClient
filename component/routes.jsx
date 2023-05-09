@@ -87,7 +87,9 @@ const Apps = props => {
                         <Route path="/profile/:username/editProfileAsAdmin" element={<EditUserProfileAsAdmin />} />
                     </Routes>
                 </div>
-                <Footer />
+                <Footer
+                    BusinessName="Blabber"
+                />
             </BrowserRouter>
 
         </div>

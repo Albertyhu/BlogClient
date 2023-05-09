@@ -96,11 +96,9 @@ const RenderComment = props => {
                     </div>
                 </div>
             </div>
-            {decoded && decoded.id == author._id &&  
-                <RenderReplyActionbar
-                    contextItem={contextItem}
-                />
-            }
+            <RenderReplyActionbar
+                contextItem={contextItem}
+            />
             {/*Editor for posting a new reply */}
             {displayReplyInput &&
                 <div className = "border-2 rounded-md p-5">

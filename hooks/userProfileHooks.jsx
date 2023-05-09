@@ -145,6 +145,8 @@ const EditUserHooks = (navigate) => {
                             localStorage.removeItem("coverPhoto")
                             setNewCoverPhoto(null)
                         }
+                        //update information in the token 
+                        localStorage.setItem("token", result.token)
                         setNewUser(result.user)
                         VisitUser(username, id);
                     }

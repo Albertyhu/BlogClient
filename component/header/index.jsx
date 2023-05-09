@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useContext, useState } from 'react';
 import MobileIcon from '../../assets/icons/hamburger_menu_white.png'
 import PlaceHolder from '../../assets/images/PlaceholderLogo.png';
+import BlabberLogo from '../../assets/images/blabber_logo.png'; 
 import MobileMenu from './mobileMenu.jsx';
 import { useNavigate} from 'react-router-dom'; 
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx'; 
@@ -45,7 +46,7 @@ const Header = props => {
     const HeaderBackgroundColor = "bg-black";
     const TextColor = "text-white"; 
     const HeaderStyle = `w-full fixed top-0 left-0 right-0 text-2xl z-30 ${HeaderBackgroundColor} ${TextColor}`;
-    const LogoStyle = `h-auto cursor-pointer select-none inline-block`
+    const LogoStyle = `h-auto cursor-pointer select-none inline-block max-w-[168px] ml-1`
     const DesktopStyle = `hidden md:block w-full min-h-[50px] relative`;
     const MobileStyle = `flex md:hidden w-full h-[50px] [&>*]:inline-block justify-between`;
     const DesktopMenuLinks = `left-auto right-[10px] top-0 bottom-0 absolute h-auto translate-y-[20%] inline-block
@@ -75,7 +76,7 @@ const Header = props => {
                     className={DesktopStyle}
                 >
                     <img
-                        src={PlaceHolder}
+                        src={BlabberLogo}
                         className={LogoStyle}
                         onClick={useCallback(() => GoHome(navigate), [navigate])}
                     />
@@ -130,7 +131,7 @@ const Header = props => {
                     id="MobileHeader"
                     className={MobileStyle}>
                     <img
-                        src={PlaceHolder}
+                        src={BlabberLogo}
                         className={LogoStyle}
                         onClick={useCallback(() => { GoHome(navigate) }, [navigate])}
                     />

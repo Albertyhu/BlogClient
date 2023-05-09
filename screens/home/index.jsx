@@ -65,7 +65,7 @@ const Home = props => {
             className="w-full"
             id="Container"
         >
-            <h1 className="text-center mx-auto my-[20px] text-2xl">Browse the lastest content.</h1>
+            <h1 className="text-center mx-auto my-[20px] text-2xl">Browse the lastest blabbers.</h1>
             <div
                 className= "grid w-11/12 mx-auto md:grid-cols-[75%_25%] md:gap-[20px]"
             >

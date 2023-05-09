@@ -1,4 +1,5 @@
 import Logo from '../../assets/images/PlaceholderLogo.png'
+import BlabberLogo from '../../assets/images/blabber_logo.png';
 import { useCallback } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
@@ -25,7 +26,7 @@ const Footer = props => {
 		>	
 			<div className = "grid sm:grid-cols-2 text-white sm:mt-10">
 				<img 
-					src={Logo}
+					src={BlabberLogo}
 					alt="logo"
 					className={logoStyle}
 					onClick={useCallback(()=>GoHome(navigate), [navigate])}

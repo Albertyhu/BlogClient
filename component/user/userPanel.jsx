@@ -1,4 +1,4 @@
-import React, { lazy,  Suspense } from 'react';
+import React, { lazy,  Suspense, useState } from 'react';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import {
     Link, 
@@ -15,6 +15,7 @@ const ProfilePanel = props => {
         profile_pic, 
     } = props;
     const navigate = useNavigate();
+    const [admin] = useState(false); 
     const {
         VisitUser,
         GoEditProfileAsAdmin, 
@@ -23,7 +24,7 @@ const ProfilePanel = props => {
         <div
             className="w-full text-center text-lg text-black rounded-lg bg-[#ffffff] py-10 mr-10 box_shadow mb-5 cursor-pointer"
             id="ProfileContainer"
-         //   onClick={() => VisitUser(username, _id) }
+            onClick={() => VisitUser(username, _id) }
         >
             <div
                 className="w-11/12 mx-auto"
@@ -40,20 +41,22 @@ const ProfilePanel = props => {
                 {username &&
                     <p><span className="font-bold">{username}</span></p>
                 }
-                <Link
-                    to={`/profile/${_id}/editProfileAsAdmin`}
-                    state={{
-                        id: _id,
-                    }}
-                >
-                    <button
-                       
-                    type="button"
-                    className="btn-primary"
-                    onClick={()=>GoEditProfileAsAdmin(_id)}
-                    >Edit Profile
-                    </button>
-                </Link>
+                {admin &&  
+                    <Link
+                        to={`/profile/${_id}/editProfileAsAdmin`}
+                        state={{
+                            id: _id,
+                        }}
+                    >
+                        <button
+
+                            type="button"
+                            className="btn-primary"
+                            onClick={() => GoEditProfileAsAdmin(_id)}
+                        >Edit Profile
+                        </button>
+                    </Link>
+                }
             </div>
         </div>
     )

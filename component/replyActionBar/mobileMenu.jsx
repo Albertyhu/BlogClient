@@ -16,13 +16,13 @@ const MobileMenu = props => {
     } = props; 
     const {
         token,
+        decoded,
     } = useContext(AppContext);
 
     const linkStyle = `actionBarLink hover:bg-[#33333] mb-5`; 
 
     const {
         author,
-        decoded,
         DeleteAction, 
         ShareAction, 
         openEditorToUpdate, 
@@ -37,7 +37,7 @@ const MobileMenu = props => {
             className={`grid border-[1px] absolute left-auto right-0 bg-[#ffffff] p-5 z-20 ${fullActionBar ? "md:hidden" : ""}`}
             ref={LinkMenuRef}
         >
-            {decoded.id.toString() == author._id.toString() && 
+            {decoded && decoded.id.toString() == author._id.toString() && 
             <>
                 <button
                     className={`${linkStyle}`}

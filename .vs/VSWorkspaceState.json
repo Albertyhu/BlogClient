@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\images",
     "\\component",
-    "\\component\\formElements",
-    "\\component\\replyPanel",
+    "\\component\\imageRendering",
     "\\component\\user",
+    "\\hooks",
     "\\screens",
     "\\screens\\authentication",
-    "\\screens\\category"
+    "\\screens\\category",
+    "\\screens\\post",
+    "\\screens\\user"
   ],
-  "SelectedNode": "\\component\\user\\profilePicture.jsx",
+  "SelectedNode": "\\screens\\user\\editProfileAsAdmin.jsx",
   "PreviewInSolutionExplorer": false
 }

@@ -20,9 +20,8 @@ const BulkUploadForm = props => {
         token,
         setLoading,
         apiURL,
-        setMessage, 
+        setMessage,
     } = useContext(AppContext)
-    const [decoded, setDecoded] = useState(DecodeToken(localStorage.getItem('token')))
     const {
         GoHome, 
         GoUserPhotos
@@ -37,6 +36,7 @@ const BulkUploadForm = props => {
     const {
         BulkUploadPhotos
     } = FetchHooks(apiURL, token, setLoading, setMessage)
+    const [decoded] = useState(DecodeToken(localStorage.getItem('token')));
     const submitPhotos = evt => {
         const successMessage = "Your photos have been uploaded."
         const dispatchFunctions = {
@@ -49,11 +49,11 @@ const BulkUploadForm = props => {
     }
 
     useEffect(() => {
-        if (!decoded) {
+        if (!token) {
             GoHome("You don't have permission to visit that page.")
         }
-
-    }, [decoded])
+        console.log("decoded: ", token)
+    }, [token])
 
     useEffect(() => {
         window.scrollTo(0,0)

@@ -24,7 +24,7 @@ const MobileMenu = props => {
 
     return (
         <>
-            {decoded.id.toString() == author._id.toString() &&
+            {decoded && decoded.id.toString() == author._id.toString() &&
                 <>
                     <button
                     className="actionBarLink hidden md:flex"

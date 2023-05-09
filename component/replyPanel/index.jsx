@@ -165,7 +165,7 @@ const ReplyPanel = props => {
                     id="RenderComment"
                 >
                     {
-                    editmode && decoded.id == author._id ?
+                    editmode && decoded && decoded.id == author._id ?
                         <div className="border-2 rounded-md p-5 box_shadow">
                             <CommentHeader
                                 author={author}

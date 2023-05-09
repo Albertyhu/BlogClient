@@ -43,7 +43,7 @@ const RenderPostPanel = props => {
                 id="ContentWrapper"
                 className="ContentWrapper">
                 <h2 className="font-bold text-2xl pt-5">{title}</h2>
-                {author && <h3>created by <span className="font-bold">{author.username}</span></h3>}
+                {author && <h3>Written by <span className="font-bold">{author.username}</span></h3>}
                 {category && <p>Posted on {category.name}</p> }
                 {lastEdited ?
                     <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>

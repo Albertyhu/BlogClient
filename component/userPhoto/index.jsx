@@ -41,7 +41,7 @@ const RenderUserPhotos = props => {
                             />
                             )
                     })}
-                {displayViewMorePanel && 
+                {displayViewMorePanel &&  
                     <ViewMorePanel
                     delayCount={images.length + 1}
                     />
