@@ -29,6 +29,7 @@ const EditProfilePic = props => {
         token,
         setNewProfileImage,
         setNewCoverPhoto, 
+        decoded
     } = useContext(AppContext);
     const UserToken = localStorage.getItem("token");
     const [User, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -104,7 +105,6 @@ const EditProfilePic = props => {
             return ()=>GoHome();
         }
         fetchUserDetails(id, setUser, setGeneralError)
-        const decoded = JSON.parse(atob(UserToken.split('.')[1]));
     }, [id, UserToken])
 
     return (
@@ -130,10 +130,12 @@ const EditProfilePic = props => {
                     }
                     const Elements = {
                         imageData: imageInputRef.current.files[0],
+                        keepProfilePic: image ? true : false, 
                         username,
                         email,
                         biography,
                         coverPhoto: coverPhotoInputRef.current.files[0],
+                        keepCoverPhoto: coverPhoto ? true: false, 
                     }
                     UpdateUserProfile(apiURL, UserDetails, Elements, dispatchFunctions)
                 }}

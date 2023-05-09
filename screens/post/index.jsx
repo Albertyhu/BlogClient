@@ -12,6 +12,7 @@ import { CommentInput } from '../../component/formElements/commentInputs.jsx'
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import CommentPanel from '../../component/commentPanel'; 
+import { alertMessage } from '../../hooks/textHooks.jsx';
 
 const RenderPost = props => {
     const location = useLocation(); 
@@ -114,13 +115,18 @@ const RenderPost = props => {
     const commentEditorRef = useRef(); 
 
     const SubmitComment = () => {
-        const Elements = {
-            content: GetContent(commentEditorRef),
-            root: post_id, 
-            author: decoded.id, 
-            commentImages,  
-        } 
-        AddComment("post", post_id,"add_comment", Elements, dispatchFunctions, token)
+        if (token) {
+            const Elements = {
+                content: GetContent(commentEditorRef),
+                root: post_id,
+                author: decoded.id,
+                commentImages,
+            }
+            AddComment("post", post_id, "add_comment", Elements, dispatchFunctions, token)
+        }
+        else {
+            alertMessage("You must be a member to make a comment.", setMessage)
+        }
     }
 
     const context = {

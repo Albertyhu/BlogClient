@@ -7,7 +7,6 @@ import { AppContext } from '../../util/contextItem.jsx';
 import { UserProfileHooks } from '../../hooks/userProfileHooks.jsx';
 import Avatar from '../../assets/images/avatar.jpg'
 import { FormatDate } from '../../hooks/timeHooks.jsx'; 
-
 const RenderProfilePic = lazy(() => import('./profilePicture.jsx'));
 
 const ProfilePanel = props => {
@@ -23,7 +22,7 @@ const ProfilePanel = props => {
         setLoading,
         token, 
     } = useContext(AppContext);
-    const [profileImage, setProfileImage] = useState(ProfilePicture ? ProfilePicture : Avatar)
+    const [profileImage, setProfileImage] = useState(ProfilePicture)
     const { DeleteUser } = UserProfileHooks(apiURL, token, setLoading, setMessage);
 
     const dispatchFunctions = {
@@ -44,16 +43,14 @@ const ProfilePanel = props => {
                 className="w-11/12 mx-auto"
                 id="ProfileWrapper"
             >
-                {profileImage && 
-                    <Suspense fallback={<div className= "rounded-full w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]">Profile image loading</div>}>
-                        <RenderProfilePic
-                            profile_pic={profileImage}
-                            dimensions="w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]"
-                            clickEvent={() => VisitUser(user.username, decoded._id)}
-                            customStyle="cursor-pointer"
-                            />
-                    </Suspense>
-                        }
+                <Suspense fallback={<div className= "rounded-full w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]">Profile image loading</div>}>
+                    <RenderProfilePic
+                        profile_pic={profileImage}
+                        dimensions="w-[100px]  h-[100px] sm:w-[150px] sm:h-[150px] md:w-[270px] md:h-[270px]"
+                        clickEvent={() => VisitUser(user.username, decoded._id)}
+                        customStyle="cursor-pointer"
+                        />
+                </Suspense>
                 {decoded === decoded._id &&
                     <button
                         type='button'

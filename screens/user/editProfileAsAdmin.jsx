@@ -34,7 +34,9 @@ const EditProfilePic = props => {
     const [User, setUser] = useState();
     const { RenderError, AnimateErrorMessage } = ErrorMessageHooks();
     const { fetchUserDetails } = FetchHooks(apiURL, token, setLoading, setMessage);
-    const { UpdateUserProfile } = EditUserHooks(navigate);
+    const { 
+            EditUserProfileAsAdmin 
+    } = EditUserHooks(navigate);
 
     const [image, setImage] = useState(null);
     const [username, setUsername] = useState(""); 
@@ -130,8 +132,10 @@ const EditProfilePic = props => {
                         email,
                         biography,
                         coverPhoto: coverPhotoInputRef.current.files[0],
+                        keepCoverPhoto: coverPhoto ? true : false, 
+                        keepProfilePic: image ? true : false, 
                     }
-                    UpdateUserProfile(apiURL, UserDetails, Elements, dispatchFunctions)
+                    EditUserProfileAsAdmin(apiURL, UserDetails, Elements, dispatchFunctions)
                 }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">

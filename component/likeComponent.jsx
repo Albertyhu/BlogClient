@@ -9,6 +9,7 @@ import {
     LikeIcon,
     BlueLikeIcon, 
 } from './iconComponents'; 
+import { alertMessage } from '../hooks/textHooks.jsx'; 
 
 const PostLikeFeatures = () => {
     const RenderLikeButton = props => {
@@ -27,27 +28,33 @@ const PostLikeFeatures = () => {
         const {
             token,
             apiURL,
+            setMessage,
         } = useContext(AppContext);
         const [isLiked, setLike] = useState(false);
         const [number, setNumber] = useState(likes ? likes.length : 0)
         const [decoded, setDecoded] = useState(null)
 
         const toggleLike = () => {
-            var result = []
-            var action = ''
-            if (isLiked) {
-                result = likes.filter(like => like != decoded.id)
-                setLike(false)
-                setNumber(prev => prev - 1)
-                action = 'remove';
+            if (token) {
+                var result = []
+                var action = ''
+                if (isLiked) {
+                    result = likes.filter(like => like != decoded.id)
+                    setLike(false)
+                    setNumber(prev => prev - 1)
+                    action = 'remove';
+                }
+                else {
+                    result = [...likes, decoded.id]
+                    setLike(true)
+                    setNumber(prev => prev + 1)
+                    action = 'add';
+                }
+                updateLikesInServer(apiURL, type, documentID, decoded.id, token, action)
             }
             else {
-                result = [...likes, decoded.id]
-                setLike(true)
-                setNumber(prev => prev + 1)
-                action = 'add';
+                alertMessage("You must be a member to do that.", setMessage)
             }
-            updateLikesInServer(apiURL, type, documentID, decoded.id, token, action)
         }
 
         useEffect(() => {

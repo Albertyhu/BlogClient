@@ -21,7 +21,8 @@ const ProfilePage = props => {
         token,
         setLoading, 
         setMessage, 
-        apiURL } = useContext(AppContext)
+        apiURL
+    } = useContext(AppContext)
     const {
         fetchUserDetails,
         fetchUserByName, 
@@ -67,10 +68,6 @@ const ProfilePage = props => {
         }
     }, [])
 
-    useEffect(() => {
-        console.log("posts: ", posts)
-    }, [posts])
-
     return (
         <div className = 'text-center mt-[20px]'>
             {error != "" &&
@@ -87,12 +84,12 @@ const ProfilePage = props => {
                 />
             </Suspense>
             }
-            {profileDetails && profileDetails.profile_pic &&
+            <Suspense fallback={<div>loading...</div>}>
                 <RenderProfilePic
-                    profile_pic={profileDetails.profile_pic}
+                    profile_pic={profileDetails && profileDetails.profile_pic ? profileDetails.profile_pic : null}
                     dimensions="border-[5px] border-white w-[270px] h-[270px]"
-            />
-            }
+                    />
+            </Suspense>
             <h1 className="font-bold text-2xl">{username}'s profile</h1>
 
             {profileDetails && profileDetails.email &&
@@ -124,8 +121,11 @@ const ProfilePage = props => {
                 <div className = "w-11/12 md:w-10/12 mx-auto">
                     <h2 className="font-bold text-2xl my-5">Posts</h2>
                     {posts.map(entry => 
-                    <Suspense fallback={<SubstitutePanel />}>
-                            <PostPanel {...entry} />
+                        <Suspense fallback={<SubstitutePanel key={entry._id} />}>
+                            <PostPanel
+                                key={entry._id}
+                                {...entry}
+                            />
                     </Suspense> )}
                 </div>
             }

@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\assets",
+    "\\assets\\images",
     "\\component",
-    "\\component\\categoryComponent",
-    "\\component\\imageRendering",
-    "\\component\\post",
-    "\\component\\searchComponent",
+    "\\component\\formElements",
+    "\\component\\replyPanel",
     "\\component\\user",
     "\\screens",
+    "\\screens\\authentication",
     "\\screens\\category"
   ],
-  "SelectedNode": "\\component\\post\\searchResultItem.jsx",
+  "SelectedNode": "\\component\\user\\profilePicture.jsx",
   "PreviewInSolutionExplorer": false
 }

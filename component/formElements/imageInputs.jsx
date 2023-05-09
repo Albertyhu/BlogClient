@@ -7,10 +7,10 @@ import {
     AttachImagesToArray,
 } from '../../hooks/imageHooks.jsx';
 const RenderCoverPhoto = lazy(() => import("../imageRendering/coverPhoto.jsx"));
+const RenderImage = lazy(() => import("../imageRendering/mainImage.jsx")); 
 import PropTypes from 'prop-types';
 const RenderPreviewImages = lazy(() => import("./previewImage2.jsx")); 
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks(); 
-
 
 //Can be used for editing attached images as well. 
 //image is an array that will store all the uploaded images 
@@ -116,7 +116,6 @@ export const EditImageInput = props => {
     } = props;
 
     const ImageErrorRef = useRef();
-
     useEffect(() => {
         if (pictureError.length > 0) {
             for (var child of ImageErrorRef.current.children) {
@@ -125,16 +124,32 @@ export const EditImageInput = props => {
         }
     }, [pictureError])
 
+    useEffect(() => {
+        console.log("image: ", image)
+    }, [image])
+
     return (
         <>
             {image &&
-                <Suspense fallback={<h2 className="text-center text-2xl mx-auto my-10 text-black">Loading current image...</h2>}>
-                    <RenderCoverPhoto
-                        image={image}
-                        altText="Preview Image"
-                        isPreview={true}
-                    />
-                </Suspense>
+                <div
+                    className ="w-fit"
+                >
+                    <Suspense fallback={<h2 className="text-center text-2xl mx-auto my-10 text-black">Loading current image...</h2>}>
+                        <RenderImage
+                            image={image}
+                            altText="Preview Image"
+                            isPreview={true}
+                        />
+                    </Suspense>
+                    <button
+                        type="button"
+                        className="btn-delete whitespace-nowrap text-base mt-5 mx-auto"
+                        onClick={() => {
+                            setImage(null);
+                            ImageInputRef.current.value = ""
+                        }}
+                    >Clear image</button>
+                </div>
             }
             <label
                 htmlFor={label}
@@ -146,7 +161,7 @@ export const EditImageInput = props => {
                 ref={ImageInputRef}
                 type="file"
                 placeholder={placeholder}
-                className="text-lg file:rounded-lg file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
+                className="text-lg w-full file:rounded-lg file:bg-[#99cbae] file:text-white cursor-pointer border-black border-[1px] rounded"
                 onChange={(evt) => { HandleFileChange(evt, setImage) }}
             />
             <div

@@ -87,6 +87,8 @@ const EditUserHooks = (navigate) => {
             email,
             biography,
             coverPhoto,
+            keepProfilePic, 
+            keepCoverPhoto, 
         } = Elements; 
         const {
             id, 
@@ -97,14 +99,18 @@ const EditUserHooks = (navigate) => {
             setNewUser,
             setNewProfileImage,
             setNewCoverPhoto, 
-        } = dispatchFunctions; 
+        } = dispatchFunctions;
         const FetchURL = `${apiURL}/users/${id}/update_user_profile`; 
         const formData = new FormData;
+  
         formData.append("username", username);
         formData.append("email", email);
         formData.append("biography", biography);
         formData.append("profile_pic", imageData);
+        formData.append("keepProfilePic", keepProfilePic)
         formData.append("coverPhoto", coverPhoto);
+        formData.append("keepCoverPhoto", keepCoverPhoto)
+
         try {
             await fetch(FetchURL,
                 {
@@ -119,7 +125,6 @@ const EditUserHooks = (navigate) => {
                     const result = await response.json();
 
                     if (response.ok) {
-                        console.log(result.message);
                         localStorage.setItem('user', JSON.stringify(result.user))
                         if (result.ProfilePicture) {
                             result.ProfilePicture = convertObjToBase64(result.ProfilePicture);
@@ -162,6 +167,8 @@ const EditUserHooks = (navigate) => {
             email,
             biography,
             coverPhoto,
+            keepProfilePic,
+            keepCoverPhoto, 
         } = Elements;
         const {
             id,
@@ -174,6 +181,8 @@ const EditUserHooks = (navigate) => {
         formData.append("biography", biography);
         formData.append("profile_pic", imageData);
         formData.append("coverPhoto", coverPhoto);
+        formData.append("keepProfilePic", keepProfilePic)
+        formData.append("keepCoverPhoto", keepCoverPhoto)
         try {
             await fetch(FetchURL,
                 {

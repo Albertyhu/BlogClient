@@ -71,15 +71,21 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             const FetchURL = `${apiURL}/users/${userID}`
             var response = await fetch(FetchURL, { method: "GET" })
             var data = await response.json();
-            console.log("data: ", data)
             if (response.ok) {
                 if (data.profile_pic && Object.keys(data.profile_pic).length > 0) {
                     console.log("data.profile_pic: ", data.profile_pic)
                     data.profile_pic.data = toBase64(data.profile_pic.data.data)
                 }
+                else {
+                    data.profile_pic = null; 
+
+                }
                 if (data.coverPhoto && Object.keys(data.coverPhoto).length > 0) {
                     console.log("data.coverPhoto: ", data.coverPhoto)
                     data.coverPhoto = convertObjToBase64(data.coverPhoto);
+                }
+                else {
+                    data.coverPhoto = null
                 }
                 dispatch(data);
             }
@@ -110,7 +116,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
                 }
                 setProfileDetails(result.user);
                 setProfileId(result.user._id);
-                console.log("posts: ", result.posts)
                 if (result.posts && result.posts.length > 0) {
                     result.posts = await FormatImagesInArrayOfPosts(result.posts)
                     setPosts(result.posts);

@@ -34,7 +34,7 @@ const Header = props => {
         token, 
         decoded, 
     } = useContext(AppContext)
-
+   
     const {
         OpenMobileMenu,
         toggleAccountMenu
@@ -101,13 +101,15 @@ const Header = props => {
                                     className= "inline-block select-none"
                                     onClick={() => toggleAccountMenu(setAccountMenuOpened, AccountMenuRef)}
                                 >
-                                    <RenderProfilePic
-                                        profile_pic={ProfilePicture ? ProfilePicture : Avatar}
-                                        altText={`${user.username}'s profile picture`}
-                                        //The reason I can put "border-[2px] border-[#ffffff]" is because the prop dimensions is written to the image's class name
-                                        dimensions="w-[30px] h-[30px] border-[2px] border-[#ffffff]"
-                                        customStyle = "inline-block my-auto mr-1 absolute translate-y-[25%]"
-                                    />
+                                    {ProfilePicture &&  
+                                        <RenderProfilePic
+                                            profile_pic={ProfilePicture}
+                                            altText={`${user.username}'s profile picture`}
+                                            //The reason I can put "border-[2px] border-[#ffffff]" is because the prop dimensions is written to the image's class name
+                                            dimensions="w-[30px] h-[30px] border-[2px] border-[#ffffff]"
+                                            customStyle="inline-block my-auto mr-1 absolute translate-y-[25%]"
+                                        />
+                                    }
                                     {user.username}
                                     <DownIcon downwardsDirection={!AccountMenuOpened} />
                                 </div>
