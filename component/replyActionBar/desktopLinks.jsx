@@ -4,13 +4,10 @@ import {
     CommentContext, 
 } from '../../util/contextItem.jsx';
 import {
-    BiEditAlt,
-} from 'react-icons/bi';
-import {
-    BsShare
-} from 'react-icons/Bs';
-import { IconContext } from "react-icons";
-import { RiDeleteBin6Line } from 'react-icons/Ri';
+    ShareIcon,
+    EditIcon,
+    DeleteIcon,
+} from '../iconComponents.jsx'; 
 
 const MobileMenu = props => {
     const {
@@ -34,20 +31,16 @@ const MobileMenu = props => {
                         type='button'
                         onClick={openEditorToUpdate}
                     >
+                        <EditIcon customStyle = "mx-1"/> 
                         <span className="mr-1">Edit</span>
-                        <IconContext.Provider value={{ size: "25px" }}>
-                            <BiEditAlt style={{ marginLeft: "0.25rem" }} />
-                        </IconContext.Provider>
                     </button>
                     <button
-                    className="actionBarLink hidden md:flex"
+                        className="actionBarLink hidden md:flex"
                         type='button'
                         onClick={DeleteAction}
                     >
+                        <DeleteIcon customStyle = "mx-1" />
                         <span className="mr-1">Delete</span>
-                        <IconContext.Provider value={{ size: "25px" }}>
-                            <RiDeleteBin6Line style={{ marginLeft: "0.25rem" }} />
-                        </IconContext.Provider>
                     </button>
                 </>
             }
@@ -57,10 +50,8 @@ const MobileMenu = props => {
                     type='button'
                     onClick={ShareAction}
                 >
+                    <ShareIcon customStyle = "mx-1"/>
                     <span className="mr-1">Share</span>
-                    <IconContext.Provider value={{ size: "25px" }}>
-                        <BsShare style={{ marginLeft: "0.25rem" }} />
-                    </IconContext.Provider>
                 </button>
             }
         </>

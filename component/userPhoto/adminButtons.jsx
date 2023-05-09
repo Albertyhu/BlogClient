@@ -8,12 +8,11 @@ import {
     AppContext,
 } from '../../util/contextItem.jsx'; 
 import AddButton from '../addButton.jsx'; 
-import { IconContext } from 'react-icons'; 
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
-import { BiTrash } from 'react-icons/bi';
-
+import { DeleteIcon } from '../iconComponents.jsx'; 
+ 
 export const AdminButtons = props => {
     const {
         photos,
@@ -100,18 +99,16 @@ export const AdminButtons = props => {
                 </>
                 :
                 <>
-                    <IconContext.Provider value={{ size: "25px" }}>
-                        <button
-                            id="DeleteButton"
-                            className="btn-delete mb-10 [&>*]:inline-block [&>*]:whitespace-nowrap font-bold"
-                            onClick={DeletePhotos}
-                        >
-                            <span
-                                className="mr-5"
-                            >Remove selected</span>
-                            <BiTrash />
-                        </button>
-                    </IconContext.Provider>
+                    <button
+                        id="DeleteButton"
+                        className="btn-delete mb-10 [&>*]:inline-block [&>*]:whitespace-nowrap font-bold"
+                        onClick={DeletePhotos}
+                    >
+                        <span
+                            className="mr-5"
+                        >Remove selected</span>
+                        <DeleteIcon white={true}  />
+                    </button>
                     <button
                         id="CancelButton"
                         className="btn-cancel mb-10 font-bold"

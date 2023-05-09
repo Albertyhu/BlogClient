@@ -11,21 +11,24 @@ import {
     NavigationHooks,
     PostNavigationHooks, 
 } from '../../hooks/navigation.jsx';
-import {
-    AiOutlineHome,
-    AiFillEdit,
-    AiOutlineFileAdd,
-    AiOutlineCamera
-} from 'react-icons/Ai';
-import { RxPerson } from 'react-icons/Rx';
-import { BiPhotoAlbum, BiLogOut, BiLogIn, BiCategoryAlt, BiSearchAlt2 } from 'react-icons/bi';
-import {
-    FaRegWindowClose,
-    FaUsers,
-} from 'react-icons/Fa';
-import { BsFillPersonPlusFill } from 'react-icons/Bs';
-import { CiSettings } from 'react-icons/Ci';
 import { Button } from './button.jsx'; 
+import {
+    HomeIcon,
+    EditIcon, 
+    CategoryIcon,
+    MagnifierIcon,
+    UserIcon,
+    GalleryIcon,
+    PostIcon,
+    FileIcon,
+    GroupIcon,
+    SettingsIcon,
+    LogoutIcon,
+    LogInIcon,
+    ContractIcon,
+    SignupIcon,
+    CloseIcon
+} from '../iconComponents.jsx';
 
 const MenuLinks = props => {
     const {
@@ -75,19 +78,19 @@ const MenuLinks = props => {
                 title="Home"
                 clickEvent={() => GoHome(null)}
                 elemRef={elemRef}
-                icon={() => <AiOutlineHome />}
+                icon={()=><HomeIcon />}
             />
             <Button
                 title="Categories"
                 clickEvent={() => GoCategory()}
                 elemRef={elemRef}
-                icon={() => <BiCategoryAlt />}
+                icon={() => <CategoryIcon />}
             />
             <Button
                 title="Search site"
                 clickEvent={() => GoSearchScreen()}
                 elemRef={elemRef}
-                icon={() => <BiSearchAlt2 />}
+                icon={() => <MagnifierIcon />}
             />
             {token ?
                 <>
@@ -95,49 +98,49 @@ const MenuLinks = props => {
                         title="Your profile"
                         clickEvent={() => VisitUser(user.username, user.id)}
                         elemRef={elemRef}
-                        icon={() => <RxPerson />}
+                        icon={() => <UserIcon />}
                     />
                     <Button
                         title="Your photos"
                         clickEvent={() => GoUserPhotos(user.username, user.id)}
                         elemRef={elemRef}
-                        icon={() => <BiPhotoAlbum />}
+                        icon={() => <GalleryIcon />}
                     />
                     <Button
                         title="Create new post"
                         clickEvent={() => GoCreatePost()}
                         elemRef={elemRef}
-                        icon={() => <AiOutlineFileAdd />}
+                        icon={() => <PostIcon />}
                     />
                     <Button
                         title="Upload photos"
                         clickEvent={() => GoBulkUpload(user.username, user.id)}
                         elemRef={elemRef}
-                        icon={() => <AiOutlineCamera />}
+                        icon={() => <FileIcon />}
                     />
                     <Button
                         title="Edit profile"
                         clickEvent={() => GoEditProfile(user.username, user.id)}
                         elemRef={elemRef}
-                        icon={() => <AiFillEdit />}
+                        icon={() => <EditIcon />}
                     />
                     <Button
                         title="View members"
                         clickEvent={() => ViewAllUsers(null)}
                         elemRef={elemRef}
-                        icon={() => <FaUsers />}
+                        icon={()=><GroupIcon />}
                     />
                     <Button
                         title="Settings"
                         clickEvent={() => GoSettings(user.username, user.id)}
                         elemRef={elemRef}
-                        icon={() => <CiSettings />}
+                        icon={() => <SettingsIcon />}
                     />
                     <Button
                         title="Log out"
                         clickEvent={() => localStorage.clear()}
                         elemRef={elemRef}
-                        icon={() => <BiLogOut />}
+                        icon={() => <LogoutIcon />}
                     />
                 </>
                 :
@@ -146,13 +149,13 @@ const MenuLinks = props => {
                         title="Sign in"
                         clickEvent={GoSignIn}
                         elemRef={elemRef}
-                        icon={() => <BiLogIn />}
+                        icon={() => <LogInIcon />}
                     />
                     <Button
                         title="Create an account"
                         clickEvent={GoSignUp}
                         elemRef={elemRef}
-                        icon={() => <BsFillPersonPlusFill />}
+                        icon={() => <SignupIcon />}
                     />
                 </>
             }
@@ -160,7 +163,7 @@ const MenuLinks = props => {
                 title="Close"
                 clickEvent={null}
                 elemRef={elemRef}
-                icon={() => <FaRegWindowClose />}
+                icon={() => <CloseIcon />}
             /> 
         </>
         )

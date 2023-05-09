@@ -12,10 +12,7 @@ import {
     MenuLinksContext, 
 } from '../../util/contextItem.jsx';
 import DownIcon from '../downIcon.jsx'; 
-import { AiOutlineLogin } from 'react-icons/Ai';
 import RenderProfilePic from '../user/profilePicture.jsx'; 
-import { BiSearchAlt2 } from 'react-icons/bi';
-import { IconContext } from 'react-icons';
 
 const Header = props => {
     const navigate = useNavigate(); 
@@ -64,11 +61,11 @@ const Header = props => {
     //AccountMenuOpened determines whethe the arrow icon is pointing up or down. 
     const [AccountMenuOpened, setAccountMenuOpened] = useState(AccountMenuRef.current ? AccountMenuRef.current.classList.contains("grid") ? true: false : false)
 
-    const SignInIcon = () => {
-        return (
-            <span className= "w-[20px] h-[20px] my-auto ml-[5px] inline-block select-none"><AiOutlineLogin /></span>
-        )
-    }
+    //const SignInIcon = () => {
+    //    return (
+    //        <span className= "w-[20px] h-[20px] my-auto ml-[5px] inline-block select-none"><AiOutlineLogin /></span>
+    //    )
+    //}
 
     return (
         <>
@@ -96,9 +93,6 @@ const Header = props => {
                             onClick={useCallback(() => GoSearchScreen(), [navigate])}
                         >
                             <div className ="[&>*]:inline-block">Search
-                            <IconContext.Provider value={{ size: "25px", padding: "5px", margin: "auto"}}>
-                                <BiSearchAlt2 />
-                                </IconContext.Provider>
                             </div>
                         </div>
 
@@ -123,7 +117,7 @@ const Header = props => {
                             :
                             <div
                                 className="inline-block"
-                                onClick={() => GoSignIn()}>Sign In <SignInIcon /></div>
+                                onClick={() => GoSignIn()}>Sign In</div>
                         }
                        
                     </div>

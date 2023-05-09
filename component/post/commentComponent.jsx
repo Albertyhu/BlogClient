@@ -1,5 +1,4 @@
-import { FaRegCommentDots } from 'react-icons/Fa';
-import { IconContext } from 'react-icons';
+import {CommentIcon} from '../../component/iconComponents.jsx'; 
 
 const RenderCommentSymbol = props => {
     const {
@@ -7,9 +6,10 @@ const RenderCommentSymbol = props => {
         number
     } = props; 
     return (
-        <IconContext.Provider value={{ size: "25px" }}>
-            <span className = "inline-flex my-10"><FaRegCommentDots /><span className = "ml-5">{number}</span></span>
-        </IconContext.Provider>
+            <span className="inline-flex my-10">
+                <CommentIcon />
+                <span className="ml-5">{number}</span>
+            </span>
         )
 }
 

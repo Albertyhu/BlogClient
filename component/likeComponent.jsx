@@ -5,8 +5,10 @@ import {
     checkIfLiked,
     updateLikesInServer
 } from '../hooks/likeHooks.jsx'; 
-import { IconContext } from 'react-icons';
-import { AiOutlineLike, AiTwotoneLike } from 'react-icons/Ai';
+import {
+    LikeIcon,
+    BlueLikeIcon, 
+} from './iconComponents'; 
 
 const PostLikeFeatures = () => {
     const RenderLikeButton = props => {
@@ -63,23 +65,21 @@ const PostLikeFeatures = () => {
         }, [decoded])
 
         return (
-            <IconContext.Provider value={{ size: '25px' }}>
-                <div
-                    className={`whitespace-nowrap flex text-lg cursor-pointer my-auto ${customStyle}`}
-                    onClick={toggleLike}
-                    disabled={token ? false : true}
-                >
-                    {isLiked ?
-                        <AiTwotoneLike style={{ marginRight: '0.25rem' }} />
-                        :
-                        <AiOutlineLike style={{ color: "blue" }} />
-                    }
-                    <span
-                        className={`select-none ml-1 ${isLiked ? 'font-bold' : ''}`}
-                    >Like</span>
-                    <span className="ml-1">{number}</span>
-                </div>
-            </IconContext.Provider>
+            <div
+                className={`whitespace-nowrap flex text-lg cursor-pointer my-auto ${customStyle}`}
+                onClick={toggleLike}
+                disabled={token ? false : true}
+            >
+                {isLiked ?
+                    <BlueLikeIcon />
+                    :
+                    <LikeIcon />
+                }
+                <span
+                    className={`select-none ml-1 ${isLiked ? 'font-bold' : ''}`}
+                >Like</span>
+                <span className="ml-1">{number}</span>
+            </div>
         )
     }
 
@@ -107,17 +107,15 @@ const PostLikeFeatures = () => {
         }, [decoded])
 
         return (
-            <IconContext.Provider value={{ size: '25px' }}>
-                <div className={`[&>*]:inline-block whitespace-nowrap relative mr-10 w-[60px] ${isLiked ? 'font-bold' : ''}`}>
+            <div className={`[&>*]:inline-block whitespace-nowrap relative mr-10 w-[60px] ${isLiked ? 'font-bold' : ''}`}>
+                <div
+                    className="absolute top-[50%] translate-y-[-50%] left-0 right-auto"
+                >
                     <div
-                        className="absolute top-[50%] translate-y-[-50%] left-0 right-auto"
-                    >
-                        <div
-                        >Likes</div>
-                    </div>
-                    <span className="absolute top-[50%] right-0 left-auto translate-y-[-50%] text-lg ml-1 my-auto">{likes ? likes.length : 0}</span>
+                    >Likes</div>
                 </div>
-            </IconContext.Provider>
+                <span className="absolute top-[50%] right-0 left-auto translate-y-[-50%] text-lg ml-1 my-auto">{likes ? likes.length : 0}</span>
+            </div>
         )
     }
 

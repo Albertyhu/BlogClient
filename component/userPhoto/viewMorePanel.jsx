@@ -4,8 +4,8 @@ import {
 } from '../../util/contextItem.jsx'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { useNavigate } from 'react-router-dom';
-import { AiOutlinePlus } from 'react-icons/Ai';
-import { IconContext } from 'react-icons'; 
+import WhitePlus from '../../assets/icons/white_plus_icon.png'; 
+
 const PhotoPanel = props => {
     const {
         delayCount = 6,
@@ -50,9 +50,9 @@ const PhotoPanel = props => {
             >
                 <div className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]">
                     <h3 className="text-white font-bold text-center">View more</h3>
-                    <IconContext.Provider value={{size: "50px", color: "white"}}>
-                        <AiOutlinePlus className= "m-auto"/>
-                    </IconContext.Provider>
+                    <img src={WhitePlus}
+                        className ="mx-auto"
+                    />
                 </div>
             </div>
         )

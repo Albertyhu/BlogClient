@@ -4,14 +4,10 @@ import {
     CommentContext, 
 } from '../../util/contextItem.jsx';
 import {
-    BiEditAlt,
-} from 'react-icons/Bi';
-import {
-    BsShare
-} from 'react-icons/Bs';
-import { IconContext } from "react-icons";
-import { RiDeleteBin6Line } from 'react-icons/Ri';
-
+    ShareIcon,
+    EditIcon,
+    DeleteIcon,
+} from '../iconComponents.jsx';
 const MobileMenu = props => {
 
     const {
@@ -51,10 +47,8 @@ const MobileMenu = props => {
                         closeMobileMenu();
                     }}
                 >
+                    <EditIcon customStyle="mx-1" /> 
                     <span>Edit</span>
-                    <IconContext.Provider value={{ size: "25px" }}>
-                        <BiEditAlt />
-                    </IconContext.Provider>
                 </button>
                 <button
                     className={`${linkStyle}`}
@@ -64,10 +58,8 @@ const MobileMenu = props => {
                         closeMobileMenu(); 
                     }}
                 >
+                    <DeleteIcon customStyle="mx-1" />
                     <span>Delete</span>
-                    <IconContext.Provider value={{ size: "25px" }}>
-                        <RiDeleteBin6Line />
-                    </IconContext.Provider>
                 </button> 
             </>
             }
@@ -80,10 +72,8 @@ const MobileMenu = props => {
                         closeMobileMenu();
                     }}
                 >
+                    <ShareIcon customStyle="mx-1" />
                     <span>Share</span>
-                    <IconContext.Provider value={{ size: "25px" }}>
-                        <BsShare />
-                    </IconContext.Provider>
                 </button>
             }
         </div>

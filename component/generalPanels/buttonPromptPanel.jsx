@@ -4,8 +4,7 @@ import AddButton from '../../component/AddButton.jsx';;
 import { useContext } from 'react'
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { alertMessage } from '../../hooks/textHooks.jsx'; 
-import { AiOutlineCamera } from 'react-icons/ai'
-import { IconContext } from 'react-icons'; 
+import CameraIcon from '../../assets/icons/camera.png'; 
 
 const RenderPanel = props => {
     const navigate = useNavigate();
@@ -53,15 +52,20 @@ const RenderPanel = props => {
                     altText="Create a new post button"
                     dispatchFunction={postClickEvent}
                 />
-                <IconContext.Provider value={{size: "25px"}}>
-                    <button
-                        type="button"
-                        className="btn-primary w-full"
-                        onClick={photoClickEvent}
-                    >
-                        <span>Upload photos <AiOutlineCamera className ="my-auto ml-5" /></span>
-                    </button>
-                </IconContext.Provider>
+                <button
+                    type="button"
+                    className="btn-primary w-full"
+                    onClick={photoClickEvent}
+                >
+                    <span>Upload photos
+                        <img
+                            src={CameraIcon}
+                            alt="upload photos"
+                            className="w-[25px] h-[25px] my-auto ml-5"
+
+                        />
+                    </span>
+                </button>
             </div>
         </div>
 

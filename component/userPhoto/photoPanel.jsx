@@ -5,8 +5,8 @@ import {
 import { Base64Hooks } from '../../hooks/imageHooks.jsx';
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { useNavigate } from 'react-router-dom';
-import { GiCheckMark } from 'react-icons/Gi';
-import { IconContext } from 'react-icons'; 
+import WhiteCheckMark from '../../assets/icons/white-check-mark.png'; 
+
 const PhotoPanel = props => {
     const {
         image,
@@ -93,14 +93,11 @@ const PhotoPanel = props => {
                     <div
                         className="absolute left-auto right-[10px] top-[10px] z-[21]"
                     >
-                        <IconContext.Provider value={
-                            {
-                                size: "25px",
-                                color: "white",
-                                border: "white"
-                            }}>
-                            <GiCheckMark />
-                        </IconContext.Provider>
+                        <img
+                            src={WhiteCheckMark}
+                            alt="select icon" 
+                            className = "w-[35px] h-[35px]"
+                        />
                     </div>
                 }
             </div>

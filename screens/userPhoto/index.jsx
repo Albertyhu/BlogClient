@@ -5,10 +5,8 @@ import {
     UserPhotoContext, 
 } from '../../util/contextItem.jsx';
 import { FetchHooks } from '../../hooks/userPhotoHooks.jsx';
-import { NavigationHooks } from '../../hooks/navigation.jsx';
 import RenderUserPhotos from '../../component/userPhoto'; 
 import { AdminButtons } from '../../component/userPhoto/adminButtons.jsx';
-import PaginatedDisplay from '../../component/paginatedDisplay.jsx'; 
 
 //This screen renders all the photos the user has posted on his profile
 //Prerequisite of rendering this component: must retrieve User's ObjectId
@@ -25,7 +23,6 @@ const RenderPhotoScreen = props => {
         token, 
         decoded,
     } = useContext(AppContext)
-    const navigate = useNavigate();
     const {
         FetchUserPhotos, 
     } = FetchHooks(apiURL, token, setLoading, setMessage) 

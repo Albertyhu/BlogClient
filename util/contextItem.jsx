@@ -26,3 +26,5 @@ export const PasswordFormContext = createContext();
 export const PaginatedDisplayContext = createContext(); 
 
 export const SearchBarContext = createContext(); 
+
+export const IconContext = createContext(); 

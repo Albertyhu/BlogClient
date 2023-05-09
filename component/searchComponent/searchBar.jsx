@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { SearchBarContext } from '../../util/contextItem.jsx';
-import { BiSearchAlt2 } from 'react-icons/bi';
-import { IconContext } from 'react-icons'; 
 import {
     HandleSearchQuery,
 } from '../../hooks/searchHook.jsx';
@@ -38,11 +36,9 @@ const SearchBar = props => {
             <input
                 value={query}
                 onChange={handleQuery}
+                place-holder = "Search..."
                 className= "w-full border-none p-[15px] outline-none rounded-[5px] h-[30px] "
             />
-            <IconContext.Provider value={{size: "25px", padding: "15px", margin: "auto"}}>
-                <BiSearchAlt2 className = "my-auto" />
-            </IconContext.Provider>
         </div>
     )
 }

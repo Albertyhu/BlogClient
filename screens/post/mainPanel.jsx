@@ -8,12 +8,10 @@ import {
     RenderTagField
 } from '../../component/tagComponent.jsx'; 
 import uuid from 'react-uuid';
-import { HiOutlineDotsHorizontal } from 'react-icons/Hi';
-import { BiCommentDetail } from 'react-icons/bi';
-import { IconContext } from "react-icons";
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
- 
+import dots from '../../assets/icons/dot_icon.png'; 
+import { CommentIcon } from '../../component/iconComponents.jsx'; 
 const MainPanel = props => {
     const { RenderLikeButton } = PostLikeFeatures()
     const [mobileAdminBtn, setMobileAdminBtn] = useState(false); 
@@ -78,7 +76,11 @@ const MainPanel = props => {
                             className="md:hidden cursor-pointer"
                             onClick={() => setMobileAdminBtn(true)}
                         >
-                            <IconContext.Provider value={{size:'2em'}}><HiOutlineDotsHorizontal /></IconContext.Provider> 
+                            <img
+                                src={dots}
+                                alt="dot icon"
+                                className = "w-[35px] h-[35px]"
+                            />
                         </div>
                         {mobileAdminBtn &&
                             <div
@@ -156,10 +158,8 @@ const MainPanel = props => {
                     id="ReplyField"
                     onClick={toggleCommentField}
                 >
+                    <CommentIcon />
                     <span>Reply</span>
-                    <IconContext.Provider value={{size:"25px"}}>
-                        <BiCommentDetail />
-                    </IconContext.Provider>
                 </div>
             </div>
         </div>

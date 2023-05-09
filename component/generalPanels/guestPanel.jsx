@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import AddButton from '../AddButton.jsx'; 
-import { FiLogIn } from 'react-icons/fi';
-import { IconContext } from 'react-icons'; 
 
 const Panel = props => {
     const navigate = useNavigate(); 
@@ -21,19 +19,17 @@ const Panel = props => {
                 <h2 className="text-center font-bold">Welcome.</h2>
                 <p> Sign up or sign in to start interacting with our communities.</p>
                 <div className="[&>button]:my-10 grid">
-                    <IconContext.Provider value={{ size: "25px", margin: "10px"}}>
-                        <button
-                            type="button"
-                            onClick={GoSignIn}
-                            className = "btn-primary"
-                        >
-                            <span className="[&>*]:inline-block">Sign In <span className = "ml-5"><FiLogIn /></span></span>
-                        </button>
-                    </IconContext.Provider>
-                <AddButton
-                    title="Sign Up"
-                    dispatchFuntcion={GoSignUp}
-                    />
+                    <button
+                        type="button"
+                        onClick={GoSignIn}
+                        className = "btn-primary"
+                    >
+                        <span className="[&>*]:inline-block">Sign In <span className = "ml-5"></span></span>
+                    </button>
+                    <AddButton
+                        title="Sign Up"
+                        dispatchFuntcion={GoSignUp}
+                        />
                 </div>
             </div>
         </div>

@@ -1,9 +1,7 @@
 import { useContext } from 'react'; 
-import { AiOutlineHome, AiFillEdit } from 'react-icons/Ai';
-
-import { IconContext } from 'react-icons'; 
 import { HeaderFunctions } from '../../hooks/headerFunctions.jsx';
 import { MenuLinksContext } from '../../util/contextItem.jsx'; 
+import HomeIcon from '../../assets/icons/home.png'
 
 export const HomeButton = props => {
     const {
@@ -14,13 +12,19 @@ export const HomeButton = props => {
         MobileMenuRef, 
     } = props; 
     return (
-        <IconContext.Provider value ={{size: "25px"}}>
-            <div
-                className="hover:underline flex" onClick={() => {
-                    clickEvent(); 
-                    CloseMobileMenu(MobileMenuRef)
-                }}><AiOutlineHome /><span>Home</span></div>
-        </IconContext.Provider>
+        <div
+            className="hover:underline flex" onClick={() => {
+                clickEvent(); 
+                CloseMobileMenu(MobileMenuRef)
+            }}>
+            <img
+                src={HomeIcon}
+                alt="home symbol"
+                className="w-[25px] h-[25px]"
+
+            />
+            <span>Home</span>
+        </div>
         )
 }
 
@@ -36,14 +40,14 @@ export const Button = props => {
     } = useContext(MenuLinksContext)
 
     return (
-        <IconContext.Provider value={{ size: "25px" }}>
-            <div
-                id="Link"
-                className="hover:underline flex [&>*]:mr-5" onClick={() => {
-                    if (clickEvent)
-                        clickEvent();
-                        closeMenu();
-                }}>{icon()}<span>{title}</span></div>
-        </IconContext.Provider>
+        <div
+            id="Link"
+            className="hover:underline flex [&>*]:mr-5" onClick={() => {
+                if (clickEvent)
+                    clickEvent();
+                    closeMenu();
+            }}>{icon()}
+            <span>{title}</span>
+        </div>
     )
 }

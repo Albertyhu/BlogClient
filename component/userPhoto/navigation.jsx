@@ -1,13 +1,8 @@
 import { useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom'
 import { NavigationHooks  } from '../../hooks/navigation.jsx'; 
-import {
-    IconContext,
-} from 'react-icons'; 
-import {
-    BsCaretLeft,
-    BsCaretRight
-} from 'react-icons/Bs';
+import LeftArrow from '../../assets/icons/left-white.png';
+import RightArrow from '../../assets/icons/right-white.png'; 
 import { UserPhotoContext, } from '../../util/contextItem.jsx'; 
 import { GetNeighboringPhotos } from '../../hooks/userPhotoHooks.jsx'; 
 
@@ -25,19 +20,27 @@ export const ArrowButton = props => {
     const navigate = useNavigate(); 
     const { VisitOnePhoto } = NavigationHooks(navigate)
     return (
-        <IconContext.Provider value = {{size: "50px", color: "#dadada", opacity: "0.3"}}>
-            <div
-                id="Arrow Button"
-                onClick={() => VisitOnePhoto(owner.username, owner._id, photoId, null)}
-                className={`w-fit h-fit cursor-pointer rounded-full p-1 bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.3)] absolute ${left ? "left-[5px] right-auto" : "left-auto right-[5px]"}`}
-            >
-                {left ? 
-                    <BsCaretLeft />
-                    :
-                    <BsCaretRight />
-                    }
-            </div>
-        </IconContext.Provider>
+        <div
+            id="Arrow Button"
+            onClick={() => VisitOnePhoto(owner.username, owner._id, photoId, null)}
+            className={`w-fit h-fit cursor-pointer rounded-full p-1 bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.3)] absolute ${left ? "left-[5px] right-auto" : "left-auto right-[5px]"}`}
+        >
+            {left ? 
+                <img
+                    src={LeftArrow}
+                    alt="left arrow"
+                    className="w-[50px] h-[50px] opacity-30"
+
+                />
+                :
+                <img
+                    src={RightArrow}
+                    alt="right arrow"
+                    className="w-[50px] h-[50px] opacity-30"
+
+                />
+                }
+        </div>
         )
 }
 

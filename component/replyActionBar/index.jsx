@@ -3,13 +3,13 @@ import {
     AppContext,
     CommentContext,
     ReplyActionBarContext, 
+    IconContext
 } from '../../util/contextItem.jsx'; 
 import { PostLikeFeatures } from '../likeComponent.jsx';
 import {
-    BiCommentDetail,
-} from 'react-icons/Bi';
-import { IconContext } from "react-icons";
-import { HiOutlineDotsHorizontal } from 'react-icons/Hi';
+    CommentIcon,  
+} from '../iconComponents.jsx'; 
+import Dots from '../../assets/icons/dot_icon.png'; 
 import DesktopLinks from './desktopLinks.jsx';
 import MobileMenu from './mobileMenu.jsx'; 
 
@@ -62,7 +62,11 @@ const RenderReplyActionBar = props => {
         }
     }, [LinkMenuRef.current])
 
+    const iconContext = {
+    }
+
     return (
+        <IconContext.Provider value = {iconContext}>
         <div
             id="InteractiveField"
             className={customStyle ? customStyle : `inline-flex mt-5 relative [&>*]:mx-[8px] [&>*]:md:mr-10`}
@@ -78,11 +82,9 @@ const RenderReplyActionBar = props => {
                     className="actionBarLink"
                     type="button"
                     onClick={toggleReplyEditor}
-                    >
+                >
+                    <CommentIcon contextItem={IconContext} customStyle="mx-1" />
                     <span className = "mr-1">Reply</span>
-                    <IconContext.Provider value={{ size: "25px" }}>
-                        <BiCommentDetail style={{ marginLeft: "0.25rem"}} />
-                    </IconContext.Provider>
                     </button>
             </>
             }
@@ -97,9 +99,11 @@ const RenderReplyActionBar = props => {
                     onClick={() => setMobileMenu(true)}
                     ref={DotRef}
                 >
-                    <IconContext.Provider value={{ size: "25px"}}>
-                        <HiOutlineDotsHorizontal />
-                    </IconContext.Provider>
+                    <img
+                        src={Dots}
+                        alt="mobile icon"
+                        className="w-[25px] h-[25px]"
+                    />
                 </div>
             }
             {mobileMenu &&
@@ -108,7 +112,8 @@ const RenderReplyActionBar = props => {
                 closeMobileMenu={() => setMobileMenu(false)}
                 />
             }
-        </div> 
+            </div> 
+        </IconContext.Provider>
         )
 }
 
