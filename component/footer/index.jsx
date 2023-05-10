@@ -4,6 +4,7 @@ import { useCallback, useContext } from 'react';
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks } from '../../hooks/navigation.jsx';
+import CreatorComponent from '../creatorComponent.jsx'; 
 
 const Footer = props => {
 	const { BusinessName = 'BusinessName' } = props; 
@@ -51,7 +52,9 @@ const Footer = props => {
 						onClick={useCallback(() => GoTermsAndConditions(), [navigate])}
 					>Terms and conditions</div>
 				</div>
+
 			</div>
+			<CreatorComponent />
 			<div className = "block whitespace-nowrap mx-auto text-center">
 				<div className="text-center text-[#e48f1a] mt-5 text-2xl">{BusinessName} &copy;{YEAR}</div>
 			</div>

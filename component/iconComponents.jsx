@@ -21,6 +21,8 @@ import deletePng from '../assets/icons/delete.png';
 import whiteDeletePng from '../assets/icons/delete-white.png'
 import sharePng from '../assets/icons/share.png'; 
 import mailPng from '../assets/icons/mail.png'; 
+import githubPng from '../assets/icons/github.png'
+import portfolioFavicon from '../assets/icons/portfolio_favicon.png'; 
 
 import { useContext } from 'react'; 
 
@@ -308,6 +310,30 @@ const MailIcon = props => {
     />
 }
 
+const GithubIcon = props => {
+    const {
+        size = "25",
+        customStyle = ''
+    } = props;
+    return <IconComp
+        image={githubPng}
+        size={size}
+        customStyle={customStyle}
+    />
+}
+
+const PortfolioIcon = props => {
+    const {
+        size = "25",
+        customStyle = ''
+    } = props;
+    return <IconComp
+        image={portfolioFavicon}
+        size={size}
+        customStyle={customStyle}
+    />
+}
+
 export {
     HomeIcon,
     CategoryIcon,
@@ -329,5 +355,7 @@ export {
     CommentIcon,
     DeleteIcon, 
     ShareIcon,
-    MailIcon
+    MailIcon,
+    GithubIcon,
+    PortfolioIcon
 };

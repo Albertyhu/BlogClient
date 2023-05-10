@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\icons",
     "\\component",
-    "\\component\\imageRendering",
-    "\\component\\user",
-    "\\hooks",
+    "\\component\\header",
+    "\\component\\shareComponent",
     "\\screens",
-    "\\screens\\authentication",
-    "\\screens\\category",
-    "\\screens\\post",
-    "\\screens\\user"
+    "\\screens\\tag",
+    "\\screens\\terms",
+    "\\src"
   ],
-  "SelectedNode": "\\screens\\user\\editProfileAsAdmin.jsx",
+  "SelectedNode": "\\assets\\icons\\group.png",
   "PreviewInSolutionExplorer": false
 }

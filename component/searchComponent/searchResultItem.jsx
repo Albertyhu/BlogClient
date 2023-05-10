@@ -113,7 +113,7 @@ const SearchResultItems = (navigate, setMessage) => {
             >
                 <div
                     id="Wrapper"
-                    className={`w-11/12 mx-auto grid ${formattedImage ? "grid-cols-[30%_70%] gap-[10px]": ""} `}>
+                    className={`w-11/12 mx-auto grid ${formattedImage ? "md:grid-cols-[30%_70%] gap-[10px]": ""} `}>
                     {formattedImage &&
                         <div>
                             <RenderThumbnail image={formattedImage} alt={name} />
@@ -230,19 +230,19 @@ const SearchResultItems = (navigate, setMessage) => {
             >
                 <div
                     id="Wrapper"
-                    className="w-11/12 mx-auto grid grid-cols-[30%_70%]">
+                    className="w-11/12 mx-auto grid md:grid-cols-[30%_70%]">
                     <div className="flex flex-col text-center">
                         <RenderProfilePicture
                             profile_pic={formattedProfilePic}
-                            dimensions="w-[100px] h-[100px] border-[#dedede] border-2"
+                            dimensions="w-[50px] h-[50px] md:w-[100px] md:h-[100px] border-[#dedede] border-2"
                             customStyle = "contents"
                         />
                     </div>
-                     <div>
+                    <div className= "break-words ">
                         {username &&
-                            <h3 className="font-bold text-3xl my-auto" >{username}</h3>
+                            <h3 className="font-bold text-lg md:text-3xl my-auto text-center md:text-left mb-5" >{username}</h3>
                         }
-                        {email && <p>Email: <span className="font-bold text-base">{email}</span></p>}
+                        {email && <p className="mb-5">Email: <span className="font-bold text-base">{email}</span></p>}
                         {biography &&
                             <>
                         <h4 className = "font-bold text-base">Biography</h4>

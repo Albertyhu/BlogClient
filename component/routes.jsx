@@ -60,7 +60,7 @@ const Apps = props => {
                 <Header />
                 <div
                     id= "ContentWrapper"
-                    className="mt-[50px] pb-[400px]">
+                    className="mt-[50px] pb-[460px]">
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/signin" element={<SignIn />} />

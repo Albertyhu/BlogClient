@@ -93,6 +93,12 @@ const MenuLinks = props => {
                 icon={() => <CategoryIcon />}
             />
             <Button
+                title="View members"
+                clickEvent={() => ViewAllUsers(null)}
+                elemRef={elemRef}
+                icon={() => <GroupIcon />}
+            />
+            <Button
                 title="Search site"
                 clickEvent={() => GoSearchScreen()}
                 elemRef={elemRef}
@@ -129,12 +135,6 @@ const MenuLinks = props => {
                         clickEvent={() => GoEditProfile(user.username, user.id)}
                         elemRef={elemRef}
                         icon={() => <EditIcon />}
-                    />
-                    <Button
-                        title="View members"
-                        clickEvent={() => ViewAllUsers(null)}
-                        elemRef={elemRef}
-                        icon={()=><GroupIcon />}
                     />
                     <Button
                         title="Settings"
