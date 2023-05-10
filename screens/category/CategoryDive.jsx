@@ -23,6 +23,8 @@ const RenderPromptPanel = lazy(() => import("../../component/generalPanels/butto
 const ProfilePanel = lazy(()=>import('../../component/user/currentUserPanel.jsx')); 
 const GuestPanel = lazy(() => import('../../component/generalPanels/guestPanel.jsx')); 
 const CategoryAdministratorPanel = lazy(() => import("../../component/categoryComponent/administratorPanel.jsx")); 
+const RenderPolicyPanel = lazy(() => import("../../component/generalPanels/policyPanel.jsx")); 
+
 /** This component displays individual categories and its data*/
 const CategoryPage = props => {
     const navigate = useNavigate();
@@ -220,6 +222,9 @@ const CategoryPage = props => {
                                 />
                         </Suspense>
                     }
+                    <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                        <RenderPolicyPanel />
+                    </Suspense>
                 </div>
             </div>
 

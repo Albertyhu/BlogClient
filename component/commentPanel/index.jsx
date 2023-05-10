@@ -12,6 +12,7 @@ import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import ReplyPanel from '../replyPanel';
 import RenderComment from './renderComment.jsx'; 
 import CommentHeader from './header.jsx'; 
+import SharePanel from '../shareComponent'; 
 
 //should give owner of the comment the ability to edit 
 //Reply 
@@ -73,6 +74,13 @@ const CommentPanel = props => {
     //This stores any of the images in the comment 
     const [attachedImages, setAttachedImages] = useState(images ? images : []); 
 
+    //Share feature
+    const [displaySharePanel, setDisplayShare] = useState(false)
+    const toggleDisplayShare = () => {
+        setDisplayShare(prev => !prev); 
+    }
+    const shareButtonRef = useRef(); 
+
     const dispatchFunctions = {
         CloseCommentInput: () =>setDisplayReplyInput(false),
         setMessage,
@@ -120,6 +128,9 @@ const CommentPanel = props => {
         openEditorToUpdate: () => setEditMode(true), 
         fullActionBar, 
         type: 'comment',
+        ShareAction: toggleDisplayShare,
+        setDisplayShare,
+        shareButtonRef, 
     } 
 
     /*code for posting new reples*/
@@ -164,6 +175,13 @@ const CommentPanel = props => {
 
     return (
         <CommentContext.Provider value={commentContext}>
+            {displaySharePanel &&
+                < SharePanel
+                title="comment"
+                content={content}
+                shareButtonRef={shareButtonRef}
+                setDisplayShare={setDisplayShare}
+                />}
             <div
                 className={`my-10 mx-auto`}
                 id={`CommentPanel-${_id}`}

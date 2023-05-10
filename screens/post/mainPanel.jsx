@@ -1,5 +1,8 @@
 import { useEffect, useContext, useState, useRef} from 'react'; 
-import { PostContext } from '../../util/contextItem.jsx';
+import {
+    PostContext,
+    ShareContext
+} from '../../util/contextItem.jsx';
 import { FormatTimeAndDate } from '../../hooks/timeHooks.jsx'; 
 import RenderFullImage from '../../component/imageRendering/fullImage.jsx';
 import RenderImage from '../../component/imageRendering/standardImage.jsx';
@@ -12,6 +15,9 @@ import { NavigationHooks } from '../../hooks/navigation.jsx';
 import { useNavigate } from 'react-router-dom'; 
 import dots from '../../assets/icons/dot_icon.png'; 
 import { CommentIcon } from '../../component/iconComponents.jsx'; 
+import { ShareIcon } from '../../component/iconComponents.jsx'; 
+import SharePanel from '../../component/shareComponent';
+
 const MainPanel = props => {
     const { RenderLikeButton } = PostLikeFeatures()
     const [mobileAdminBtn, setMobileAdminBtn] = useState(false); 
@@ -47,9 +53,12 @@ const MainPanel = props => {
         }
     }
 
-    useEffect(() => {
-      //  window.scrollTo(0, 0); 
-    },[])
+    //Share feature
+    const [displaySharePanel, setDisplayShare] = useState(false)
+    const toggleDisplayShare = () => {
+        setDisplayShare(prev => !prev);
+    }
+    const shareButtonRef = useRef(); 
 
     useEffect(() => {
         PostContainerRef.current.addEventListener("click", mouseDownEvent)
@@ -64,6 +73,13 @@ const MainPanel = props => {
             id="MainPanel"
             className = "w-11/12 mx-auto"
         >
+            {displaySharePanel &&
+                < SharePanel
+                    title={title}
+                    content={content}
+                    shareButtonRef={shareButtonRef}
+                    setDisplayShare={setDisplayShare}
+                />}
             <div className = "relative">
                 <h1 className="text-3xl font-bold text-center my-5 pt-10 text-black">{title}</h1>
                 {decoded && author._id == decoded.id && 
@@ -160,6 +176,15 @@ const MainPanel = props => {
                 >
                     <CommentIcon />
                     <span>Reply</span>
+                </div>
+                <div
+                    className="flex m-auto [&>*]:mx-1 cursor-pointer"
+                    id="ReplyField"
+                    onClick={toggleDisplayShare}
+                    ref={shareButtonRef}
+                >
+                    <ShareIcon />
+                    <span>Share</span>
                 </div>
             </div>
         </div>

@@ -20,6 +20,8 @@ const RegisterForm = props => {
         decoded, 
         setLoading, 
         setDecoded,
+        setNewToken,
+        setMessage
     } = useContext(AppContext);
 
     const navigate = useNavigate();
@@ -32,8 +34,8 @@ const RegisterForm = props => {
 
     const registerURL = `${apiURL}/auth/register`
 
-    const [name, setName] = useState('TomHacker');
-    const [email, setEmail] = useState('TH@gmail.com');
+    const [name, setName] = useState('RonSwanson');
+    const [email, setEmail] = useState('RS@aoil.com');
     const [password, setPassword] = useState('password');
     const [confirmPass, setConfirmPass] = useState('password');
 
@@ -59,7 +61,9 @@ const RegisterForm = props => {
         GoHome: useCallback(() => GoHome(navigate), [navigate]),
         toggleDisplayAccountLink,
         setNewUser,
-        setNewProfileImage
+        setNewProfileImage,
+        setNewToken,
+        setMessage, 
     }
 
     const resetErrorFields = () => {

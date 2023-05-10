@@ -11,6 +11,7 @@ import { CommentInput } from '../formElements/commentInputs.jsx';
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import RenderComment from '../commentPanel/renderComment.jsx';
 import CommentHeader from '../commentPanel/header.jsx'; 
+import SharePanel from '../shareComponent'; 
 
 //Renders the reply to a comment
 const ReplyPanel = props => {
@@ -89,6 +90,13 @@ const ReplyPanel = props => {
         updateArray: (array) => setReplies(array),
     }
 
+    //Share feature
+    const [displaySharePanel, setDisplayShare] = useState(false)
+    const toggleDisplayShare = () => {
+        setDisplayShare(prev => !prev);
+    }
+    const shareButtonRef = useRef(); 
+
     const commentContext = {
         content,
         datePublished,
@@ -108,7 +116,10 @@ const ReplyPanel = props => {
         DeleteAction: () => { DeleteOneCommentCompletely(_id, dispatchFunctions) },
         openEditorToUpdate: () => setEditMode(true), 
         fullActionBar: false,
-        type:"comment",
+        type: "comment",
+        ShareAction: toggleDisplayShare,
+        setDisplayShare,
+        shareButtonRef, 
     }
 
     /*code for posting new reples*/
@@ -156,6 +167,13 @@ const ReplyPanel = props => {
 
     return (
         <CommentContext.Provider value={commentContext}>
+            {displaySharePanel &&
+                < SharePanel
+                    title="comment"
+                    content={content}
+                    shareButtonRef={shareButtonRef}
+                    setDisplayShare={setDisplayShare}
+                />}
             <div
                 className={`my-10 mx-auto py-5`}
                 id={`CommentPanel-${_id}`}

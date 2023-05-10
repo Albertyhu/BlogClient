@@ -28,3 +28,5 @@ export const PaginatedDisplayContext = createContext();
 export const SearchBarContext = createContext(); 
 
 export const IconContext = createContext(); 
+
+export const ShareContext = createContext(); 

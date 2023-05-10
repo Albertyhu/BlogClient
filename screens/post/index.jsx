@@ -1,6 +1,10 @@
 import { useState, useEffect, useContext, useRef } from 'react'; 
 import { useLocation, useNavigate, useParams } from 'react-router-dom'; 
-import { AppContext, PostContext } from '../../util/contextItem.jsx'; 
+import {
+    AppContext,
+    PostContext,
+    ShareContext, 
+} from '../../util/contextItem.jsx'; 
 import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
 import {
     FetchHooks,
@@ -12,7 +16,10 @@ import { CommentInput } from '../../component/formElements/commentInputs.jsx'
 import { FetchActions as FetchCommentActions } from '../../hooks/commentHooks.jsx'; 
 import { GetContent } from '../../hooks/tinyMCEhooks.jsx';
 import CommentPanel from '../../component/commentPanel'; 
-import { alertMessage } from '../../hooks/textHooks.jsx';
+import {
+    alertMessage,
+    cleanString,
+} from '../../hooks/textHooks.jsx';
 
 const RenderPost = props => {
     const location = useLocation(); 
@@ -25,6 +32,7 @@ const RenderPost = props => {
         apiURL, 
         setLoading, 
         setMessage, 
+        siteURL, 
     } = useContext(AppContext);
 
     const {
@@ -160,6 +168,11 @@ const RenderPost = props => {
 
     }
 
+    const shareContext = {
+        title,
+        URL: `${siteURL}/post/${cleanString(title).replace(/ /g, '%20')}/${post_id}`
+    }
+
     useEffect(() => {
         if (token) {
             setDecoded(DecodeToken(token));
@@ -187,7 +200,9 @@ const RenderPost = props => {
                         id="PostWrapper"
                         className="w-11/12 box_shadow rounded-lg mx-auto pb-10 grow h-fit bg-[#ffffff]"
                     >
-                        <MainPanel />
+                        <ShareContext.Provider value={shareContext}>
+                            <MainPanel />
+                        </ShareContext.Provider>
                         {displayCommentInput &&
                             <div className="w-11/12 mx-auto pb-10 border-[1px] rounded-md box_shadow">
                                 <div className= "w-11/12 mx-auto py-5">
@@ -204,7 +219,7 @@ const RenderPost = props => {
                             </div>
                         }
                         {comments && comments.length > 0 &&
-                            <>
+                            <ShareContext.Provider value={shareContext}>
                             <hr className = "w-11/12 mx-auto border-2" />
                             <h2 className="font-bold text-center text-2xl mt-10">Comments</h2>
                             {comments.map((comment, ind) => {
@@ -222,7 +237,7 @@ const RenderPost = props => {
                                 )
                                 })
                                 }
-                            </>
+                            </ShareContext.Provider>
                         }
                     </div>
                 </div>

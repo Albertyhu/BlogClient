@@ -42,16 +42,6 @@ const RenderReplyActionBar = props => {
         fullActionBar = true,
     } = useContext(CommentContext)
 
-    //const {
-    //    likes,
-    //    _id,
-    //    toggleReplyEditor,
-    //    type,
-    //    //fullActionBar is a boolean value that determines whether to show the desktop or mobile verion of the action bar; 
-    //    //Since the fullActionBar component is being used in other components, this gives more controll on how the bar should be displayed.
-    //    fullActionBar = true,
-    //} = useContext(ReplyActionBarContext)
-
     const { RenderLikeButton } = PostLikeFeatures() 
 
     useEffect(() => {

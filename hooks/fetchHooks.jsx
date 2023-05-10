@@ -110,8 +110,10 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
         }).then(async response => {
             const result = await response.json();
             if (response.ok) {
-                if (result.user.profile_pic) { result.user.profile_pic.data = toBase64(result.user.profile_pic.data.data) }
-                if (result.user.coverPhoto) {
+                if (result.user.profile_pic && Object.keys(result.user.profile_pic).length > 0) {
+                    result.user.profile_pic.data = toBase64(result.user.profile_pic.data.data)
+                }
+                if (result.user.coverPhoto && Object.keys(result.user.coverPhoto).length > 0) {
                     result.user.coverPhoto = convertObjToBase64(result.user.coverPhoto)
                 }
                 setProfileDetails(result.user);

@@ -20,6 +20,7 @@ const MobileMenu = props => {
         DeleteAction,
         ShareAction,
         openEditorToUpdate, 
+        shareButtonRef,
     } = useContext(CommentContext)
 
     return (
@@ -49,6 +50,7 @@ const MobileMenu = props => {
                     className="actionBarLink hidden md:flex"
                     type='button'
                     onClick={ShareAction}
+                    ref={shareButtonRef}
                 >
                     <ShareIcon customStyle = "mx-1"/>
                     <span className="mr-1">Share</span>

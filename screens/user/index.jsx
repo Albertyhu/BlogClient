@@ -101,7 +101,7 @@ const ProfilePage = props => {
                     onClick={() => { GoEditProfile(profileDetails.username, profileDetails._id) }}
                 >Edit Profile</button>
             }
-            {profileDetails && profileDetails.biography.trim() != "" &&
+            {profileDetails && profileDetails.biography != "" &&
                 <div className="mt-5 text-2xl text-black mx-auto w-11/12 md:w-10/12" id = "biography">&#09;{profileDetails.biography}</div>
             }
             {userPhotos && userPhotos.length > 0 &&

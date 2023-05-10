@@ -13,6 +13,7 @@ import {
 const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
 import { SubstitutePanel } from '../../component/fallback.jsx';
 const GuestPanel = lazy(() => import('../../component/generalPanels/guestPanel.jsx'));
+const RenderPolicyPanel = lazy(() => import("../../component/generalPanels/policyPanel.jsx"));
 
 const SearchScreen = props => {
     const SEARCH_TYPES = [
@@ -93,6 +94,9 @@ const SearchScreen = props => {
 
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>
                         <RenderPromptPanel />
+                    </Suspense>
+                    <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                        <RenderPolicyPanel />
                     </Suspense>
                 </div>
             </div>

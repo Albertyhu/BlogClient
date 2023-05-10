@@ -11,6 +11,7 @@ import logoutPng from '../assets/icons/logout.png';
 import logInPng from '../assets/icons/log-in.png';
 import contractPng from '../assets/icons/contract.png';
 import signupPng from '../assets/icons/signup.png';
+import signupPng_white from '../assets/icons/signup-white.png';
 import closePng from '../assets/icons/close.png';
 import editPng from '../assets/icons/editing.png'; 
 import like_blue from '../assets/icons/like-blue.png';
@@ -19,6 +20,8 @@ import commentPng from '../assets/icons/comment.png';
 import deletePng from '../assets/icons/delete.png'; 
 import whiteDeletePng from '../assets/icons/delete-white.png'
 import sharePng from '../assets/icons/share.png'; 
+import mailPng from '../assets/icons/mail.png'; 
+
 import { useContext } from 'react'; 
 
 import { IconContext } from '../util/contextItem.jsx'; 
@@ -209,10 +212,11 @@ import { IconContext } from '../util/contextItem.jsx';
  const SignupIcon = props => {
     const {
         size = "25",
-        customStyle = ''
+        customStyle = '',
+        black = true,
     } = props;
     return <IconComp
-        image={signupPng}
+        image={black ? signupPng : signupPng_white}
         size={size}
         customStyle={customStyle}
     />
@@ -292,6 +296,18 @@ const ShareIcon = props => {
     />
 }
 
+const MailIcon = props => {
+    const {
+        size = "25",
+        customStyle = ''
+    } = props;
+    return <IconComp
+        image={mailPng}
+        size={size}
+        customStyle={customStyle}
+    />
+}
+
 export {
     HomeIcon,
     CategoryIcon,
@@ -312,5 +328,6 @@ export {
     BlueLikeIcon,
     CommentIcon,
     DeleteIcon, 
-    ShareIcon
+    ShareIcon,
+    MailIcon
 };

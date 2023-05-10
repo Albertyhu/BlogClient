@@ -33,7 +33,6 @@ export const FetchActions = (apiURL, setLoading, token) => {
 
         //If the fetch request is adding a reply to a reply, storing the ObjectID of the root of the comment tree is important
         if (Elements.root) {
-            console.log("root: ", Elements.root)
             formData.append("root", Elements.root)
         }
 
@@ -96,7 +95,6 @@ export const FetchActions = (apiURL, setLoading, token) => {
                         newComment.rootComment = result.comment.rootComment;
                     }
 
-                    console.log("newComment: ", newComment)
                     updateArray(prev => [newComment, ...prev])
                 }
                 else {

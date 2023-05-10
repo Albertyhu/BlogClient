@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect, useRef } from 'react'; 
 import {
     AppContext,
-    UserPhotoContext,
 } from '../../util/contextItem.jsx'; 
 import PhotoPanel from './photoPanel.jsx'; 
 import ViewMorePanel from './viewMorePanel.jsx';

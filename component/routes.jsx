@@ -31,6 +31,8 @@ import SettingsPage from '../screens/userSettings';
 import DisplayAllUsers from '../screens/user/renderAllUsers.jsx'; 
 import SearchScreen from '../screens/search'; 
 import EditUserProfileAsAdmin from '../screens/user/editProfileAsAdmin.jsx'; 
+import PrivacyPolicy from '../screens/PrivacyPolicy'; 
+import Terms from '../screens/terms'; 
 
 const Apps = props => {
     const {
@@ -58,7 +60,7 @@ const Apps = props => {
                 <Header />
                 <div
                     id= "ContentWrapper"
-                    className="mt-[50px] mb-[400px]">
+                    className="mt-[50px] pb-[400px]">
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/signin" element={<SignIn />} />
@@ -85,6 +87,8 @@ const Apps = props => {
                         <Route path="/users" element={<DisplayAllUsers />} />
                         <Route path="/search" element={<SearchScreen />} />
                         <Route path="/profile/:username/editProfileAsAdmin" element={<EditUserProfileAsAdmin />} />
+                        <Route path="/privacy_policy" element={<PrivacyPolicy />} />
+                        <Route path="/terms&conditions" element={<Terms />} />
                     </Routes>
                 </div>
                 <Footer

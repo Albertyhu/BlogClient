@@ -168,6 +168,14 @@ const NavigationHooks = (navigate) => {
         })
     }
 
+    function GoPrivacyPolicy() {
+        navigate("/privacy_policy")
+    }
+
+    function GoTermsAndConditions() {
+        navigate("/terms&conditions")
+    }
+
     return {
         GoHome,
         GoSignIn,
@@ -191,6 +199,8 @@ const NavigationHooks = (navigate) => {
         GoSettings,
         GoSearchScreen,
         GoEditProfileAsAdmin, 
+        GoPrivacyPolicy,
+        GoTermsAndConditions, 
     }
 }
 

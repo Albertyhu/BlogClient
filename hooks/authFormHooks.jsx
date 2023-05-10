@@ -5,11 +5,12 @@ import "../src/index.css";
 import { NavigationHooks } from './navigation.jsx'
 import { DecodeToken } from './decodeToken.jsx'; 
 import { Base64Hooks } from './imageHooks.jsx'; 
+import { alertMessage } from './textHooks.jsx'; 
 
 const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfileImage) => {
     const { GoHome } = NavigationHooks(navigate); 
     const { convertObjToBase64 } = Base64Hooks()
-    function HandleSignUpSubmit(evt, elements, uploadedFile, dispatchFunctions, resetErrorFields) {
+    async function HandleSignUpSubmit(evt, elements, uploadedFile, dispatchFunctions, resetErrorFields) {
         evt.preventDefault();
         const {
             RegistrationForm,
@@ -19,22 +20,74 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
             ConfirmInput,
             ProfileInput, 
         } = elements; 
-        var isValid = true; 
-        var errMessage = "Error: ";
-        if (isValid) {
-            const data = {
-                username: NameInput.value, 
-                email: EmailInput.value,
-                password: PasswordInput.value,
-                profile_pic: ProfileInput.current.files[0], 
-                confirm_password: ConfirmInput.value
-            }
-            resetErrorFields();
-            SubmitRegistration(data, apiURL, dispatchFunctions);
 
+            //const data = {
+            //    username: NameInput.value, 
+            //    email: EmailInput.value,
+            //    password: PasswordInput.value,
+            //    profile_pic: ProfileInput.current.files[0], 
+            //    confirm_password: ConfirmInput.value
+            //}
+        resetErrorFields();
+        const FetchURL = `${apiURL}/auth/register`
+        const formData = new FormData;
+        formData.append("username", NameInput.value);
+        formData.append("email", EmailInput.value);
+        formData.append("password", PasswordInput.value);
+        formData.append("confirm_password", ConfirmInput.value);
+        if (ProfileInput.current.files.length > 0) {
+            formData.append("profile_pic", ProfileInput.current.files[0]);
         }
-        else
-            console.log("RegistrationHooks Error: ", errMessage)
+        for (var key of formData.entries()) {
+            console.log(key[0] + ', ' + key[1])
+        }
+        const {
+            GoHome,
+            toggleDisplayAccountLink,
+            setNewUser,
+            setNewToken,
+            setMessage
+        } = dispatchFunctions;
+
+        setLoading(true)
+        await fetch(FetchURL, {
+            method: "POST",
+            body: formData
+        })
+            .then(async response => {
+                if (response.ok) {
+                    console.log("Registration is successful.")
+                    const data = await response.json();
+                    localStorage.setItem("user", JSON.stringify(data.user))
+                    localStorage.setItem('token', data.token)
+                    //setNewToken(data.token)
+                    if (data.profile_pic) {
+                        data.profile_pic = convertObjToBase64(data.profile_pic);
+                        localStorage.setItem("ProfilePicture", JSON.stringify(data.profile_pic))
+                        setNewProfileImage(data.profile_pic)
+                    }
+                    //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
+                    //data about the logged in user
+                    setNewUser(data.user)
+                    setDecoded(DecodeToken(data.token))
+                    toggleDisplayAccountLink(true),
+                    setLoading(false)
+                    alertMessage("Your account has been created.", setMessage)
+                    console.log("data: ", data)
+                    GoHome(`Welcome, ${data.user.username}!`);
+                }
+                else {
+                    const result = await response.json()
+                    console.log("Registration failed with status code: ", result.error)
+                    setLoading(false)
+                    RenderErrorArray(result.error, dispatchFunctions)
+                }
+            })
+            .catch(error => {
+                setLoading(false)
+                console.log("SubmitRegistration error: ", error)
+            })
+
     }
 
     async function SubmitRegistration(data, dispatchFunctions) {
@@ -59,6 +112,7 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
             GoHome,
             toggleDisplayAccountLink,
             setNewUser,
+            setNewToken, 
         } = dispatchFunctions; 
 
         setLoading(true)
@@ -69,24 +123,23 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
             .then(async response => {
                 if (response.ok) {
                     console.log("Registration is successful.")
-                    await response.json()
-                        .then(data => {
-                            localStorage.setItem("user", JSON.stringify(data.user))
-                            localStorage.setItem('token', data.token)
-                            if (data.profile_pic) {
-                                data.profile_pic = convertObjToBase64(data.profile_pic);
-                                localStorage.setItem("ProfilePicture", JSON.stringify(data.profile_pic))
-                                setNewProfileImage(data.profile_pic)
-                            }
-                            //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
-                            //data about the logged in user
-                            setNewUser(data.user)
-                            setDecoded(DecodeToken(data.token))
-                            toggleDisplayAccountLink(true), 
-                            setLoading(false)
-                            GoHome();
-
-                        })
+                    const data = await response.json(); 
+                    localStorage.setItem("user", JSON.stringify(data.user))
+                    localStorage.setItem('token', data.token)
+                    //setNewToken(data.token)
+                    if (data.profile_pic) {
+                        data.profile_pic = convertObjToBase64(data.profile_pic);
+                        localStorage.setItem("ProfilePicture", JSON.stringify(data.profile_pic))
+                        setNewProfileImage(data.profile_pic)
+                    }
+                    //setNewUser and toggleDisplayAccoutLink updates the header bar to contain
+                    //data about the logged in user
+                    setNewUser(data.user)
+                    setDecoded(DecodeToken(data.token))
+                    toggleDisplayAccountLink(true), 
+                        setLoading(false)
+                    console.log("data: ", data)
+                    GoHome(`Welcome, ${data.user.username}!`);
                 }
                 else {
                     const result = await response.json()
