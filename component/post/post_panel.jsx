@@ -1,3 +1,4 @@
+import { useEffect } from 'react'; 
 import RenderThumbnail from './renderThumbnail.jsx'; 
 import { PostLikeFeatures } from '../likeComponent.jsx';
 import { RenderCommentSymbol } from './commentComponent.jsx'; 
@@ -19,30 +20,37 @@ const RenderPostPanel = props => {
         likes,
         comments,
         _id,
-        CustomStyle = "PostPanel"
+        CustomStyle = "PostPanel",
+        published, 
+        images,
     } = props; 
     const { DisplayLikes } = PostLikeFeatures();
     const navigate = useNavigate(); 
-    const { BringDataToPost } = PostNavigationHooks(navigate); 
+    const {
+        BringDataToPost,
+        GoEditPost
+    } = PostNavigationHooks(navigate); 
 
     const data = {
         title,
         content,
         datePublished,
-        lastEdited, 
+        lastEdited,
         mainImage,
         abstract,
         id: _id
     }
+
     return (
         <div
             className={`${CustomStyle} box_shadow`}
-            onClick={() => BringDataToPost(data)}
+            onClick={()=>BringDataToPost(data)}
         >
             <div
                 id="ContentWrapper"
                 className="ContentWrapper">
                 <h2 className="font-bold text-2xl pt-5">{title}</h2>
+                {!published && <h3 className= "text-lg text-[#FF0000]">[Unpublished draft]</h3>}
                 {author && <h3>Written by <span className="font-bold">{author.username}</span></h3>}
                 {category && <p>Posted on {category.name}</p> }
                 {lastEdited ?

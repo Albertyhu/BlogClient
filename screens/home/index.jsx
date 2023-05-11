@@ -30,16 +30,19 @@ const Home = props => {
         setLoading, 
         decoded, 
     } = useContext(AppContext);
+    const { GetPopularCategoriesAndPosts } = FetchHooks(apiURL, token, setLoading, setMessage)
+
+    //paginated features
     const [postList, setPostList] = useState([])
+    const [hasMore, setHasMore] = useState(false); 
     const {
         FetchNewestPost,
     } = PostFetchHooks(apiURL, setLoading, setMessage) 
-    const { GetPopularCategoriesAndPosts } = FetchHooks(apiURL, token, setLoading, setMessage)
     const PaginatedContext = {
         itemList: postList, 
-        setItemList: (val) => setPostList(val), 
-        fetchAction: FetchNewestPost, 
+        fetchAction: (pageNumber, COUNT) => FetchNewestPost(pageNumber, COUNT, setPostList, setHasMore), 
         RenderPanel: (keyValue, item) => <PostPanel {...item} key={keyValue} CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer" />,
+        hasMore, 
     }
 
     const [TopCategories, setTopCategories] = useState([])

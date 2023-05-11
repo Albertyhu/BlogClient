@@ -14,13 +14,12 @@ const PaginatedResults = props => {
     } = props; 
 
     const [pageNumber, setPageNumber] = useState(0); 
-    const [hasMore, setHasMore] = useState(false); 
 
     const {
         itemList = [],
-        setItemList,
         fetchAction,
         RenderPanel,
+        hasMore = false,
     } = useContext(PaginatedDisplayContext)
 
     const observerRef = useRef(); 
@@ -35,7 +34,7 @@ const PaginatedResults = props => {
     }, [hasMore])
 
     useEffect(() => {
-        fetchAction(pageNumber, COUNT, setItemList, setHasMore)
+        fetchAction(pageNumber, COUNT)
     }, [pageNumber])
 
     return itemList.length > 0 &&

@@ -1,3 +1,4 @@
+
 import { ImageHooks } from '../../hooks/imageHooks.jsx';
 
 const RenderThumbnail = props => {
@@ -6,9 +7,10 @@ const RenderThumbnail = props => {
         image,
     } = props;
     const { isBase64Image } = ImageHooks();
-    const imageStyle = `h-full w-full md:w-full md:h-auto bg-bottom bg-cover top-[50%] translate-y-[-50%] absolute`
-    const containerStyle = `object-fit w-full max-h-[250px] md:h-[300px] relative select-none bg-no-repeat overflow-hidden`
+    const imageStyle = `h-full w-full md:w-full md:h-auto bg-bottom bg-cover top-[50%] translate-y-[-50%] absolute object-cover`
+    const containerStyle = `w-full max-h-[250px] min-h-[400px] relative select-none overflow-hidden`
     const dataURL = `data:${image.contentType};base64,${image.data}`;
+
     try {
         return (
             <div

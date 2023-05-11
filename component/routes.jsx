@@ -33,6 +33,7 @@ import SearchScreen from '../screens/search';
 import EditUserProfileAsAdmin from '../screens/user/editProfileAsAdmin.jsx'; 
 import PrivacyPolicy from '../screens/PrivacyPolicy'; 
 import Terms from '../screens/terms'; 
+import UserPostsScreen from '../screens/post/postListByUser.jsx'; 
 
 const Apps = props => {
     const {
@@ -80,6 +81,7 @@ const Apps = props => {
                         <Route path="/post/new" element={<CreatePost />} />
                         <Route path="/post/:post_name/edit" element={<EditPost />} />
                         <Route path="/error" element={<ErrorPage />} />
+                        <Route path="/profile/:username/:userId/posts" element={<UserPostsScreen />} />
                         <Route path="/profile/:username/user_photos" element={<UserPhotosScreen />} />
                         <Route path="/profile/:username/user_photos/:photoId" element={<PhotoDetailScreen />} />
                         <Route path="/profile/:username/user_photos/bulk_upload" element={<BulkUploadForm />} />

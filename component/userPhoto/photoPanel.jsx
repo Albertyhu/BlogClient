@@ -54,11 +54,12 @@ const PhotoPanel = props => {
     const imageRef = useRef(); 
 
     const FadeIn = () => {
-        imageRef.current.classList.remove("opacity-0")
-        imageRef.current.classList.remove("translate-y-[-20px]")
-        imageRef.current.classList.add("opacity-100")
-        imageRef.current.classList.add("translate-y-[0px]")
-
+        if (imageRef.current) { 
+            imageRef.current.classList.remove("opacity-0")
+            imageRef.current.classList.remove("translate-y-[-20px]")
+            imageRef.current.classList.add("opacity-100")
+            imageRef.current.classList.add("translate-y-[0px]")
+        }
     }
 
     const clickEvent = () => {

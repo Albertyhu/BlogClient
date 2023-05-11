@@ -23,6 +23,7 @@ import sharePng from '../assets/icons/share.png';
 import mailPng from '../assets/icons/mail.png'; 
 import githubPng from '../assets/icons/github.png'
 import portfolioFavicon from '../assets/icons/portfolio_favicon.png'; 
+import paperPng from '../assets/icons/paper.png'; 
 
 import { useContext } from 'react'; 
 
@@ -123,7 +124,7 @@ import { IconContext } from '../util/contextItem.jsx';
     />
 }
 
- const PostIcon = props => {
+ const AddPostIcon = props => {
     const {
         size = "25",
         customStyle = ''
@@ -135,6 +136,17 @@ import { IconContext } from '../util/contextItem.jsx';
     />
 }
 
+const ViewPostsIcon = props => {
+    const {
+        size = "25",
+        customStyle = ''
+    } = props;
+    return <IconComp
+        image={paperPng}
+        size={size}
+        customStyle={customStyle}
+    />
+}
 
  const FileIcon = props => {
     const {
@@ -341,7 +353,8 @@ export {
     MagnifierIcon,
     UserIcon,
     GalleryIcon,
-    PostIcon,
+    ViewPostsIcon,
+    AddPostIcon,
     FileIcon,
     GroupIcon,
     SettingsIcon,

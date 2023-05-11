@@ -20,6 +20,7 @@ import {
     alertMessage,
     cleanString,
 } from '../../hooks/textHooks.jsx';
+import { ShareIcon } from '../../component/iconComponents.jsx'; 
 
 const RenderPost = props => {
     const location = useLocation(); 
@@ -33,6 +34,7 @@ const RenderPost = props => {
         setLoading, 
         setMessage, 
         siteURL, 
+        decoded, 
     } = useContext(AppContext);
 
     const {
@@ -54,14 +56,13 @@ const RenderPost = props => {
     const [lastEdited, setLastEdited] = useState(location.state ? location.state.lastEdited : null);
     const [thumbnail, setThumbnail] = useState(location.state ? location.state.thumbnail : null);
     const [abstract, setAbstract] = useState(location.state ? location.state.abstract : null);
-    const [author, setAuthor] = useState(location.state ? location.state.author : "");
+    const [author, setAuthor] = useState(null);
 
     const [images, setImages] = useState(location.state ? location.state.images : []);
     const [category, setCategory] = useState(location.state ? location.state.category : "");
     const [tag, setTag] = useState(location.state ? location.state.tag : []);
     const [likes, setLikes] = useState(null);
     const [published, setPublished] = useState(location.state ? location.state.published : true); 
-    const [decoded, setDecoded] = useState(null)
 
     const [comments, setComments] = useState([])
 
@@ -101,6 +102,14 @@ const RenderPost = props => {
         reset, 
         updateArray: (array)=>setComments(array), 
     }
+
+
+    //Share feature
+    const [displaySharePanel, setDisplayShare] = useState(false)
+    const toggleDisplayShare = () => {
+        setDisplayShare(prev => !prev);
+    }
+    const shareButtonRef = useRef(); 
 
     const RenderButtonField = () => {
         return (
@@ -170,14 +179,12 @@ const RenderPost = props => {
 
     const shareContext = {
         title,
-        URL: `${siteURL}/post/${cleanString(title).replace(/ /g, '%20')}/${post_id}`
+        URL: `${siteURL}/post/${cleanString(title).replace(/ /g, '%20')}/${post_id}`,
+        displaySharePanel,
+        setDisplayShare, 
+        toggleDisplayShare,
+        shareButtonRef, 
     }
-
-    useEffect(() => {
-        if (token) {
-            setDecoded(DecodeToken(token));
-        }
-    }, [token])
 
     useEffect(() => {
         FetchPostById(post_id, dispatchFunctions)
@@ -188,7 +195,19 @@ const RenderPost = props => {
         window.scrollTo(0, 0)
     }, [])
 
-    if (published) {
+    useEffect(() => {
+        if (decoded) {
+            console.log("decoded: ", decoded)
+        }
+    }, [decoded])
+    if (author) {
+        console.log("author: ", author)
+    }
+    useEffect(() => {
+    }, [])
+
+
+    if (published || decoded && author && decoded.id == author._id) {
         return (
             <PostContext.Provider value={context}>
                 <div
@@ -245,9 +264,11 @@ const RenderPost = props => {
         )
     }
     else {
-        <div>
-            <h1 className ="text-center text-3xl font-bold my-10">The author has not published this post yet</h1>
-        </div>
+        return (
+            <div>
+                <h1 className ="text-center text-3xl font-bold my-50">The author has not published this post yet</h1>
+            </div>
+        )
     }
 }
 

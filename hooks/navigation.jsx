@@ -12,7 +12,6 @@ const NavigationHooks = (navigate) => {
         })
     }
 
-
     function GoSignIn() {
         navigate("/signin", {
             message: message ? [{ param: "general", msg: "You are now logged in." }] : null, 
@@ -219,6 +218,7 @@ const PostNavigationHooks = (navigate) => {
             author,
             published,
             lastEdited, 
+            datePublished, 
             thumbnail,
             images,
             abstract,
@@ -232,6 +232,7 @@ const PostNavigationHooks = (navigate) => {
                 content,
                 author,
                 published,
+                datePublished, 
                 lastEdited, 
                 thumbnail,
                 images,
@@ -286,12 +287,22 @@ const PostNavigationHooks = (navigate) => {
         })
     }
 
+    function DisplayUserPosts(username, userId) {
+        navigate(`/profile/${username}/${userId}/posts`, {
+            state: {
+                username,
+                userId,
+            }
+        })
+    }
+
     return {
         GoToPost,
         BringDataToPost,
         GoCreatePost,
         GoEditPost, 
         GoCreatePostFromCategory,
+        DisplayUserPosts, 
     }
 }
 

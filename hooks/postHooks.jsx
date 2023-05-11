@@ -68,11 +68,11 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
                     setHasMore(result.paginatedResult.length > 0)
                 }
                 else {
-                    console.log("FetchNewestPost error: ", result.error);
+                    console.log("GetPaginatedPostByCategory error: ", result.error);
                     alertMessage(`Error: ${result.error}`, setMessage);
                 }
             }).catch(error => {
-                console.log("FetchNewestPost error: ", error);
+                console.log("GetPaginatedPostByCategory error: ", error);
                 setLoading(false)
                 alertMessage(`Error: ${error}`, setMessage);
             })
@@ -176,8 +176,8 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
         setLoading(false)
     }
 
-    const GetPaginatedPostsByUser = async (page, count, userId, dispatchFunctions) => {
-        const FetchURL = `${apiURL}/posts/${userId}/get_posts_by_user/${categoryId}/${page}/${count}`; 
+    const GetPaginatedPostsByUser = async (page, count, userId, DiplayOnlyPublished, dispatchFunctions) => {
+        const FetchURL = `${apiURL}/post/${userId}/get_paginated_posts_by_user/${page}/${count}/${DiplayOnlyPublished}`; 
         const {
             setPostList,
             setHasMore, 
@@ -322,6 +322,8 @@ const CreateAndUpdatePosts = (navigate, apiURL, setLoading, setMessage, token) =
                         category: result.post.category,
                         tag: result.post.tag,
                         id: result.post._id, 
+                        lastEdited: result.post.lastEdited,
+                        datePublished: result.post.datePublished,
                     }
                     console.log("data: ", data)
                     setLoading(false)

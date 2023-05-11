@@ -100,8 +100,8 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
     }
 
     //This function retrieves data on a user's profile by his username
-    const fetchUserByName = async (username, { setProfileDetails, setProfileId, setPosts, setUserPhotos }) => {
-        const FetchURL = `${apiURL}/users/${username}/fetch_user`;
+    const fetchUserByName = async (username, viewAllPosts, { setProfileDetails, setProfileId, setPosts, setUserPhotos }) => {
+        const FetchURL = `${apiURL}/users/${username}/fetch_user/${viewAllPosts}`;
         setLoading(true)
         await fetch(FetchURL, {
             method: "GET",
@@ -117,6 +117,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
                 setProfileDetails(result.user);
                 setProfileId(result.user._id);
                 if (result.posts && result.posts.length > 0) {
+                    console.log("posts: ", result.posts)
                     result.posts = await FormatImagesInArrayOfPosts(result.posts)
                     setPosts(result.posts);
                 }

@@ -21,10 +21,10 @@ const ProfilePage = props => {
         token,
         setLoading, 
         setMessage, 
-        apiURL
+        apiURL,
+        decoded, 
     } = useContext(AppContext)
     const {
-        fetchUserDetails,
         fetchUserByName, 
     } = FetchHooks(apiURL, token, setLoading, setMessage); 
     const [profileId, setProfileId] = useState(location.state ? location.state.id? location.state.id : null : null)
@@ -32,7 +32,6 @@ const ProfilePage = props => {
     const [error, setError] = useState("")
     const navigate = useNavigate(); 
     const { GoEditProfile } = NavigationHooks(navigate); 
-    const [decoded, setDecoded] = useState(null)
     const [posts, setPosts] = useState([]); 
     const [userPhotos, setUserPhotos] = useState([])
 
@@ -43,6 +42,8 @@ const ProfilePage = props => {
         toggleSelected: null, 
     } 
 
+    var viewAllPosts = decoded ? decoded.username == username ? true : false : false; 
+
     useEffect(() => {
         if (username) {
             var dispatchFunctions = {
@@ -51,15 +52,15 @@ const ProfilePage = props => {
                 setPosts,
                 setUserPhotos, 
             }
-            fetchUserByName(username, dispatchFunctions)
+            fetchUserByName(username, viewAllPosts, dispatchFunctions)
         }
     }, [username])
 
     useEffect(() => {
-        if (token) {
-            setDecoded(DecodeToken(token))
+        if (posts && posts.length > 0) {
+         //   console.log("posts: ", posts)
         }
-    }, [token])
+    }, [posts])
 
     useEffect(() => {
         window.addEventListener("load", () => scrollTo(0, 0))

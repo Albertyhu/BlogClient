@@ -45,6 +45,7 @@ const MainPanel = props => {
         RenderButtonField, 
         PostContainerRef,
         toggleCommentField, 
+        published, 
     } = useContext(PostContext) 
 
     const mouseDownEvent = evt => {
@@ -74,7 +75,7 @@ const MainPanel = props => {
             className = "w-11/12 mx-auto"
         >
             {displaySharePanel &&
-                < SharePanel
+                <SharePanel
                     title={title}
                     content={content}
                     shareButtonRef={shareButtonRef}
@@ -82,7 +83,8 @@ const MainPanel = props => {
                 />}
             <div className = "relative">
                 <h1 className="text-3xl font-bold text-center my-5 pt-10 text-black">{title}</h1>
-                {decoded && author._id == decoded.id && 
+                {!published && <h2 className="text-2xl text-[#FF0000] text-center my-10">[Unpublished draft]</h2> }
+                {decoded && author && author._id == decoded.id && 
                     <div
                         className="absolute left-auto right-0 top-0 translate-y-[10px]"
                     >
@@ -115,16 +117,16 @@ const MainPanel = props => {
                     </div>
                 }
             </div>
-            <p>Posted by <span
+            {author && <p>Posted by <span
                 className="font-bold cursor-pointer hover:underline"
-                onClick={()=>VisitUser(author.username, author._id)}
-            >{author.username}</span> | 
-                {lastEdited ?  
+                onClick={() => VisitUser(author.username, author._id)}
+            >{author.username}</span> |
+                {lastEdited ?
                     <span> Last Edited: {FormatTimeAndDate(lastEdited)}</span>
                     :
                     <span> Date Published: {FormatTimeAndDate(datePublished)}</span>
-                } 
-            </p>
+                }
+            </p>}
             {category && 
                 <span>Category: <span
                             onClick={() => VisitOneCategory(category.name, category._id)}
@@ -177,15 +179,17 @@ const MainPanel = props => {
                     <CommentIcon />
                     <span>Reply</span>
                 </div>
-                <div
-                    className="flex m-auto [&>*]:mx-1 cursor-pointer"
-                    id="ReplyField"
-                    onClick={toggleDisplayShare}
-                    ref={shareButtonRef}
-                >
-                    <ShareIcon />
-                    <span>Share</span>
-                </div>
+                {published &&
+                    <div
+                        className="m-auto [&>*]:mx-1 cursor-pointer hidden md:flex"
+                        id="ReplyField"
+                        onClick={toggleDisplayShare}
+                        ref={shareButtonRef}
+                    >
+                        <ShareIcon />
+                        <span>Share</span>
+                    </div>
+                }
             </div>
         </div>
         )

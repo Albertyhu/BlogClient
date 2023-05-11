@@ -19,7 +19,7 @@ import {
     MagnifierIcon,
     UserIcon,
     GalleryIcon,
-    PostIcon,
+    AddPostIcon,
     FileIcon,
     GroupIcon,
     SettingsIcon,
@@ -27,7 +27,8 @@ import {
     LogInIcon,
     ContractIcon,
     SignupIcon,
-    CloseIcon
+    CloseIcon,
+    ViewPostsIcon
 } from '../iconComponents.jsx';
 import { RegistrationHooks } from '../../hooks/authFormHooks.jsx'; 
 
@@ -65,6 +66,7 @@ const MenuLinks = props => {
     const { LogOut } = RegistrationHooks(null, setDecoded, setLoading, navigate, setNewProfileImage)
     const {
         GoCreatePost, 
+        DisplayUserPosts, 
     } = PostNavigationHooks(navigate)
 
     useEffect(() => {
@@ -113,6 +115,12 @@ const MenuLinks = props => {
                         icon={() => <UserIcon />}
                     />
                     <Button
+                        title="Your posts"
+                        clickEvent={() => DisplayUserPosts(user.username, user.id)}
+                        elemRef={elemRef}
+                        icon={() => <ViewPostsIcon />}
+                    />
+                    <Button
                         title="Your photos"
                         clickEvent={() => GoUserPhotos(user.username, user.id)}
                         elemRef={elemRef}
@@ -122,7 +130,7 @@ const MenuLinks = props => {
                         title="Create new post"
                         clickEvent={() => GoCreatePost()}
                         elemRef={elemRef}
-                        icon={() => <PostIcon />}
+                        icon={() => <AddPostIcon />}
                     />
                     <Button
                         title="Upload photos"

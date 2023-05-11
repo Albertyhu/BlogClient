@@ -19,14 +19,14 @@ const RenderAllUsers = props => {
     } = useContext(AppContext)
 
     const [users, setUsers] = useState([])
-
+    const [hasMore, setHasMore] = useState(false); 
     const { GetUsersByPage } = FetchHooks(apiURL, token, setLoading, setMessage)
 
     const paginatedContext = {
         itemList: users,
-        setItemList:(val)=>setUsers(val),
-        fetchAction: GetUsersByPage,
+        fetchAction: (pageNumber, COUNT) => GetUsersByPage(pageNumber, COUNT, setUsers, setHasMore),
         RenderPanel: (id, item) => <UserPanel key={id} {...item} />,
+        hasMore,
     } 
 
     useEffect(() => {
