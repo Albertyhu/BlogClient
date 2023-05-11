@@ -24,7 +24,7 @@ const RenderPanel = props => {
             id="CreatorPanel"
             className="w-full hidden md:block bg-[#ffffff] rounded-[15px] py-10 mx-auto box_shadow mb-5 text-center"
         >
-            <div className="mx-auto mb-5">Created by &nbsp;
+            <div className="mx-auto mb-5">Built by &nbsp;
                 <span
                     className="underline cursor-pointer font-bold text-lg"
                     onClick={() => openLink(portfolio)}

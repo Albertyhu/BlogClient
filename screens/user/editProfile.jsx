@@ -29,7 +29,8 @@ const EditProfilePic = props => {
         token,
         setNewProfileImage,
         setNewCoverPhoto, 
-        decoded
+        decoded,
+        setDecoded, 
     } = useContext(AppContext);
     const UserToken = localStorage.getItem("token");
     const [User, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -60,7 +61,8 @@ const EditProfilePic = props => {
         setNewProfileImage,
         setCoverPhotoError,
         setCoverPhoto, 
-        setNewCoverPhoto
+        setNewCoverPhoto,
+        setDecoded, 
     }
 
     const imageInputRef = useRef();

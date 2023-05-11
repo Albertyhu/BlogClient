@@ -1,6 +1,8 @@
 import { NavigationHooks } from './navigation.jsx'; 
 import { ErrorMessageHooks  } from './errorHooks.jsx';
 import { Base64Hooks } from './imageHooks.jsx'; 
+import { alertMessage } from './textHooks.jsx';
+import { DecodeToken } from './decodeToken.jsx'; 
 
 const { convertObjToBase64 } = Base64Hooks()
 
@@ -32,42 +34,47 @@ const UserProfileHooks = (apiURL, token, setLoading, setMessage) => {
             })
     }
 
-    const DeleteUserWithPassword = async (userID, currentPassword, confirmPasssword, dispatchFunctions) => {
+    const DeleteUserWithPassword = async (userID, currentPassword, confirmPassword, dispatchFunctions) => {
         const DeleteURL = `${apiURL}/users/${userID}/delete_with_password`;
         const { ClearUserData, navigate } = dispatchFunctions;
-        console.log("DeleteURL: ", DeleteURL)
-
         const { GoHome } = NavigationHooks(navigate);
-        const formData = new FormData();
-        formData.append("currentPassword", currentPassword)
-        formData.append("confirmPassword", confirmPassword)
-        const options = {
-            method: "DELETE",
-            body: formData, 
-            headers: {
+        if (currentPassword.trim() === confirmPassword.trim()) {
+            const formData = new FormData;
+            formData.append("currentPassword", currentPassword)
+            formData.append("confirmPassword", confirmPassword)
+            setLoading(true)
+            await fetch(DeleteURL, {
+                method: "DELETE",
+                body: formData,
+                headers: {
                     "Authorization": `Bearer ${token}`
                 }
-        }
-        setLoading(true)
-        await fetch(DeleteURL, options)
-            .then(async res => {
-                const data = await res.json();
-                if (!res.ok) {
-                    const error = (data.error || response.status)
-                    console.log("Internal service error: ", error)
+            })
+                .then(async res => {
+                    const data = await res.json();
+                    if (!res.ok) {
+                        const error = (data.error || res.status)
+                        console.log("Internal service error: ", error)
+                        setLoading(false)
+                        setMessage(error)
+                    }
+                    else {
+                        localStorage.clear();
+                        ClearUserData();
+                        setLoading(false)
+                        alertMessage(`Account has been deleted`, setMessage)
+                        GoHome("Account has been deleted");
+                    }
+                })
+                .catch(err => {
+                    console.error(err)
+                    setMessage(err)
                     setLoading(false)
-                    alertMessage(`Error: ${error}`, setMessage)
-                }
-                localStorage.clear();
-                ClearUserData();
-                setLoading(false)
-                GoHome("Account has been deleted");
-            })
-            .catch(err => {
-                console.error(err)
-                alertMessage(`Error: ${error}`, setMessage)
-                setLoading(false)
-            })
+                })
+        }
+        else {
+            alertMessage(`Error: Your passwords don't match.`, setMessage)
+        }
     }
     return {
         DeleteUser,
@@ -99,6 +106,7 @@ const EditUserHooks = (navigate) => {
             setNewUser,
             setNewProfileImage,
             setNewCoverPhoto, 
+            setDecoded, 
         } = dispatchFunctions;
         const FetchURL = `${apiURL}/users/${id}/update_user_profile`; 
         const formData = new FormData;
@@ -138,7 +146,6 @@ const EditUserHooks = (navigate) => {
                         if (result.coverPhoto && Object.keys(result.coverPhoto).length > 0) {
                             result.coverPhoto = convertObjToBase64(result.coverPhoto);
                             localStorage.setItem('coverPhoto', JSON.stringify(result.coverPhoto))
-                            console.log("cover photo: ", result.coverPhoto)
                             setNewCoverPhoto(result.coverPhoto)
                         }
                         else {
@@ -148,6 +155,7 @@ const EditUserHooks = (navigate) => {
                         //update information in the token 
                         localStorage.setItem("token", result.token)
                         setNewUser(result.user)
+                        setDecoded(DecodeToken(result.token))
                         VisitUser(username, id);
                     }
                     else {

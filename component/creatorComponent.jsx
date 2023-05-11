@@ -22,7 +22,7 @@ const RenderComponent = props => {
             id="CreatorContainer"
             className={`grid mt-10 md:my-10 text-[${textColor}] w-fit mx-auto lg:absolute lg:right-[5px] lg:bottom-[5px]`}
         >
-            <div className ="mx-auto">Created by &nbsp;
+            <div className ="mx-auto">Built by &nbsp;
                 <span
                     className="underline cursor-pointer font-bold text-lg"
                     onClick={() => openLink(portfolio)}

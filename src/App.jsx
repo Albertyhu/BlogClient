@@ -29,7 +29,8 @@ function App() {
     const ContainerRef = useRef(); 
     const context = {
         siteURL: import.meta.env.VITE_SITE_URL.toString(),
-        apiURL: import.meta.env.VITE_BLABBER_SERVER_API_URL.toString(),
+        //apiURL: import.meta.env.VITE_BLABBER_SERVER_API_URL.toString(),
+        apiURL: import.meta.env.VITE_API_URL.toString(),
         siteTitle: "Blabber",
         token,
         decoded, 
@@ -49,6 +50,7 @@ function App() {
             setToken(null)
             setUser(null)
             setProfilePic(null); 
+            setDecoded(null)
         },
         categoryList, 
         setCategoryList, 

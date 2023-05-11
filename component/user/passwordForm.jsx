@@ -1,16 +1,9 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
 import { ErrorMessageHooks } from "../../hooks/errorHooks.jsx";
-import { EditUserHooks } from '../../hooks/userProfileHooks.jsx';
-import { NavigationHooks } from "../../hooks/navigation.jsx";
 import {
     BasicTextInput,
 } from '../../component/formElements/textInputs.jsx';
 import {
-    FormButtons,
-} from '../../component/formElements.jsx';
-import {
-    AppContext,
     PasswordFormContext, 
 } from '../../util/contextItem.jsx';
 
@@ -54,10 +47,6 @@ const PasswordForm = props => {
             id="RegistrationForm"
             ref={FormRef}
             className={`bg-[#f2e798] w-11/12 sm:w-[640px] mx-auto py-10 rounded box_shadow`}
-            onSubmit={(evt) => {
-                evt.preventDefault();
-                submitEvent(); 
-            }}
         >
             <div className="FormStyle w-11/12 mx-auto grid">
                 <label
@@ -86,10 +75,10 @@ const PasswordForm = props => {
             </div>
             <div className ="flex">
                 <button
-                    type="submit"
+                    type="button"
                     className="btn-delete"
                     onClick={submitEvent}
-                >Delete</button>
+                >Delete Account</button>
                 <button
                     type="button"
                     className="btn-cancel"

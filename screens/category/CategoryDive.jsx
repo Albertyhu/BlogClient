@@ -24,6 +24,7 @@ const ProfilePanel = lazy(()=>import('../../component/user/currentUserPanel.jsx'
 const GuestPanel = lazy(() => import('../../component/generalPanels/guestPanel.jsx')); 
 const CategoryAdministratorPanel = lazy(() => import("../../component/categoryComponent/administratorPanel.jsx")); 
 const RenderPolicyPanel = lazy(() => import("../../component/generalPanels/policyPanel.jsx")); 
+const CreatorPanel = lazy(() => import("../../component/generalPanels/creatorPanel.jsx"));
 
 /** This component displays individual categories and its data*/
 const CategoryPage = props => {
@@ -224,6 +225,9 @@ const CategoryPage = props => {
                     }
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>
                         <RenderPolicyPanel />
+                    </Suspense>
+                    <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                        <CreatorPanel />
                     </Suspense>
                 </div>
             </div>

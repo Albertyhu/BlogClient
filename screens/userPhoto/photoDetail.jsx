@@ -183,19 +183,19 @@ const RenderPhotoDetail = props => {
                             />}
                         <div
                             id="TextSection"
-                            className = "w-11/12 mx-auto"
+                            className = "w-11/12 mx-auto md:overflow-y-scroll md:max-h-[100vh]"
                         >
-                            {owner && !editmode && decoded.id == owner._id ? 
+                            {owner && editmode && decoded.id == owner._id ? 
+                                <EditPhotoTextPanel
+                                    contextItem={UserPhotoContext}
+                                    closeEdit={()=>setEditMode(false)}
+                                />
+                                :
                                 <RenderPhotoText
                                     lastEdited={lastEdited}
                                     details={details}
                                     title={title}
                                     caption={caption}
-                                />
-                                :
-                                <EditPhotoTextPanel
-                                    contextItem={UserPhotoContext}
-                                    closeEdit={()=>setEditMode(false)}
                                 />
                             }
                             <div
@@ -228,7 +228,7 @@ const RenderPhotoDetail = props => {
                                 <hr className="w-11/12 mx-auto border-2" />
                                 <h2 className="font-bold text-center text-2xl mt-10">Comments</h2>
                                 <div
-                                    className = "md:overflow-y-scroll md:overflow-x-hidden w-full md:max-h-[500px]"
+                                    className = "md:overflow-y-scroll w-full"
                                 >
                                 {comments.map((comment, ind) => {
                                     return (

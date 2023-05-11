@@ -73,7 +73,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             var data = await response.json();
             if (response.ok) {
                 if (data.profile_pic && Object.keys(data.profile_pic).length > 0) {
-                    console.log("data.profile_pic: ", data.profile_pic)
                     data.profile_pic.data = toBase64(data.profile_pic.data.data)
                 }
                 else {
@@ -81,7 +80,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
 
                 }
                 if (data.coverPhoto && Object.keys(data.coverPhoto).length > 0) {
-                    console.log("data.coverPhoto: ", data.coverPhoto)
                     data.coverPhoto = convertObjToBase64(data.coverPhoto);
                 }
                 else {

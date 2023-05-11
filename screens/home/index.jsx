@@ -19,6 +19,7 @@ import RenderPopularCategoryListItem from '../../component/categoryComponent/Pop
 import uuid from 'react-uuid'; 
 const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
 const RenderPolicyPanel = lazy(() => import("../../component/generalPanels/policyPanel.jsx")); 
+const CreatorPanel = lazy(() => import("../../component/generalPanels/creatorPanel.jsx"));
 
 const Home = props => {
     const location = useLocation(); 
@@ -133,6 +134,9 @@ const Home = props => {
                     </Suspense>
                     <Suspense fallback={<SubstitutePanel title="Loading..." />}>
                         <RenderPolicyPanel/>
+                    </Suspense>
+                    <Suspense fallback={<SubstitutePanel title="Loading..." />}>
+                        <CreatorPanel />
                     </Suspense>
                 </div>
             </div>

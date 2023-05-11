@@ -17,26 +17,29 @@ export const ArrowButton = props => {
         owner,
     } = useContext(UserPhotoContext)
 
+    const ArrowFieldStyle = `w-fit h-fit cursor-pointer rounded-full p-1 bg-[rgba(255,255,255,0.4)] md:bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.3)] absolute 
+            top-[50%] translate-y-[-%50%] ${left ? "left-[5px] right-auto" : "left-auto right-[5px]"}`
+    const ArrowStyle = `w-[25px] h-[25px]  md:w-[50px] md:h-[50px] opacity-100 md:opacity-30`
     const navigate = useNavigate(); 
     const { VisitOnePhoto } = NavigationHooks(navigate)
     return (
         <div
             id="Arrow Button"
             onClick={() => VisitOnePhoto(owner.username, owner._id, photoId, null)}
-            className={`w-fit h-fit cursor-pointer rounded-full p-1 bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.3)] absolute ${left ? "left-[5px] right-auto" : "left-auto right-[5px]"}`}
+            className={`${ArrowFieldStyle}`}
         >
             {left ? 
                 <img
                     src={LeftArrow}
                     alt="left arrow"
-                    className="w-[50px] h-[50px] opacity-30"
+                    className={`${ArrowStyle}`}
 
                 />
                 :
                 <img
                     src={RightArrow}
                     alt="right arrow"
-                    className="w-[50px] h-[50px] opacity-30"
+                    className={`${ArrowStyle}`}
 
                 />
                 }

@@ -20,7 +20,6 @@ const { toBase64,
 } = Base64Hooks()
 
 const FetchHooks = (apiURL, setLoading, setMessage) => {
-
     const GetAllPosts = async (dispatch) => {
         const FetchURL = `${apiURL}/post`; 
         await axios.get(FetchURL)
@@ -177,12 +176,41 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
         setLoading(false)
     }
 
+    const GetPaginatedPostsByUser = async (page, count, userId, dispatchFunctions) => {
+        const FetchURL = `${apiURL}/posts/${userId}/get_posts_by_user/${categoryId}/${page}/${count}`; 
+        const {
+            setPostList,
+            setHasMore, 
+        } = dispatchFunctions 
+        await fetch(FetchURL, {
+            method: "GET"
+        })
+            .then(async response => {
+                const result = await response.json();
+                if (response.ok) {
+                    result.paginatedResult = FormatImagesInPostAndAuthors(result.paginatedResult);
+                    setPostList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
+                    setHasMore(result.paginatedResult.length > 0)
+                }
+                else {
+                    console.log("GetPaginatedPostsByUser  error: ", result.error);
+                    alertMessage(`Error: ${result.error}`, setMessage);
+                }
+            }).catch(error => {
+                console.log("GetPaginatedPostsByUser t error: ", error);
+                setLoading(false)
+                alertMessage(`Error: ${error}`, setMessage);
+            })
+        setLoading(false)
+    }
+
     return {
         GetAllPosts, 
         FetchPostsByCategory,
         GetPaginatedPostByCategory,
         FetchPostById, 
         FetchNewestPost, 
+        GetPaginatedPostsByUser,
     } 
 }
 
@@ -270,7 +298,6 @@ const CreateAndUpdatePosts = (navigate, apiURL, setLoading, setMessage, token) =
             formData.append("priorTagList", JSON.stringify(priorTagList))
         }
 
-        console.log(Elements)
         setLoading(true)
         await fetch(FetchURL, {
             method: METHOD, 
@@ -305,7 +332,7 @@ const CreateAndUpdatePosts = (navigate, apiURL, setLoading, setMessage, token) =
                     //or go to the editing screen
                     window.scrollTo(0, 0); 
                     setLoading(false)
-                    setMessage("Your draft has been saved."); 
+                    alertMessage("Your draft has been saved.", setMessage); 
                 }
             }
             else {

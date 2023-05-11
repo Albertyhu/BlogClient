@@ -94,7 +94,6 @@ const Header = props => {
                             <div className ="[&>*]:inline-block">Search
                             </div>
                         </div>
-
                         {decoded ?
                             <>
                                 <div
@@ -105,13 +104,13 @@ const Header = props => {
                                     {ProfilePicture &&  
                                         <RenderProfilePic
                                             profile_pic={ProfilePicture}
-                                            altText={`${user.username}'s profile picture`}
+                                            altText={`${decoded.username}'s profile picture`}
                                             //The reason I can put "border-[2px] border-[#ffffff]" is because the prop dimensions is written to the image's class name
                                             dimensions="w-[30px] h-[30px] border-[2px] border-[#ffffff]"
                                             customStyle="inline-block my-auto mr-1 absolute translate-y-[25%]"
                                         />
                                     }
-                                    {user.username}
+                                    {decoded.username}
                                     <DownIcon downwardsDirection={!AccountMenuOpened} />
                                 </div>
                             </>

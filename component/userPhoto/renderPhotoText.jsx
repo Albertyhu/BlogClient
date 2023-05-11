@@ -34,7 +34,7 @@ const RenderPhotoText = props => {
                 >
                     <p
                         onClick={() => VisitUser(owner.username, owner._id) }
-                    >Owner: &nbsp; 
+                    >Posted by: &nbsp; 
                         <span
                             className="underline cursor-pointer font-bold"
                         >{owner.username}</span></p>

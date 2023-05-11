@@ -17,7 +17,7 @@ const RenderImage = props => {
         return photoIdArray.length > 0 && currentPhotoId ?
             <div
                 id="PhotoDetailWrapper"
-                className= "relative object-fit h-auto w-full md:w-full md:h-auto "
+                className= "relative object-fit h-fit w-full md:w-full md:fit "
             >
                 <ArrowField
                     currentPhotoId={currentPhotoId}

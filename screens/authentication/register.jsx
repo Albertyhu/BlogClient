@@ -34,8 +34,8 @@ const RegisterForm = props => {
 
     const registerURL = `${apiURL}/auth/register`
 
-    const [name, setName] = useState('RonSwanson');
-    const [email, setEmail] = useState('RS@aoil.com');
+    const [name, setName] = useState('CheeseBurgerCat');
+    const [email, setEmail] = useState('CBC@aoil.com');
     const [password, setPassword] = useState('password');
     const [confirmPass, setConfirmPass] = useState('password');
 

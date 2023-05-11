@@ -124,10 +124,6 @@ export const EditImageInput = props => {
         }
     }, [pictureError])
 
-    useEffect(() => {
-        console.log("image: ", image)
-    }, [image])
-
     return (
         <>
             {image &&

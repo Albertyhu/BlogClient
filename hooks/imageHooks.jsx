@@ -92,9 +92,17 @@ const Base64Hooks = () => {
 
     //The function "convertObjToBase64" is similar to the function "convertArrayToBase64", but it formats an image obj instead
     function convertObjToBase64(obj) {
-        return {
-            data: toBase64(obj.data.data),
-            contentType: obj.contentType
+        try {
+            if (obj.data) {
+                return {
+                    data: toBase64(obj.data.data),
+                    contentType: obj.contentType
+                }
+            }
+            return obj; 
+        }
+        catch (e) {
+            console.log("convertObjToBase64 error: ", e)
         }
     }
 

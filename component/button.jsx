@@ -92,7 +92,7 @@ const DeleteAccountButton = () => {
                     className = "absolute z-25 top-[5%] left-[0px] sm:left-[50%] sm:translate-x-[-50%]"
                 >
                     <PasswordForm
-                        submitEvent={()=>DeleteUserWithPassword(decoded.id, currentPassword, confirmPasssword, dispatchFunctions)}
+                        submitEvent={()=>DeleteUserWithPassword(decoded.id, currentPassword, confirmPassword, dispatchFunctions)}
                         />
                 </div>
             }

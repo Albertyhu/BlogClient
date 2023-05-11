@@ -8,6 +8,7 @@ import RenderProfilePicture from '../user/profilePicture.jsx';
 import uuid from 'react-uuid';
 import RenderThumbnail  from '../imageRendering/thumbnailImage.jsx'
 import { alertMessage } from '../../hooks/textHooks.jsx'; 
+import { CommentIcon } from '../iconComponents.jsx'; 
 
 //This factory function provides functional components to render the post, comments, categories and users in the search results.
 //They are adjusted to what the type of information available. 
@@ -170,8 +171,8 @@ const SearchResultItems = (navigate, setMessage) => {
                     alertMessage("The article in which the comment was posted was removed by its author.", setMessage)
                     break; 
             }
-
         } 
+        console.log("datePublished: ", datePublished)
 
         return (
             <div
@@ -182,25 +183,34 @@ const SearchResultItems = (navigate, setMessage) => {
                 <div
                     id="Wrapper"
                     className="w-11/12 mx-auto grid">
-                    {userPhoto && 
-                        <div>
-                            <h3>Posted on <span className='font-bold'>{userPhoto.title}</span></h3>
+                    <div className = 'flex text-xs md:text:base'>
+                        <div className = "mr-5 justify-center">
+                            <CommentIcon
+                            />
                         </div>
-                    }
-                    {post &&
-                        <h3>Posted on <span className='font-bold'>{post.title}</span></h3>
-                    }
-                    {lastEdited && datePublished && lastEdited != datePublished ?
-                        <span>
-                            <span className="font-bold">Last edited: </span><span>{RenderTimePosted(lastEdited)}</span>
-                        </span>
-                        :
-                        datePublished &&
-                        <span>
-                            <span className="font-bold">Date published: </span><span>{RenderTimePosted(datePublished)}</span>
-                        </span>
-                    }
-                    {author && <p><span>Commenter: </span><span className="font-bold">{author.username}</span></p>}
+                        <div
+                            className="[&>*]:mb-1"
+                        >
+                            {userPhoto && 
+                                <div>
+                                    <h3>Posted on <span className='font-bold'>{userPhoto.title}</span></h3>
+                                </div>
+                            }
+                            {post &&
+                                <h3>Posted on <span className='font-bold'>"{post.title}"</span></h3>
+                            }
+                            {author && <p><span>Written by: </span><span className="font-bold">{author.username}</span></p>}
+                            {lastEdited && datePublished && lastEdited != datePublished ?
+                                <span>
+                                    <span className="font-bold">Last edited: </span><span>{RenderTimePosted(lastEdited)}</span>
+                                </span>
+                                :
+                                <span>
+                                    <span className="font-bold">Date published: </span><span>{RenderTimePosted(datePublished)}</span>
+                                </span>
+                            }
+                        </div>
+                    </div>
                     {content &&
                         <div className = "bg-[#dedede] mt-10">
                             <p
