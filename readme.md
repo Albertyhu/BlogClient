@@ -34,9 +34,11 @@ I wanted to make sure that anyone who is not technically savvy can intuitively n
 6. Intuitive icons 
 
 **Desktop view**
+
 ![Home screen](https://i.imgur.com/kaOwhUi.jpg)
 
 **Mobile view**
+
 ![Mobile screen](https://i.imgur.com/kv2iXbN.jpg)
 
 **Speed optimization techniques used**
@@ -49,6 +51,7 @@ Secondly, I optimized images using **compression** to reduce the file size of im
 Finally, I implemented **lazy loaded components**, which means that components that are not immediately needed are not loaded until the user requests them, helping to reduce the initial load time of the page. By using these three techniques, I was able to significantly improve the speed and performance of my React JS app, resulting in a better user experience.
 
 **Technologies used**
+
 ![ReactJS](https://archive.smashing.media/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/064fc70f-5df3-4333-b9d4-f6abe2f946de/react-wp-app8.png)
 
 ![Tailwind Css](https://w7.pngwing.com/pngs/106/519/png-transparent-tailwind-css-hd-logo.png)
