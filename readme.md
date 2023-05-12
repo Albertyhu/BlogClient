@@ -1,4 +1,4 @@
-**Blabber social media site**
+<h1 align="center">**Blabber social media site**</h1>
 ![Blabber icon](https://i.imgur.com/7P3lFMH.png)
 
 Blabber is a social media that allows users to speak their mind. It communicates with an API that I built with Node JS.
