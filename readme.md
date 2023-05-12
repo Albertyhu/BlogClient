@@ -31,7 +31,7 @@ I wanted to make sure that anyone who is not technically savvy can intuitively n
 2. Color direction
 3. Filtered search feature 
 4. Previewed images before loading 
-5. Reddit style comment tree 
+5. LinkedIn-style comment tree 
 6. Intuitive icons 
 
 **Desktop view**
