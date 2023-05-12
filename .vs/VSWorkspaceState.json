@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\icons",
+    "\\assets\\images",
     "\\component",
-    "\\component\\formElements",
-    "\\component\\imageRendering",
-    "\\component\\userPhoto",
-    "\\screens",
-    "\\screens\\authentication",
-    "\\screens\\post",
-    "\\screens\\user",
-    "\\screens\\userPhoto"
+    "\\component\\generalPanels",
+    "\\component\\shareComponent",
+    "\\component\\user",
+    "\\src",
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\vite.config.js",
+  "SelectedNode": "\\src\\App.jsx",
   "PreviewInSolutionExplorer": false
 }

@@ -53,12 +53,10 @@ Finally, I implemented **lazy loaded components**, which means that components t
 
 **Technologies used**
 
-![ReactJS](https://archive.smashing.media/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/064fc70f-5df3-4333-b9d4-f6abe2f946de/react-wp-app8.png)
+1. ReactJS
+2. Tailwind CSS 
+3. NodeJS
+4. MongoDB
 
-![Tailwind Css](https://w7.pngwing.com/pngs/106/519/png-transparent-tailwind-css-hd-logo.png)
-
-![NodeJS](https://w1.pngwing.com/pngs/885/534/png-transparent-green-grass-nodejs-javascript-react-mean-angularjs-logo-symbol.png)
-
-![Mongo DB](https://w7.pngwing.com/pngs/956/695/png-transparent-mongodb-original-wordmark-logo-icon-thumbnail.png)
 
 [Github link to the Node JS API](https://github.com/Albertyhu/BlogAPI)
