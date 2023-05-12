@@ -1,5 +1,5 @@
 **Blabber social media site**
-[Blabber icon](assets/images/blabber_logo.png)
+![Blabber icon](assets/images/blabber_logo.png)
 
 Blabber is a social media that allows users to speak their mind. It communicates with an API that I built with Node JS.
 
@@ -60,4 +60,4 @@ Finally, I implemented **lazy loaded components**, which means that components t
 
 ![Mongo DB](https://w7.pngwing.com/pngs/956/695/png-transparent-mongodb-original-wordmark-logo-icon-thumbnail.png)
 
-[Github link to the Node JS APi](https://github.com/Albertyhu/BlogAPI)
+[Github link to the Node JS API](https://github.com/Albertyhu/BlogAPI)
