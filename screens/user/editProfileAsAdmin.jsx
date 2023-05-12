@@ -92,7 +92,6 @@ const EditProfilePic = props => {
     }, [generalError])
 
     useEffect(() => {
-        console.log("user: ", User)
         if (User) {
             setImage(User.profile_pic);
             setUsername(User.username);

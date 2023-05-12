@@ -6,13 +6,16 @@ import {
 } from '../../util/contextItem.jsx'; 
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'
 const RenderProfilePic = lazy(()=>import('../../component/user/profilePicture.jsx')); 
-import { NavigationHooks } from '../../hooks/navigation.jsx';
-import { DecodeToken } from '../../hooks/decodeToken.jsx';
+import {
+    NavigationHooks,
+    PostNavigationHooks, 
+} from '../../hooks/navigation.jsx';
 const RenderCoverPhoto = lazy(() => import('../../component/imageRendering/coverPhoto.jsx'));  
 import { SubstituteCoverPhoto, SubstitutePanel } from '../../component/fallback.jsx';
 import RenderUserPhotos from '../../component/userPhoto'; 
 const PostPanel = lazy(()=>import("../../component/post/post_panel.jsx"))
 //This component displays information of a single user. 
+
 const ProfilePage = props => {
     const location = useLocation(); 
     const { username } = useParams(); 
@@ -32,6 +35,9 @@ const ProfilePage = props => {
     const [error, setError] = useState("")
     const navigate = useNavigate(); 
     const { GoEditProfile } = NavigationHooks(navigate); 
+    const {
+        DisplayUserPosts, 
+    } = PostNavigationHooks(navigate); 
     const [posts, setPosts] = useState([]); 
     const [userPhotos, setUserPhotos] = useState([])
 
@@ -55,12 +61,6 @@ const ProfilePage = props => {
             fetchUserByName(username, viewAllPosts, dispatchFunctions)
         }
     }, [username])
-
-    useEffect(() => {
-        if (posts && posts.length > 0) {
-         //   console.log("posts: ", posts)
-        }
-    }, [posts])
 
     useEffect(() => {
         window.addEventListener("load", () => scrollTo(0, 0))
@@ -122,12 +122,19 @@ const ProfilePage = props => {
                 <div className = "w-11/12 md:w-10/12 mx-auto">
                     <h2 className="font-bold text-2xl my-5">Posts</h2>
                     {posts.map(entry => 
-                        <Suspense fallback={<SubstitutePanel key={entry._id} />}>
+                        <Suspense key={entry._id} fallback={<SubstitutePanel  />}>
                             <PostPanel
                                 key={entry._id}
                                 {...entry}
                             />
-                    </Suspense> )}
+                        </Suspense>)
+                    }
+                    {posts.length > 4 &&
+                        <button
+                            className="btn-primary mb-10"
+                            onClick={() => DisplayUserPosts(profileDetails.username, profileDetails._id)}
+                        >View all post by user</button>
+                    }
                 </div>
             }
         </div>

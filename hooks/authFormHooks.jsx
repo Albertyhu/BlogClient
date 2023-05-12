@@ -58,7 +58,6 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
                     const data = await response.json();
                     localStorage.setItem("user", JSON.stringify(data.user))
                     localStorage.setItem('token', data.token)
-                    //setNewToken(data.token)
                     if (data.profile_pic && Object.keys(data.profile_pic).length > 0) {
                         data.profile_pic = convertObjToBase64(data.profile_pic);
                         localStorage.setItem("ProfilePicture", JSON.stringify(data.profile_pic))
@@ -70,7 +69,6 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
                     toggleDisplayAccountLink(true),
                     setLoading(false)
                     alertMessage("Your account has been created. \n You will be redirected soon.", setMessage)
-                    console.log("data: ", data)
                     GoHome(`Welcome, ${data.user.username}!`);
                 }
                 else {
@@ -86,67 +84,6 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
             })
 
     }
-
-    //async function SubmitRegistration(data, dispatchFunctions) {
-    //    const FetchURL = `${apiURL}/auth/register`
-    //    const {
-    //        username, 
-    //        email,
-    //        password, 
-    //        confirm_password,
-    //        profile_pic,
-    //    } = data; 
-    //    const formData = new FormData; 
-    //    formData.append("username", username); 
-    //    formData.append("email", email);
-    //    formData.append("password", password); 
-    //    formData.append("confirm_password", confirm_password);
-    //    formData.append("profile_pic", profile_pic);
-    //    for (var key of formData.entries()) {
-    //        console.log(key[0] + ', ' + key[1])
-    //    }
-    //    const {
-    //        GoHome,
-    //        toggleDisplayAccountLink,
-    //        setNewUser,
-    //        setNewToken, 
-    //    } = dispatchFunctions; 
-
-    //    setLoading(true)
-    //    await fetch(FetchURL, {
-    //        method: "POST",
-    //        body: formData
-    //    })
-    //        .then(async response => {
-    //            if (response.ok) {
-    //                console.log("Registration is successful.")
-    //                const data = await response.json(); 
-    //                localStorage.setItem("user", JSON.stringify(data.user))
-    //                localStorage.setItem('token', data.token)
-    //                if (data.profile_pic) {
-    //                    data.profile_pic = convertObjToBase64(data.profile_pic);
-    //                    localStorage.setItem("ProfilePicture", JSON.stringify(data.profile_pic))
-    //                    setNewProfileImage(data.profile_pic)
-    //                }
-    //                //setNewUser and toggleDisplayAccoutLink updates the header bar to contain data about the logged in user
-    //                setNewUser(data.user)
-    //                setDecoded(DecodeToken(data.token))
-    //                toggleDisplayAccountLink(true), 
-    //                setLoading(false)
-    //                GoHome(`Welcome, ${data.user.username}!`);
-    //            }
-    //            else {
-    //                const result = await response.json()
-    //                console.log("Registration failed with status code: ", result.error)
-    //                setLoading(false)
-    //                RenderErrorArray(result.error, dispatchFunctions)
-    //            }
-    //        })
-    //        .catch(error => {
-    //            setLoading(false)
-    //            console.log("SubmitRegistration error: ", error)
-    //        })
-    //} 
 
     async function HandleLogin(evt, elements, dispatchFunctions, resetErrorFields) {
         const FetchURL = `${apiURL}/auth/login`

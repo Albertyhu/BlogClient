@@ -28,14 +28,11 @@ const TagHooks = navigate => {
 
     const SaveTags = async (apiURL, token, tags, dispatchFunctions) => {
         const FetchURL = `${apiURL}/tags/create2`; 
-        console.log("tags: ", tags)
 
         const formData = new FormData; 
         var StringifiedTags = JSON.stringify(tags);
         formData.append("tags", StringifiedTags);
-        for (var key of formData.entries()) {
-            console.log(key[0] + ', ' + key[1])
-        }
+
         var options = {
             method: "POST", 
             body: formData, 

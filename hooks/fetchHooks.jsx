@@ -117,7 +117,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
                 setProfileDetails(result.user);
                 setProfileId(result.user._id);
                 if (result.posts && result.posts.length > 0) {
-                    console.log("posts: ", result.posts)
                     result.posts = await FormatImagesInArrayOfPosts(result.posts)
                     setPosts(result.posts);
                 }
@@ -222,8 +221,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             .then(async response => {
                 const result = await response.json();
                 if (response.ok) {
-                    console.log("users: ", result.Users)
-                    console.log("categories: ", result.categories)
                     const list = result.categories;
                     list.forEach(item => {
                         item.image.data = toBase64(item.image.data.data)
@@ -283,7 +280,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage) => {
             setTopCategories, 
             setTopPosts, 
         } = dispatchFunctions;
-        setLoading(true)
         const FetchURL = `${apiURL}/get_popular_categories_and_posts/${count}`; 
         await axios.get(FetchURL)
             .then(async response => {

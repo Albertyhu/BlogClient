@@ -20,7 +20,7 @@ export const FormButtons = props => {
 
     return (
         <div id="ButtonWrapper"
-            className = "flex"
+            className = "grid grid-cols-2"
         >
             <button
                 type="submit"

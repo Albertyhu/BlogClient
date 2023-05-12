@@ -1,7 +1,7 @@
-import {  useRef, useEffect } from 'react'; 
+import { lazy, useRef, useEffect } from 'react'; 
 import { Base64Hooks } from '../../hooks/imageHooks.jsx';
 
-const { isBase64Image } = Base64Hooks()
+const { toBase64, isBase64Image } = Base64Hooks()
 
 //Used to render panels of each categories
 const RenderPanel = props => {
@@ -19,25 +19,29 @@ const RenderPanel = props => {
         before:z-10 before:absolute before:top-0 before:left-0 before:right-0 before:bg-center before:bg-cover 
         cursor-pointer select-none bg-no-repeat overflow-hidden mb-[20px]`; 
 
-    const afterElement = `bg-cover absolute
-        h-full w-full rounded-lg z-[5] left-0 right-0 bg-center 
-        bg-cover bg-no-repat: select-none transition-[transform] duration-[5000ms]`
+    //const afterElement = `after:bg-cover after:bg-[url(${isBase64Image(image) ? image : dataURL})] after:absolute
+    //    after:h-full after:w-full after:rounded-lg after:z-[5] after:left-0 after:right-0 after:bg-center
+    //    after:bg-cover after:bg-no-repat: after:select-none after:transition-[transform] after:duration-[5000ms]`
+
+    const afterElement = `after:bg-cover after:absolute
+        after:h-full after:w-full after:rounded-lg after:z-[5] after:left-0 after:right-0 after:bg-center 
+        after:bg-cover after:bg-no-repat: after:select-none after:transition-[transform] after:duration-[5000ms]`
 
     const afterStyle = {
         backgroundImage: `url(${isBase64Image(image) ? image : dataURL})`,
     };
-    
-    const panelRef = useRef(); 
-    const afterElementRef = useRef(); 
 
+
+    const panelRef = useRef(); 
+   // const [mouseOverChildren, setMouseOver] = useState(false); 
+    
     const hoverEvent = evt => {
-        console.log('fired')
-        afterElementRef.current.classList.remove("NormalPosition")
-        afterElementRef.current.classList.add("ZoomIn")
+        panelRef.current.classList.remove("NormalPosition")
+        panelRef.current.classList.add("ZoomIn")
     }
     const mouseOutEvent = evt => {
-        afterElementRef.current.classList.remove("ZoomIn")
-        afterElementRef.current.classList.add("NormalPosition")
+        panelRef.current.classList.remove("ZoomIn")
+        panelRef.current.classList.add("NormalPosition")
     }
 
     useEffect(() => {
@@ -49,16 +53,11 @@ const RenderPanel = props => {
     return (
         <div
             id="panel"
-            className={`${divStyle}`}
             ref={panelRef}
+            className={`${divStyle} ${afterElement} backgroundTransition NormalPosition`}
+            style={afterStyle}
             onClick={navigateTo}
         >   
-            <div
-                ref={afterElementRef}
-                id="afterElement"
-                className={`${afterElement} backgroundTransition NormalPosition`}
-                style={afterStyle}
-            ></div>
             <div
                 id="contentWrapper"
                 className="absolute left-0 right-0 top-[50%] z-[10] translate-y-[-50%] text-white"

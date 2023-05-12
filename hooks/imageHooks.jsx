@@ -152,7 +152,7 @@ const convertImageToFile = (image) => {
         var file = new File([blob], 'filename.jpg', { type: mimeType });
         return file; 
     } catch (e) {
-        console.log("convertImageToFile: ", convertImageToFile)
+        console.log("convertImageToFile error: ", e)
     }
 }
 

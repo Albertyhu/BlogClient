@@ -14,8 +14,6 @@ function App() {
     const [decoded, setDecoded ] = useState(GetDecodedToken()) 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
-    //usersList keeps track of all users of the site
-    const [usersList, setUsersList] = useState([]);
     const [ProfilePicture, setProfilePic] = useState(JSON.parse(localStorage.getItem('ProfilePicture')));
     const [coverPhoto, setNewCoverPhoto] = useState(JSON.parse(localStorage.getItem("coverPhoto"))); 
     const [connection, setConnection] = useState(JSON.parse(localStorage.getItem('connection')))
@@ -62,10 +60,7 @@ function App() {
         setMessage,
     }
     const { FetchCategories } = CategoryHooks(null, context.apiURL, token, setLoading)
-    const {
-        GetUsersAndCategeries,
-        GetCurrentUserAndCategories, 
-    } = FetchHooks(context.apiURL, token, setLoading, setMessage)
+
     useEffect(() => {
         if (token) {
             setDisplayMemberComponents(true)

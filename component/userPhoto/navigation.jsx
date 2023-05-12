@@ -6,7 +6,7 @@ import RightArrow from '../../assets/icons/right-white.png';
 import { UserPhotoContext, } from '../../util/contextItem.jsx'; 
 import { GetNeighboringPhotos } from '../../hooks/userPhotoHooks.jsx'; 
 
-//This component
+//This component renders the arrow buttons for navigating between the user's photos
 export const ArrowButton = props => {
     const {
         left, 
@@ -52,7 +52,6 @@ export const ArrowField = props => {
         currentPhotoId, 
         photoIdArray, 
     } = props; 
-    //console.log("photoIdArray", photoIdArray)
     const neighbors = GetNeighboringPhotos(currentPhotoId, photoIdArray)
     return (
         <div
@@ -61,16 +60,12 @@ export const ArrowField = props => {
         >
             {neighbors && neighbors.left &&
                 <ArrowButton
-               // username={username}
-              //  userId={userId}
                 photoId={neighbors.left}
                 left={true}
                 />
             }
             {neighbors && neighbors.right &&
                 <ArrowButton
-                //    username={username}
-               //     userId={userId}
                     photoId={neighbors.right}
                     left={false}
                 />

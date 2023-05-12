@@ -163,7 +163,7 @@ const MainPanel = props => {
                 </div>
             }
             <div
-                className="mt-10 pb-10 [&>*]:mx-10 flex "
+                className="mt-10 pb-10 [&>*]:mx-auto sm:[&>*]:mx-10 flex "
                 id="interactiveField"
             >
                 <RenderLikeButton
@@ -181,7 +181,7 @@ const MainPanel = props => {
                 </div>
                 {published &&
                     <div
-                        className="m-auto [&>*]:mx-1 cursor-pointer hidden md:flex"
+                        className="m-auto [&>*]:mx-1 cursor-pointer flex"
                         id="ReplyField"
                         onClick={toggleDisplayShare}
                         ref={shareButtonRef}

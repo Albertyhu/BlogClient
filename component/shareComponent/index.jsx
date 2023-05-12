@@ -1,14 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react'; 
-import { } from '../../hooks/shareHooks.jsx'; 
 import {
-    cleanString,
     removeHTMLTags,
 } from '../../hooks/textHooks.jsx'; 
 import {
     AppContext,
     ShareContext, 
 } from '../../util/contextItem.jsx'; 
-
+import { CancelIcon } from '../iconComponents.jsx';
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -82,7 +80,7 @@ const ShareComponent = props => {
     } 
 
     const ShareContainerStyle = `fixed top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] w-11/12 rounded-lg box_shadow bg-[#EEEEEE] z-[20]
-            max-h-[500px] overflow-y-scroll`
+            max-h-[375px] overflow-y-scroll`
 
     useEffect(() => {
         ContainerRef.current.addEventListener("mousedown", clickEvent)
@@ -98,6 +96,13 @@ const ShareComponent = props => {
             className={`${ShareContainerStyle}`}
             ref={shareRef}
         >
+            <div
+                className="absolute top-[5px] right-[5px] flex cursor-pointer"
+                onClick={() => setDisplayShare(false)}
+            >
+                <span>close</span>
+                <CancelIcon />
+            </div>
             <div className="w-11/12 mx-auto p-5 grid grid-cols-2 sm:grid-cols-3 md:block [&>*]:md:inline-block [&>*]:mx-auto [&>*]:my-5 [&>*]:md:m-5">
                 <EmailShareButton
                     subject={title}

@@ -32,12 +32,10 @@ const RegisterForm = props => {
         AnimateErrorMessage,
     } = RegistrationHooks(apiURL, setDecoded, setLoading, navigate, setNewProfileImage);
 
-    const registerURL = `${apiURL}/auth/register`
-
-    const [name, setName] = useState('CheeseBurgerCat');
-    const [email, setEmail] = useState('CBC@aoil.com');
-    const [password, setPassword] = useState('password');
-    const [confirmPass, setConfirmPass] = useState('password');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
 
     //Error arrays store the error messages sent from the server
     const [errorArray, setErrorArray] = useState(null);
@@ -90,15 +88,6 @@ const RegisterForm = props => {
         EmailInput = document.querySelector('#emailInput')
         PasswordInput = document.querySelector('#passwordInput')
         ConfirmInput = document.querySelector('#confirm_passwordInput')
-        var FormElements = {
-            RegistrationForm,
-            NameInput,
-            EmailInput,
-            PasswordInput,
-            ConfirmInput,
-            ProfileInput,
-            profileImage
-        }
     }, [])
 
     let usernameElem = document.querySelector('#usernameError');
@@ -147,7 +136,9 @@ const RegisterForm = props => {
 
 
     return (
-        <>
+        <div
+            className ="mb-10"
+        >
             <h1 className="text-center text-3xl mt-[20px] font-bold">Create a new account</h1>
             <div
                 id="generalError"
@@ -269,7 +260,7 @@ const RegisterForm = props => {
                     >Log In</button>
                 </div>
             </form>
-        </>
+        </div>
         ) 
 }
 

@@ -26,7 +26,6 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
             .then(async response => {
                 const result = await response.data 
                 if (response.status === 200) {
-                    console.log("post list: ", result.post)
                     result.post = FormatImagesInPostAndAuthors(result.post)
                     dispatch(result.post)
                 }
@@ -146,7 +145,6 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
         //This functions allows the loading of multiple posts as the current user scrolls down a page
     const FetchNewestPost = async (pagination, count, setItemList, setHasMore) => {
         const FetchURL = `${apiURL}/post/get_newest_posts/${pagination}/${count}`;
-        setLoading(true)
         await fetch(FetchURL, {
             method: "GET", 
         })
@@ -173,7 +171,6 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
                 setLoading(false)
                 alertMessage(`Error: ${error}`, setMessage);
             })
-        setLoading(false)
     }
 
     const GetPaginatedPostsByUser = async (page, count, userId, DiplayOnlyPublished, dispatchFunctions) => {
@@ -286,7 +283,6 @@ const CreateAndUpdatePosts = (navigate, apiURL, setLoading, setMessage, token) =
         formData.append("tag", JSON.stringify(tag)); 
 
         if (abstract_char_limit && abstract) {
-            console.log("executed")
             let count = countInitialCharacters(abstract)
             if (count > abstract_char_limit) {
                 formData.append("abstract_char_limit", abstract_char_limit)
@@ -309,8 +305,7 @@ const CreateAndUpdatePosts = (navigate, apiURL, setLoading, setMessage, token) =
             if (response.ok) {
                 if (published) {
                     const result = await response.json()
-                    console.log(result.message)
-                    console.log("result: ", result.post)
+
                     const data = {
                         title: result.post.title,
                         content: result.post.content,
@@ -325,7 +320,6 @@ const CreateAndUpdatePosts = (navigate, apiURL, setLoading, setMessage, token) =
                         lastEdited: result.post.lastEdited,
                         datePublished: result.post.datePublished,
                     }
-                    console.log("data: ", data)
                     setLoading(false)
                     BringDataToPost(data); 
                 }

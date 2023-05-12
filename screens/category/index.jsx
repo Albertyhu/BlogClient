@@ -48,7 +48,6 @@ const CategoryPage = props => {
         return () => { setLoading(false) }
     }, [])
 
-
     return (
         <div
             className="w-full text-center text-lg text-black"

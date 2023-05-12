@@ -51,7 +51,6 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
             .then(async response => {
                 const result = await response.data;
                 if (response.status === 200) {
-                    console.log("result: ", result.paginatedResult)
                     result.paginatedResult = FormatCategoryImage(result.paginatedResult);
                     setItemList(prev => { return [...new Set([...prev, ...result.paginatedResult])] });
                     setHasMore(result.paginatedResult.length > 0)
@@ -127,7 +126,6 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
         }).then(async response => {
             const result = await response.json(); 
             if (response.ok) {
-                console.log(result.message);
                 var newArr = categoryList.filter(val => val._id.toString() != result.deletedCategory.toString())
                 setCategoryList(newArr);
                 setLoading(false)
@@ -155,7 +153,7 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
 }
 
 const CategoryFormHooks = (navigate, apiURL, setLoading, token) => {
-    const { GoCategory, VisitOneCategory } = NavigationHooks(navigate);
+    const { VisitOneCategory } = NavigationHooks(navigate);
     const CreateCategory = async (Elements, dispatchFunctions) => {
         const FetchURL = `${apiURL}/category/create`;
         const {
@@ -220,7 +218,6 @@ const CategoryFormHooks = (navigate, apiURL, setLoading, token) => {
         })
             .then(async response => {
                 const result = await response.json();
-                console.log("updated category: : ", result.updatedCategory)
                 if (response.ok) {
                     if (result.updatedCategory.image) {
                         result.updatedCategory.image.data = toBase64(result.updatedCategory.image.data.data)
@@ -228,14 +225,12 @@ const CategoryFormHooks = (navigate, apiURL, setLoading, token) => {
 
                     //find the index of the outdated category 
                     var index = categoryList.findIndex(val => val._id.toString() == categoryID.toString())
-                    console.log("index: ", index)
 
                     //copy the current list of categories
                     var updatedList = categoryList; 
 
                     //update the current list of categories in the client side
                     updatedList.splice(index, 1, result.updatedCategory)
-                    console.log("updatedList: ", updatedList)
                     setCategoryList(updatedList)
                     setLoading(false)
                     VisitOneCategory(name, result.updatedCategory._id)

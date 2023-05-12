@@ -14,7 +14,6 @@ const {
 export const FetchActions = (apiURL, setLoading, token) => {
     const AddComment = async (type, documentID, action, Elements, dispatchFunctions) => {
         const FetchURL = `${apiURL}/${type}/${documentID}/${action}`;
-        console.log("FetchURL: ", FetchURL)
         const {
             content,
             author,
@@ -25,8 +24,6 @@ export const FetchActions = (apiURL, setLoading, token) => {
             reset,
             updateArray, 
         } = dispatchFunctions;
-
-        console.log("Elements: ", Elements)
 
         const formData = new FormData;
         formData.append("content", content)

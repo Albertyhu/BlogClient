@@ -10,7 +10,6 @@ const UserProfileHooks = (apiURL, token, setLoading, setMessage) => {
     const DeleteUser = async (userID, dispatchFunctions) => {
         const DeleteURL = `${apiURL}/users/${userID}/delete`; 
         const { ClearUserData, navigate } = dispatchFunctions; 
-        console.log("DeleteURL: ", DeleteURL)
         const options = {
             method: "DELETE",
         } 
@@ -204,7 +203,6 @@ const EditUserHooks = (navigate) => {
                     const result = await response.json();
 
                     if (response.ok) {
-                        console.log(result.message);
                         VisitUser(username, id);
                     }
                     else {
@@ -237,7 +235,6 @@ const EditUserHooks = (navigate) => {
                     const result = await response.json();
 
                     if (response.ok) {
-                        console.log("Uploaded image successfully: ", result.message)
                         GoHome();
                     }
                     else {
@@ -267,9 +264,7 @@ const EditUserHooks = (navigate) => {
         formData.append("current_password", currentPassword);
         formData.append("new_password", newPassword);
         formData.append("confirm_password", confirmPassword);
-        for (var key of formData.entries()) {
-            console.log(key[0] + ', ' + key[1])
-        }
+
         try {
             const response = await fetch(FetchURL, {
                 method: "PUT",
@@ -283,8 +278,6 @@ const EditUserHooks = (navigate) => {
                 VisitUser(username, id);
             }
             else {
-                console.log("response: ", response)
-                console.log("result", result)
                 console.log("error: ", result.error)
                 RenderErrorArray(result.error, dispatchFunctions)
             }

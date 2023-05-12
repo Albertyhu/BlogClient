@@ -205,9 +205,10 @@ const NavigationHooks = (navigate) => {
 
 const PostNavigationHooks = (navigate) => {
     function GoToPost(postTitle, postID) {
-        navigate(`/post/${cleanString(postTitle)}/${postID}`, {
+        navigate(`/post/${postTitle}/${postID}`, {
             state: {
                 id: postID, 
+                title: postTitle
             }
         })
     }
@@ -270,7 +271,6 @@ const PostNavigationHooks = (navigate) => {
             category,
             tag, 
         } = elements; 
-        console.log("clean title: ", cleanString(postTitle))
         navigate(`/post/${cleanString(postTitle)}/edit`, {
             state: {
                 id: postID, 

@@ -75,7 +75,7 @@ const RenderPostPanel = props => {
                     />
                     <RenderCommentSymbol number={comments.length} />
                 </div>
-                {tag != null && tag.length > 0 &&
+                {tag && tag.length > 0 &&
                     <RenderTagField tag={tag} />
                 }
             </div>

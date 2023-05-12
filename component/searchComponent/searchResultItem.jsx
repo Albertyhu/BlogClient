@@ -172,7 +172,6 @@ const SearchResultItems = (navigate, setMessage) => {
                     break; 
             }
         } 
-        console.log("datePublished: ", datePublished)
 
         return (
             <div

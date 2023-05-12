@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect, lazy, Suspense, useCallback} from 'react';
+import { useState, useRef, useContext, useEffect, useCallback} from 'react';
 import {
     AttachMultipleImages,
 } from '../../component/formElements/imageInputs.jsx';
@@ -52,7 +52,6 @@ const BulkUploadForm = props => {
         if (!token) {
             GoHome("You don't have permission to visit that page.")
         }
-        console.log("decoded: ", token)
     }, [token])
 
     useEffect(() => {

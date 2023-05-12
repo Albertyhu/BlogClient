@@ -65,11 +65,9 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
                 const result = await response.json();
                 if (response.ok) {
                     var photos = FormatUserPhotos(result.photos);
-                    console.log("photos: ", photos)
                     setPhotos(prev => {return [...new Set([...prev, ...photos])] })
                     setUserID(result.userId);
                     setHasMore(result.photos.length > 0)
-                    //setHasMore(false)
                     setLoading(false)
                 }
                 else {
@@ -141,9 +139,7 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
         images.forEach(img => {
             formData.append("images", img.file); 
         })
-        for (const pair of formData.entries()) {
-            console.log(`${pair[0]}, ${pair[1]}`);
-        }
+
         setLoading(true)
         await fetch(FetchURL, {
             method: "PUT", 
@@ -213,12 +209,9 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
         const FetchURL = `${apiURL}/users/${userId}/delete_photos`; 
         setLoading(true)
 
-        console.log("imgIdArray: ", imgIdArray)
         const formData = new FormData(); 
         formData.append("images", JSON.stringify(imgIdArray))
-        for (const pair of formData.entries()) {
-            console.log(`${pair[0]}, ${pair[1]}`);
-        }
+
         await fetch(FetchURL, {
             method: "PUT", 
             body: formData, 
@@ -277,8 +270,6 @@ const FetchHooks = (apiURL, token, setLoading, setMessage, navigate) => {
         }).then(async response => {
             const result = await response.json(); 
             if (response.ok) {
-                console.log("title: ", result.title)
-                console.log("caption: ", result.caption)
                 setCaption(caption)
                 setLastEdited(result.lastEdited)
                 setLoading(false)

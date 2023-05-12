@@ -80,7 +80,6 @@ const PostForm = props => {
             return () => GoHome();
         }
         const decoded = JSON.parse(atob(UserToken.split('.')[1]));
-        console.log("token id : ", decoded.id)
     }, [UserToken])
 
     return (

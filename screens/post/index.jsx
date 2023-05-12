@@ -195,18 +195,6 @@ const RenderPost = props => {
         window.scrollTo(0, 0)
     }, [])
 
-    useEffect(() => {
-        if (decoded) {
-            console.log("decoded: ", decoded)
-        }
-    }, [decoded])
-    if (author) {
-        console.log("author: ", author)
-    }
-    useEffect(() => {
-    }, [])
-
-
     if (published || decoded && author && decoded.id == author._id) {
         return (
             <PostContext.Provider value={context}>

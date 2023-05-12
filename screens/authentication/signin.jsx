@@ -95,7 +95,7 @@ const SignIn = () => {
     }, [generalError])
 
     return (
-        <div className="w-11/12 md: 9/12 mx-auto lg:w-6/12 mt-[20px]">
+        <div className="w-11/12 md: 9/12 mx-auto lg:w-6/12 my-[20px]">
             <h1 className="text-center text-3xl mt-[20px] font-bold">Sign In</h1>
             <div
                 id="generalError"

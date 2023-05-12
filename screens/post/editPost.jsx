@@ -81,7 +81,7 @@ const CreatePostForm = props => {
         thumbnail,
         images,
         abstract,
-        category,
+        category: category._id,
         tag,
 
         setTitle,
@@ -151,8 +151,6 @@ const CreatePostForm = props => {
     useEffect(() => {
         if (decoded != null) {
             if (decoded.id != author) {
-                console.log("decoded.id: ", decoded.id);
-                console.log("author: ", author)
                 console.log("User's id does not match the author id of post")
                 GoHome();
             }

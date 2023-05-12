@@ -233,13 +233,11 @@ body {
 }
 
 .NormalPosition {
-/*    background-size: 100%;
-    transition: background-size 5s linear;*/
+    transform: scale(100%);
 }
 
 .ZoomIn {
-/*    background-size: 200% 200%;
-    transition: background-size 5s linear;*/
+    transform: scale(200%);
 }
 
 .NormalPosition::after {

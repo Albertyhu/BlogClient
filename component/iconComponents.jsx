@@ -24,6 +24,8 @@ import mailPng from '../assets/icons/mail.png';
 import githubPng from '../assets/icons/github.png'
 import portfolioFavicon from '../assets/icons/portfolio_favicon.png'; 
 import paperPng from '../assets/icons/paper.png'; 
+import redCancelPng from '../assets/icons/cancel-red.png'; 
+import cancelPng from '../assets/icons/cancel.png'; 
 
 import { useContext } from 'react'; 
 
@@ -346,6 +348,34 @@ const PortfolioIcon = props => {
     />
 }
 
+const RedCancelIcon = props => {
+    const {
+        size = "25",
+        customStyle = '', 
+        clickEvent, 
+    } = props;
+    return <IconComp
+        image={redCancelPng}
+        size={size}
+        customStyle={customStyle}
+        onClick={clickEvent ? ()=>clickEvent() : null}
+    />
+}
+
+const CancelIcon = props => {
+    const {
+        size = "25",
+        customStyle = '',
+        clickEvent,
+    } = props;
+    return <IconComp
+        image={cancelPng}
+        size={size}
+        customStyle={customStyle}
+        onClick={clickEvent ? () => clickEvent() : null}
+    />
+}
+
 export {
     HomeIcon,
     CategoryIcon,
@@ -370,5 +400,7 @@ export {
     ShareIcon,
     MailIcon,
     GithubIcon,
-    PortfolioIcon
+    PortfolioIcon,
+    RedCancelIcon,
+    CancelIcon
 };
