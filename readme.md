@@ -2,6 +2,10 @@
 
 ![Blabber icon](https://i.imgur.com/7P3lFMH.png)
 
+[Go to live site](https://blabber-71b2c.web.app/)
+
+[Github link to the Node JS API](https://github.com/Albertyhu/BlogAPI)
+
 Blabber is a social media that allows users to speak their mind. It communicates with an API that I built with Node JS.
 
 It gives users many features found in prevalent social media sites such as Facebook and Instagram to play around with such as: 
@@ -59,5 +63,3 @@ Finally, I implemented **lazy loaded components**, which means that components t
 4. MongoDB
 5. Vite
 
-
-[Github link to the Node JS API](https://github.com/Albertyhu/BlogAPI)
