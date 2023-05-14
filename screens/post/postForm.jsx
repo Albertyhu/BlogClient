@@ -105,10 +105,6 @@ const PostForm = props => {
                 id="RegistrationForm"
                 encType="multipart/form-data"
                 className={`bg-[#f2e798] w-11/12 md:w-9/12 mx-auto lg:w-6/12 mt-[20px] py-10 rounded box_shadow`}
-                onSubmit={(evt) => {
-                    evt.preventDefault();
-                    execute();   
-                }}
             >
                 <div className="FormStyle w-11/12 mx-auto grid">
                     <BasicTextInput

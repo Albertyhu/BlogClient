@@ -147,7 +147,7 @@ const ReplyPanel = props => {
             CommentRepliedTo: _id,
             UserRepliedTo: author.username,
             postId: post ? post : null,
-            userPhoto: userPhoto ? userPHoto : null, 
+            userPhoto: userPhoto ? userPhoto : null, 
         }
         AddComment("comment", rootComment, "add_reply", Elements, replyDispatchFunctions)
     }

@@ -30,6 +30,14 @@ const ProfilePanel = props => {
         navigate
     }
 
+    useEffect(() => {
+        if (profileImage) {
+            console.log("profileImage: ", profileImage)
+        }
+    }, [profileImage])
+
+
+
     return (
         <div
             className="hidden md:block w-full h-fit text-center text-lg text-black rounded-lg bg-[#ffffff] py-10 mr-10 box_shadow mb-5"

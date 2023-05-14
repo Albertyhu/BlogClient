@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { NavigationHooks, PostNavigationHooks } from '../../hooks/navigation.jsx';
-import AddButton from '../../component/AddButton.jsx';;
+import AddButton from '../addButton.jsx';
 import { useContext } from 'react'
 import { AppContext } from '../../util/contextItem.jsx'; 
 import { alertMessage } from '../../hooks/textHooks.jsx'; 

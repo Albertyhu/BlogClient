@@ -54,7 +54,9 @@ const Footer = props => {
 				</div>
 
 			</div>
-			<CreatorComponent />
+			<CreatorComponent
+				customStyle="text-[#ffffff]"
+			/>
 			<div className = "block whitespace-nowrap mx-auto text-center">
 				<div className="text-center text-[#e48f1a] mt-5 text-2xl">{BusinessName} &copy;{YEAR}</div>
 			</div>

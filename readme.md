@@ -57,6 +57,7 @@ Finally, I implemented **lazy loaded components**, which means that components t
 2. Tailwind CSS 
 3. NodeJS
 4. MongoDB
+5. Vite
 
 
 [Github link to the Node JS API](https://github.com/Albertyhu/BlogAPI)

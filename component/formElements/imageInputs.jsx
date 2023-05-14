@@ -6,9 +6,9 @@ import {
     HandleFileChange,
     AttachImagesToArray,
 } from '../../hooks/imageHooks.jsx';
+import PropTypes from 'prop-types';
 const RenderCoverPhoto = lazy(() => import("../imageRendering/coverPhoto.jsx"));
 const RenderImage = lazy(() => import("../imageRendering/mainImage.jsx")); 
-import PropTypes from 'prop-types';
 const RenderPreviewImages = lazy(() => import("./previewImage2.jsx")); 
 const { RenderError, AnimateErrorMessage } = ErrorMessageHooks(); 
 

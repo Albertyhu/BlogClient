@@ -7,7 +7,7 @@ import { AddButton } from '../../component/button.jsx';
 
 const TagPage = props => {
     const navigate = useNavigate();
-    const { GoCreateTag } = NavigationHooks(navigate);
+    const { GoCreateTag, GoHome } = NavigationHooks(navigate);
     const { GetTagList } = TagHooks(navigate);
     const [decoded, setDecoded] = useState(null)
     const [existingTags, setExistingTags] = useState([])

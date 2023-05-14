@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
-import AddButton from '../AddButton.jsx'; 
+import AddButton from '../addButton.jsx'; 
 import {
     LogInIcon,
     SignupIcon

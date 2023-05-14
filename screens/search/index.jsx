@@ -10,8 +10,8 @@ import ProfilePanel from '../../component/user/currentUserPanel.jsx';
 import {
     SearchRequests,
 } from '../../hooks/searchHook.jsx'; 
-const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
 import { SubstitutePanel } from '../../component/fallback.jsx';
+const RenderPromptPanel = lazy(() => import("../../component/generalPanels/buttonPromptPanel.jsx")); 
 const GuestPanel = lazy(() => import('../../component/generalPanels/guestPanel.jsx'));
 const RenderPolicyPanel = lazy(() => import("../../component/generalPanels/policyPanel.jsx"));
 const CreatorPanel = lazy(() => import("../../component/generalPanels/creatorPanel.jsx"));

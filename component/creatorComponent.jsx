@@ -8,7 +8,7 @@ const RenderComponent = props => {
     const {
         portfolio = "https://portfolio-3b68c.web.app/", 
         github = "https://github.com/Albertyhu", 
-        textColor="#ffffff"
+        customStyle="text-[#ffffff]"
     } = props; 
 
     const openLink = (link) => {
@@ -20,7 +20,7 @@ const RenderComponent = props => {
     return (
         <div
             id="CreatorContainer"
-            className={`grid mt-10 md:my-10 text-[${textColor}] w-fit mx-auto lg:absolute lg:right-[5px] lg:bottom-[5px]`}
+            className={`grid mt-10 md:my-10 w-fit mx-auto lg:absolute lg:right-[5px] lg:bottom-[5px] ${customStyle}`}
         >
             <div className ="mx-auto">Built by &nbsp;
                 <span

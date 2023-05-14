@@ -66,11 +66,7 @@ const RenderPhotoScreen = props => {
     }, [username])
 
     useEffect(() => {
-        window.addEventListener("load", scrollTo(0,0))
-        return () => {
-            setLoading(false)
-            window.removeEventListener("load", scrollTo(0, 0))
-        }
+        window.scrollTo(0, 0);
     }, [])
 
     return (

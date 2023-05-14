@@ -72,6 +72,9 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
 
     const FetchCategoryById = async (categoryID, dispatchFunctions) => {
         const FetchURL = `${apiURL}/category/${categoryID}`
+        const {
+            setCategoryList
+        } = dispatchFunctions; 
         setLoading(true)
         await fetch(FetchURL, {
             method: 'GET'
@@ -79,7 +82,7 @@ const CategoryHooks = (navigate, apiURL, token, setLoading) => {
             .then( async response => {
                 const result = await response.JSON(); 
                 if (response.ok) {
-                    dispatch(result);
+                    setCategoryList(result);
                     setLoading(false);
                 }
                 else {

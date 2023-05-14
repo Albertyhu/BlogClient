@@ -21,13 +21,6 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
             ProfileInput, 
         } = elements; 
 
-            //const data = {
-            //    username: NameInput.value, 
-            //    email: EmailInput.value,
-            //    password: PasswordInput.value,
-            //    profile_pic: ProfileInput.current.files[0], 
-            //    confirm_password: ConfirmInput.value
-            //}
         resetErrorFields();
         const FetchURL = `${apiURL}/auth/register`
         const formData = new FormData;
@@ -66,7 +59,7 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
                     //setNewUser and toggleDisplayAccoutLink updates the header bar to contain data about the logged in user
                     setNewUser(data.user)
                     setDecoded(DecodeToken(data.token))
-                    toggleDisplayAccountLink(true),
+                    toggleDisplayAccountLink(true);
                     setLoading(false)
                     alertMessage("Your account has been created. \n You will be redirected soon.", setMessage)
                     GoHome(`Welcome, ${data.user.username}!`);

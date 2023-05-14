@@ -1,21 +1,21 @@
 import { useContext, useState, useEffect, lazy, Suspense } from 'react'
-import { useLocation, useParams, useNavigate } from 'react-router-dom'; 
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import {
     AppContext,
     UserPhotoContext,
-} from '../../util/contextItem.jsx'; 
+} from '../../util/contextItem.jsx';
 import { FetchHooks } from '../../hooks/fetchHooks.jsx'
-const RenderProfilePic = lazy(()=>import('../../component/user/profilePicture.jsx')); 
 import {
     NavigationHooks,
-    PostNavigationHooks, 
+    PostNavigationHooks,
 } from '../../hooks/navigation.jsx';
-const RenderCoverPhoto = lazy(() => import('../../component/imageRendering/coverPhoto.jsx'));  
 import { SubstituteCoverPhoto, SubstitutePanel } from '../../component/fallback.jsx';
-import RenderUserPhotos from '../../component/userPhoto'; 
-const PostPanel = lazy(()=>import("../../component/post/post_panel.jsx"))
-//This component displays information of a single user. 
+import RenderUserPhotos from '../../component/userPhoto';
+const RenderProfilePic = lazy(() => import('../../component/user/profilePicture.jsx'));
+const RenderCoverPhoto = lazy(() => import('../../component/imageRendering/coverPhoto.jsx'));
+const PostPanel = lazy(() => import("../../component/post/post_panel.jsx"))
 
+//This component displays information of a single user. 
 const ProfilePage = props => {
     const location = useLocation(); 
     const { username } = useParams(); 
@@ -63,10 +63,7 @@ const ProfilePage = props => {
     }, [username])
 
     useEffect(() => {
-        window.addEventListener("load", () => scrollTo(0, 0))
-        return () => {
-            window.removeEventListener("load", () => scrollTo(0, 0))
-        }
+        window.scrollTo(0, 0)
     }, [])
 
     return (

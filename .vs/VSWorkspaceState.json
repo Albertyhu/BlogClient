@@ -1,16 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\icons",
-    "\\assets\\images",
     "\\component",
-    "\\component\\generalPanels",
-    "\\component\\shareComponent",
-    "\\component\\user",
-    "\\src",
-    "\\src\\assets"
+    "\\component\\commentPanel",
+    "\\component\\formElements",
+    "\\component\\replyActionBar",
+    "\\screens",
+    "\\screens\\tag",
+    "\\screens\\user",
+    "\\screens\\userPhoto",
+    "\\src"
   ],
-  "SelectedNode": "\\src\\App.jsx",
   "PreviewInSolutionExplorer": false
 }
