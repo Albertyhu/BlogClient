@@ -88,7 +88,7 @@ export const AdminButtons = props => {
                 <>
                     <AddButton
                         title="Upload more photos"
-                        dispatchFunction={() => GoBulkUpload(userId, username)}
+                        dispatchFunction={() => GoBulkUpload(username, userId)}
                         buttonStyle="btn-add mx-auto block mb-10"
                     />
                     <button

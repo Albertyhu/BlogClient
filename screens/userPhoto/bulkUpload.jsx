@@ -7,7 +7,7 @@ import {
     AppContext, 
 } from '../../util/contextItem.jsx'; 
 import { FetchHooks } from '../../hooks/userPhotoHooks.jsx'
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom'; 
 import { NavigationHooks } from '../../hooks/navigation.jsx'; 
 import { DecodeToken } from '../../hooks/decodeToken.jsx'; 
 
@@ -15,6 +15,12 @@ const BulkUploadForm = props => {
     const [images, setImages] = useState([]); 
     const [imagesError, setImagesError] = useState([]);
     const imagesInputRef = useRef();
+    const location = useLocation(); 
+    const {
+        username,
+        userId, 
+    } = location.state;
+    
     const navigate = useNavigate(); 
     const {
         token,
@@ -49,7 +55,7 @@ const BulkUploadForm = props => {
     }
 
     useEffect(() => {
-        if (!token) {
+        if (!token || decoded.id != userId) {
             GoHome("You don't have permission to visit that page.")
         }
     }, [token])

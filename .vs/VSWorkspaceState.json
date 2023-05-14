@@ -1,15 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\build",
     "\\component",
-    "\\component\\commentPanel",
-    "\\component\\formElements",
-    "\\component\\replyActionBar",
-    "\\screens",
-    "\\screens\\tag",
-    "\\screens\\user",
+    "\\component\\footer",
+    "\\component\\generalPanels",
+    "\\component\\header",
+    "\\component\\user",
+    "\\public",
     "\\screens\\userPhoto",
     "\\src"
   ],
+  "SelectedNode": "\\component\\user\\currentUserPanel.jsx",
   "PreviewInSolutionExplorer": false
 }

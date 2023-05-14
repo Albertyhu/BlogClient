@@ -111,8 +111,8 @@ const RegistrationHooks = (apiURL, setDecoded, setLoading, navigate, setNewProfi
                         localStorage.setItem("token", result.token);
                         localStorage.setItem("user", JSON.stringify(result.user));
                         if (result.profile_pic) {
-                            localStorage.setItem("ProfilePicture", JSON.stringify(result.profile_pic))
                             result.profile_pic = convertObjToBase64(result.profile_pic)
+                            localStorage.setItem("ProfilePicture", JSON.stringify(result.profile_pic))
                             setNewProfileImage(result.profile_pic)
                         }
                         if (result.connection && result.connection.length > 0) {
