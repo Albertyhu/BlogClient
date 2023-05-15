@@ -13,7 +13,7 @@ const Panel = props => {
             className="w-full hidden md:block bg-[#ffffff] rounded-[15px] py-10 mx-auto box_shadow mb-5"
         >
             <div
-                className="w-8/12 mx-auto justify-center"
+                className="w-11/12 mx-auto justify-center [&>*]:mx-auto"
             >
                 <div className="[&>button]:my-5 grid">
                     <button
@@ -28,7 +28,7 @@ const Panel = props => {
                         onClick={GoTermsAndConditions}
                         className="btn-add"
                     >
-                        <span className="[&>*]:inline-block">Terms and Conditions</span>
+                        <span className="[&>*]:inline-block text-sm md-2:text-base">Terms and Conditions</span>
                     </button>
 
                 </div>
