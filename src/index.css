@@ -76,7 +76,7 @@
     }
 
     .buttonIcons {
-        @apply w-[30px] h-[30px] m-auto;
+        @apply w-[30px] h-[30px] m-auto hidden md-2:inline-block;
     }
 
     .ContentWrapper {
