@@ -40,7 +40,7 @@ I wanted to make sure that anyone who is not technically savvy can intuitively n
 
 **Desktop view**
 
-![Home screen](https://i.imgur.com/kaOwhUi.jpg)
+![Home screen](https://i.imgur.com/DE4ER6w.jpg)
 
 **Mobile view**
 
