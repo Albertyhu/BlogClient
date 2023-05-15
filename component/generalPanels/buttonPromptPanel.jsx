@@ -45,7 +45,7 @@ const RenderPanel = props => {
             className="hidden md:block bg-[#ffffff] rounded-[15px] py-10 mx-auto box_shadow mb-5 w-full"
         >
             <div
-                className="w-8/12 mx-auto justify-center [&>*]:mb-5"
+                className="w-9/12 mx-auto justify-center [&>*]:mb-5 [&>*]:mx-auto [&>*]:block"
             >
                 <AddButton
                     title="Create a new post"
@@ -54,7 +54,7 @@ const RenderPanel = props => {
                 />
                 <button
                     type="button"
-                    className="btn-primary w-full"
+                    className="btn-primary w-fit"
                     onClick={photoClickEvent}
                 >
                     <span>Upload photos
