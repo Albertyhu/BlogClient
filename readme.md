@@ -6,14 +6,14 @@
 
 [Github link to the Node JS API](https://github.com/Albertyhu/BlogAPI)
 
-Blabber is a social media that allows users to speak their mind. It communicates with an API that I built with Node JS.
+Blabber is a social media platform that allows users to speak their mind. It communicates with an API that I built with Node JS.
 
 It gives users many features found in prevalent social media sites such as Facebook and Instagram to play around with such as: 
 
-1. Creating a post with a rich text editor. 
+1. Creating a post and formattting it with a rich text editor. 
 ![Rich text editor](https://i.imgur.com/2igTwYf.jpg)
 
-2. Making replies. 
+2. Creating a replies in a comment tree. 
 ![Comment tree](https://i.imgur.com/Np5c7tt.jpg)
 
 3. Liking posts and comments
@@ -21,10 +21,10 @@ It gives users many features found in prevalent social media sites such as Faceb
 4. Perusing through other users' profiles
 ![Members area](https://i.imgur.com/fAbtCfh.jpg)
 
-5. Bulk upload images 
+5. Bulk upload and manage images 
 ![Gallery](https://i.imgur.com/G7nGoRi.jpg)
 
-6. Use filters to search for content on the site
+6. Use filters to search for content on the site 
 ![Filtered search results](https://i.imgur.com/SPMivbf.jpg)
 
 **Making an app that anyone can use**
@@ -53,6 +53,7 @@ Nobody wants to wait more than 5 seconds for content to load.
 In the age of abundant information constantly bombarding the typical internet surfer, it is important that applications perform optimally. 
 Firstly, I used **code splitting** to break down the application into smaller chunks that can be loaded independently, allowing the user to only download the code they need to view a specific page. This reduced the initial loading time of the app and improved the overall performance. 
 Secondly, I optimized images using **compression** to reduce the file size of images without losing quality, which in turn decreased the loading time of the images. 
+Additionally, the number of fetch request that the client site makes has to be **as little as possible**, for the reason that fetch requests increases the time it takes for the app to complete tasks. Tasks that require updating more than one document had to be combined in one fetch request. 
 Finally, I implemented **lazy loaded components**, which means that components that are not immediately needed are not loaded until the user requests them, helping to reduce the initial load time of the page. By using these three techniques, I was able to significantly improve the speed and performance of my React JS app, resulting in a better user experience.
 
 **Technologies used**
@@ -60,6 +61,9 @@ Finally, I implemented **lazy loaded components**, which means that components t
 1. ReactJS
 2. Tailwind CSS 
 3. NodeJS
-4. MongoDB
+4. Mongo DB
 5. Vite
+6. Multer
+7. Tiny MCE rich text editor
+8. Express
 

@@ -2,7 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\component",
-    "\\component\\header",
+    "\\component\\generalPanels",
     "\\component\\user",
     "\\hooks",
     "\\public",
@@ -11,5 +11,6 @@
     "\\screens\\userPhoto",
     "\\src"
   ],
+  "SelectedNode": "\\.firebaserc",
   "PreviewInSolutionExplorer": false
 }
