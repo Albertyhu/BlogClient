@@ -83,10 +83,10 @@ const Home = props => {
                             fallback={<div key={uuid()} className="text-center font-bold text-2xl">Loading content...</div>}
                     >
                             <PaginatedDisplay
-                            itemList={postList}
-                            setItemList={(val) => setPostList(val)}
-                            fetchAction={FetchNewestPost}
-                            RenderPanel={(keyValue, item) => <PostPanel {...item} key={keyValue} CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer" />}
+                           // itemList={postList}
+                           // setItemList={(val) => setPostList(val)}
+                           // fetchAction={FetchNewestPost}
+                           // RenderPanel={(keyValue, item) => <PostPanel {...item} key={keyValue} CustomStyle="rounded-lg w-full mx-auto mb-[20px] bg-[#ffffff] cursor-pointer" />}
                             />
                     </Suspense>
                     </PaginatedDisplayContext.Provider>

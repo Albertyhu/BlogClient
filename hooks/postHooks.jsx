@@ -160,7 +160,7 @@ const FetchHooks = (apiURL, setLoading, setMessage) => {
                             console.log("result: ", result.paginatedResult)
                         }
                     }
-                    setHasMore(result.paginatedResult.length > 0)
+                    setHasMore(result.paginatedResult.length >= 5)
                 }
                 else {
                     console.log("FetchNewestPost error: ", result.error);

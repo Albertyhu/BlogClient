@@ -29,10 +29,12 @@ It gives users many features found in prevalent social media sites such as Faceb
 
 **Making an app that anyone can use**
 
-The site is built with a lot attention to making sure that the user experience is seamless. 
+The site is built with a lot attention to make sure that the user experience is seamless. 
 I wanted to make sure that anyone who is not technically savvy can intuitively navigate through the app.
+This requires that the app has the following: 
+
 1. Mobile responsiveness 
-2. Color direction
+2. Good color direction
 3. Filtered search feature 
 4. Previewed images before loading 
 5. LinkedIn-style comment tree 
